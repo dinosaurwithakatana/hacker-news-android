@@ -16,6 +16,7 @@ import com.dwak.holohackernews.app.network.models.Story;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.internal.CardHeader;
+import it.gmariotti.cardslib.library.view.CardGridView;
 import it.gmariotti.cardslib.library.view.CardListView;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -103,18 +104,22 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         mListView.setAdapter(mCardArrayAdapter);
 
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            public int mPrevVisibleItem;
+
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
 
             }
 
             @Override
-            public void onScroll(AbsListView absListView, int i, int i2, int i3) {
-                if (i > 2) {
-                    getActivity().getActionBar().hide();
-                }
-                else if (i <= 1) {
-                    getActivity().getActionBar().show();
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
+                if (mPrevVisibleItem != firstVisibleItem) {
+                    if (mPrevVisibleItem < firstVisibleItem)
+                        getActivity().getActionBar().hide();
+                    else
+                        getActivity().getActionBar().show();
+
+                    mPrevVisibleItem = firstVisibleItem;
                 }
             }
         });
@@ -214,12 +219,18 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
                 newCard.setTitle(story.getPoints() + " points | " + story.getSubmitter() + " | " + story.getDomain());
 
                 CardHeader header = new CardHeader(getActivity());
-                header.setTitle(story.getTitle());
+                header.setTitle(story.getTitle().length() > 50 ? story.getTitle().substring(0, 50) + "..." : story.getTitle());
                 newCard.addCardHeader(header);
                 newCard.setOnClickListener(new Card.OnCardClickListener() {
                     @Override
                     public void onClick(Card card, View view) {
                         mListener.onStoryListFragmentInteraction(story.getStoryId());
+                    }
+                });
+                newCard.setOnLongClickListener(new Card.OnLongCardClickListener() {
+                    @Override
+                    public boolean onLongClick(Card card, View view) {
+                        return false;
                     }
                 });
                 newCard.setBackgroundResourceId(R.drawable.card_selector);

@@ -5,7 +5,7 @@
                 android:padding="16dp"
                 style="@style/card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="100dp">
 
     <com.devspark.robototextview.widget.RobotoTextView
         android:layout_width="wrap_content"
@@ -14,8 +14,11 @@
         android:layout_marginBottom="8dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Story title"
+        android:maxLines="3"
+        android:ellipsize="end"
         app:typeface="roboto_light"
         android:id="@+id/story_title"/>
+
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/submitted_by"
         android:text="burntcookie90"
