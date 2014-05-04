@@ -16,7 +16,8 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         StoryListFragment.OnStoryListFragmentInteractionListener,
-        StoryCommentsFragment.OnStoryFragmentInteractionListener {
+        StoryCommentsFragment.OnStoryFragmentInteractionListener,
+        StoryLinkFragment.OnStoryLinkFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -27,10 +28,12 @@ public class MainActivity extends FragmentActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private String mStoryUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -41,6 +44,9 @@ public class MainActivity extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        mStoryUrl = "";
+
     }
 
     @Override
@@ -61,11 +67,12 @@ public class MainActivity extends FragmentActivity
 
 
         }
-        onSectionAttached(position+1);
+        onSectionAttached(position + 1);
         fragmentManager.beginTransaction()
-                .replace(R.id.container, newFragment)
+                .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
                 .commit();
     }
+
 
     public void onSectionAttached(int number) {
         switch (number) {
@@ -89,12 +96,16 @@ public class MainActivity extends FragmentActivity
         actionBar.setTitle(mTitle);
     }
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.offscreen_to_left, R.anim.left_to_offscreen, R.anim.left_to_onscreen, R.anim.offscreen_to_right);
+        transaction.setCustomAnimations(
+                R.anim.offscreen_left_to_view,
+                R.anim.view_left_to_offscreen,
+                R.anim.offscreen_right_to_view,
+                R.anim.view_right_to_offscreen);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.container, fragment);
+        transaction.replace(R.id.container, fragment, tag);
         transaction.commit();
     }
 
@@ -126,11 +137,63 @@ public class MainActivity extends FragmentActivity
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
-        replaceFragment(StoryCommentsFragment.newInstance(id));
+        replaceFragment(StoryCommentsFragment.newInstance(id), StoryCommentsFragment.class.getSimpleName());
     }
 
     @Override
-    public void onStoryFragmentInteraction(Uri uri) {
+    public void onBackPressed() {
+        if (getSupportFragmentManager().findFragmentByTag(mStoryUrl)!=null
+                && getSupportFragmentManager().findFragmentByTag(mStoryUrl).isVisible()){
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(
+                    R.anim.offscreen_up_to_view,
+                    R.anim.view_down_to_offscreen,
+                    R.anim.offscreen_up_to_view,
+                    R.anim.view_up_to_offscreen);
+            transaction.hide(getSupportFragmentManager().findFragmentByTag(mStoryUrl));
+            transaction.commit();
+            return;
+        }
+        else if (getSupportFragmentManager().findFragmentByTag(StoryCommentsFragment.class.getSimpleName()) != null
+                && getSupportFragmentManager().findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()) {
+            if(getSupportFragmentManager().findFragmentByTag(mStoryUrl)!=null){
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.remove(getSupportFragmentManager().findFragmentByTag(mStoryUrl));
+                transaction.commit();
+            }
+            super.onBackPressed();
+        }
+        else if (getSupportFragmentManager().findFragmentByTag(StoryListFragment.class.getSimpleName()) != null
+                && getSupportFragmentManager().findFragmentByTag(StoryListFragment.class.getSimpleName()).isVisible()) {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onStoryFragmentInteraction(String url) {
+        mStoryUrl = url;
+        StoryLinkFragment fragment;
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(
+                R.anim.offscreen_up_to_view,
+                R.anim.view_up_to_offscreen,
+                R.anim.offscreen_up_to_view,
+                R.anim.view_down_to_offscreen);
+
+        if (getSupportFragmentManager().findFragmentByTag(url) == null) {
+            fragment = StoryLinkFragment.newInstance(url);
+            transaction.add(R.id.container, fragment, url);
+        }
+        else {
+            fragment = (StoryLinkFragment) getSupportFragmentManager().findFragmentByTag(url);
+        }
+        transaction.show(fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void onStoryLinkFragmentInteraction(Uri uri) {
 
     }
 }

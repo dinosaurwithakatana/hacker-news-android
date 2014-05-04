@@ -8,10 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ProgressBar;
+import android.widget.*;
 import com.dwak.holohackernews.app.network.HackerNewsService;
 import com.dwak.holohackernews.app.network.models.Story;
 import it.gmariotti.cardslib.library.internal.Card;
@@ -96,6 +93,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         ActionBar actionBar = getActivity().getActionBar();
+        actionBar.show();
         switch (mFeedType){
             case TOP:
                 actionBar.setTitle("Top");
@@ -116,26 +114,26 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
 
         mListView.setAdapter(mCardArrayAdapter);
 
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            public int mPrevVisibleItem;
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
-                if (mPrevVisibleItem != firstVisibleItem) {
-                    if (mPrevVisibleItem < firstVisibleItem)
-                        getActivity().getActionBar().hide();
-                    else
-                        getActivity().getActionBar().show();
-
-                    mPrevVisibleItem = firstVisibleItem;
-                }
-            }
-        });
+//        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            public int mPrevVisibleItem;
+//
+//            @Override
+//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
+//                if (mPrevVisibleItem != firstVisibleItem) {
+//                    if (mPrevVisibleItem < firstVisibleItem)
+//                        getActivity().getActionBar().hide();
+//                    else
+//                        getActivity().getActionBar().show();
+//
+//                    mPrevVisibleItem = firstVisibleItem;
+//                }
+//            }
+//        });
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);

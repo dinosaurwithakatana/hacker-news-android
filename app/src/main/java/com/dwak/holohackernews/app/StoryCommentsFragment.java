@@ -9,10 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import com.dwak.holohackernews.app.network.models.Comment;
 import com.dwak.holohackernews.app.network.models.StoryDetail;
 import retrofit.Callback;
@@ -46,6 +43,7 @@ public class StoryCommentsFragment extends BaseFragment {
     private ListView mCommentsListView;
     private ActionBar mActionBar;
 
+    private Button mOpenLinkDialogButton;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -77,8 +75,7 @@ public class StoryCommentsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_story, container, false);
-
+        View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
 
         mActionBar = getActivity().getActionBar();
         mActionBar.show();
@@ -89,11 +86,11 @@ public class StoryCommentsFragment extends BaseFragment {
         mCommentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i != 0) {
-                    final View actionLayout = view.findViewById(R.id.comment_item_action_layout);
-                    actionLayout.setVisibility(actionLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                }
-
+//                if (i != 0) {
+//                    final View actionLayout = view.findViewById(R.id.comment_item_action_layout);
+//                    actionLayout.setVisibility(actionLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+//                }
+//
                 return false;
             }
         });
@@ -112,6 +109,10 @@ public class StoryCommentsFragment extends BaseFragment {
                 refresh();
             }
         });
+
+        mOpenLinkDialogButton = (Button) rootView.findViewById(R.id.open_link);
+
+
         refresh();
         return rootView;
     }
@@ -131,11 +132,12 @@ public class StoryCommentsFragment extends BaseFragment {
 
                     @Override
                     public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
+                        Log.d(TAG, mPrevVisibleItem + " " + firstVisibleItem);
                         if (mPrevVisibleItem != firstVisibleItem) {
-                            if (mPrevVisibleItem < firstVisibleItem)
-                                mActionBar.hide();
-                            else
-                                mActionBar.show();
+//                            if (mPrevVisibleItem < firstVisibleItem)
+//                                mActionBar.hide();
+//                            else
+//                                mActionBar.show();
 
                             mPrevVisibleItem = firstVisibleItem;
                         }
@@ -145,6 +147,13 @@ public class StoryCommentsFragment extends BaseFragment {
                         else {
                             mActionBar.setTitle(storyDetail.getTitle());
                         }
+                    }
+                });
+                mOpenLinkDialogButton.setVisibility(View.VISIBLE);
+                mOpenLinkDialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onStoryFragmentInteraction(storyDetail.getUrl());
                     }
                 });
                 mListAdapter.setStoryDetail(storyDetail);
@@ -158,13 +167,6 @@ public class StoryCommentsFragment extends BaseFragment {
                 Log.d(TAG, error.toString());
             }
         });
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onStoryFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -196,7 +198,7 @@ public class StoryCommentsFragment extends BaseFragment {
      */
     public interface OnStoryFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onStoryFragmentInteraction(Uri uri);
+        public void onStoryFragmentInteraction(String url);
     }
 
 }
