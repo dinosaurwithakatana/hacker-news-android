@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="16dp"
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Story title"
+        app:typeface="roboto_light"
+        android:id="@+id/story_title"/>
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/submitted_by"
+        android:text="burntcookie90"
+        android:layout_below="@id/story_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/publish_time"
+        android:layout_below="@id/story_title"
+        android:layout_centerHorizontal="true"
+        android:text="2 hours ago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/domain"
+        android:layout_below="@id/story_title"
+        android:layout_alignParentRight="true"
+        android:text="stackoverflow.com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
