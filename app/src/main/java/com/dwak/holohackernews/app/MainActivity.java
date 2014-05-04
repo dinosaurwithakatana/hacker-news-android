@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         StoryListFragment.OnStoryListFragmentInteractionListener,
-        StoryFragment.OnStoryFragmentInteractionListener {
+        StoryCommentsFragment.OnStoryFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -61,6 +61,7 @@ public class MainActivity extends FragmentActivity
 
 
         }
+        onSectionAttached(position+1);
         fragmentManager.beginTransaction()
                 .replace(R.id.container, newFragment)
                 .commit();
@@ -78,6 +79,7 @@ public class MainActivity extends FragmentActivity
                 mTitle = getString(R.string.title_section3);
                 break;
         }
+        setTitle(mTitle);
     }
 
     public void restoreActionBar() {
@@ -124,7 +126,7 @@ public class MainActivity extends FragmentActivity
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
-        replaceFragment(StoryFragment.newInstance(id));
+        replaceFragment(StoryCommentsFragment.newInstance(id));
     }
 
     @Override

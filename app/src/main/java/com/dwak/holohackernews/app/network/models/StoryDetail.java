@@ -8,14 +8,14 @@ import java.util.List;
  * Created by vishnu on 5/3/14.
  */
 public class StoryDetail {
-    @SerializedName("id") private long mId;
+    @SerializedName("id") private Long mId;
     @SerializedName("title") private String mTitle;
     @SerializedName("url") private String mUrl;
     @SerializedName("domain") private String mDomain;
-    @SerializedName("points") private int mPoints;
+    @SerializedName("points") private Integer mPoints;
     @SerializedName("user") private String mUser;
     @SerializedName("time_ago") private String mTimeAgo;
-    @SerializedName("comments_count") private int mCommentsCount;
+    @SerializedName("comments_count") private Integer mCommentsCount;
     @SerializedName("content") private String mContent;
     @SerializedName("poll") private Object mPoll;
     @SerializedName("link") private String mLink;

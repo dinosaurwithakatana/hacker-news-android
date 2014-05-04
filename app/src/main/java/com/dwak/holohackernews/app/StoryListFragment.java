@@ -1,5 +1,6 @@
 package com.dwak.holohackernews.app;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -94,6 +95,18 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         mContainer = view.findViewById(R.id.story_list);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
+        ActionBar actionBar = getActivity().getActionBar();
+        switch (mFeedType){
+            case TOP:
+                actionBar.setTitle("Top");
+                break;
+            case BEST:
+                actionBar.setTitle("Top");
+                break;
+            case NEW:
+                actionBar.setTitle("Top");
+                break;
+        }
         showProgress(true);
 
         // Set the adapter
@@ -168,6 +181,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
             throw new ClassCastException(activity.toString()
                     + " must implement OnStoryListFragmentInteractionListener");
         }
+
     }
 
     @Override
