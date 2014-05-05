@@ -228,10 +228,11 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
 
             for (final Story story : mStoryList) {
                 Card newCard = new Card(getActivity());
-                newCard.setTitle(story.getPoints() + " points | " + story.getSubmitter() + " | " + story.getDomain());
+                String title = story.getPoints() + " points | " + story.getSubmitter() + " | " + story.getDomain() + "\n" + story.getNumComments() + " comments";
+                newCard.setTitle(title);
 
                 CardHeader header = new CardHeader(getActivity());
-                header.setTitle(story.getTitle().length() > 50 ? story.getTitle().substring(0, 50) + "..." : story.getTitle());
+                header.setTitle(story.getTitle().length() > 80 ? story.getTitle().substring(0, 80) + "..." : story.getTitle());
                 newCard.addCardHeader(header);
                 newCard.setOnClickListener(new Card.OnCardClickListener() {
                     @Override

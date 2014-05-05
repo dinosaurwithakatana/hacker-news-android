@@ -2,7 +2,6 @@ package com.dwak.holohackernews.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -43,7 +42,10 @@ public class StoryCommentsFragment extends BaseFragment {
     private ListView mCommentsListView;
     private ActionBar mActionBar;
 
+    private Button mPreviousTopLevelButton;
+    private Button mNextTopLevelButton;
     private Button mOpenLinkDialogButton;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -83,6 +85,32 @@ public class StoryCommentsFragment extends BaseFragment {
         mCommentList = new ArrayList<Comment>();
         mCommentsListView = (ListView) rootView.findViewById(R.id.comments_list);
 
+        mPreviousTopLevelButton = (Button) rootView.findViewById(R.id.prev_top_level);
+        mPreviousTopLevelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int currentIndex = mCommentsListView.getFirstVisiblePosition()-1;
+                for(int i = currentIndex-1; i>=0;i--){
+                    if(mListAdapter.getItem(i).getLevel()==0){
+                        mCommentsListView.setSelection(i+1);
+                        return;
+                    }
+                }
+            }
+        });
+        mNextTopLevelButton = (Button) rootView.findViewById(R.id.next_top_level);
+        mNextTopLevelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int currentIndex = mCommentsListView.getFirstVisiblePosition()+1;
+                for(int i = currentIndex+1; i<mListAdapter.getCount();i++){
+                    if(mListAdapter.getItem(i).getLevel()==0){
+                        mCommentsListView.setSelection(i-1);
+                        return;
+                    }
+                }
+            }
+        });
         mCommentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -132,7 +160,6 @@ public class StoryCommentsFragment extends BaseFragment {
 
                     @Override
                     public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
-                        Log.d(TAG, mPrevVisibleItem + " " + firstVisibleItem);
                         if (mPrevVisibleItem != firstVisibleItem) {
 //                            if (mPrevVisibleItem < firstVisibleItem)
 //                                mActionBar.hide();

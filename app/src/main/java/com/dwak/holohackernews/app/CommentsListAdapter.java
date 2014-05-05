@@ -53,6 +53,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
 
     public void setComments(List<Comment> comments) {
         mComments = comments;
+        mExpandedComments.clear();
         for (Comment comment : mComments) {
             expandComments(comment);
         }
@@ -113,7 +114,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
             viewHolder.mCommentSubmissionTime.setText(getItem(position).getTimeAgo());
 
             String submitter = getItem(position).getUser();
-            viewHolder.mCommentSubmitter.setText(submitter);
+            viewHolder.mCommentSubmitter.setText(position + " " + submitter);
             viewHolder.mCommentSubmitter.setTextColor(
                     mContext.getResources().getColor(
                             mStoryDetail.getUser().equals(submitter)

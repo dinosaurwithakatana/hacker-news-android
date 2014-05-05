@@ -4,9 +4,40 @@
              android:layout_height="match_parent"
              tools:context="com.dwak.holohackernews.app.StoryCommentsFragment">
 
+    <LinearLayout
+        android:id="@+id/button_bar"
+        android:background="@android:color/holo_orange_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="42dp">
+
+        <Button
+            android:id="@+id/prev_top_level"
+            android:layout_weight="1"
+            android:background="@drawable/navigation_up"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:visibility="visible"/>
+        <Button
+            android:id="@+id/open_link"
+            android:layout_weight="4"
+            android:text="@string/show_link"
+            android:background="@drawable/orange_button"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:visibility="visible"/>
+        <Button
+            android:id="@+id/next_top_level"
+            android:layout_weight="1"
+            android:background="@drawable/navigation_down"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:visibility="visible"/>
+    </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
+        android:layout_above="@id/button_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,12 +47,4 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </android.support.v4.widget.SwipeRefreshLayout>
-    <Button
-        android:id="@+id/open_link"
-        android:text="@string/open_link"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/orange_button"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:visibility="invisible"/>
 </RelativeLayout>

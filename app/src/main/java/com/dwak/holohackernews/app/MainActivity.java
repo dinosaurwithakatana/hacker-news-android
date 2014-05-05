@@ -1,7 +1,6 @@
 package com.dwak.holohackernews.app;
 
 import android.app.ActionBar;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -193,7 +192,7 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
-    public void onStoryLinkFragmentInteraction(Uri uri) {
-
+    public void onStoryLinkFragmentInteraction() {
+        onBackPressed();
     }
 }

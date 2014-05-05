@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 /**
@@ -32,6 +34,9 @@ public class StoryLinkFragment extends Fragment {
     private OnStoryLinkFragmentInteractionListener mListener;
     private WebView mWebView;
     private Bundle mWebViewBundle;
+    private Button mCloseLink;
+    private Button mBackButton;
+    private Button mForwardButton;
 
     public StoryLinkFragment() {
         // Required empty public constructor
@@ -70,13 +75,23 @@ public class StoryLinkFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_story_link, null);
         final ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mWebView = (WebView) rootView.findViewById(R.id.story_web_view);
+        mCloseLink = (Button) rootView.findViewById(R.id.close_link);
+        mCloseLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onStoryLinkFragmentInteraction();
+            }
+        });
 
         mWebView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
 
         WebSettings webSettings = mWebView.getSettings();
-        webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
         webSettings.setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient() {
 
@@ -85,7 +100,15 @@ public class StoryLinkFragment extends Fragment {
                 super.onPageFinished(view, url);
                 Log.d(TAG, "page loaded");
                 mWebView.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                progressBar.setMax(100);
+                progressBar.setProgress(newProgress);
             }
         });
 
@@ -95,6 +118,25 @@ public class StoryLinkFragment extends Fragment {
             mWebViewBundle = savedInstanceState;
             mWebView.restoreState(mWebViewBundle);
         }
+
+        mBackButton = (Button) rootView.findViewById(R.id.web_back);
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mWebView.canGoBack()){
+                    mWebView.goBack();
+                }
+            }
+        });
+        mForwardButton = (Button) rootView.findViewById(R.id.web_forward);
+        mForwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mWebView.canGoForward()){
+                    mWebView.goForward();
+                }
+            }
+        });
         return rootView;
     }
 
@@ -149,7 +191,7 @@ public class StoryLinkFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnStoryLinkFragmentInteractionListener {
-        public void onStoryLinkFragmentInteraction(Uri uri);
+        public void onStoryLinkFragmentInteraction();
     }
 
 }
