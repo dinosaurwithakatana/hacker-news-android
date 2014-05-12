@@ -8,7 +8,7 @@ Uses [cheeaun's](http://cheeaun.com/) [node-hnapi](https://github.com/cheeaun/no
 
 Building
 ---
-Copy local.properties.example and keystore.properties.example to local.properties and keystore.properties, fill out as necessary.
+Copy `local.properties.example` and `keystore.properties.example` to `local.properties` and `keystore.properties`, fill out as necessary.
 
 Import into Android studio, should work out of the box.
 
