@@ -99,34 +99,6 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         mListView = (ListView) view.findViewById(R.id.story_list);
         mListAdapter = new StoryListAdapter(getActivity(), R.layout.comments_header, mStoryList);
         mListView.setAdapter(mListAdapter);
-        mListView.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                if (page == 2) {
-                    mService.getTopStoriesPageTwo(new Callback<List<Story>>() {
-                        @Override
-                        public void success(List<Story> stories, Response response) {
-                            mService.getTopStoriesPageTwo(new Callback<List<Story>>() {
-                                @Override
-                                public void success(List<Story> stories, Response response) {
-                                    mListAdapter.addStories(stories);
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-
-                        }
-                    });
-                }
-            }
-        });
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -218,6 +190,34 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
             mListAdapter.setStories(mStoryList);
             showProgress(false);
             mSwipeRefreshLayout.setRefreshing(false);
+            mListView.setOnScrollListener(new EndlessScrollListener() {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount) {
+                    if (page == 2) {
+                        mService.getTopStoriesPageTwo(new Callback<List<Story>>() {
+                            @Override
+                            public void success(List<Story> stories, Response response) {
+                                mService.getTopStoriesPageTwo(new Callback<List<Story>>() {
+                                    @Override
+                                    public void success(List<Story> stories, Response response) {
+                                        mListAdapter.addStories(stories);
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+
+                            }
+                        });
+                    }
+                }
+            });
         }
 
         @Override
