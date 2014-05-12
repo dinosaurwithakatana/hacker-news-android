@@ -61,4 +61,12 @@
         app:typeface="roboto_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/comment_count"
+        app:typeface="roboto_light"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/story_points"
+        android:layout_below="@id/story_long_ago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

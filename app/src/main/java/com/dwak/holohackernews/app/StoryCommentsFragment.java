@@ -216,6 +216,7 @@ public class StoryCommentsFragment extends BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        mListener.onStoryCommentsFragmentDetach();
         mListener = null;
     }
 
@@ -232,6 +233,7 @@ public class StoryCommentsFragment extends BaseFragment {
     public interface OnStoryFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onStoryFragmentInteraction(String url);
+        public void onStoryCommentsFragmentDetach();
     }
 
 }

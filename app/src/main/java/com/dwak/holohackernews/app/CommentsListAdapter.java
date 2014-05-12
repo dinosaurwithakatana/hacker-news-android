@@ -175,12 +175,14 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
             headerViewHolder.mStorySubmitter = (TextView) convertView.findViewById(R.id.story_submitter);
             headerViewHolder.mStoryPoints = (TextView) convertView.findViewById(R.id.story_points);
             headerViewHolder.mStoryLongAgo = (TextView) convertView.findViewById(R.id.story_long_ago);
+            headerViewHolder.mCommentsCount = (TextView) convertView.findViewById(R.id.comment_count);
 
             headerViewHolder.mStoryTitle.setText(mStoryDetail.getTitle());
             headerViewHolder.mStorySubmitter.setText(mStoryDetail.getUser());
             headerViewHolder.mStoryDomain.setText(" | " + mStoryDetail.getDomain());
             headerViewHolder.mStoryPoints.setText(String.valueOf(mStoryDetail.getPoints()));
             headerViewHolder.mStoryLongAgo.setText(" | " + mStoryDetail.getTimeAgo());
+            headerViewHolder.mCommentsCount.setText(mStoryDetail.getCommentsCount() + " comments");
         }
 
         return convertView;
@@ -192,6 +194,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         TextView mStorySubmitter;
         TextView mStoryPoints;
         TextView mStoryLongAgo;
+        TextView mCommentsCount;
     }
 
     static class ViewHolder {

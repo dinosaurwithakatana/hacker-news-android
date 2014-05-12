@@ -104,7 +104,8 @@ public class MainActivity extends FragmentActivity
                 R.anim.offscreen_right_to_view,
                 R.anim.view_right_to_offscreen);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.container, fragment, tag);
+        transaction.add(R.id.container, fragment, tag);
+        transaction.show(fragment);
         transaction.commit();
     }
 
@@ -189,6 +190,11 @@ public class MainActivity extends FragmentActivity
         }
         transaction.show(fragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onStoryCommentsFragmentDetach() {
+        getActionBar().setTitle(mTitle);
     }
 
     @Override

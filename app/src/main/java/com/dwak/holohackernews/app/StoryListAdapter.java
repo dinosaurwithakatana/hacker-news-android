@@ -67,6 +67,7 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
             viewHolder.mSubmissionTime = (TextView) convertView.findViewById(R.id.story_long_ago);
             viewHolder.mDomain = (TextView) convertView.findViewById(R.id.story_domain);
             viewHolder.mPoints = (TextView) convertView.findViewById(R.id.story_points);
+            viewHolder.mCommentsCount = (TextView) convertView.findViewById(R.id.comment_count);
 
             // store the holder with the view.
             convertView.setTag(viewHolder);
@@ -82,6 +83,7 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         viewHolder.mSubmissionTime.setText(getItem(position).getPublishedTime());
         viewHolder.mDomain.setText(" | " + getItem(position).getDomain()+ " | ");
         viewHolder.mPoints.setText(String.valueOf(getItem(position).getPoints()));
+        viewHolder.mCommentsCount.setText(getItem(position).getNumComments() + " comments");
 
         return convertView;
     }
@@ -92,6 +94,7 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         TextView mSubmissionTime;
         TextView mDomain;
         TextView mPoints;
+        TextView mCommentsCount;
     }
 
 }
