@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,8 @@ public class StoryCommentsFragment extends BaseFragment {
     private Button mPreviousTopLevelButton;
     private Button mNextTopLevelButton;
     private Button mOpenLinkDialogButton;
+    
+    private HeaderViewHolder mHeaderViewHolder;
 
     /**
      * Use this factory method to create a new instance of
@@ -119,15 +122,20 @@ public class StoryCommentsFragment extends BaseFragment {
         mCommentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                if (i != 0) {
-//                    final View actionLayout = view.findViewById(R.id.comment_item_action_layout);
-//                    actionLayout.setVisibility(actionLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//                }
-//
                 return false;
             }
         });
         mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, mCommentList);
+        mHeaderViewHolder = new HeaderViewHolder();
+        View headerView = inflater.inflate(R.layout.comments_header, null);
+        mHeaderViewHolder.mStoryTitle = (TextView) headerView.findViewById(R.id.story_title);
+        mHeaderViewHolder.mStoryDomain = (TextView) headerView.findViewById(R.id.story_domain);
+        mHeaderViewHolder.mStorySubmitter = (TextView) headerView.findViewById(R.id.story_submitter);
+        mHeaderViewHolder.mStoryPoints = (TextView) headerView.findViewById(R.id.story_points);
+        mHeaderViewHolder.mStoryLongAgo = (TextView) headerView.findViewById(R.id.story_long_ago);
+        mHeaderViewHolder.mCommentsCount = (TextView) headerView.findViewById(R.id.comment_count);
+
+        mCommentsListView.addHeaderView(headerView);
         mCommentsListView.setAdapter(mListAdapter);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
@@ -154,6 +162,12 @@ public class StoryCommentsFragment extends BaseFragment {
         mService.getItemDetails(mStoryId, new Callback<StoryDetail>() {
             @Override
             public void success(final StoryDetail storyDetail, Response response) {
+                mHeaderViewHolder.mStoryTitle.setText(storyDetail.getTitle());
+                mHeaderViewHolder.mStorySubmitter.setText(storyDetail.getUser());
+                mHeaderViewHolder.mStoryDomain.setText(" | " + storyDetail.getDomain());
+                mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
+                mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
+                mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
                 mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
                     public int mPrevVisibleItem;
 
@@ -236,4 +250,12 @@ public class StoryCommentsFragment extends BaseFragment {
         public void onStoryCommentsFragmentDetach();
     }
 
+    static class HeaderViewHolder {
+        TextView mStoryTitle;
+        TextView mStoryDomain;
+        TextView mStorySubmitter;
+        TextView mStoryPoints;
+        TextView mStoryLongAgo;
+        TextView mCommentsCount;
+    }
 }

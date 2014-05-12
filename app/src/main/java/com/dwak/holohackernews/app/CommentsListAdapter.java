@@ -82,119 +82,82 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        HeaderViewHolder headerViewHolder;
 
-        if (convertView != null && convertView.getTag() instanceof HeaderViewHolder) {
-            convertView = null;
+
+        if (convertView == null) {
+            convertView = ((Activity) mContext).getLayoutInflater().inflate(mResource, parent, false);
+
+            viewHolder = new ViewHolder();
+
+            viewHolder.mCommentContent = (TextView) convertView.findViewById(R.id.comment_content);
+            viewHolder.mColorCodeView = convertView.findViewById(R.id.color_code);
+            viewHolder.mCommentSubmissionTime = (TextView) convertView.findViewById(R.id.comment_submission_time);
+            viewHolder.mCommentSubmitter = (TextView) convertView.findViewById(R.id.comment_submitter);
+
+            convertView.setTag(viewHolder);
         }
 
-        if (position != 0) {
-            if (convertView == null) {
-                convertView = ((Activity) mContext).getLayoutInflater().inflate(mResource, parent, false);
+        else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
-                viewHolder = new ViewHolder();
+        Spanned commentContent = Html.fromHtml(getItem(position).getContent());
+        viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
+        viewHolder.mCommentContent.setText(commentContent);
+        viewHolder.mCommentSubmissionTime.setText(getItem(position).getTimeAgo());
 
-                viewHolder.mCommentContent = (TextView) convertView.findViewById(R.id.comment_content);
-                viewHolder.mColorCodeView = convertView.findViewById(R.id.color_code);
-                viewHolder.mCommentSubmissionTime = (TextView) convertView.findViewById(R.id.comment_submission_time);
-                viewHolder.mCommentSubmitter = (TextView) convertView.findViewById(R.id.comment_submitter);
-
-                convertView.setTag(viewHolder);
-            }
-
-            else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            position -= 1;
-//            String commentContent = getItem(position).getContent().replace("<p>", "\n");
-            Spanned commentContent = Html.fromHtml(getItem(position).getContent());
-            viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
-            viewHolder.mCommentContent.setText(commentContent);
-            viewHolder.mCommentSubmissionTime.setText(getItem(position).getTimeAgo());
-
-            String submitter = getItem(position).getUser();
-            if(HoloHackerNewsApplication.isDebug()){
-                viewHolder.mCommentSubmitter.setText(position + " " + submitter);
-            }
-            else {
-                viewHolder.mCommentSubmitter.setText(submitter);
-            }
-            viewHolder.mCommentSubmitter.setTextColor(
-                    mContext.getResources().getColor(
-                            mStoryDetail.getUser().equals(submitter)
-                                    ? android.R.color.holo_orange_light
-                                    : android.R.color.black
-                    )
-            );
-
-            float scale = mContext.getResources().getDisplayMetrics().density;
-            int dpAsPixels = (int) (getItem(position).getLevel() * 12 * scale + 0.5f);
-
-            if (getItem(position).getLevel() != 0) {
-                convertView.setPadding(dpAsPixels, 0, 4, 0);
-            }
-            else {
-                convertView.setPadding(4, 0, 4, 0);
-            }
-
-            switch (getItem(position).getLevel() % 8) {
-                case 0:
-                    viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_blue_bright);
-                    break;
-                case 1:
-                    viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_green_light);
-                    break;
-                case 2:
-                    viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_red_light);
-                    break;
-                case 3:
-                    viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_orange_light);
-                    break;
-                case 4:
-                    viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_purple);
-                    break;
-                case 5:
-                    viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_green_dark);
-                    break;
-                case 6:
-                    viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_red_dark);
-                    break;
-                case 7:
-                    viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_orange_dark);
-                    break;
-            }
+        String submitter = getItem(position).getUser();
+        if (HoloHackerNewsApplication.isDebug()) {
+            viewHolder.mCommentSubmitter.setText(position + " " + submitter);
         }
         else {
-            convertView = ((Activity) mContext).getLayoutInflater().inflate(R.layout.comments_header, parent, false);
-            headerViewHolder = new HeaderViewHolder();
-            convertView.setTag(headerViewHolder);
+            viewHolder.mCommentSubmitter.setText(submitter);
+        }
+        viewHolder.mCommentSubmitter.setTextColor(
+                mContext.getResources().getColor(
+                        mStoryDetail.getUser().equals(submitter)
+                                ? android.R.color.holo_orange_light
+                                : android.R.color.black
+                )
+        );
 
-            headerViewHolder.mStoryTitle = (TextView) convertView.findViewById(R.id.story_title);
-            headerViewHolder.mStoryDomain = (TextView) convertView.findViewById(R.id.story_domain);
-            headerViewHolder.mStorySubmitter = (TextView) convertView.findViewById(R.id.story_submitter);
-            headerViewHolder.mStoryPoints = (TextView) convertView.findViewById(R.id.story_points);
-            headerViewHolder.mStoryLongAgo = (TextView) convertView.findViewById(R.id.story_long_ago);
-            headerViewHolder.mCommentsCount = (TextView) convertView.findViewById(R.id.comment_count);
+        float scale = mContext.getResources().getDisplayMetrics().density;
+        int dpAsPixels = (int) (getItem(position).getLevel() * 12 * scale + 0.5f);
 
-            headerViewHolder.mStoryTitle.setText(mStoryDetail.getTitle());
-            headerViewHolder.mStorySubmitter.setText(mStoryDetail.getUser());
-            headerViewHolder.mStoryDomain.setText(" | " + mStoryDetail.getDomain());
-            headerViewHolder.mStoryPoints.setText(String.valueOf(mStoryDetail.getPoints()));
-            headerViewHolder.mStoryLongAgo.setText(" | " + mStoryDetail.getTimeAgo());
-            headerViewHolder.mCommentsCount.setText(mStoryDetail.getCommentsCount() + " comments");
+        if (getItem(position).getLevel() != 0) {
+            convertView.setPadding(dpAsPixels, 0, 4, 0);
+        }
+        else {
+            convertView.setPadding(4, 0, 4, 0);
         }
 
+        switch (getItem(position).getLevel() % 8) {
+            case 0:
+                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_blue_bright);
+                break;
+            case 1:
+                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_green_light);
+                break;
+            case 2:
+                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_red_light);
+                break;
+            case 3:
+                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_orange_light);
+                break;
+            case 4:
+                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_purple);
+                break;
+            case 5:
+                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_green_dark);
+                break;
+            case 6:
+                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_red_dark);
+                break;
+            case 7:
+                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_orange_dark);
+                break;
+        }
         return convertView;
-    }
-
-    static class HeaderViewHolder {
-        TextView mStoryTitle;
-        TextView mStoryDomain;
-        TextView mStorySubmitter;
-        TextView mStoryPoints;
-        TextView mStoryLongAgo;
-        TextView mCommentsCount;
     }
 
     static class ViewHolder {
