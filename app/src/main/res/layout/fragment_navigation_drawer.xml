@@ -5,5 +5,7 @@
     android:choiceMode="singleChoice"
     android:divider="@android:color/transparent"
     android:dividerHeight="0dp"
-    android:background="#cccc"
+    android:listSelector="@drawable/orange_card_selector"
+    android:drawSelectorOnTop="true"
+    android:background="#cccccc"
     tools:context="com.dwak.holohackernews.app.NavigationDrawerFragment" />

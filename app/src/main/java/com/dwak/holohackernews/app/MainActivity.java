@@ -132,7 +132,7 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onStoryListFragmentInteraction(long id) {
-        if (HoloHackerNewsApplication.getInstance().isDebug()) {
+        if (HoloHackerNewsApplication.isDebug()) {
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 

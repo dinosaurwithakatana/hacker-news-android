@@ -2,7 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:background="@drawable/card_selector"
+                android:background="@android:color/white"
                 android:animateLayoutChanges="true"
                 android:longClickable="true"
                 android:layout_width="match_parent"

@@ -33,6 +33,7 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
 
     public void setStories(List<Story> stories) {
         mStories = stories;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -62,6 +63,10 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
             // well set up the ViewHolder
             viewHolder = new ViewHolder();
             viewHolder.mTitle = (TextView) convertView.findViewById(R.id.story_title);
+            viewHolder.mSubmittedBy = (TextView) convertView.findViewById(R.id.story_submitter);
+            viewHolder.mSubmissionTime = (TextView) convertView.findViewById(R.id.story_long_ago);
+            viewHolder.mDomain = (TextView) convertView.findViewById(R.id.story_domain);
+            viewHolder.mPoints = (TextView) convertView.findViewById(R.id.story_points);
 
             // store the holder with the view.
             convertView.setTag(viewHolder);
@@ -73,12 +78,20 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         }
 
         viewHolder.mTitle.setText(getItem(position).getTitle());
+        viewHolder.mSubmittedBy.setText(getItem(position).getSubmitter());
+        viewHolder.mSubmissionTime.setText(getItem(position).getPublishedTime());
+        viewHolder.mDomain.setText(" | " + getItem(position).getDomain()+ " | ");
+        viewHolder.mPoints.setText(String.valueOf(getItem(position).getPoints()));
 
         return convertView;
     }
 
     static class ViewHolder {
         TextView mTitle;
+        TextView mSubmittedBy;
+        TextView mSubmissionTime;
+        TextView mDomain;
+        TextView mPoints;
     }
 
 }

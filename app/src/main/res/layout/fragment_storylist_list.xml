@@ -17,13 +17,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <it.gmariotti.cardslib.library.view.CardListView
+        <ListView
             android:id="@+id/story_list"
             android:animateLayoutChanges="true"
-            android:paddingTop="8dp"
+            android:paddingTop="4dp"
             android:clipToPadding="false"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:dividerHeight="4dp"
+            android:drawSelectorOnTop="true"
+            android:listSelector="@drawable/orange_card_selector"
+            tools:listitem="@layout/comments_header"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

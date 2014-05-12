@@ -83,6 +83,11 @@ public class StoryCommentsFragment extends BaseFragment {
         mActionBar.show();
         mActionBar.setTitle("Hacker News");
         mCommentList = new ArrayList<Comment>();
+
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        mContainer = rootView.findViewById(R.id.container);
+        showProgress(true);
+
         mCommentsListView = (ListView) rootView.findViewById(R.id.comments_list);
 
         mPreviousTopLevelButton = (Button) rootView.findViewById(R.id.prev_top_level);
@@ -92,7 +97,7 @@ public class StoryCommentsFragment extends BaseFragment {
                 int currentIndex = mCommentsListView.getFirstVisiblePosition()-1;
                 for(int i = currentIndex-1; i>=0;i--){
                     if(mListAdapter.getItem(i).getLevel()==0){
-                        mCommentsListView.setSelection(i+1);
+                        mCommentsListView.setSelectionFromTop(i+1, 0);
                         return;
                     }
                 }
@@ -105,7 +110,7 @@ public class StoryCommentsFragment extends BaseFragment {
                 int currentIndex = mCommentsListView.getFirstVisiblePosition()+1;
                 for(int i = currentIndex+1; i<mListAdapter.getCount();i++){
                     if(mListAdapter.getItem(i).getLevel()==0){
-                        mCommentsListView.setSelection(i-1);
+                        mCommentsListView.setSelectionFromTop(i-1, 0);
                         return;
                     }
                 }
@@ -149,7 +154,6 @@ public class StoryCommentsFragment extends BaseFragment {
         mService.getItemDetails(mStoryId, new Callback<StoryDetail>() {
             @Override
             public void success(final StoryDetail storyDetail, Response response) {
-                Toast.makeText(getActivity(), storyDetail.getTitle(), Toast.LENGTH_SHORT).show();
                 mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
                     public int mPrevVisibleItem;
 
@@ -186,12 +190,14 @@ public class StoryCommentsFragment extends BaseFragment {
                 mListAdapter.setStoryDetail(storyDetail);
                 mListAdapter.setComments(storyDetail.getCommentList());
                 mListAdapter.notifyDataSetChanged();
+                showProgress(false);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, error.toString());
+                Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
             }
         });
     }

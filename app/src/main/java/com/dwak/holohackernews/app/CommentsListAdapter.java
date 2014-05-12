@@ -114,7 +114,12 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
             viewHolder.mCommentSubmissionTime.setText(getItem(position).getTimeAgo());
 
             String submitter = getItem(position).getUser();
-            viewHolder.mCommentSubmitter.setText(position + " " + submitter);
+            if(HoloHackerNewsApplication.isDebug()){
+                viewHolder.mCommentSubmitter.setText(position + " " + submitter);
+            }
+            else {
+                viewHolder.mCommentSubmitter.setText(submitter);
+            }
             viewHolder.mCommentSubmitter.setTextColor(
                     mContext.getResources().getColor(
                             mStoryDetail.getUser().equals(submitter)

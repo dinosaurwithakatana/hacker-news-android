@@ -6,7 +6,7 @@ import android.app.Application;
  * Created by vishnu on 5/3/14.
  */
 public class HoloHackerNewsApplication extends Application {
-    private boolean mDebug = BuildConfig.DEBUG;
+    private static boolean mDebug = BuildConfig.DEBUG;
     private static HoloHackerNewsApplication mInstance = new HoloHackerNewsApplication();
 
     @Override
@@ -14,7 +14,7 @@ public class HoloHackerNewsApplication extends Application {
         super.onCreate();
     }
 
-    public boolean isDebug() {
+    public static boolean isDebug() {
         return mDebug;
     }
 

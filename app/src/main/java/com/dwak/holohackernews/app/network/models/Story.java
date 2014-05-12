@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by vishnu on 4/21/14.
  */
 public class Story {
-    @SerializedName("id") private long mStoryId;
+    @SerializedName("id") private Long mStoryId;
     @SerializedName("title") private String mTitle;
     @SerializedName("url") private String mUrl;
     @SerializedName("domain") private String mDomain;

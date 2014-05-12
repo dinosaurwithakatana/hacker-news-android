@@ -9,15 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.dwak.holohackernews.app.network.HackerNewsService;
 import com.dwak.holohackernews.app.network.models.Story;
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.view.CardGridView;
-import it.gmariotti.cardslib.library.view.CardListView;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -37,22 +30,16 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
 
     public static final String FEED_TO_LOAD = "feed_to_load";
     private static final String TAG = StoryListFragment.class.getSimpleName();
+    private String mTitle;
     private FeedType mFeedType;
     private List<Story> mStoryList;
-    private StoryListAdapter mListAdapter;
-    private ArrayList<Card> mCards;
     private OnStoryListFragmentInteractionListener mListener;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     /**
      * The fragment's ListView/GridView.
      */
-    private CardListView mListView;
-    /**
-     * The Adapter which will be used to populate the ListView/GridView with
-     * Views.
-     */
-    private ListAdapter mAdapter;
-    private CardArrayAdapter mCardArrayAdapter;
+    private ListView mListView;
+    private StoryListAdapter mListAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -79,8 +66,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         }
 
         mStoryList = new ArrayList<Story>();
-        mCards = new ArrayList<Card>();
-        mListAdapter = new StoryListAdapter(getActivity(), R.layout.story_item, mStoryList);
+        mListAdapter = new StoryListAdapter(getActivity(), R.layout.comments_header, mStoryList);
 
     }
 
@@ -92,48 +78,27 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         mContainer = view.findViewById(R.id.story_list);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
-        ActionBar actionBar = getActivity().getActionBar();
+        final ActionBar actionBar = getActivity().getActionBar();
         actionBar.show();
         switch (mFeedType){
             case TOP:
-                actionBar.setTitle("Top");
+                mTitle = "Top";
                 break;
             case BEST:
-                actionBar.setTitle("Top");
+                mTitle = "Best";
                 break;
             case NEW:
-                actionBar.setTitle("Top");
+                mTitle = "Newest";
                 break;
         }
+        actionBar.setTitle(mTitle);
         showProgress(true);
 
         // Set the adapter
-        mListView = (CardListView) view.findViewById(R.id.story_list);
-//        mListView.setAdapter(mListAdapter);
-        mCardArrayAdapter = new CardArrayAdapter(getActivity(), mCards);
-
-        mListView.setAdapter(mCardArrayAdapter);
-
-//        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            public int mPrevVisibleItem;
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
-//                if (mPrevVisibleItem != firstVisibleItem) {
-//                    if (mPrevVisibleItem < firstVisibleItem)
-//                        getActivity().getActionBar().hide();
-//                    else
-//                        getActivity().getActionBar().show();
-//
-//                    mPrevVisibleItem = firstVisibleItem;
-//                }
-//            }
-//        });
+        mStoryList = new ArrayList<Story>();
+        mListView = (ListView) view.findViewById(R.id.story_list);
+        mListAdapter = new StoryListAdapter(getActivity(), R.layout.comments_header, mStoryList);
+        mListView.setAdapter(mListAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -214,7 +179,6 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnStoryListFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onStoryListFragmentInteraction(long id);
     }
 
@@ -224,35 +188,8 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         public void success(List<Story> stories, Response response) {
             mStoryList = stories;
             mListAdapter.setStories(mStoryList);
-            mListAdapter.notifyDataSetChanged();
-
-            for (final Story story : mStoryList) {
-                Card newCard = new Card(getActivity());
-                String title = story.getPoints() + " points | " + story.getSubmitter() + " | " + story.getDomain() + "\n" + story.getNumComments() + " comments";
-                newCard.setTitle(title);
-
-                CardHeader header = new CardHeader(getActivity());
-                header.setTitle(story.getTitle().length() > 80 ? story.getTitle().substring(0, 80) + "..." : story.getTitle());
-                newCard.addCardHeader(header);
-                newCard.setOnClickListener(new Card.OnCardClickListener() {
-                    @Override
-                    public void onClick(Card card, View view) {
-                        mListener.onStoryListFragmentInteraction(story.getStoryId());
-                    }
-                });
-                newCard.setOnLongClickListener(new Card.OnLongCardClickListener() {
-                    @Override
-                    public boolean onLongClick(Card card, View view) {
-                        return false;
-                    }
-                });
-                newCard.setBackgroundResourceId(R.drawable.card_selector);
-                mCards.add(newCard);
-            }
-
             showProgress(false);
             mSwipeRefreshLayout.setRefreshing(false);
-            mCardArrayAdapter.notifyDataSetChanged();
         }
 
         @Override

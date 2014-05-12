@@ -8,7 +8,7 @@ import java.util.List;
  * Created by vishnu on 5/3/14.
  */
 public class Comment {
-    @SerializedName("id") private long mId;
+    @SerializedName("id") private Long mId;
     @SerializedName("level") private int mLevel;
     @SerializedName("user") private String mUser;
     @SerializedName("time_ago") private String mTimeAgo;

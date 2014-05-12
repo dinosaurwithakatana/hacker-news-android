@@ -5,7 +5,14 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
 import com.dwak.holohackernews.app.network.HackerNewsService;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 
 /**
  * Created by vishnu on 5/3/14.
@@ -18,7 +25,11 @@ public class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Long.class, new LongTypeAdapter());
+        Gson gson = gsonBuilder.create();
         RestAdapter restAdapter = new RestAdapter.Builder()
+                .setConverter(new GsonConverter(gson))
                 .setEndpoint("http://fathomless-island-9288.herokuapp.com/")
                 .build();
 
@@ -28,5 +39,18 @@ public class BaseFragment extends Fragment {
     protected void showProgress(boolean showProgress){
         mContainer.setVisibility(showProgress ? View.INVISIBLE: View.VISIBLE);
         mProgressBar.setVisibility(showProgress ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    class LongTypeAdapter implements JsonDeserializer<Long>{
+
+        @Override
+        public Long deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            if("".equals(json.getAsString())){
+                return 0l;
+            }
+            else {
+                return json.getAsLong();
+            }
+        }
     }
 }
