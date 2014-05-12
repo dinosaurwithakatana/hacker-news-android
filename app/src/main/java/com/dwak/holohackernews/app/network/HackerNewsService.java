@@ -16,6 +16,9 @@ public interface HackerNewsService {
     @GET("/news")
     void getTopStories(Callback<List<Story>> callback);
 
+    @GET("/news2")
+    void getTopStoriesPageTwo(Callback<List<Story>> callback);
+
     @GET("/newest")
     void getNewestStories(Callback<List<Story>> callback);
 

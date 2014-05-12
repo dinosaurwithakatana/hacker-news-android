@@ -36,6 +36,11 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         notifyDataSetChanged();
     }
 
+    public void addStories(List<Story> stories){
+        mStories.addAll(stories);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return mStories.size();

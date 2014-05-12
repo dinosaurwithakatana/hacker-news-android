@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.dwak.holohackernews.app.network.models.Comment;
+import com.dwak.holohackernews.app.network.models.Story;
 import com.dwak.holohackernews.app.network.models.StoryDetail;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -137,6 +138,7 @@ public class StoryCommentsFragment extends BaseFragment {
 
         mCommentsListView.addHeaderView(headerView);
         mCommentsListView.setAdapter(mListAdapter);
+
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorScheme(android.R.color.holo_orange_dark,
