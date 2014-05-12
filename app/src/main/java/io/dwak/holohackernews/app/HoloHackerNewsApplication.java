@@ -1,6 +1,7 @@
-package com.dwak.holohackernews.app;
+package io.dwak.holohackernews.app;
 
 import android.app.Application;
+import io.dwak.holohackernews.app.BuildConfig;
 
 /**
  * Created by vishnu on 5/3/14.

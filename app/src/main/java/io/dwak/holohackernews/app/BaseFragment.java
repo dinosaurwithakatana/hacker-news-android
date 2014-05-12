@@ -1,17 +1,14 @@
-package com.dwak.holohackernews.app;
+package io.dwak.holohackernews.app;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
-import com.dwak.holohackernews.app.network.HackerNewsService;
+import io.dwak.holohackernews.app.network.HackerNewsService;
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**

@@ -4,7 +4,7 @@
              android:layout_height="match_parent"
              android:background="@android:color/white"
              android:animateLayoutChanges="true"
-             tools:context="com.dwak.holohackernews.app.StoryLinkFragment">
+             tools:context="io.dwak.holohackernews.app.StoryLinkFragment">
 
     <ProgressBar
         android:id="@+id/progress_bar"

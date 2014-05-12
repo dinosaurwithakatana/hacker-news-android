@@ -1,4 +1,4 @@
-package com.dwak.holohackernews.app;
+package io.dwak.holohackernews.app;
 
 import android.app.ActionBar;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import io.dwak.holohackernews.app.R;
 
 
 public class MainActivity extends FragmentActivity

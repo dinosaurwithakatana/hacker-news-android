@@ -1,4 +1,4 @@
-package com.dwak.holohackernews.app.network.models;
+package io.dwak.holohackernews.app.network.models;
 
 import com.google.gson.annotations.SerializedName;
 

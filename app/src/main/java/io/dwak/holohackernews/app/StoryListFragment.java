@@ -1,4 +1,4 @@
-package com.dwak.holohackernews.app;
+package io.dwak.holohackernews.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -9,7 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.dwak.holohackernews.app.network.models.Story;
+import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.network.models.Story;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

@@ -1,4 +1,4 @@
-package com.dwak.holohackernews.app;
+package io.dwak.holohackernews.app;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import com.dwak.holohackernews.app.network.models.Story;
+import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.network.models.Story;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package com.dwak.holohackernews.app.network;
+package io.dwak.holohackernews.app.network;
 
-import com.dwak.holohackernews.app.network.models.Story;
-import com.dwak.holohackernews.app.network.models.StoryDetail;
+import io.dwak.holohackernews.app.network.models.Story;
+import io.dwak.holohackernews.app.network.models.StoryDetail;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;

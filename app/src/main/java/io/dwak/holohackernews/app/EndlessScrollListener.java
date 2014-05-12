@@ -1,4 +1,4 @@
-package com.dwak.holohackernews.app;
+package io.dwak.holohackernews.app;
 
 import android.widget.AbsListView;
 

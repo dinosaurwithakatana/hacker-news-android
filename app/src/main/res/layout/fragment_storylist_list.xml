@@ -3,7 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.dwak.holohackernews.app.StoryListFragment">
+                tools:context="io.dwak.holohackernews.app.StoryListFragment">
 
     <ProgressBar
         android:id="@+id/progress_bar"

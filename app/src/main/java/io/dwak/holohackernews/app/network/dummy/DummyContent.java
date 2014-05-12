@@ -1,4 +1,4 @@
-package com.dwak.holohackernews.app.network.dummy;
+package io.dwak.holohackernews.app.network.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

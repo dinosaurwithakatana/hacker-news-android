@@ -8,4 +8,4 @@
     android:listSelector="@drawable/orange_card_selector"
     android:drawSelectorOnTop="true"
     android:background="#cccccc"
-    tools:context="com.dwak.holohackernews.app.NavigationDrawerFragment" />
+    tools:context="io.dwak.holohackernews.app.NavigationDrawerFragment" />
