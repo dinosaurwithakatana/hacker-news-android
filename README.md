@@ -12,3 +12,6 @@ Copy `local.properties.example` and `keystore.properties.example` to `local.prop
 
 Import into Android studio, should work out of the box.
 
+Chat
+--
+[![Gitter chat](https://badges.gitter.im/dinosaurwithakatana/holo_hacker_news.png)](https://gitter.im/dinosaurwithakatana/holo_hacker_news)
