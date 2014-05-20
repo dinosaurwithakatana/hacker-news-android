@@ -1,2 +1,3 @@
 sdk.dir=<path-to-sdk>
 keystore.props.file=../keystore.properties
+readability.props.file=../readability.properties
