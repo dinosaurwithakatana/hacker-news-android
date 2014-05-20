@@ -19,7 +19,7 @@
 
 <resources>
 
-    <style name="Theme.Hntheme" parent="@android:style/Theme.Holo">
+    <style name="Theme.Hntheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_hntheme</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Hntheme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Hntheme</item>
@@ -30,10 +30,12 @@
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_hntheme</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Hntheme</item>
         
-        
+                <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Hntheme.Widget</item>
+
     </style>
 
-    <style name="ActionBar.Solid.Hntheme" parent="@android:style/Widget.Holo.ActionBar.Solid">
+    <style name="ActionBar.Solid.Hntheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/ab_solid_hntheme</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_hntheme</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_hntheme</item>

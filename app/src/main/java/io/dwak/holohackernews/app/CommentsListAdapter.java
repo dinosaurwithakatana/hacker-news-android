@@ -1,7 +1,10 @@
 package io.dwak.holohackernews.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -9,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.network.models.Comment;
 import io.dwak.holohackernews.app.network.models.StoryDetail;
 
@@ -81,7 +83,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
 

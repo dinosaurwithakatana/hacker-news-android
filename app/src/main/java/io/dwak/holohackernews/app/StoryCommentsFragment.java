@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Html;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -159,6 +160,35 @@ public class StoryCommentsFragment extends BaseFragment {
         mOpenLinkDialogButton = (Button) rootView.findViewById(R.id.open_link);
 
 
+        mCommentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final CharSequence[] commentActions = {"Share Comment", "Share comment content"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setItems(commentActions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        switch (i) {
+                            case 0:
+                                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                                        "https://news.ycombinator.com/item?id=" + mListAdapter.getItem(i).getId());
+                                break;
+                            case 1:
+                                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                                        mListAdapter.getItem(i).getUser() + ": " + Html.fromHtml(mListAdapter.getItem(i).getContent()));
+                                break;
+                        }
+                        sendIntent.setType("text/plain");
+                        getActivity().startActivity(sendIntent);
+                    }
+                });
+
+                builder.create().show();
+                return false;
+            }
+        });
         refresh();
         return rootView;
     }
