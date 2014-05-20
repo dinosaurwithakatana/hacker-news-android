@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="io.dwak.holohackernews.app.StoryListFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
@@ -11,10 +18,18 @@
         android:layout_height="match_parent">
 
         <GridView
-            android:id="@android:id/list"
+            android:id="@+id/story_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2"/>
+            android:clipToPadding="false"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:verticalSpacing="8dp"
+            android:horizontalSpacing="16dp"
+            android:numColumns="auto_fit"
+            android:drawSelectorOnTop="true"
+            android:listSelector="@drawable/orange_card_selector"
+            tools:listitem="@layout/comments_header"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
@@ -23,4 +38,4 @@
         android:layout_height="match_parent"
         android:gravity="center"/>
 
-</FrameLayout>
+</RelativeLayout>

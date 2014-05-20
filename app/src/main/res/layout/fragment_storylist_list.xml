@@ -22,9 +22,11 @@
             android:animateLayoutChanges="true"
             android:paddingTop="4dp"
             android:clipToPadding="false"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="4dp"
+            android:dividerHeight="8dp"
             android:drawSelectorOnTop="true"
             android:listSelector="@drawable/orange_card_selector"
             tools:listitem="@layout/comments_header"/>

@@ -39,7 +39,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
     /**
      * The fragment's ListView/GridView.
      */
-    private ListView mListView;
+    private AbsListView mListView;
     private StoryListAdapter mListAdapter;
 
     /**
@@ -74,7 +74,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_storylist, container, false);
+        View view = inflater.inflate(R.layout.fragment_storylist_list, container, false);
 
         mContainer = view.findViewById(R.id.story_list);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
@@ -97,7 +97,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
 
         // Set the adapter
         mStoryList = new ArrayList<Story>();
-        mListView = (ListView) view.findViewById(R.id.story_list);
+        mListView = (AbsListView) view.findViewById(R.id.story_list);
         mListAdapter = new StoryListAdapter(getActivity(), R.layout.comments_header, mStoryList);
         mListView.setAdapter(mListAdapter);
 
