@@ -2,14 +2,14 @@ package io.dwak.holohackernews.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
-import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.network.models.Comment;
 import io.dwak.holohackernews.app.network.models.StoryDetail;
 import retrofit.Callback;
@@ -37,6 +37,8 @@ public class StoryCommentsFragment extends BaseFragment {
     private List<Comment> mCommentList;
     private CommentsListAdapter mListAdapter;
 
+    private StoryDetail mStoryDetail;
+
     private OnStoryFragmentInteractionListener mListener;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -46,7 +48,7 @@ public class StoryCommentsFragment extends BaseFragment {
     private Button mPreviousTopLevelButton;
     private Button mNextTopLevelButton;
     private Button mOpenLinkDialogButton;
-    
+
     private HeaderViewHolder mHeaderViewHolder;
 
     /**
@@ -74,6 +76,8 @@ public class StoryCommentsFragment extends BaseFragment {
         if (getArguments() != null) {
             mStoryId = getArguments().getLong(STORY_ID);
         }
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -97,10 +101,10 @@ public class StoryCommentsFragment extends BaseFragment {
         mPreviousTopLevelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int currentIndex = mCommentsListView.getFirstVisiblePosition()-1;
-                for(int i = currentIndex-1; i>=0;i--){
-                    if(mListAdapter.getItem(i).getLevel()==0){
-                        mCommentsListView.setSelectionFromTop(i+1, 0);
+                int currentIndex = mCommentsListView.getFirstVisiblePosition() - 1;
+                for (int i = currentIndex - 1; i >= 0; i--) {
+                    if (mListAdapter.getItem(i).getLevel() == 0) {
+                        mCommentsListView.setSelectionFromTop(i + 1, 0);
                         return;
                     }
                 }
@@ -110,10 +114,10 @@ public class StoryCommentsFragment extends BaseFragment {
         mNextTopLevelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int currentIndex = mCommentsListView.getFirstVisiblePosition()+1;
-                for(int i = currentIndex+1; i<mListAdapter.getCount();i++){
-                    if(mListAdapter.getItem(i).getLevel()==0){
-                        mCommentsListView.setSelectionFromTop(i-1, 0);
+                int currentIndex = mCommentsListView.getFirstVisiblePosition() + 1;
+                for (int i = currentIndex + 1; i < mListAdapter.getCount(); i++) {
+                    if (mListAdapter.getItem(i).getLevel() == 0) {
+                        mCommentsListView.setSelectionFromTop(i - 1, 0);
                         return;
                     }
                 }
@@ -161,8 +165,10 @@ public class StoryCommentsFragment extends BaseFragment {
 
     private void refresh() {
         mService.getItemDetails(mStoryId, new Callback<StoryDetail>() {
+
             @Override
             public void success(final StoryDetail storyDetail, Response response) {
+                mStoryDetail = storyDetail;
                 mHeaderViewHolder.mStoryTitle.setText(storyDetail.getTitle());
                 mHeaderViewHolder.mStorySubmitter.setText(storyDetail.getUser());
                 mHeaderViewHolder.mStoryDomain.setText(" | " + storyDetail.getDomain());
@@ -235,6 +241,42 @@ public class StoryCommentsFragment extends BaseFragment {
         mListener = null;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.story_detail, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                final CharSequence[] shareItems = {"Link", "Comments"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setItems(shareItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        switch (i){
+                            case 0:
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, mStoryDetail.getUrl());
+                                break;
+                            case 1:
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://news.ycombinator.com/item?id="+mStoryId);
+                                break;
+                        }
+                        sendIntent.setType("text/plain");
+                        startActivity(sendIntent);
+                    }
+                });
+
+                builder.create().show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -248,6 +290,7 @@ public class StoryCommentsFragment extends BaseFragment {
     public interface OnStoryFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onStoryFragmentInteraction(String url);
+
         public void onStoryCommentsFragmentDetach();
     }
 
