@@ -105,7 +105,10 @@ public class StoryCommentsFragment extends BaseFragment {
                 int currentIndex = mCommentsListView.getFirstVisiblePosition() - 1;
                 for (int i = currentIndex - 1; i >= 0; i--) {
                     if (mListAdapter.getItem(i).getLevel() == 0) {
-                        mCommentsListView.setSelectionFromTop(i + 1, 0);
+                        if(HoloHackerNewsApplication.isDebug()){
+                            Log.d(TAG, String.valueOf(i));
+                        }
+                        mCommentsListView.setSelectionFromTop(i, 0);
                         return;
                     }
                 }
@@ -118,7 +121,10 @@ public class StoryCommentsFragment extends BaseFragment {
                 int currentIndex = mCommentsListView.getFirstVisiblePosition() + 1;
                 for (int i = currentIndex + 1; i < mListAdapter.getCount(); i++) {
                     if (mListAdapter.getItem(i).getLevel() == 0) {
-                        mCommentsListView.setSelectionFromTop(i - 1, 0);
+                        if(HoloHackerNewsApplication.isDebug()){
+                            Log.d(TAG, String.valueOf(i));
+                        }
+                        mCommentsListView.setSelectionFromTop(i, 0);
                         return;
                     }
                 }
@@ -163,7 +169,7 @@ public class StoryCommentsFragment extends BaseFragment {
         mCommentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final CharSequence[] commentActions = {"Share Comment", "Share comment content"};
+                final CharSequence[] commentActions = {"Share Comment", "Share Comment Content"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setItems(commentActions, new DialogInterface.OnClickListener() {
                     @Override
@@ -194,7 +200,7 @@ public class StoryCommentsFragment extends BaseFragment {
     }
 
     private void refresh() {
-        mService.getItemDetails(mStoryId, new Callback<StoryDetail>() {
+        mHackerNewsService.getItemDetails(mStoryId, new Callback<StoryDetail>() {
 
             @Override
             public void success(final StoryDetail storyDetail, Response response) {

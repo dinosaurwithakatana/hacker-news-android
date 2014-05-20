@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import io.dwak.holohackernews.app.network.HackerNewsService;
 import com.google.gson.*;
+import io.dwak.holohackernews.app.network.ReadabilityService;
+import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -17,7 +19,8 @@ import java.lang.reflect.Type;
 public class BaseFragment extends Fragment {
     protected View mContainer;
     protected ProgressBar mProgressBar;
-    protected HackerNewsService mService;
+    protected HackerNewsService mHackerNewsService;
+    protected ReadabilityService mReadabilityService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,8 +32,12 @@ public class BaseFragment extends Fragment {
                 .setConverter(new GsonConverter(gson))
                 .setEndpoint("http://fathomless-island-9288.herokuapp.com/")
                 .build();
+        RestAdapter readabilityRestAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://readability.com/api/content/v1/")
+                .build();
 
-        mService = restAdapter.create(HackerNewsService.class);
+        mHackerNewsService = restAdapter.create(HackerNewsService.class);
+        mReadabilityService = readabilityRestAdapter.create(ReadabilityService.class);
     }
 
     protected void showProgress(boolean showProgress){

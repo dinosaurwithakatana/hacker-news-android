@@ -15,5 +15,6 @@
     <string name="up">Up</string>
     <string name="down">Down</string>
     <string name="share">Share</string>
+    <string name="readability">Readability</string>
 
 </resources>

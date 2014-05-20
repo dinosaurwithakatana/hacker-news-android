@@ -29,9 +29,21 @@ android {
         debug {
             packageNameSuffix ".dev"
             versionNameSuffix "-dev"
+            def Properties localProps = new Properties()
+            localProps.load(new FileInputStream(file('../local.properties')))
+            def Properties keyProps = new Properties()
+            assert localProps['readability.props.file'];
+            keyProps.load(new FileInputStream(file(localProps['readability.props.file'])))
+            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("\""+keyProps["token"].toString()+"\"")
         }
         release {
             runProguard false
+            def Properties localProps = new Properties()
+            localProps.load(new FileInputStream(file('../local.properties')))
+            def Properties keyProps = new Properties()
+            assert localProps['readability.props.file'];
+            keyProps.load(new FileInputStream(file(localProps['readability.props.file'])))
+            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("\""+keyProps["token"].toString()+"\"")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.network.models.Story;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -125,13 +124,13 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
     private void refresh() {
         switch (mFeedType) {
             case TOP:
-                mService.getTopStories(new StoryRequestCallback());
+                mHackerNewsService.getTopStories(new StoryRequestCallback());
                 break;
             case BEST:
-                mService.getBestStories(new StoryRequestCallback());
+                mHackerNewsService.getBestStories(new StoryRequestCallback());
                 break;
             case NEW:
-                mService.getNewestStories(new StoryRequestCallback());
+                mHackerNewsService.getNewestStories(new StoryRequestCallback());
                 break;
         }
     }
@@ -195,10 +194,10 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
                 @Override
                 public void onLoadMore(int page, int totalItemsCount) {
                     if (page == 2) {
-                        mService.getTopStoriesPageTwo(new Callback<List<Story>>() {
+                        mHackerNewsService.getTopStoriesPageTwo(new Callback<List<Story>>() {
                             @Override
                             public void success(List<Story> stories, Response response) {
-                                mService.getTopStoriesPageTwo(new Callback<List<Story>>() {
+                                mHackerNewsService.getTopStoriesPageTwo(new Callback<List<Story>>() {
                                     @Override
                                     public void success(List<Story> stories, Response response) {
                                         mListAdapter.addStories(stories);

@@ -4,10 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,6 +14,10 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -24,7 +27,7 @@ import io.dwak.holohackernews.app.R;
  * Use the {@link StoryLinkFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StoryLinkFragment extends Fragment {
+public class StoryLinkFragment extends BaseFragment {
     private static final String URL_TO_LOAD = "url_to_load";
     private static final String TAG = StoryLinkFragment.class.getSimpleName();
     private String mUrlToLoad;
@@ -34,6 +37,7 @@ public class StoryLinkFragment extends Fragment {
     private Button mCloseLink;
     private Button mBackButton;
     private Button mForwardButton;
+    private boolean mReadability;
 
     public StoryLinkFragment() {
         // Required empty public constructor
@@ -64,6 +68,8 @@ public class StoryLinkFragment extends Fragment {
         if (getArguments() != null) {
             mUrlToLoad = getArguments().getString(URL_TO_LOAD);
         }
+        setHasOptionsMenu(true);
+        mReadability = false;
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -169,6 +175,47 @@ public class StoryLinkFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.story_link, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_readability:
+                mReadability = !mReadability;
+                if (mReadability) {
+                    mReadabilityService.getReadabilityForArticle(HoloHackerNewsApplication.getREADABILITY_TOKEN(),
+                            mUrlToLoad,
+                            new Callback<ReadabilityArticle>() {
+                        @Override
+                        public void success(ReadabilityArticle readabilityArticle, Response response) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            stringBuilder.append("<HTML><HEAD><LINK href=\"style.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
+                            stringBuilder.append("<h1>")
+                                    .append(readabilityArticle.getTitle())
+                                    .append("</h1>");
+                            stringBuilder.append(readabilityArticle.getContent());
+                            stringBuilder.append("</body></HTML>");
+                            mWebView.loadDataWithBaseURL("file:///android_asset/", stringBuilder.toString(), "text/html", "utf-8", null);
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                        }
+                    });
+                }
+                else {
+                    mWebView.loadUrl(mUrlToLoad);
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
