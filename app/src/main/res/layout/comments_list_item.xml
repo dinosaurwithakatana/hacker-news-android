@@ -58,6 +58,7 @@
         android:layout_marginTop="12dp"
         android:layout_below="@id/comment_details"
         android:text="bwdawdhadljalksaoiwdjwa"
+        android:textColor="@android:color/black"
         android:layout_marginLeft="4dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"

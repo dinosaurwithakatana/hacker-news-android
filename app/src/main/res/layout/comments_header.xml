@@ -2,7 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:background="@android:color/white"
+              android:background="@drawable/card_bg"
               android:padding="8dp"
               android:longClickable="false"
               android:layout_width="match_parent"
@@ -10,6 +10,7 @@
 
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/story_points"
+        android:textColor="@android:color/black"
         android:text="24"
         android:textSize="24sp"
         android:layout_centerVertical="true"
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"/>
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/story_title"
+        android:textColor="@android:color/black"
         android:text="Hello Header"
         android:layout_toRightOf="@id/story_points"
         android:textSize="18sp"
@@ -42,6 +44,7 @@
 
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/story_domain"
+        android:textColor="@android:color/black"
         android:textSize="14sp"
         android:layout_marginTop="4dp"
         android:layout_below="@id/story_title"
@@ -54,6 +57,7 @@
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/story_long_ago"
         android:textSize="14sp"
+        android:textColor="@android:color/black"
         android:layout_marginTop="4dp"
         android:layout_below="@id/story_title"
         android:layout_toRightOf="@id/story_domain"
@@ -65,6 +69,7 @@
         android:layout_height="wrap_content"/>
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/comment_count"
+        android:textColor="@android:color/black"
         app:typeface="roboto_light"
         android:layout_marginTop="4dp"
         android:layout_toRightOf="@id/story_points"

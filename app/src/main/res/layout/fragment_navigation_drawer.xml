@@ -7,5 +7,5 @@
     android:dividerHeight="0dp"
     android:listSelector="@drawable/orange_card_selector"
     android:drawSelectorOnTop="true"
-    android:background="#cccccc"
+    android:background="#ffffff"
     tools:context="io.dwak.holohackernews.app.NavigationDrawerFragment" />
