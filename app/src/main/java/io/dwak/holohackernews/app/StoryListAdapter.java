@@ -7,14 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.network.models.Story;
 
 import java.util.List;
 
 /**
-* Created by vishnu on 5/3/14.
-*/
+ * Created by vishnu on 5/3/14.
+ */
 public class StoryListAdapter extends ArrayAdapter<Story> {
 
     private Context mContext;
@@ -37,7 +36,7 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         notifyDataSetChanged();
     }
 
-    public void addStories(List<Story> stories){
+    public void addStories(List<Story> stories) {
         mStories.addAll(stories);
         notifyDataSetChanged();
     }
@@ -78,7 +77,8 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
             // store the holder with the view.
             convertView.setTag(viewHolder);
 
-        } else {
+        }
+        else {
             // we've just avoided calling findViewById() on resource everytime
             // just use the viewHolder
             viewHolder = (ViewHolder) convertView.getTag();
@@ -87,7 +87,8 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         viewHolder.mTitle.setText(getItem(position).getTitle());
         viewHolder.mSubmittedBy.setText(getItem(position).getSubmitter());
         viewHolder.mSubmissionTime.setText(getItem(position).getPublishedTime());
-        viewHolder.mDomain.setText(" | " + getItem(position).getDomain()+ " | ");
+        String domain = getItem(position).getDomain();
+        viewHolder.mDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20) + " | ");
         viewHolder.mPoints.setText(String.valueOf(getItem(position).getPoints()));
         viewHolder.mCommentsCount.setText(getItem(position).getNumComments() + " comments");
 

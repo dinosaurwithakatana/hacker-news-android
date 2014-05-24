@@ -50,6 +50,7 @@
         android:layout_below="@id/story_title"
         android:layout_toRightOf="@id/story_submitter"
         android:text="blah blah blah blah blah blah blah"
+        android:maxLines="1"
         app:typeface="roboto_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -67,6 +68,7 @@
         android:ellipsize="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/comment_count"
         android:textColor="@android:color/black"

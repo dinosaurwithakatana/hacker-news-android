@@ -207,7 +207,8 @@ public class StoryCommentsFragment extends BaseFragment {
                 mStoryDetail = storyDetail;
                 mHeaderViewHolder.mStoryTitle.setText(storyDetail.getTitle());
                 mHeaderViewHolder.mStorySubmitter.setText(storyDetail.getUser());
-                mHeaderViewHolder.mStoryDomain.setText(" | " + storyDetail.getDomain());
+                String domain = storyDetail.getDomain();
+                mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
                 mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
                 mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
                 mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
