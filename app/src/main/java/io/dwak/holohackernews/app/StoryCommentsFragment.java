@@ -163,37 +163,6 @@ public class StoryCommentsFragment extends BaseFragment {
         });
 
         mOpenLinkDialogButton = (Button) rootView.findViewById(R.id.open_link);
-
-
-        mCommentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                final CharSequence[] commentActions = {"Share Comment", "Share Comment Content"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setItems(commentActions, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int j) {
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        switch (j) {
-                            case 0:
-                                sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                        "https://news.ycombinator.com/item?id=" + mListAdapter.getItem(i - 1).getId());
-                                break;
-                            case 1:
-                                sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                        mListAdapter.getItem(i).getUser() + ": " + Html.fromHtml(mListAdapter.getItem(i-1).getContent()));
-                                break;
-                        }
-                        sendIntent.setType("text/plain");
-                        getActivity().startActivity(sendIntent);
-                    }
-                });
-
-                builder.create().show();
-                return false;
-            }
-        });
         refresh();
         return rootView;
     }
@@ -349,6 +318,7 @@ public class StoryCommentsFragment extends BaseFragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

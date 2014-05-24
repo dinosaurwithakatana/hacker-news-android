@@ -11,6 +11,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import io.dwak.holohackernews.app.network.models.Comment;
 import io.dwak.holohackernews.app.network.models.StoryDetail;
@@ -22,9 +23,9 @@ import java.util.List;
  * Created by vishnu on 5/4/14.
  */
 public class CommentsListAdapter extends ArrayAdapter<Comment> {
+    private final int mResource;
     private List<Comment> mComments;
     private Context mContext;
-    private final int mResource;
     private List<Comment> mExpandedComments;
     private StoryDetail mStoryDetail;
 
@@ -33,7 +34,6 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         mContext = context;
         mResource = resource;
         mComments = objects;
-
         mExpandedComments = new ArrayList<Comment>();
     }
 
@@ -82,6 +82,32 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         return mExpandedComments.get(position).getLevel();
     }
 
+    private void commentAction(final int i) {
+        final CharSequence[] commentActions = {"Share Comment", "Share Comment Content"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setItems(commentActions, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int j) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                switch (j) {
+                    case 0:
+                        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                                "https://news.ycombinator.com/item?id=" + getItem(i).getId());
+                        break;
+                    case 1:
+                        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                                getItem(i).getUser() + ": " + Html.fromHtml(getItem(i).getContent()));
+                        break;
+                }
+                sendIntent.setType("text/plain");
+                mContext.startActivity(sendIntent);
+            }
+        });
+
+        builder.create().show();
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
@@ -96,6 +122,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
             viewHolder.mColorCodeView = convertView.findViewById(R.id.color_code);
             viewHolder.mCommentSubmissionTime = (TextView) convertView.findViewById(R.id.comment_submission_time);
             viewHolder.mCommentSubmitter = (TextView) convertView.findViewById(R.id.comment_submitter);
+            viewHolder.mOverflow = (ImageButton) convertView.findViewById(R.id.comment_overflow);
 
             convertView.setTag(viewHolder);
         }
@@ -104,10 +131,16 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Spanned commentContent = Html.fromHtml(getItem(position).getContent());
+        final Spanned commentContent = Html.fromHtml(getItem(position).getContent());
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mCommentContent.setText(commentContent);
         viewHolder.mCommentSubmissionTime.setText(getItem(position).getTimeAgo());
+        viewHolder.mOverflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentAction(position);
+            }
+        });
 
         String submitter = getItem(position).getUser();
         if (HoloHackerNewsApplication.isDebug()) {
@@ -168,5 +201,6 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         View mColorCodeView;
         TextView mCommentSubmitter;
         TextView mCommentSubmissionTime;
+        ImageButton mOverflow;
     }
 }

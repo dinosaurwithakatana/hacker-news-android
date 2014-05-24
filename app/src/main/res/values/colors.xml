@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="list_selector_orange">#8bffbb33</color>
+    <color name="showcase_bg">#ccffbb33</color>
     <color name="holo_light_bg">#fff3f3f3</color>
 </resources>

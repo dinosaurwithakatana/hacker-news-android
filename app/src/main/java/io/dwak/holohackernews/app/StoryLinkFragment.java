@@ -15,7 +15,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import io.dwak.holohackernews.app.R;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionItemTarget;
 import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -114,6 +115,17 @@ public class StoryLinkFragment extends BaseFragment {
                 super.onProgressChanged(view, newProgress);
                 progressBar.setMax(100);
                 progressBar.setProgress(newProgress);
+
+                if(newProgress==100){
+                    new ShowcaseView.Builder(getActivity())
+                            .setTarget(new ActionItemTarget(getActivity(), R.id.action_readability))
+                            .hideOnTouchOutside()
+                            .singleShot(2)
+                            .setContentTitle("Readability")
+                            .setContentText("Click to toggle readability!")
+                            .setStyle(R.style.OrangeShowCase)
+                            .build();
+                }
             }
         });
 

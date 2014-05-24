@@ -83,4 +83,15 @@
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Hntheme</item>
     </style>
 
+    <style name="OrangeShowCase" parent="ShowcaseView">
+        <item name="sv_backgroundColor">@color/showcase_bg</item>
+        <item name="sv_showcaseColor">@android:color/holo_orange_dark</item>
+        <item name="sv_buttonText">Close</item>
+        <item name="sv_titleTextAppearance">@style/CustomTitle2</item>
+    </style>
+
+    <style name="CustomTitle2" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 </resources>
