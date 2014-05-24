@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.Toast;
 import io.dwak.holohackernews.app.R;
 
@@ -30,6 +32,7 @@ public class MainActivity extends FragmentActivity
      */
     private CharSequence mTitle;
     private String mStoryUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

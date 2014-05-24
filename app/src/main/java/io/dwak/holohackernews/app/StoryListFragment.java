@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingRightInAnimationAdapter;
 import io.dwak.holohackernews.app.network.models.Story;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -66,8 +69,6 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         }
 
         mStoryList = new ArrayList<Story>();
-        mListAdapter = new StoryListAdapter(getActivity(), R.layout.comments_header, mStoryList);
-
     }
 
     @Override
@@ -98,7 +99,11 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         mStoryList = new ArrayList<Story>();
         mListView = (AbsListView) view.findViewById(R.id.story_list);
         mListAdapter = new StoryListAdapter(getActivity(), R.layout.comments_header, mStoryList);
-        mListView.setAdapter(mListAdapter);
+
+        // Assign the ListView to the AnimationAdapter and vice versa
+        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(mListAdapter);
+        scaleInAnimationAdapter.setAbsListView(mListView);
+        mListView.setAdapter(scaleInAnimationAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);

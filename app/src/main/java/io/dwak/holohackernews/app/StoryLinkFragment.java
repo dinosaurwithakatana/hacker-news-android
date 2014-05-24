@@ -2,6 +2,8 @@ package io.dwak.holohackernews.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -213,6 +215,12 @@ public class StoryLinkFragment extends BaseFragment {
                 else {
                     mWebView.loadUrl(mUrlToLoad);
                 }
+                break;
+            case R.id.action_open_browser:
+                Intent browserIntent = new Intent();
+                browserIntent.setAction(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse(mUrlToLoad));
+                startActivity(browserIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);

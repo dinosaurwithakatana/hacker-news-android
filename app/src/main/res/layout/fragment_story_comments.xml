@@ -58,6 +58,8 @@
             <ListView
                 android:id="@+id/comments_list"
                 android:clipToPadding="false"
+                android:fastScrollEnabled="true"
+                android:scrollbarStyle="outsideOverlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </android.support.v4.widget.SwipeRefreshLayout>

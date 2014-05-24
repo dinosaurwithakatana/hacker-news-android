@@ -16,5 +16,6 @@
     <string name="down">Down</string>
     <string name="share">Share</string>
     <string name="readability">Readability</string>
+    <string name="open_in_browser">Open in browser</string>
 
 </resources>

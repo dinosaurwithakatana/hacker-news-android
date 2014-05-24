@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
@@ -54,6 +55,10 @@ public class StoryCommentsFragment extends BaseFragment {
 
     private HeaderViewHolder mHeaderViewHolder;
 
+    public StoryCommentsFragment() {
+        // Required empty public constructor
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -67,10 +72,6 @@ public class StoryCommentsFragment extends BaseFragment {
         args.putLong(STORY_ID, param1);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public StoryCommentsFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -107,7 +108,7 @@ public class StoryCommentsFragment extends BaseFragment {
                 int currentIndex = mCommentsListView.getFirstVisiblePosition() - 1;
                 for (int i = currentIndex - 1; i >= 0; i--) {
                     if (mListAdapter.getItem(i).getLevel() == 0) {
-                        if(HoloHackerNewsApplication.isDebug()){
+                        if (HoloHackerNewsApplication.isDebug()) {
                             Log.d(TAG, String.valueOf(i));
                         }
                         mCommentsListView.setSelectionFromTop(i, 0);
@@ -123,19 +124,13 @@ public class StoryCommentsFragment extends BaseFragment {
                 int currentIndex = mCommentsListView.getFirstVisiblePosition() + 1;
                 for (int i = currentIndex + 1; i < mListAdapter.getCount(); i++) {
                     if (mListAdapter.getItem(i).getLevel() == 0) {
-                        if(HoloHackerNewsApplication.isDebug()){
+                        if (HoloHackerNewsApplication.isDebug()) {
                             Log.d(TAG, String.valueOf(i));
                         }
                         mCommentsListView.setSelectionFromTop(i, 0);
                         return;
                     }
                 }
-            }
-        });
-        mCommentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                return false;
             }
         });
         mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, mCommentList);
@@ -149,6 +144,7 @@ public class StoryCommentsFragment extends BaseFragment {
         mHeaderViewHolder.mCommentsCount = (TextView) headerView.findViewById(R.id.comment_count);
         mHeaderViewHolder.mJobContent = (TextView) headerView.findViewById(R.id.job_content);
 
+        mCommentsListView.setHeaderDividersEnabled(false);
         mCommentsListView.addHeaderView(headerView);
         mCommentsListView.setAdapter(mListAdapter);
 
@@ -171,22 +167,22 @@ public class StoryCommentsFragment extends BaseFragment {
 
         mCommentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 final CharSequence[] commentActions = {"Share Comment", "Share Comment Content"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setItems(commentActions, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialogInterface, int j) {
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
-                        switch (i) {
+                        switch (j) {
                             case 0:
                                 sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                        "https://news.ycombinator.com/item?id=" + mListAdapter.getItem(i).getId());
+                                        "https://news.ycombinator.com/item?id=" + mListAdapter.getItem(i - 1).getId());
                                 break;
                             case 1:
                                 sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                        mListAdapter.getItem(i).getUser() + ": " + Html.fromHtml(mListAdapter.getItem(i).getContent()));
+                                        mListAdapter.getItem(i).getUser() + ": " + Html.fromHtml(mListAdapter.getItem(i-1).getContent()));
                                 break;
                         }
                         sendIntent.setType("text/plain");
@@ -217,14 +213,14 @@ public class StoryCommentsFragment extends BaseFragment {
                         mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
                         mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
                     }
-                    else if("ask".equals(storyDetail.getType())){
+                    else if ("ask".equals(storyDetail.getType())) {
                         mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
                     }
                     mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
                     mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
                     mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
                 }
-                else{
+                else {
                     mHeaderViewHolder.mJobContent.setVisibility(View.VISIBLE);
                     Spanned jobContent = Html.fromHtml(storyDetail.getContent());
                     mHeaderViewHolder.mJobContent.setMovementMethod(LinkMovementMethod.getInstance());
@@ -263,18 +259,18 @@ public class StoryCommentsFragment extends BaseFragment {
                 mOpenLinkDialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if ("ask".equals(storyDetail.getType()) ) {
+                        if ("ask".equals(storyDetail.getType())) {
                             mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
                         }
-                        else if("job".equals(storyDetail.getType())){
-                            if(storyDetail.getUrl().contains("/item?id=")){
+                        else if ("job".equals(storyDetail.getType())) {
+                            if (storyDetail.getUrl().contains("/item?id=")) {
                                 mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
                             }
                             else {
                                 mListener.onStoryFragmentInteraction(storyDetail.getUrl());
                             }
                         }
-                        else{
+                        else {
                             mListener.onStoryFragmentInteraction(storyDetail.getUrl());
                         }
                     }
@@ -329,12 +325,12 @@ public class StoryCommentsFragment extends BaseFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
-                        switch (i){
+                        switch (i) {
                             case 0:
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, mStoryDetail.getUrl());
                                 break;
                             case 1:
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://news.ycombinator.com/item?id="+mStoryId);
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://news.ycombinator.com/item?id=" + mStoryId);
                                 break;
                         }
                         sendIntent.setType("text/plain");
@@ -343,6 +339,12 @@ public class StoryCommentsFragment extends BaseFragment {
                 });
 
                 builder.create().show();
+                break;
+            case R.id.action_open_browser:
+                Intent browserIntent = new Intent();
+                browserIntent.setAction(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse("https://news.ycombinator.com/item?id=" + mStoryId));
+                startActivity(browserIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);

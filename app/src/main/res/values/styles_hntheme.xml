@@ -29,10 +29,14 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_hntheme</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_hntheme</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Hntheme</item>
-        
-                <!-- Light.DarkActionBar specific -->
+        <item name="android:itemTextAppearance">@style/TextAppearance</item>
+        <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Hntheme.Widget</item>
 
+    </style>
+
+    <style name="TextAppearance">
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="ActionBar.Solid.Hntheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -48,11 +52,11 @@
     </style>
 
     <style name="PopupMenu.Hntheme" parent="@android:style/Widget.Holo.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_hntheme</item>	
+        <item name="android:popupBackground">@color/holo_light_bg</item>
     </style>
 
     <style name="DropDownListView.Hntheme" parent="@android:style/Widget.Holo.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_hntheme</item>
+        <item name="android:listSelector">@drawable/ab_solid_hntheme</item>
     </style>
 
     <style name="ActionBarTabStyle.Hntheme" parent="@android:style/Widget.Holo.ActionBar.TabView">
@@ -64,11 +68,11 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_hntheme</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_hntheme</item>
     </style>
-    
+
     <style name="ProgressBar.Hntheme" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_hntheme</item>
     </style>
-    
+
     <style name="ActionButton.CloseMode.Hntheme" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_hntheme</item>
     </style>

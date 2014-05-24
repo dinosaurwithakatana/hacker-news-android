@@ -5,8 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.nhaarman.listviewanimations.ArrayAdapter;
 import io.dwak.holohackernews.app.network.models.Story;
 
 import java.util.List;
@@ -20,12 +20,7 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
     private int mResource;
     private List<Story> mStories;
 
-    public StoryListAdapter(Context context, int resource) {
-        super(context, resource);
-    }
-
     public StoryListAdapter(Context context, int resource, List<Story> objects) {
-        super(context, resource, objects);
         mContext = context;
         mResource = resource;
         mStories = objects;

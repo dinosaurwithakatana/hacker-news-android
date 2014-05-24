@@ -7,4 +7,8 @@
         android:icon="@drawable/ic_action_social_share"
         android:title="@string/share"
         android:showAsAction="always"/>
+    <item
+        android:id="@+id/action_open_browser"
+        android:title="@string/open_in_browser"
+        android:showAsAction="never"/>
 </menu>
