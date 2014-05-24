@@ -142,7 +142,7 @@ public class StoryCommentsFragment extends BaseFragment {
         mHeaderViewHolder.mStoryPoints = (TextView) headerView.findViewById(R.id.story_points);
         mHeaderViewHolder.mStoryLongAgo = (TextView) headerView.findViewById(R.id.story_long_ago);
         mHeaderViewHolder.mCommentsCount = (TextView) headerView.findViewById(R.id.comment_count);
-        mHeaderViewHolder.mJobContent = (TextView) headerView.findViewById(R.id.job_content);
+        mHeaderViewHolder.mContent = (TextView) headerView.findViewById(R.id.job_content);
 
         mCommentsListView.setHeaderDividersEnabled(false);
         mCommentsListView.addHeaderView(headerView);
@@ -176,7 +176,7 @@ public class StoryCommentsFragment extends BaseFragment {
                 mHeaderViewHolder.mStoryTitle.setText(storyDetail.getTitle());
                 mHeaderViewHolder.mStorySubmitter.setText(storyDetail.getUser());
                 if (!"job".equals(storyDetail.getType())) {
-                    mHeaderViewHolder.mJobContent.setVisibility(View.GONE);
+                    mHeaderViewHolder.mContent.setVisibility(View.GONE);
                     if ("link".equals(storyDetail.getType())) {
                         String domain = storyDetail.getDomain();
                         mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
@@ -184,16 +184,21 @@ public class StoryCommentsFragment extends BaseFragment {
                     }
                     else if ("ask".equals(storyDetail.getType())) {
                         mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
+
+                        mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
+                        Spanned jobContent = Html.fromHtml(storyDetail.getContent());
+                        mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+                        mHeaderViewHolder.mContent.setText(jobContent);
                     }
                     mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
                     mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
                     mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
                 }
                 else {
-                    mHeaderViewHolder.mJobContent.setVisibility(View.VISIBLE);
+                    mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
                     Spanned jobContent = Html.fromHtml(storyDetail.getContent());
-                    mHeaderViewHolder.mJobContent.setMovementMethod(LinkMovementMethod.getInstance());
-                    mHeaderViewHolder.mJobContent.setText(jobContent);
+                    mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+                    mHeaderViewHolder.mContent.setText(jobContent);
                     mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
                     mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
                     mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
@@ -344,6 +349,6 @@ public class StoryCommentsFragment extends BaseFragment {
         TextView mStoryPoints;
         TextView mStoryLongAgo;
         TextView mCommentsCount;
-        TextView mJobContent;
+        TextView mContent;
     }
 }

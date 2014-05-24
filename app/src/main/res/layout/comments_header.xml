@@ -8,82 +8,91 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
-        android:id="@+id/story_points"
-        android:textColor="@android:color/black"
-        android:text="24"
-        android:textSize="24sp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        app:typeface="roboto_bold"
-        android:layout_marginRight="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <com.devspark.robototextview.widget.RobotoTextView
-        android:id="@+id/story_title"
-        android:textColor="@android:color/black"
-        android:text="Hello Header"
-        android:layout_toRightOf="@id/story_points"
-        android:textSize="18sp"
-        app:typeface="roboto_medium"
+    <RelativeLayout
+        android:id="@+id/header_base"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
-        android:id="@+id/story_submitter"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp"
-        android:layout_toRightOf="@id/story_points"
-        android:layout_below="@id/story_title"
-        android:text="iwhdwdh"
-        android:textColor="@android:color/holo_orange_light"
-        app:typeface="roboto_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/story_points"
+            android:textColor="@android:color/black"
+            android:text="24"
+            android:textSize="24sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            app:typeface="roboto_bold"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-    <com.devspark.robototextview.widget.RobotoTextView
-        android:id="@+id/story_domain"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp"
-        android:layout_below="@id/story_title"
-        android:layout_toRightOf="@id/story_submitter"
-        android:text="blah blah blah blah blah blah blah"
-        android:maxLines="1"
-        app:typeface="roboto_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/story_title"
+            android:textColor="@android:color/black"
+            android:text="Hello Header"
+            android:layout_toRightOf="@id/story_points"
+            android:textSize="18sp"
+            app:typeface="roboto_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <com.devspark.robototextview.widget.RobotoTextView
-        android:id="@+id/story_long_ago"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="4dp"
-        android:layout_below="@id/story_title"
-        android:layout_toRightOf="@id/story_domain"
-        android:text="14 hours ago"
-        app:typeface="roboto_light"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/story_submitter"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/story_points"
+            android:layout_below="@id/story_title"
+            android:text="iwhdwdh"
+            android:textColor="@android:color/holo_orange_light"
+            app:typeface="roboto_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
 
-    <com.devspark.robototextview.widget.RobotoTextView
-        android:id="@+id/comment_count"
-        android:textColor="@android:color/black"
-        app:typeface="roboto_light"
-        android:layout_marginTop="4dp"
-        android:layout_toRightOf="@id/story_points"
-        android:layout_below="@id/story_long_ago"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/story_domain"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/story_title"
+            android:layout_toRightOf="@id/story_submitter"
+            android:text="blah blah blah blah blah blah blah"
+            android:maxLines="1"
+            app:typeface="roboto_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/story_long_ago"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/story_title"
+            android:layout_toRightOf="@id/story_domain"
+            android:text="14 hours ago"
+            app:typeface="roboto_light"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/comment_count"
+            android:textColor="@android:color/black"
+            app:typeface="roboto_light"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/story_points"
+            android:layout_below="@id/story_long_ago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/job_content"
         android:textSize="14sp"
         app:typeface="roboto_regular"
         android:visibility="gone"
-        android:layout_below="@id/story_long_ago"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/header_base"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </RelativeLayout>
