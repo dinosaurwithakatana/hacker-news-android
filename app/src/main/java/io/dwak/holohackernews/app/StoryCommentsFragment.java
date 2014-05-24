@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -145,6 +147,7 @@ public class StoryCommentsFragment extends BaseFragment {
         mHeaderViewHolder.mStoryPoints = (TextView) headerView.findViewById(R.id.story_points);
         mHeaderViewHolder.mStoryLongAgo = (TextView) headerView.findViewById(R.id.story_long_ago);
         mHeaderViewHolder.mCommentsCount = (TextView) headerView.findViewById(R.id.comment_count);
+        mHeaderViewHolder.mJobContent = (TextView) headerView.findViewById(R.id.job_content);
 
         mCommentsListView.addHeaderView(headerView);
         mCommentsListView.setAdapter(mListAdapter);
@@ -207,11 +210,29 @@ public class StoryCommentsFragment extends BaseFragment {
                 mStoryDetail = storyDetail;
                 mHeaderViewHolder.mStoryTitle.setText(storyDetail.getTitle());
                 mHeaderViewHolder.mStorySubmitter.setText(storyDetail.getUser());
-                String domain = storyDetail.getDomain();
-                mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
-                mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
-                mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
-                mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
+                if (!"job".equals(storyDetail.getType())) {
+                    mHeaderViewHolder.mJobContent.setVisibility(View.GONE);
+                    if ("link".equals(storyDetail.getType())) {
+                        String domain = storyDetail.getDomain();
+                        mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
+                        mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
+                    }
+                    else if("ask".equals(storyDetail.getType())){
+                        mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
+                    }
+                    mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
+                    mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
+                    mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
+                }
+                else{
+                    mHeaderViewHolder.mJobContent.setVisibility(View.VISIBLE);
+                    Spanned jobContent = Html.fromHtml(storyDetail.getContent());
+                    mHeaderViewHolder.mJobContent.setMovementMethod(LinkMovementMethod.getInstance());
+                    mHeaderViewHolder.mJobContent.setText(jobContent);
+                    mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
+                    mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
+                    mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
+                }
                 mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
                     public int mPrevVisibleItem;
 
@@ -242,7 +263,20 @@ public class StoryCommentsFragment extends BaseFragment {
                 mOpenLinkDialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mListener.onStoryFragmentInteraction(storyDetail.getUrl());
+                        if ("ask".equals(storyDetail.getType()) ) {
+                            mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
+                        }
+                        else if("job".equals(storyDetail.getType())){
+                            if(storyDetail.getUrl().contains("/item?id=")){
+                                mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
+                            }
+                            else {
+                                mListener.onStoryFragmentInteraction(storyDetail.getUrl());
+                            }
+                        }
+                        else{
+                            mListener.onStoryFragmentInteraction(storyDetail.getUrl());
+                        }
                     }
                 });
                 mListAdapter.setStoryDetail(storyDetail);
@@ -338,5 +372,6 @@ public class StoryCommentsFragment extends BaseFragment {
         TextView mStoryPoints;
         TextView mStoryLongAgo;
         TextView mCommentsCount;
+        TextView mJobContent;
     }
 }

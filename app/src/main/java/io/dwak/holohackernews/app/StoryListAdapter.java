@@ -87,8 +87,13 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         viewHolder.mTitle.setText(getItem(position).getTitle());
         viewHolder.mSubmittedBy.setText(getItem(position).getSubmitter());
         viewHolder.mSubmissionTime.setText(getItem(position).getPublishedTime());
-        String domain = getItem(position).getDomain();
-        viewHolder.mDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20) + " | ");
+        if (getItem(position).getType().equals("link")) {
+            String domain = getItem(position).getDomain();
+            viewHolder.mDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20) + " | ");
+        }
+        else{
+            viewHolder.mDomain.setText(" | " + getItem(position).getType() + " | ");
+        }
         viewHolder.mPoints.setText(String.valueOf(getItem(position).getPoints()));
         viewHolder.mCommentsCount.setText(getItem(position).getNumComments() + " comments");
 

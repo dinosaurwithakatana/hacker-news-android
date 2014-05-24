@@ -78,4 +78,12 @@
         android:layout_below="@id/story_long_ago"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/job_content"
+        android:textSize="14sp"
+        app:typeface="roboto_regular"
+        android:visibility="gone"
+        android:layout_below="@id/story_long_ago"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

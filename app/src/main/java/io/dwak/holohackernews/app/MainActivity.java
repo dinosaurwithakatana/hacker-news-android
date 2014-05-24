@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app;
 
 import android.app.ActionBar;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -50,6 +51,12 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
+    }
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -68,6 +75,28 @@ public class MainActivity extends FragmentActivity
 
         }
         onSectionAttached(position + 1);
+        if (fragmentManager.findFragmentByTag(mStoryUrl)!=null
+                && fragmentManager.findFragmentByTag(mStoryUrl).isVisible()){
+
+            Fragment linkfragment = fragmentManager.findFragmentByTag(mStoryUrl);
+            Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
+
+            fragmentManager.beginTransaction()
+                    .hide(linkfragment)
+                    .remove(linkfragment)
+                    .hide(commentFragment)
+                    .remove(commentFragment)
+                    .commit();
+        }
+        else if(fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName())!=null
+                && fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()){
+            Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
+
+            fragmentManager.beginTransaction()
+                    .hide(commentFragment)
+                    .remove(commentFragment)
+                    .commit();
+        }
         fragmentManager.beginTransaction()
                 .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
                 .commit();

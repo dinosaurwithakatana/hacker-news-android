@@ -21,6 +21,27 @@ public class StoryDetail {
     @SerializedName("link") private String mLink;
     @SerializedName("comments") private List<Comment> mCommentList;
     @SerializedName("more_comments_id") private Long mMoreCommentsId;
+    @SerializedName("type") private String mType;
+
+    @Override
+    public String toString() {
+        return "StoryDetail{" +
+                "mId=" + mId +
+                ", mTitle='" + mTitle + '\'' +
+                ", mUrl='" + mUrl + '\'' +
+                ", mDomain='" + mDomain + '\'' +
+                ", mPoints=" + mPoints +
+                ", mUser='" + mUser + '\'' +
+                ", mTimeAgo='" + mTimeAgo + '\'' +
+                ", mCommentsCount=" + mCommentsCount +
+                ", mContent='" + mContent + '\'' +
+                ", mPoll=" + mPoll +
+                ", mLink='" + mLink + '\'' +
+                ", mCommentList=" + mCommentList +
+                ", mMoreCommentsId=" + mMoreCommentsId +
+                ", mType='" + mType + '\'' +
+                '}';
+    }
 
     public long getId() {
         return mId;
@@ -54,7 +75,7 @@ public class StoryDetail {
         return mCommentsCount;
     }
 
-    public Object getContent() {
+    public String getContent() {
         return mContent;
     }
 
@@ -74,22 +95,7 @@ public class StoryDetail {
         return mMoreCommentsId;
     }
 
-    @Override
-    public String toString() {
-        return "StoryDetail{" +
-                "mId=" + mId +
-                ", mTitle='" + mTitle + '\'' +
-                ", mUrl='" + mUrl + '\'' +
-                ", mDomain='" + mDomain + '\'' +
-                ", mPoints=" + mPoints +
-                ", mUser='" + mUser + '\'' +
-                ", mTimeAgo='" + mTimeAgo + '\'' +
-                ", mCommentsCount=" + mCommentsCount +
-                ", mContent=" + mContent +
-                ", mPoll=" + mPoll +
-                ", mLink='" + mLink + '\'' +
-                ", mCommentList=" + mCommentList +
-                ", mMoreCommentsId=" + mMoreCommentsId +
-                '}';
+    public String getType() {
+        return mType;
     }
 }
