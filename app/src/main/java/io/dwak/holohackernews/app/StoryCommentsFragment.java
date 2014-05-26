@@ -204,7 +204,7 @@ public class StoryCommentsFragment extends BaseFragment {
                     mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
                 }
                 mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-                    public int mPrevVisibleItem;
+                    public int mPrevVisibleItem = 1;
 
                     @Override
                     public void onScrollStateChanged(AbsListView absListView, int scrollState) {
@@ -218,8 +218,8 @@ public class StoryCommentsFragment extends BaseFragment {
 //                                mActionBar.hide();
 //                            else
 //                                mActionBar.show();
-
-                            mPrevVisibleItem = firstVisibleItem;
+//
+//                            mPrevVisibleItem = firstVisibleItem == 0 ? 1 : firstVisibleItem;
                         }
                         if (firstVisibleItem == 0) {
                             mActionBar.setTitle("Hacker News");
