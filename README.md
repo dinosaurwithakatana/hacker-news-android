@@ -17,3 +17,11 @@ Import into Android studio, should work out of the box.
 Chat
 --
 [![Gitter chat](https://badges.gitter.im/dinosaurwithakatana/holo_hacker_news.png)](https://gitter.im/dinosaurwithakatana/holo_hacker_news)
+
+Screenshots
+---
+
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-19%2020.43.57.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-19%2020.44.10.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-19%2020.44.18.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-19%2020.44.27.png)
