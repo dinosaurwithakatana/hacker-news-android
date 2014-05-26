@@ -21,7 +21,10 @@ Chat
 Screenshots
 ---
 
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-19%2020.43.57.png)
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-19%2020.44.10.png)
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-19%2020.44.18.png)
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-19%2020.44.27.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.35.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.32.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.40.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.47.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.52.png)
+![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.58.png)
+
