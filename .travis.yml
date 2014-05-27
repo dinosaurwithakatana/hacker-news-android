@@ -8,4 +8,7 @@ android:
   components:
     - build-tools-19.0.3
 
+before-script:
+    - cp keystore.properties.example keystore.properties
+    - cp readability.properties.example readability.properties
 script: ./gradlew clean assembleTravis
