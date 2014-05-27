@@ -27,6 +27,15 @@ android {
     }
 
     buildTypes {
+        travis.initWith(buildTypes.debug)
+        travis {
+            packageNameSuffix ".travis"
+            versionNameSuffix "-travis"
+            debuggable true
+            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("null")
+            buildConfigField "boolean", "TRAVIS", 'true'
+        }
+        debug.initWith(buildTypes.debug)
         debug {
             packageNameSuffix ".dev"
             versionNameSuffix "-dev"
@@ -49,14 +58,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
             buildConfigField "boolean", "TRAVIS", 'false'
-        }
-        travis.initWith(buildTypes.debug)
-        travis {
-            packageNameSuffix ".travis"
-            versionNameSuffix "-travis"
-            debuggable true
-            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("null")
-            buildConfigField "boolean", "TRAVIS", 'true'
         }
     }
 }
