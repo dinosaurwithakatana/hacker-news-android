@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="2.0.0" >
+        <source path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets" >
+            <file
+                name="fonts/Roboto-BlackItalic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-BlackItalic.ttf" />
+            <file
+                name="fonts/Roboto-Regular.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-Regular.ttf" />
+            <file
+                name="fonts/RobotoCondensed-Regular.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoCondensed-Regular.ttf" />
+            <file
+                name="fonts/Roboto-Italic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-Italic.ttf" />
+            <file
+                name="fonts/Roboto-ThinItalic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-ThinItalic.ttf" />
+            <file
+                name="fonts/Roboto-Medium.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-Medium.ttf" />
+            <file
+                name="fonts/Roboto-BoldItalic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-BoldItalic.ttf" />
+            <file
+                name="fonts/Roboto-Black.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-Black.ttf" />
+            <file
+                name="fonts/RobotoSlab-Bold.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoSlab-Bold.ttf" />
+            <file
+                name="fonts/RobotoCondensed-LightItalic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoCondensed-LightItalic.ttf" />
+            <file
+                name="fonts/RobotoSlab-Thin.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoSlab-Thin.ttf" />
+            <file
+                name="fonts/RobotoCondensed-BoldItalic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoCondensed-BoldItalic.ttf" />
+            <file
+                name="fonts/Roboto-LightItalic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-LightItalic.ttf" />
+            <file
+                name="fonts/RobotoCondensed-Bold.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoCondensed-Bold.ttf" />
+            <file
+                name="fonts/RobotoSlab-Light.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoSlab-Light.ttf" />
+            <file
+                name="fonts/RobotoSlab-Regular.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoSlab-Regular.ttf" />
+            <file
+                name="fonts/Roboto-Light.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-Light.ttf" />
+            <file
+                name="fonts/Roboto-Bold.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-Bold.ttf" />
+            <file
+                name="fonts/RobotoCondensed-Light.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoCondensed-Light.ttf" />
+            <file
+                name="fonts/Roboto-Thin.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-Thin.ttf" />
+            <file
+                name="fonts/RobotoCondensed-Italic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/RobotoCondensed-Italic.ttf" />
+            <file
+                name="fonts/Roboto-MediumItalic.ttf"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/assets/fonts/Roboto-MediumItalic.ttf" />
+        </source>
+    </dataSet>
+    <dataSet config="unspecified" >
+        <source path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/assets" />
+    </dataSet>
+    <dataSet config="main" >
+        <source path="/home/vishnu/Projects/HoloHackerNews/app/src/main/assets" >
+            <file
+                name="style.css"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/assets/style.css" />
+        </source>
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/home/vishnu/Projects/HoloHackerNews/app/src/debug/assets" />
+    </dataSet>
+
+</merger>

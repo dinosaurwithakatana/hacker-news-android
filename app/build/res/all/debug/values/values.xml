@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="typeface" format="enum">
+        <enum name="roboto_thin" value="0" />
+        <enum name="roboto_thin_italic" value="1" />
+        <enum name="roboto_light" value="2" />
+        <enum name="roboto_light_italic" value="3" />
+        <enum name="roboto_regular" value="4" />
+        <enum name="roboto_italic" value="5" />
+        <enum name="roboto_medium" value="6" />
+        <enum name="roboto_medium_italic" value="7" />
+        <enum name="roboto_bold" value="8" />
+        <enum name="roboto_bold_italic" value="9" />
+        <enum name="roboto_black" value="10" />
+        <enum name="roboto_black_italic" value="11" />
+        <enum name="roboto_condensed_light" value="12" />
+        <enum name="roboto_condensed_light_italic" value="13" />
+        <enum name="roboto_condensed_regular" value="14" />
+        <enum name="roboto_condensed_italic" value="15" />
+        <enum name="roboto_condensed_bold" value="16" />
+        <enum name="roboto_condensed_bold_italic" value="17" />
+        <enum name="roboto_slab_thin" value="18" />
+        <enum name="roboto_slab_light" value="19" />
+        <enum name="roboto_slab_regular" value="20" />
+        <enum name="roboto_slab_bold" value="21" />
+    </attr>
+
+    <color name="holo_light_bg">#fff3f3f3</color>
+    <color name="list_selector_orange">#8bffbb33</color>
+    <color name="showcase_bg">#ccffbb33</color>
+
+    <declare-styleable name="CustomTheme">
+        <attr name="showcaseViewStyle" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="RobotoAutoCompleteTextView">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoButton">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoCheckBox">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoCheckedTextView">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoChronometer">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoCompoundButton">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoDigitalClock">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoEditText">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoExtractEditText">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoMultiAutoCompleteTextView">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoRadioButton">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoSwitch">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoTextClock">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoTextView">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="RobotoToggleButton">
+        <attr name="typeface" />
+    </declare-styleable>
+    <declare-styleable name="ShowcaseView">
+        <attr name="sv_backgroundColor" format="color|reference" />
+        <attr name="sv_detailTextColor" format="color|reference" />
+        <attr name="sv_titleTextColor" format="color|reference" />
+        <attr name="sv_buttonBackgroundColor" format="color|reference" />
+        <attr name="sv_buttonForegroundColor" format="color|reference" />
+        <attr name="sv_buttonText" format="string|reference" />
+        <attr name="sv_detailTextAppearance" format="reference" />
+        <attr name="sv_titleTextAppearance" format="reference" />
+        <attr name="sv_showcaseColor" format="color|reference" />
+        <attr name="sv_tintButtonColor" format="boolean|reference" />
+    </declare-styleable>
+
+    <dimen name="action_bar_offset">66dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="button_margin">12dp</dimen>
+    <dimen name="navigation_drawer_width">240dp</dimen>
+    <dimen name="showcase_radius">94dp</dimen>
+    <dimen name="showcase_radius_inner">96dp</dimen>
+    <dimen name="showcase_radius_outer">128dp</dimen>
+    <dimen name="text_padding">24dp</dimen>
+
+    <item name="showcase_button" type="id"/>
+    <item name="showcase_sub_text" type="id"/>
+    <item name="showcase_title_text" type="id"/>
+
+    <integer name="fragment_animation_times">300</integer>
+
+    <item name="fragment_storylistfragment" type="layout">@layout/fragment_storylist_list</item>
+
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">Holo Hacker News</string>
+    <string name="down">Down</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="ok">OK</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="readability">Readability</string>
+    <string name="share">Share</string>
+    <string name="show_comments">Show Comments</string>
+    <string name="show_link">Show Link</string>
+    <string name="title_section1">Top</string>
+    <string name="title_section2">Best</string>
+    <string name="title_section3">Newest</string>
+    <string name="up">Up</string>
+
+    <style name="ActionBar.Solid.Hntheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_solid_hntheme</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_hntheme</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_hntheme</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Hntheme</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Hntheme" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_hntheme</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Hntheme</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Hntheme" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_hntheme</item>
+    </style>
+
+    <style name="ActionButton.CloseMode.Hntheme" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_hntheme</item>
+    </style>
+
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!-- <item name="android:actionBarStyle">@style/CustomActionBarTheme</item> -->
+    </style>
+
+    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo">
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="CustomTitle2" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="DropDownListView.Hntheme" parent="@android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/ab_solid_hntheme</item>
+    </style>
+
+    <style name="DropDownNav.Hntheme" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_hntheme</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_hntheme</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_hntheme</item>
+    </style>
+
+    <style name="OrangeShowCase" parent="ShowcaseView">
+        <item name="sv_backgroundColor">@color/showcase_bg</item>
+        <item name="sv_showcaseColor">@android:color/holo_orange_dark</item>
+        <item name="sv_buttonText">Close</item>
+        <item name="sv_titleTextAppearance">@style/CustomTitle2</item>
+    </style>
+
+    <style name="PopupMenu.Hntheme" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@color/holo_light_bg</item>
+    </style>
+
+    <style name="ProgressBar.Hntheme" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_hntheme</item>
+    </style>
+
+    <style name="ShowcaseButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">96dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">@drawable/button</item>
+    </style>
+
+    <style name="ShowcaseView">
+        <item name="sv_titleTextAppearance">@style/TextAppearance.ShowcaseView.Title</item>
+        <item name="sv_detailTextAppearance">@style/TextAppearance.ShowcaseView.Detail</item>
+        <item name="sv_backgroundColor">#3333B5E5</item>
+        <item name="sv_buttonText">@string/ok</item>
+    </style>
+
+    <style name="ShowcaseView.Light">
+        <item name="sv_titleTextAppearance">@style/TextAppearance.ShowcaseView.Title</item>
+        <item name="sv_detailTextAppearance">@style/TextAppearance.ShowcaseView.Detail.Light</item>
+        <item name="sv_backgroundColor">#3333B5E5</item>
+        <item name="sv_buttonText">@string/ok</item>
+    </style>
+
+    <style name="TextAppearance">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextAppearance.ShowcaseView.Detail" parent="android:style/TextAppearance">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="TextAppearance.ShowcaseView.Detail.Light">
+        <item name="android:textColor">#333333</item>
+        <item name="android:shadowColor">#FF0000</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="TextAppearance.ShowcaseView.Title" parent="android:style/TextAppearance.Large">
+        <item name="android:textColor">#33B5E5</item>
+    </style>
+
+    <style name="TextAppearance.ShowcaseView.Title.Light">
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="Theme.CustomDialog" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="Theme.Hntheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_hntheme</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Hntheme</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Hntheme</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Hntheme</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Hntheme</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Hntheme</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_hntheme</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_hntheme</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Hntheme</item>
+        <item name="android:itemTextAppearance">@style/TextAppearance</item>
+        <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Hntheme.Widget</item>
+    </style>
+
+    <style name="Theme.Hntheme.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Hntheme</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Hntheme</item>
+    </style>
+
+</resources>

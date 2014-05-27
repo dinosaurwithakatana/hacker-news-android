@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@android:color/white"
+                android:animateLayoutChanges="true"
+                android:longClickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/color_code"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_width="3dp"
+        android:layout_height="100dp"/>
+
+    <LinearLayout
+        android:id="@+id/comment_details"
+        android:layout_toRightOf="@id/color_code"
+        android:layout_alignParentTop="true"
+        android:paddingTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_social_person"
+            android:layout_gravity="center_vertical"
+            android:layout_width="16dp"
+            android:layout_height="16dp"/>
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/comment_submitter"
+            android:layout_gravity="center_vertical"
+            app:typeface="roboto_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/comment_divider"
+            app:typeface="roboto_light"
+            android:layout_gravity="center_vertical"
+            android:text=" | "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/comment_submission_time"
+            app:typeface="roboto_light_italic"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_toRightOf="@id/color_code"
+        android:layout_marginTop="12dp"
+        android:layout_below="@id/comment_details"
+        android:text="bwdawdhadljalksaoiwdjwa"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/comment_item_action_layout"
+        android:background="@drawable/container_top_drop_shadow"
+        android:layout_marginTop="4dp"
+        android:layout_below="@id/comment_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <ImageButton
+            android:background="@drawable/ic_social_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <ImageButton
+        android:id="@+id/comment_overflow"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/comment_overflow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+</RelativeLayout>

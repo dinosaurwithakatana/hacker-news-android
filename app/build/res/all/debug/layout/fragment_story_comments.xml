@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:background="@color/holo_light_bg"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="io.dwak.holohackernews.app.StoryCommentsFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/comments_list"
+                android:clipToPadding="false"
+                android:fastScrollEnabled="true"
+                android:scrollbarStyle="outsideOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/button_bar"
+            android:background="@android:color/holo_orange_dark"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="42dp">
+
+            <Button
+                android:id="@+id/prev_top_level"
+                android:layout_weight="1"
+                android:background="@drawable/navigation_up"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:visibility="visible"/>
+
+            <Button
+                android:id="@+id/open_link"
+                android:layout_weight="4"
+                android:text="@string/show_link"
+                android:background="@drawable/orange_button"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:visibility="visible"/>
+
+            <Button
+                android:id="@+id/next_top_level"
+                android:layout_weight="1"
+                android:background="@drawable/navigation_down"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:visibility="visible"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

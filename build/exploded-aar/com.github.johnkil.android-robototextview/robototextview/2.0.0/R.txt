@@ -1,0 +1,53 @@
+int attr typeface 0x7f010000
+int id roboto_black 0x7f02000a
+int id roboto_black_italic 0x7f02000b
+int id roboto_bold 0x7f020008
+int id roboto_bold_italic 0x7f020009
+int id roboto_condensed_bold 0x7f020010
+int id roboto_condensed_bold_italic 0x7f020011
+int id roboto_condensed_italic 0x7f02000f
+int id roboto_condensed_light 0x7f02000c
+int id roboto_condensed_light_italic 0x7f02000d
+int id roboto_condensed_regular 0x7f02000e
+int id roboto_italic 0x7f020005
+int id roboto_light 0x7f020002
+int id roboto_light_italic 0x7f020003
+int id roboto_medium 0x7f020006
+int id roboto_medium_italic 0x7f020007
+int id roboto_regular 0x7f020004
+int id roboto_slab_bold 0x7f020015
+int id roboto_slab_light 0x7f020013
+int id roboto_slab_regular 0x7f020014
+int id roboto_slab_thin 0x7f020012
+int id roboto_thin 0x7f020000
+int id roboto_thin_italic 0x7f020001
+int[] styleable RobotoAutoCompleteTextView { 0x7f010000 }
+int styleable RobotoAutoCompleteTextView_typeface 0
+int[] styleable RobotoButton { 0x7f010000 }
+int styleable RobotoButton_typeface 0
+int[] styleable RobotoCheckBox { 0x7f010000 }
+int styleable RobotoCheckBox_typeface 0
+int[] styleable RobotoCheckedTextView { 0x7f010000 }
+int styleable RobotoCheckedTextView_typeface 0
+int[] styleable RobotoChronometer { 0x7f010000 }
+int styleable RobotoChronometer_typeface 0
+int[] styleable RobotoCompoundButton { 0x7f010000 }
+int styleable RobotoCompoundButton_typeface 0
+int[] styleable RobotoDigitalClock { 0x7f010000 }
+int styleable RobotoDigitalClock_typeface 0
+int[] styleable RobotoEditText { 0x7f010000 }
+int styleable RobotoEditText_typeface 0
+int[] styleable RobotoExtractEditText { 0x7f010000 }
+int styleable RobotoExtractEditText_typeface 0
+int[] styleable RobotoMultiAutoCompleteTextView { 0x7f010000 }
+int styleable RobotoMultiAutoCompleteTextView_typeface 0
+int[] styleable RobotoRadioButton { 0x7f010000 }
+int styleable RobotoRadioButton_typeface 0
+int[] styleable RobotoSwitch { 0x7f010000 }
+int styleable RobotoSwitch_typeface 0
+int[] styleable RobotoTextClock { 0x7f010000 }
+int styleable RobotoTextClock_typeface 0
+int[] styleable RobotoTextView { 0x7f010000 }
+int styleable RobotoTextView_typeface 0
+int[] styleable RobotoToggleButton { 0x7f010000 }
+int styleable RobotoToggleButton_typeface 0

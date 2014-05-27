@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="fragment_storylistfragment" type="layout">@layout/fragment_storylist_grid</item>
+
+</resources>

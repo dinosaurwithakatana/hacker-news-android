@@ -1,0 +1,1774 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="2.0.0" >
+        <source path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/res" >
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/res/values/values.xml"
+                qualifiers="" >
+                <declare-styleable name="RobotoTextView" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoMultiAutoCompleteTextView" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoCheckBox" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoAutoCompleteTextView" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoRadioButton" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoTextClock" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoSwitch" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoCheckedTextView" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoButton" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoChronometer" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoEditText" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoExtractEditText" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoDigitalClock" >
+                    <attr name="typeface" />
+                </declare-styleable>
+
+                <attr
+                    name="typeface"
+                    format="enum" >
+                    <enum
+                        name="roboto_thin"
+                        value="0" />
+                    <enum
+                        name="roboto_thin_italic"
+                        value="1" />
+                    <enum
+                        name="roboto_light"
+                        value="2" />
+                    <enum
+                        name="roboto_light_italic"
+                        value="3" />
+                    <enum
+                        name="roboto_regular"
+                        value="4" />
+                    <enum
+                        name="roboto_italic"
+                        value="5" />
+                    <enum
+                        name="roboto_medium"
+                        value="6" />
+                    <enum
+                        name="roboto_medium_italic"
+                        value="7" />
+                    <enum
+                        name="roboto_bold"
+                        value="8" />
+                    <enum
+                        name="roboto_bold_italic"
+                        value="9" />
+                    <enum
+                        name="roboto_black"
+                        value="10" />
+                    <enum
+                        name="roboto_black_italic"
+                        value="11" />
+                    <enum
+                        name="roboto_condensed_light"
+                        value="12" />
+                    <enum
+                        name="roboto_condensed_light_italic"
+                        value="13" />
+                    <enum
+                        name="roboto_condensed_regular"
+                        value="14" />
+                    <enum
+                        name="roboto_condensed_italic"
+                        value="15" />
+                    <enum
+                        name="roboto_condensed_bold"
+                        value="16" />
+                    <enum
+                        name="roboto_condensed_bold_italic"
+                        value="17" />
+                    <enum
+                        name="roboto_slab_thin"
+                        value="18" />
+                    <enum
+                        name="roboto_slab_light"
+                        value="19" />
+                    <enum
+                        name="roboto_slab_regular"
+                        value="20" />
+                    <enum
+                        name="roboto_slab_bold"
+                        value="21" />
+                </attr>
+
+                <declare-styleable name="RobotoToggleButton" >
+                    <attr name="typeface" />
+                </declare-styleable>
+                <declare-styleable name="RobotoCompoundButton" >
+                    <attr name="typeface" />
+                </declare-styleable>
+            </file>
+        </source>
+    </dataSet>
+    <dataSet config="unspecified" >
+        <source path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res" >
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/values/values.xml"
+                qualifiers="" >
+                <item
+                    name="showcase_title_text"
+                    type="id"/>
+
+                <dimen name="showcase_radius_inner" >96dp
+                </dimen>
+                <dimen name="text_padding" >24dp
+                </dimen>
+
+                <item
+                    name="showcase_sub_text"
+                    type="id"/>
+
+                <style name="TextAppearance.ShowcaseView.Detail.Light" >
+                    <item name="android:textColor">
+#333333
+                    </item>
+                    <item name="android:shadowColor">
+#FF0000
+                    </item>
+                    <item name="android:shadowRadius">
+0
+                    </item>
+                </style>
+
+                <style name="TextAppearance.ShowcaseView.Title.Light" >
+                    <item name="android:shadowRadius">
+0
+                    </item>
+                </style>
+
+                <dimen name="button_margin" >12dp
+                </dimen>
+
+                <style name="ShowcaseButton" >
+                    <item name="android:layout_width">
+wrap_content
+                    </item>
+                    <item name="android:layout_height">
+wrap_content
+                    </item>
+                    <item name="android:minWidth">
+96dp
+                    </item>
+                    <item name="android:gravity">
+center
+                    </item>
+                    <item name="android:textStyle">
+bold
+                    </item>
+                    <item name="android:textColor">
+#FFFFFF
+                    </item>
+                    <item name="android:background">
+@drawable/button
+                    </item>
+                </style>
+
+                <declare-styleable name="ShowcaseView" >
+                    <attr
+                        name="sv_backgroundColor"
+                        format="color|reference" />
+                    <attr
+                        name="sv_detailTextColor"
+                        format="color|reference" />
+                    <attr
+                        name="sv_titleTextColor"
+                        format="color|reference" />
+                    <attr
+                        name="sv_buttonBackgroundColor"
+                        format="color|reference" />
+                    <attr
+                        name="sv_buttonForegroundColor"
+                        format="color|reference" />
+                    <attr
+                        name="sv_buttonText"
+                        format="string|reference" />
+                    <attr
+                        name="sv_detailTextAppearance"
+                        format="reference" />
+                    <attr
+                        name="sv_titleTextAppearance"
+                        format="reference" />
+                    <attr
+                        name="sv_showcaseColor"
+                        format="color|reference" />
+                    <attr
+                        name="sv_tintButtonColor"
+                        format="boolean|reference" />
+                </declare-styleable>
+
+                <style
+                    name="TextAppearance.ShowcaseView.Detail"
+                    parent="android:style/TextAppearance" >
+                    <item name="android:textColor">
+#FFFFFF
+                    </item>
+                </style>
+
+                <dimen name="action_bar_offset" >66dp
+                </dimen>
+                <dimen name="showcase_radius" >94dp
+                </dimen>
+
+                <style
+                    name="TextAppearance.ShowcaseView.Title"
+                    parent="android:style/TextAppearance.Large" >
+                    <item name="android:textColor">
+#33B5E5
+                    </item>
+                </style>
+
+                <item
+                    name="showcase_button"
+                    type="id"/>
+
+                <string name="ok" >OK
+                </string>
+
+                <style name="ShowcaseView" >
+                    <item name="sv_titleTextAppearance">
+@style/TextAppearance.ShowcaseView.Title
+                    </item>
+                    <item name="sv_detailTextAppearance">
+@style/TextAppearance.ShowcaseView.Detail
+                    </item>
+                    <item name="sv_backgroundColor">
+#3333B5E5
+                    </item>
+                    <item name="sv_buttonText">
+@string/ok
+                    </item>
+                </style>
+
+                <dimen name="showcase_radius_outer" >128dp
+                </dimen>
+
+                <declare-styleable name="CustomTheme" >
+                    <attr
+                        name="showcaseViewStyle"
+                        format="reference" />
+                </declare-styleable>
+
+                <style name="ShowcaseView.Light" >
+                    <item name="sv_titleTextAppearance">
+@style/TextAppearance.ShowcaseView.Title
+                    </item>
+                    <item name="sv_detailTextAppearance">
+@style/TextAppearance.ShowcaseView.Detail.Light
+                    </item>
+                    <item name="sv_backgroundColor">
+#3333B5E5
+                    </item>
+                    <item name="sv_buttonText">
+@string/ok
+                    </item>
+                </style>
+            </file>
+            <file
+                name="btn_cling_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-hdpi/btn_cling_pressed.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="hand"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-hdpi/hand.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="cling"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-hdpi/cling.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="btn_cling_normal"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-hdpi/btn_cling_normal.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="button"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable/button.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="cling_button_bg"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable/cling_button_bg.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="button_normal"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable/button_normal.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="showcase_button"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/layout/showcase_button.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="handy"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/layout/handy.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="btn_cling_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-mdpi/btn_cling_pressed.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="hand"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-mdpi/hand.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="cling"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-mdpi/cling.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="btn_cling_normal"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-mdpi/btn_cling_normal.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="btn_cling_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-xhdpi/btn_cling_pressed.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="hand"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-xhdpi/hand.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="cling_bleached"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-xhdpi/cling_bleached.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="cling"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-xhdpi/cling.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="btn_cling_normal"
+                path="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/res/drawable-xhdpi/btn_cling_normal.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+        </source>
+    </dataSet>
+    <dataSet config="main" >
+        <source path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res" >
+            <file
+                name="global"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/menu/global.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="story_link"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/menu/story_link.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="story_detail"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/menu/story_detail.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="main"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/menu/main.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values/styles_hntheme.xml"
+                qualifiers="" >
+
+                <style
+                    name="ActionButton.CloseMode.Hntheme"
+                    parent="@android:style/Widget.Holo.ActionButton.CloseMode" >
+                    <item name="android:background">
+@drawable/btn_cab_done_hntheme
+                    </item>
+                </style>
+
+                <style
+                    name="DropDownListView.Hntheme"
+                    parent="@android:style/Widget.Holo.ListView.DropDown" >
+                    <item name="android:listSelector">
+@drawable/ab_solid_hntheme
+                    </item>
+                </style>
+
+                <style
+                    name="Theme.Hntheme"
+                    parent="@android:style/Theme.Holo.Light.DarkActionBar" >
+                    <item name="android:actionBarItemBackground">
+@drawable/selectable_background_hntheme
+                    </item>
+                    <item name="android:popupMenuStyle">
+@style/PopupMenu.Hntheme
+                    </item>
+                    <item name="android:dropDownListViewStyle">
+@style/DropDownListView.Hntheme
+                    </item>
+                    <item name="android:actionBarTabStyle">
+@style/ActionBarTabStyle.Hntheme
+                    </item>
+                    <item name="android:actionDropDownStyle">
+@style/DropDownNav.Hntheme
+                    </item>
+                    <item name="android:actionBarStyle">
+@style/ActionBar.Solid.Hntheme
+                    </item>
+                    <item name="android:actionModeBackground">
+@drawable/cab_background_top_hntheme
+                    </item>
+                    <item name="android:actionModeSplitBackground">
+@drawable/cab_background_bottom_hntheme
+                    </item>
+                    <item name="android:actionModeCloseButtonStyle">
+@style/ActionButton.CloseMode.Hntheme
+                    </item>
+                    <item name="android:itemTextAppearance">
+@style/TextAppearance
+                    </item>
+                    <!-- Light.DarkActionBar specific -->
+                    <item name="android:actionBarWidgetTheme">
+@style/Theme.Hntheme.Widget
+                    </item>
+                </style>
+
+                <style
+                    name="ActionBar.Solid.Hntheme"
+                    parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse" >
+                    <item name="android:background">
+@drawable/ab_solid_hntheme
+                    </item>
+                    <item name="android:backgroundStacked">
+@drawable/ab_stacked_solid_hntheme
+                    </item>
+                    <item name="android:backgroundSplit">
+@drawable/ab_bottom_solid_hntheme
+                    </item>
+                    <item name="android:progressBarStyle">
+@style/ProgressBar.Hntheme
+                    </item>
+                </style>
+
+                <style
+                    name="DropDownNav.Hntheme"
+                    parent="@android:style/Widget.Holo.Spinner" >
+                    <item name="android:background">
+@drawable/spinner_background_ab_hntheme
+                    </item>
+                    <item name="android:popupBackground">
+@drawable/menu_dropdown_panel_hntheme
+                    </item>
+                    <item name="android:dropDownSelector">
+@drawable/selectable_background_hntheme
+                    </item>
+                </style>
+
+                <style name="TextAppearance" >
+                    <item name="android:textColor">
+@android:color/black
+                    </item>
+                </style>
+
+                <style
+                    name="ActionBarTabStyle.Hntheme"
+                    parent="@android:style/Widget.Holo.ActionBar.TabView" >
+                    <item name="android:background">
+@drawable/tab_indicator_ab_hntheme
+                    </item>
+                </style>
+
+                <style
+                    name="PopupMenu.Hntheme"
+                    parent="@android:style/Widget.Holo.ListPopupWindow" >
+                    <item name="android:popupBackground">
+@color/holo_light_bg
+                    </item>
+                </style>
+
+                <style
+                    name="ActionBar.Transparent.Hntheme"
+                    parent="@android:style/Widget.Holo.ActionBar" >
+                    <item name="android:background">
+@drawable/ab_transparent_hntheme
+                    </item>
+                    <item name="android:progressBarStyle">
+@style/ProgressBar.Hntheme
+                    </item>
+                </style>
+
+                <style
+                    name="Theme.Hntheme.Widget"
+                    parent="@android:style/Theme.Holo" >
+                    <item name="android:popupMenuStyle">
+@style/PopupMenu.Hntheme
+                    </item>
+                    <item name="android:dropDownListViewStyle">
+@style/DropDownListView.Hntheme
+                    </item>
+                </style>
+
+                <style
+                    name="ProgressBar.Hntheme"
+                    parent="@android:style/Widget.Holo.ProgressBar.Horizontal" >
+                    <item name="android:progressDrawable">
+@drawable/progress_horizontal_hntheme
+                    </item>
+                </style>
+
+                <style
+                    name="OrangeShowCase"
+                    parent="ShowcaseView" >
+                    <item name="sv_backgroundColor">
+@color/showcase_bg
+                    </item>
+                    <item name="sv_showcaseColor">
+@android:color/holo_orange_dark
+                    </item>
+                    <item name="sv_buttonText">
+Close
+                    </item>
+                    <item name="sv_titleTextAppearance">
+@style/CustomTitle2
+                    </item>
+                </style>
+
+                <style
+                    name="CustomTitle2"
+                    parent="TextAppearance.ShowcaseView.Title" >
+                    <item name="android:textColor">
+@android:color/black
+                    </item>
+                </style>
+            </file>
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values/colors.xml"
+                qualifiers="" >
+                <color name="holo_light_bg" >#fff3f3f3
+                </color>
+                <color name="list_selector_orange" >#8bffbb33
+                </color>
+                <color name="showcase_bg" >#ccffbb33
+                </color>
+            </file>
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values/durations.xml"
+                qualifiers="" >
+                <integer name="fragment_animation_times" >
+300
+                </integer>
+            </file>
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values/styles.xml"
+                qualifiers="" >
+
+                <style
+                    name="Theme.CustomDialog"
+                    parent="@android:style/Theme.Translucent.NoTitleBar" >
+                    <item name="android:windowIsFloating">
+false
+                    </item>
+                    <item name="android:windowNoTitle">
+true
+                    </item>
+                    <item name="android:windowFullscreen">
+true
+                    </item>
+                    <item name="android:windowBackground">
+@null
+                    </item>
+                </style>
+
+                <style
+                    name="AppTheme"
+                    parent="android:Theme.Holo.Light.DarkActionBar" >
+
+                    <!-- Customize your theme here. -->
+                    <!-- <item name="android:actionBarStyle">@style/CustomActionBarTheme</item> -->
+                </style>
+
+                <style
+                    name="CustomActionBarTheme"
+                    parent="@android:style/Theme.Holo" >
+                    <item name="android:windowActionBarOverlay">
+true
+                    </item>
+                </style>
+            </file>
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values/strings.xml"
+                qualifiers="" >
+                <string name="action_settings" >Settings
+                </string>
+                <string name="app_name" >Holo Hacker News
+                </string>
+                <string name="readability" >Readability
+                </string>
+                <string name="show_link" >Show Link
+                </string>
+                <string name="up" >Up
+                </string>
+                <string name="down" >Down
+                </string>
+                <string name="open_in_browser" >Open in browser
+                </string>
+                <string name="show_comments" >Show Comments
+                </string>
+                <string name="share" >Share
+                </string>
+                <string name="action_example" >Example action
+                </string>
+                <string name="hello_blank_fragment" >Hello blank fragment
+                </string>
+                <string name="navigation_drawer_close" >Close navigation drawer
+                </string>
+                <string name="title_section1" >Top
+                </string>
+                <string name="title_section3" >Newest
+                </string>
+                <string name="title_section2" >Best
+                </string>
+                <string name="navigation_drawer_open" >Open navigation drawer
+                </string>
+            </file>
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values/dimens.xml"
+                qualifiers="" >
+                <dimen name="activity_vertical_margin" >16dp
+                </dimen>
+                <dimen name="activity_horizontal_margin" >16dp
+                </dimen>
+                <dimen name="navigation_drawer_width" >240dp
+                </dimen>
+            </file>
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values/refs.xml"
+                qualifiers="" >
+                <item
+                    name="fragment_storylistfragment"
+                    type="layout">
+@layout/fragment_storylist_list
+                </item>
+            </file>
+            <file
+                name="ic_action_social_share"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_action_social_share.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/tab_selected_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="cab_background_bottom_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/cab_background_bottom_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="drawer_shadow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/drawer_shadow.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ab_transparent_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ab_transparent_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_social_person"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_social_person.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_back"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_back.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/tab_unselected_focused_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="list_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/list_pressed_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_action_readability"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_action_readability.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_up_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_up_pressed.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_default_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/btn_cab_done_default_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_forward"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_forward.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/tab_unselected_pressed_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ab_stacked_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ab_stacked_solid_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/tab_selected_pressed_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_action_core_overflow_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_action_core_overflow_pressed.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="progress_bg_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/progress_bg_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_drawer.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_social_share"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_social_share.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="progress_primary_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/progress_primary_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_forward_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_forward_pressed.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_drawer.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ab_texture_tile_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ab_texture_tile_hntheme.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_down"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_down.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="progress_secondary_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/progress_secondary_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_up"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_up.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_back_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_back_pressed.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="cab_background_top_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/cab_background_top_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="list_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/list_focused_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_disabled_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/spinner_ab_disabled_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ab_bottom_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ab_bottom_solid_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/spinner_ab_pressed_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/tab_unselected_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_action_core_overflow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_action_core_overflow.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/btn_cab_done_focused_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/spinner_ab_focused_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/btn_cab_done_pressed_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_down_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ic_navigation_down_pressed.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ab_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/ab_solid_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/tab_selected_focused_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_default_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/spinner_ab_default_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="menu_dropdown_panel_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-hdpi/menu_dropdown_panel_hntheme.9.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxxhdpi/ic_launcher.png"
+                qualifiers="xxxhdpi"
+                type="drawable" />
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values-large/refs.xml"
+                qualifiers="large" >
+                <item
+                    name="fragment_storylistfragment"
+                    type="layout">
+@layout/fragment_storylist_grid
+                </item>
+            </file>
+            <file
+                name="ab_background_textured_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/ab_background_textured_hntheme.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="web_forward"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/web_forward.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="navigation_up"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/navigation_up.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="comment_overflow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/comment_overflow.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="orange_button"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/orange_button.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="tab_indicator_ab_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/tab_indicator_ab_hntheme.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="navigation_down"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/navigation_down.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="container_dropshadow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/container_dropshadow.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="btn_cab_done_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/btn_cab_done_hntheme.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="spinner_background_ab_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/spinner_background_ab_hntheme.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="container_top_drop_shadow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/container_top_drop_shadow.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="orange_card_selector"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/orange_card_selector.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="progress_horizontal_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/progress_horizontal_hntheme.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="card_bg"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/card_bg.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="selectable_background_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/selectable_background_hntheme.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="nav_menu_item_bg"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/nav_menu_item_bg.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="web_back"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable/web_back.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="fragment_story_link"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/fragment_story_link.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="comments_list_item"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/comments_list_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="fragment_storylist_grid"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/fragment_storylist_grid.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_main"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/activity_main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="fragment_navigation_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/fragment_navigation_drawer.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="fragment_main"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/fragment_main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="fragment_story_comments"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/fragment_story_comments.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="comments_header"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/comments_header.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="fragment_storylist_list"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/fragment_storylist_list.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="navigation_item"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/layout/navigation_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="view_down_to_offscreen"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/anim/view_down_to_offscreen.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="offscreen_right_to_view"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/anim/offscreen_right_to_view.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="offscreen_up_to_view"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/anim/offscreen_up_to_view.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="view_right_to_offscreen"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/anim/view_right_to_offscreen.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="offscreen_down_to_view"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/anim/offscreen_down_to_view.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="offscreen_left_to_view"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/anim/offscreen_left_to_view.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="view_left_to_offscreen"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/anim/view_left_to_offscreen.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="view_up_to_offscreen"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/anim/view_up_to_offscreen.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="ic_action_social_share"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_action_social_share.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/tab_selected_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="cab_background_bottom_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/cab_background_bottom_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="drawer_shadow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/drawer_shadow.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ab_transparent_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ab_transparent_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_social_person"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_social_person.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_back"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_back.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/tab_unselected_focused_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="list_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/list_pressed_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_action_readability"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_action_readability.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_up_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_up_pressed.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_default_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/btn_cab_done_default_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_forward"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_forward.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/tab_unselected_pressed_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ab_stacked_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ab_stacked_solid_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/tab_selected_pressed_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_action_core_overflow_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_action_core_overflow_pressed.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="progress_bg_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/progress_bg_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_drawer.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_social_share"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_social_share.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="progress_primary_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/progress_primary_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_forward_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_forward_pressed.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_drawer.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ab_texture_tile_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ab_texture_tile_hntheme.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_down"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_down.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="progress_secondary_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/progress_secondary_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_up"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_up.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_launcher.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_back_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_back_pressed.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="cab_background_top_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/cab_background_top_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="list_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/list_focused_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_disabled_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/spinner_ab_disabled_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ab_bottom_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ab_bottom_solid_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/spinner_ab_pressed_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/tab_unselected_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_action_core_overflow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_action_core_overflow.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/btn_cab_done_focused_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/spinner_ab_focused_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/btn_cab_done_pressed_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_down_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ic_navigation_down_pressed.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ab_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/ab_solid_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/tab_selected_focused_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_default_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/spinner_ab_default_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="menu_dropdown_panel_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xxhdpi/menu_dropdown_panel_hntheme.9.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_action_social_share"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_action_social_share.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/tab_selected_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="cab_background_bottom_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/cab_background_bottom_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="drawer_shadow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/drawer_shadow.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ab_transparent_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ab_transparent_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_social_person"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_social_person.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_back"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_back.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/tab_unselected_focused_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="list_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/list_pressed_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_action_readability"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_action_readability.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_up_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_up_pressed.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_default_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/btn_cab_done_default_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_forward"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_forward.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/tab_unselected_pressed_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ab_stacked_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ab_stacked_solid_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/tab_selected_pressed_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_action_core_overflow_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_action_core_overflow_pressed.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="progress_bg_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/progress_bg_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_drawer.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_social_share"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_social_share.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="progress_primary_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/progress_primary_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_forward_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_forward_pressed.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_drawer.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ab_texture_tile_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ab_texture_tile_hntheme.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_down"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_down.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="progress_secondary_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/progress_secondary_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_up"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_up.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_back_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_back_pressed.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="cab_background_top_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/cab_background_top_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="list_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/list_focused_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_disabled_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/spinner_ab_disabled_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ab_bottom_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ab_bottom_solid_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/spinner_ab_pressed_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/tab_unselected_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_action_core_overflow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_action_core_overflow.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/btn_cab_done_focused_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/spinner_ab_focused_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/btn_cab_done_pressed_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_down_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ic_navigation_down_pressed.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ab_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/ab_solid_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/tab_selected_focused_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_default_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/spinner_ab_default_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="menu_dropdown_panel_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-mdpi/menu_dropdown_panel_hntheme.9.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_action_social_share"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_action_social_share.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/tab_selected_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="cab_background_bottom_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/cab_background_bottom_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="drawer_shadow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/drawer_shadow.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ab_transparent_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ab_transparent_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_social_person"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_social_person.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_back"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_back.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/tab_unselected_focused_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="list_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/list_pressed_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_action_readability"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_action_readability.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_up_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_up_pressed.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_default_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/btn_cab_done_default_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_forward"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_forward.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/tab_unselected_pressed_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ab_stacked_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ab_stacked_solid_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/tab_selected_pressed_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_action_core_overflow_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_action_core_overflow_pressed.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="progress_bg_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/progress_bg_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_drawer.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_social_share"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_social_share.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="progress_primary_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/progress_primary_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_forward_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_forward_pressed.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_drawer"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_drawer.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ab_texture_tile_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ab_texture_tile_hntheme.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_down"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_down.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="progress_secondary_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/progress_secondary_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_up"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_up.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_launcher.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_back_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_back_pressed.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="cab_background_top_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/cab_background_top_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="list_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/list_focused_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_disabled_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/spinner_ab_disabled_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ab_bottom_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ab_bottom_solid_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/spinner_ab_pressed_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="tab_unselected_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/tab_unselected_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_action_core_overflow"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_action_core_overflow.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/btn_cab_done_focused_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/spinner_ab_focused_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="btn_cab_done_pressed_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/btn_cab_done_pressed_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_navigation_down_pressed"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ic_navigation_down_pressed.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ab_solid_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/ab_solid_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="tab_selected_focused_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/tab_selected_focused_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="spinner_ab_default_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/spinner_ab_default_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="menu_dropdown_panel_hntheme"
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/drawable-xhdpi/menu_dropdown_panel_hntheme.9.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values-w820dp/dimens.xml"
+                qualifiers="w820dp" >
+                <dimen name="activity_horizontal_margin" >64dp
+                </dimen>
+            </file>
+            <file
+                path="/home/vishnu/Projects/HoloHackerNews/app/src/main/res/values-sw600dp/refs.xml"
+                qualifiers="sw600dp" >
+                <item
+                    name="fragment_storylistfragment"
+                    type="layout">
+@layout/fragment_storylist_grid
+                </item>
+            </file>
+        </source>
+        <source path="/home/vishnu/Projects/HoloHackerNews/app/build/res/rs/travis" />
+        <source path="/home/vishnu/Projects/HoloHackerNews/app/build/res/generated/travis" />
+    </dataSet>
+    <dataSet config="travis" >
+        <source path="/home/vishnu/Projects/HoloHackerNews/app/src/travis/res" />
+    </dataSet>
+
+</merger>

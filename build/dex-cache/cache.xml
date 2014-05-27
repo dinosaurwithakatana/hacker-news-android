@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/home/vishnu/Projects/HoloHackerNews/app/build/pre-dexed/travis/classes-043ca63ddba6a8287a66324827a621de7616f865.jar"
+        jar="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.0/classes.jar"
+        jumboMode="false"
+        revision="19.0.3"
+        sha1="6dd1d5903c209d88347edb89b9cec7a183986268"/>
+    <item
+        dex="/home/vishnu/Projects/HoloHackerNews/app/build/pre-dexed/travis/support-v4-19.1.0-72c08a6e7c299321d73dad9fa143222697cb480a.jar"
+        jar="/home/vishnu/android/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.0.3"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+    <item
+        dex="/home/vishnu/Projects/HoloHackerNews/app/build/pre-dexed/travis/library-2.4.0-abbeafa1031968613fd82187bab19d7335644cb0.jar"
+        jar="/home/vishnu/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="19.0.3"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
+    <item
+        dex="/home/vishnu/Projects/HoloHackerNews/app/build/pre-dexed/travis/retrofit-1.5.0-3d465e19c4bbd416a2674d70c1ee687f84f7cabb.jar"
+        jar="/home/vishnu/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.5.0/54271c5c7a4dfa1c7cd53d0b10956ea35d32abb0/retrofit-1.5.0.jar"
+        jumboMode="false"
+        revision="19.0.3"
+        sha1="54271c5c7a4dfa1c7cd53d0b10956ea35d32abb0"/>
+    <item
+        dex="/home/vishnu/Projects/HoloHackerNews/app/build/pre-dexed/travis/library-2.6.0-d2fad1373828ed2953f52629ae68bfd345968394.jar"
+        jar="/home/vishnu/.gradle/caches/modules-2/files-2.1/com.nhaarman.listviewanimations/library/2.6.0/59351ccb0a1631d30358f6a92749a072f2df7602/library-2.6.0.jar"
+        jumboMode="false"
+        revision="19.0.3"
+        sha1="59351ccb0a1631d30358f6a92749a072f2df7602"/>
+    <item
+        dex="/home/vishnu/Projects/HoloHackerNews/app/build/pre-dexed/travis/gson-2.2.4-f620da1839f52e4bce34416f5b16687bd7e7acae.jar"
+        jar="/home/vishnu/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
+        jumboMode="false"
+        revision="19.0.3"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
+    <item
+        dex="/home/vishnu/Projects/HoloHackerNews/app/build/pre-dexed/travis/classes-a08c3c8660dbca1a7452c7adc07e5c792d77a029.jar"
+        jar="/home/vishnu/Projects/HoloHackerNews/build/exploded-aar/HoloHackerNews.app.libs/showcaseview/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.0.3"
+        sha1="82529a7de066b350fac1ff58158f58640c282720"/>
+
+</pre-dex-items>
