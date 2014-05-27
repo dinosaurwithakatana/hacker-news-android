@@ -10,6 +10,7 @@ import io.dwak.holohackernews.app.BuildConfig;
 public class HoloHackerNewsApplication extends Application {
     private static boolean mDebug = BuildConfig.DEBUG;
     private static String READABILITY_TOKEN = BuildConfig.READABILITY_TOKEN;
+    private static boolean TRAVIS = BuildConfig.TRAVIS;
     private static HoloHackerNewsApplication mInstance = new HoloHackerNewsApplication();
 
     public static String getREADABILITY_TOKEN() {
@@ -23,6 +24,10 @@ public class HoloHackerNewsApplication extends Application {
 
     public static boolean isDebug() {
         return mDebug;
+    }
+
+    public static boolean isTRAVIS() {
+        return TRAVIS;
     }
 
     public static HoloHackerNewsApplication getInstance() {

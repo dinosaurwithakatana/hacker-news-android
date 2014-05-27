@@ -1,3 +1,4 @@
+apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
 
 android {
@@ -35,6 +36,7 @@ android {
             assert localProps['readability.props.file'];
             keyProps.load(new FileInputStream(file(localProps['readability.props.file'])))
             buildConfigField "String", "READABILITY_TOKEN", String.valueOf("\""+keyProps["token"].toString()+"\"")
+            buildConfigField "boolean", "TRAVIS", 'false'
         }
         release {
             runProguard false
@@ -46,6 +48,15 @@ android {
             buildConfigField "String", "READABILITY_TOKEN", String.valueOf("\""+keyProps["token"].toString()+"\"")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
+            buildConfigField "boolean", "TRAVIS", 'false'
+        }
+        travis.initWith(buildTypes.debug)
+        travis {
+            packageNameSuffix ".travis"
+            versionNameSuffix "-travis"
+            debuggable true
+            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("null")
+            buildConfigField "boolean", "TRAVIS", 'true'
         }
     }
 }

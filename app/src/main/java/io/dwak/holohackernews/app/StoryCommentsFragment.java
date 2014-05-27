@@ -37,6 +37,8 @@ public class StoryCommentsFragment extends BaseFragment {
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryCommentsFragment.class.getSimpleName();
 
+    private final int DISTANCE_TO_HIDE_ACTIONBAR = 1;
+
     private long mStoryId;
     private List<Comment> mCommentList;
     private CommentsListAdapter mListAdapter;
@@ -54,6 +56,7 @@ public class StoryCommentsFragment extends BaseFragment {
     private Button mOpenLinkDialogButton;
 
     private HeaderViewHolder mHeaderViewHolder;
+    private int mPrevVisibleItem;
 
     public StoryCommentsFragment() {
         // Required empty public constructor
@@ -89,6 +92,8 @@ public class StoryCommentsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
+
+        mPrevVisibleItem = 1;
 
         mActionBar = getActivity().getActionBar();
         mActionBar.show();
@@ -204,7 +209,6 @@ public class StoryCommentsFragment extends BaseFragment {
                     mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
                 }
                 mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-                    public int mPrevVisibleItem = 1;
 
                     @Override
                     public void onScrollStateChanged(AbsListView absListView, int scrollState) {
@@ -213,13 +217,13 @@ public class StoryCommentsFragment extends BaseFragment {
 
                     @Override
                     public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
-                        if (mPrevVisibleItem != firstVisibleItem) {
-//                            if (mPrevVisibleItem < firstVisibleItem)
-//                                mActionBar.hide();
-//                            else
-//                                mActionBar.show();
-//
-//                            mPrevVisibleItem = firstVisibleItem == 0 ? 1 : firstVisibleItem;
+                        if (firstVisibleItem < mPrevVisibleItem - DISTANCE_TO_HIDE_ACTIONBAR) {
+//                            setActionbarVisibility(true);
+                            mPrevVisibleItem = firstVisibleItem;
+                        }
+                        else if (firstVisibleItem > mPrevVisibleItem + DISTANCE_TO_HIDE_ACTIONBAR) {
+//                            setActionbarVisibility(false);
+                            mPrevVisibleItem = firstVisibleItem;
                         }
                         if (firstVisibleItem == 0) {
                             mActionBar.setTitle("Hacker News");
@@ -264,6 +268,10 @@ public class StoryCommentsFragment extends BaseFragment {
         });
     }
 
+    void setActionbarVisibility(boolean visible) {
+        ((MainActivity) getActivity()).setActionbarVisible(visible);
+        Log.d(TAG, String.valueOf(visible));
+    }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

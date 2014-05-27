@@ -1,5 +1,6 @@
 package io.dwak.holohackernews.app;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -32,12 +33,16 @@ public class BaseFragment extends Fragment {
                 .setConverter(new GsonConverter(gson))
                 .setEndpoint("http://fathomless-island-9288.herokuapp.com/")
                 .build();
-        RestAdapter readabilityRestAdapter = new RestAdapter.Builder()
-                .setEndpoint("https://readability.com/api/content/v1/")
-                .build();
 
         mHackerNewsService = restAdapter.create(HackerNewsService.class);
-        mReadabilityService = readabilityRestAdapter.create(ReadabilityService.class);
+
+        if (HoloHackerNewsApplication.isTRAVIS()) {
+            RestAdapter readabilityRestAdapter = new RestAdapter.Builder()
+                    .setEndpoint("https://readability.com/api/content/v1/")
+                    .build();
+
+            mReadabilityService = readabilityRestAdapter.create(ReadabilityService.class);
+        }
     }
 
     protected void showProgress(boolean showProgress){

@@ -116,7 +116,7 @@ public class StoryLinkFragment extends BaseFragment {
                 progressBar.setMax(100);
                 progressBar.setProgress(newProgress);
 
-                if(newProgress==100){
+                if(newProgress==100 && !HoloHackerNewsApplication.isTRAVIS()){
                     new ShowcaseView.Builder(getActivity())
                             .setTarget(new ActionItemTarget(getActivity(), R.id.action_readability))
                             .hideOnTouchOutside()
@@ -195,6 +195,8 @@ public class StoryLinkFragment extends BaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.story_link, menu);
+        MenuItem readability = menu.findItem(R.id.action_readability);
+        readability.setVisible(!HoloHackerNewsApplication.isTRAVIS());
     }
 
     @Override

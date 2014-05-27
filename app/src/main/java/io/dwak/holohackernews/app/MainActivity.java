@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app;
 
 import android.app.ActionBar;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.Toast;
 import io.dwak.holohackernews.app.R;
 
@@ -141,6 +143,30 @@ public class MainActivity extends FragmentActivity
         transaction.show(fragment);
         transaction.commit();
     }
+
+
+    public void setActionbarVisible(boolean visible) {
+        if (visible)
+        {
+            getActionBar().show();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            {
+                WindowManager.LayoutParams params = getWindow().getAttributes();
+                params.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                getWindow().setAttributes(params);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            }
+        }
+        else
+        {
+            getActionBar().hide();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
