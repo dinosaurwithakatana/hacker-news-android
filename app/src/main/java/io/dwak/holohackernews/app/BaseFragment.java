@@ -36,7 +36,7 @@ public class BaseFragment extends Fragment {
 
         mHackerNewsService = restAdapter.create(HackerNewsService.class);
 
-        if (HoloHackerNewsApplication.isTRAVIS()) {
+        if (!HoloHackerNewsApplication.isTRAVIS()) {
             RestAdapter readabilityRestAdapter = new RestAdapter.Builder()
                     .setEndpoint("https://readability.com/api/content/v1/")
                     .build();
