@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.10.+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
     }
 }
@@ -15,3 +15,7 @@ allprojects {
         mavenCentral()
     }
 }
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
+
