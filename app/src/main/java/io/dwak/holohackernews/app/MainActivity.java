@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,45 +62,55 @@ public class MainActivity extends FragmentActivity
         // update the main content by replacing fragments
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.Fragment newFragment = null;
-        switch (position) {
-            case 0:
-                newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.TOP);
-                break;
-            case 1:
-                newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.BEST);
-                break;
-            case 2:
-                newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.NEW);
-                break;
+        if (position<3) {
+            switch (position) {
+                case 0:
+                    newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.TOP);
+                    break;
+                case 1:
+                    newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.BEST);
+                    break;
+                case 2:
+                    newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.NEW);
+                    break;
 
 
-        }
-        onSectionAttached(position + 1);
-        if (fragmentManager.findFragmentByTag(mStoryUrl) != null
-                && fragmentManager.findFragmentByTag(mStoryUrl).isVisible()) {
+            }
+            onSectionAttached(position + 1);
+            if (fragmentManager.findFragmentByTag(mStoryUrl) != null
+                    && fragmentManager.findFragmentByTag(mStoryUrl).isVisible()) {
 
-            Fragment linkfragment = fragmentManager.findFragmentByTag(mStoryUrl);
-            Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
+                Fragment linkfragment = fragmentManager.findFragmentByTag(mStoryUrl);
+                Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
 
+                fragmentManager.beginTransaction()
+                        .hide(linkfragment)
+                        .remove(linkfragment)
+                        .hide(commentFragment)
+                        .remove(commentFragment)
+                        .commit();
+            }
+            else if (fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()) != null
+                    && fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()) {
+                Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
+
+                fragmentManager.beginTransaction()
+                        .hide(commentFragment)
+                        .remove(commentFragment)
+                        .commit();
+            }
             fragmentManager.beginTransaction()
-                    .hide(linkfragment)
-                    .remove(linkfragment)
-                    .hide(commentFragment)
-                    .remove(commentFragment)
+                    .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
                     .commit();
         }
-        else if (fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()) != null
-                && fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()) {
-            Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
-
-            fragmentManager.beginTransaction()
-                    .hide(commentFragment)
-                    .remove(commentFragment)
-                    .commit();
+        else {
+            switch(position){
+                case 3:
+                    Intent aboutIntent = new Intent(this, AboutActivity.class);
+                    startActivity(aboutIntent);
+                    break;
+            }
         }
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
-                .commit();
     }
 
 

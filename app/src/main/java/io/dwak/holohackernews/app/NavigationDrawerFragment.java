@@ -1,27 +1,22 @@
 package io.dwak.holohackernews.app;
 
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-import io.dwak.holohackernews.app.R;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.*;
+import android.widget.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -81,7 +76,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -89,7 +84,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
@@ -99,15 +94,28 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                R.layout.navigation_item,
-                R.id.navigation_title,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+
+        List<String> navigationTitles = Arrays.asList(
+                getString(R.string.title_section1),
+                getString(R.string.title_section2),
+                getString(R.string.title_section3));
+
+        List<String> secondaryTitles = Arrays.asList(
+                "About"
+        );
+
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(navigationTitles, secondaryTitles);
+        mDrawerListView.setAdapter(adapter);
+//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+//                getActionBar().getThemedContext(),
+//                R.layout.navigation_item,
+//                R.id.navigation_title,
+//                new String[]{
+//                        getString(R.string.title_section1),
+//                        getString(R.string.title_section2),
+//                        getString(R.string.title_section3),
+//                }
+//        ));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return rootView;
     }
@@ -191,9 +199,12 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
+        if(position < 3) mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
+            if(position < 3)
+                mDrawerListView.setItemChecked(position, true);
+            else
+                mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
@@ -275,5 +286,69 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    class NavigationDrawerAdapter extends BaseAdapter {
+        List<String> mNavigationTitles;
+        List<String> mSecondaryNavigationTitles;
+
+        NavigationDrawerAdapter(List<String> navigationTitles, List<String> secondaryNavigationTitles) {
+            mNavigationTitles = navigationTitles;
+            mSecondaryNavigationTitles = secondaryNavigationTitles;
+        }
+
+        @Override
+        public int getCount() {
+            return mNavigationTitles.size() + mSecondaryNavigationTitles.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            switch (getItemViewType(i)){
+                case 0:
+                    return mNavigationTitles.get(i);
+                case 1:
+                    return mSecondaryNavigationTitles.get(i-mNavigationTitles.size());
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (position < mNavigationTitles.size()) {
+                return 0;
+            }
+            else {
+                return 1;
+            }
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 2;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            switch (getItemViewType(i)){
+                case 0:
+                    view = getActivity().getLayoutInflater().inflate(R.layout.navigation_item, null);
+                    ((TextView)view.findViewById(R.id.navigation_title)).setText((CharSequence) getItem(i));
+                    break;
+                case 1:
+                    view = getActivity().getLayoutInflater().inflate(R.layout.secondary_navigation_item, null);
+                    TextView secondaryNavigationTitle = (TextView) view.findViewById(R.id.secondary_navigation_title);
+                    secondaryNavigationTitle.setText((CharSequence) getItem(i));
+                    secondaryNavigationTitle.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.ic_action_about), null, null, null);
+                    break;
+            }
+            return view;
+        }
     }
 }

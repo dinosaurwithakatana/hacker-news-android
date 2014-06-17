@@ -12,5 +12,5 @@ before_script:
     - cp keystore.properties.example keystore.properties
     - cp readability.properties.example readability.properties
     - cp local.properties.example local.properties
-    
+
 script: ./gradlew clean assembleTravis

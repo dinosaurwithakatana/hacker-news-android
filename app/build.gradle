@@ -67,6 +67,7 @@ dependencies {
     compile 'com.github.johnkil.android-robototextview:robototextview:2.0.0'
     compile 'com.nhaarman.listviewanimations:library:2.6.0'
 }
+
 android.applicationVariants.all{ variant ->
     variant.mergeAssets.doFirst {
         File fonts = file("${rootDir}/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.1/assets/fonts")
