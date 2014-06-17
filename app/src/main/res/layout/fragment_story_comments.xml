@@ -15,21 +15,6 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ListView
-                android:id="@+id/comments_list"
-                android:clipToPadding="false"
-                android:fastScrollEnabled="true"
-                android:scrollbarStyle="outsideOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </android.support.v4.widget.SwipeRefreshLayout>
-
         <LinearLayout
             android:id="@+id/button_bar"
             android:background="@android:color/holo_orange_dark"
@@ -62,6 +47,22 @@
                 android:layout_height="42dp"
                 android:visibility="visible"/>
         </LinearLayout>
+
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
+            android:layout_above="@id/button_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/comments_list"
+                android:clipToPadding="false"
+                android:fastScrollEnabled="true"
+                android:scrollbarStyle="outsideOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
 
