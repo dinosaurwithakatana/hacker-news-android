@@ -1,59 +1,68 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="@android:color/white"
              android:animateLayoutChanges="true"
+             android:fitsSystemWindows="true"
              tools:context="io.dwak.holohackernews.app.StoryLinkFragment">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_alignParentTop="true"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:background="@android:color/holo_orange_light"
-        android:layout_centerInParent="true"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"/>
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/button_bar"
-        android:layout_below="@id/progress_bar"
-        android:background="@android:color/holo_orange_dark"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="42dp">
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_alignParentTop="true"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:background="@android:color/holo_orange_light"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
 
-        <Button
-            android:id="@+id/web_back"
-            android:background="@drawable/web_back"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:visibility="visible"/>
-        <Button
-            android:id="@+id/close_link"
-            android:text="@string/show_comments"
-            android:background="@drawable/orange_button"
-            android:layout_weight="4"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:visibility="visible"/>
-        <Button
-            android:id="@+id/web_forward"
-            android:background="@drawable/web_forward"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:visibility="visible"/>
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/button_bar"
+            android:layout_below="@id/progress_bar"
+            android:background="@android:color/holo_orange_dark"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="42dp">
 
-    <WebView
-        android:id="@+id/story_web_view"
-        android:layout_below="@id/button_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible">
+            <Button
+                android:id="@+id/web_back"
+                android:background="@drawable/web_back"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:visibility="visible"/>
 
-    </WebView>
+            <Button
+                android:id="@+id/close_link"
+                android:text="@string/show_comments"
+                android:background="@drawable/orange_button"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:visibility="visible"/>
 
-</RelativeLayout>
+            <Button
+                android:id="@+id/web_forward"
+                android:background="@drawable/web_forward"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:visibility="visible"/>
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/story_web_view"
+            android:layout_below="@id/button_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+        </WebView>
+    </RelativeLayout>
+
+
+</FrameLayout>

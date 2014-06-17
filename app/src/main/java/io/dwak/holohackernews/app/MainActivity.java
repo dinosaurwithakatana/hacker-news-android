@@ -8,15 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
-import io.dwak.holohackernews.app.R;
-
 
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -52,7 +48,6 @@ public class MainActivity extends FragmentActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         mStoryUrl = "";
-
     }
 
     @Override
@@ -80,8 +75,8 @@ public class MainActivity extends FragmentActivity
 
         }
         onSectionAttached(position + 1);
-        if (fragmentManager.findFragmentByTag(mStoryUrl)!=null
-                && fragmentManager.findFragmentByTag(mStoryUrl).isVisible()){
+        if (fragmentManager.findFragmentByTag(mStoryUrl) != null
+                && fragmentManager.findFragmentByTag(mStoryUrl).isVisible()) {
 
             Fragment linkfragment = fragmentManager.findFragmentByTag(mStoryUrl);
             Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
@@ -93,8 +88,8 @@ public class MainActivity extends FragmentActivity
                     .remove(commentFragment)
                     .commit();
         }
-        else if(fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName())!=null
-                && fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()){
+        else if (fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()) != null
+                && fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()) {
             Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
 
             fragmentManager.beginTransaction()
@@ -146,22 +141,18 @@ public class MainActivity extends FragmentActivity
 
 
     public void setActionbarVisible(boolean visible) {
-        if (visible)
-        {
+        if (visible) {
             getActionBar().show();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 WindowManager.LayoutParams params = getWindow().getAttributes();
                 params.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 getWindow().setAttributes(params);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
         }
-        else
-        {
+        else {
             getActionBar().hide();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }
         }
@@ -201,8 +192,8 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().findFragmentByTag(mStoryUrl)!=null
-                && getSupportFragmentManager().findFragmentByTag(mStoryUrl).isVisible()){
+        if (getSupportFragmentManager().findFragmentByTag(mStoryUrl) != null
+                && getSupportFragmentManager().findFragmentByTag(mStoryUrl).isVisible()) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(
                     R.anim.offscreen_up_to_view,
@@ -215,7 +206,7 @@ public class MainActivity extends FragmentActivity
         }
         else if (getSupportFragmentManager().findFragmentByTag(StoryCommentsFragment.class.getSimpleName()) != null
                 && getSupportFragmentManager().findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()) {
-            if(getSupportFragmentManager().findFragmentByTag(mStoryUrl)!=null){
+            if (getSupportFragmentManager().findFragmentByTag(mStoryUrl) != null) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.remove(getSupportFragmentManager().findFragmentByTag(mStoryUrl));
                 transaction.commit();

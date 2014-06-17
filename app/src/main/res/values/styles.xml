@@ -9,7 +9,6 @@
     <!-- the theme applied to the application or activity -->
     <style name="CustomActionBarTheme"
            parent="@android:style/Theme.Holo">
-        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
     <style name="Theme.CustomDialog" parent="@android:style/Theme.Translucent.NoTitleBar">

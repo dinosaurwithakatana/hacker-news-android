@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="io.dwak.holohackernews.app.StoryListFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+
+    <RelativeLayout
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/story_list"
+                android:animateLayoutChanges="true"
+                android:background="@android:color/transparent"
+                android:paddingTop="4dp"
+                android:clipToPadding="false"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="8dp"
+                android:divider="@android:color/transparent"
+                android:drawSelectorOnTop="true"
+                android:listSelector="@drawable/orange_card_selector"
+                tools:listitem="@layout/comments_header"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>
