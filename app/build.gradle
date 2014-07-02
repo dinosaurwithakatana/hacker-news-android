@@ -2,12 +2,12 @@ apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion "android-L"
     buildToolsVersion "19.1"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 19
+        minSdkVersion "L"
+        targetSdkVersion "L"
         versionCode 1
         versionName "1.0"
     }

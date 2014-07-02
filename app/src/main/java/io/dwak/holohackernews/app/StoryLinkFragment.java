@@ -115,17 +115,6 @@ public class StoryLinkFragment extends BaseFragment {
                 super.onProgressChanged(view, newProgress);
                 progressBar.setMax(100);
                 progressBar.setProgress(newProgress);
-
-                if(newProgress==100 && !HoloHackerNewsApplication.isTRAVIS()){
-                    new ShowcaseView.Builder(getActivity())
-                            .setTarget(new ActionItemTarget(getActivity(), R.id.action_readability))
-                            .hideOnTouchOutside()
-                            .singleShot(2)
-                            .setContentTitle("Readability")
-                            .setContentText("Click to toggle readability!")
-                            .setStyle(R.style.OrangeShowCase)
-                            .build();
-                }
             }
         });
 

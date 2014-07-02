@@ -163,7 +163,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onStoryListFragmentInteraction(mListAdapter.getItemId(position));
+            mListener.onStoryListFragmentInteraction(mListAdapter.getItemId(position), view);
         }
     }
 
@@ -184,7 +184,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnStoryListFragmentInteractionListener {
-        public void onStoryListFragmentInteraction(long id);
+        public void onStoryListFragmentInteraction(long id, View view);
     }
 
     class StoryRequestCallback implements Callback<List<Story>> {

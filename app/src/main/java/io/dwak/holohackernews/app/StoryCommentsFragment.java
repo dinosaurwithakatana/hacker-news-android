@@ -268,10 +268,6 @@ public class StoryCommentsFragment extends BaseFragment {
         });
     }
 
-    void setActionbarVisibility(boolean visible) {
-        ((MainActivity) getActivity()).setActionbarVisible(visible);
-        Log.d(TAG, String.valueOf(visible));
-    }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
