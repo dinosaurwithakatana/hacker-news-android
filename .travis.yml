@@ -2,15 +2,20 @@ language: android
 jdk: oraclejdk7
 env:
   matrix:
-    - ANDROID_TARGET=android-L  ANDROID_ABI=armeabi-v7a
-
+  - ANDROID_TARGET=android-L  ANDROID_ABI=armeabi-v7a
 android:
   components:
-    - build-tools-19.1
-
+  - build-tools-19.1
 before_script:
-    - cp keystore.properties.example keystore.properties
-    - cp readability.properties.example readability.properties
-    - cp local.properties.example local.properties
-
-script: ./gradlew clean assembleTravis
+- cp keystore.properties.example keystore.properties
+- cp readability.properties.example readability.properties
+- cp local.properties.example local.properties
+script: "./gradlew clean assembleTravis"
+deploy:
+  provider: releases
+  api_key:
+    secure: MeGKfVwOrIMT5TzI5tBhwfCH7tICedcJe0p5Cp3lyPhY26VlVJQ2HKH3yuv7OF9a6ngVWdBjxPtn2dDlWb3AqpPZDEwgzCJrYjaDlBfhk3JSdepKmhEltbcvFWyPgWGNVGWw3+EmDiDrmscKjF9kc0F06KveRziJb8JC3RBIDIk=
+  file: "app/build/outputs/apk/app-release.apk"
+  on:
+    repo: dinosaurwithakatana/holo_hacker_news
+    branch: material
