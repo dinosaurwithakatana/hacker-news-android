@@ -33,3 +33,4 @@ deploy:
   on:
     repo: dinosaurwithakatana/holo_hacker_news
     branch: material
+    tags: true
