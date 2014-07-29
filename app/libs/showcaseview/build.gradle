@@ -7,13 +7,13 @@ dependencies {
 }
 
 android {
-    compileSdkVersion Integer.parseInt(COMPILE_SDK)
-    buildToolsVersion BUILD_TOOLS_VERSION
+    compileSdkVersion "android-L"
+    buildToolsVersion "19.1"
 
     defaultConfig {
         versionName VERSION_NAME
         versionCode Integer.parseInt(VERSION_CODE)
-        targetSdkVersion Integer.parseInt(TARGET_SDK)
-        minSdkVersion Integer.parseInt(MIN_SDK)
+        targetSdkVersion "L"
+        minSdkVersion "L"
     }
 }
