@@ -98,4 +98,8 @@ public class StoryDetail {
     public String getType() {
         return mType;
     }
+
+    public void setUrl(String url) {
+        mUrl = url;
+    }
 }

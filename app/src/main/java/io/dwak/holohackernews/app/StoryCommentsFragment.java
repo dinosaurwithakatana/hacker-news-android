@@ -1,10 +1,12 @@
 package io.dwak.holohackernews.app;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,63 +14,66 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
-import io.dwak.holohackernews.app.network.models.Comment;
-import io.dwak.holohackernews.app.network.models.StoryDetail;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import io.dwak.holohackernews.app.network.models.Comment;
+import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
+import io.dwak.holohackernews.app.network.models.StoryDetail;
+import io.dwak.holohackernews.app.widget.ObservableWebView;
+import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
-/**
- * A simple {@link android.support.v4.app.Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link StoryCommentsFragment.OnStoryFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link StoryCommentsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class StoryCommentsFragment extends BaseFragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+public class StoryCommentsFragment extends BaseFragment implements ObservableWebView.OnScrollChangedCallback {
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryCommentsFragment.class.getSimpleName();
-
     private final int DISTANCE_TO_HIDE_ACTIONBAR = 1;
-
     private long mStoryId;
-    private List<Comment> mCommentList;
-    private CommentsListAdapter mListAdapter;
-
-    private StoryDetail mStoryDetail;
-
-    private OnStoryFragmentInteractionListener mListener;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private ListView mCommentsListView;
-    private ActionBar mActionBar;
-
-    private Button mPreviousTopLevelButton;
-    private Button mNextTopLevelButton;
-    private Button mOpenLinkDialogButton;
-
-    private HeaderViewHolder mHeaderViewHolder;
     private int mPrevVisibleItem;
+    private HeaderViewHolder mHeaderViewHolder;
+    private ActionBar mActionBar;
+    private CommentsListAdapter mListAdapter;
+    private StoryDetail mStoryDetail;
+    private Bundle mWebViewBundle;
+    private OnStoryFragmentInteractionListener mListener;
+    private boolean mReadability;
+
+    @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.comments_list) ListView mCommentsListView;
+    @InjectView(R.id.open_link) Button mOpenLinkDialogButton;
+    @InjectView(R.id.story_web_view) ObservableWebView mWebView;
+    @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
+    @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
 
     public StoryCommentsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment StoryCommentsFragment.
-     */
     public static StoryCommentsFragment newInstance(long param1) {
         StoryCommentsFragment fragment = new StoryCommentsFragment();
         Bundle args = new Bundle();
@@ -83,22 +88,102 @@ public class StoryCommentsFragment extends BaseFragment {
         if (getArguments() != null) {
             mStoryId = getArguments().getLong(STORY_ID);
         }
-
         setHasOptionsMenu(true);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
+        ButterKnife.inject(this, rootView);
 
+        mFloatingActionButton.setDrawable(getResources().getDrawable(R.drawable.ic_action_readability));
+        mFloatingActionButton.setColor(getResources().getColor(R.color.system_bar_tint));
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                readability();
+            }
+        });
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        mLinkLayout.setStashPx(0);
+        mLinkLayout.setRevealPx(height);
+        mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.VERTICAL);
+        mLinkLayout.setOpen(false);
+
+        final ProgressBar progressBar = (ProgressBar) mLinkLayout.findViewById(R.id.progress_bar);
+        Button closeLink = (Button) mLinkLayout.findViewById(R.id.close_link);
+        closeLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                mListener.onStoryLinkFragmentInteraction();
+                mLinkLayout.setOpen(false);
+            }
+        });
+
+        mWebView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
+        webSettings.setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.d(TAG, "page loaded");
+                mWebView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                Log.d(TAG, String.valueOf(newProgress));
+                progressBar.setMax(100);
+                progressBar.setProgress(newProgress);
+
+            }
+        });
+
+        mWebView.setOnScrollChangedCallback(this);
+
+        Button backButton = (Button) rootView.findViewById(R.id.web_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                }
+            }
+        });
+        Button forwardButton = (Button) rootView.findViewById(R.id.web_forward);
+        forwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mWebView.canGoForward()) {
+                    mWebView.goForward();
+                }
+            }
+        });
         mPrevVisibleItem = 1;
 
         mActionBar = getActivity().getActionBar();
         mActionBar.show();
         mActionBar.setTitle("Hacker News");
-        mCommentList = new ArrayList<Comment>();
+        List<Comment> commentList = new ArrayList<Comment>();
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mContainer = rootView.findViewById(R.id.container);
@@ -106,8 +191,8 @@ public class StoryCommentsFragment extends BaseFragment {
 
         mCommentsListView = (ListView) rootView.findViewById(R.id.comments_list);
 
-        mPreviousTopLevelButton = (Button) rootView.findViewById(R.id.prev_top_level);
-        mPreviousTopLevelButton.setOnClickListener(new View.OnClickListener() {
+        Button previousTopLevelButton = (Button) rootView.findViewById(R.id.prev_top_level);
+        previousTopLevelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int currentIndex = mCommentsListView.getFirstVisiblePosition() - 1;
@@ -122,8 +207,8 @@ public class StoryCommentsFragment extends BaseFragment {
                 }
             }
         });
-        mNextTopLevelButton = (Button) rootView.findViewById(R.id.next_top_level);
-        mNextTopLevelButton.setOnClickListener(new View.OnClickListener() {
+        Button nextTopLevelButton = (Button) rootView.findViewById(R.id.next_top_level);
+        nextTopLevelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int currentIndex = mCommentsListView.getFirstVisiblePosition() + 1;
@@ -138,7 +223,7 @@ public class StoryCommentsFragment extends BaseFragment {
                 }
             }
         });
-        mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, mCommentList);
+        mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, commentList);
         mHeaderViewHolder = new HeaderViewHolder();
         View headerView = inflater.inflate(R.layout.comments_header, null);
         mHeaderViewHolder.mStoryTitle = (TextView) headerView.findViewById(R.id.story_title);
@@ -154,7 +239,6 @@ public class StoryCommentsFragment extends BaseFragment {
         mCommentsListView.setAdapter(mListAdapter);
 
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorScheme(android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_orange_dark,
@@ -167,7 +251,6 @@ public class StoryCommentsFragment extends BaseFragment {
             }
         });
 
-        mOpenLinkDialogButton = (Button) rootView.findViewById(R.id.open_link);
         refresh();
         return rootView;
     }
@@ -186,6 +269,11 @@ public class StoryCommentsFragment extends BaseFragment {
                         String domain = storyDetail.getDomain();
                         mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
                         mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
+                        if (mWebViewBundle == null) {
+                            mWebView.loadUrl(storyDetail.getUrl());
+                        } else {
+                            mWebView.restoreState(mWebViewBundle);
+                        }
                     }
                     else if ("ask".equals(storyDetail.getType())) {
                         mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
@@ -207,6 +295,7 @@ public class StoryCommentsFragment extends BaseFragment {
                     mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
                     mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
                     mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
+
                 }
                 mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -237,19 +326,22 @@ public class StoryCommentsFragment extends BaseFragment {
                 mOpenLinkDialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mLinkLayout.setOpen(!mLinkLayout.isOpen());
                         if ("ask".equals(storyDetail.getType())) {
-                            mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
+//                            mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
+                            storyDetail.setUrl("https://news.ycombinator.com/" + storyDetail.getUrl());
                         }
                         else if ("job".equals(storyDetail.getType())) {
                             if (storyDetail.getUrl().contains("/item?id=")) {
-                                mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
+//                                mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
+                                storyDetail.setUrl("https://news.ycombinator.com/" + storyDetail.getUrl());
                             }
                             else {
-                                mListener.onStoryFragmentInteraction(storyDetail.getUrl());
+//                                mListener.onStoryFragmentInteraction(storyDetail.getUrl());
                             }
                         }
                         else {
-                            mListener.onStoryFragmentInteraction(storyDetail.getUrl());
+//                            mListener.onStoryFragmentInteraction(storyDetail.getUrl());
                         }
                     }
                 });
@@ -272,6 +364,7 @@ public class StoryCommentsFragment extends BaseFragment {
         ((MainActivity) getActivity()).setActionbarVisible(visible);
         Log.d(TAG, String.valueOf(visible));
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -280,6 +373,28 @@ public class StoryCommentsFragment extends BaseFragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mWebViewBundle = new Bundle();
+        mWebView.saveState(mWebViewBundle);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mWebView.saveState(outState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState!=null){
+            mWebViewBundle = savedInstanceState;
+            mWebView.restoreState(mWebViewBundle);
         }
     }
 
@@ -332,17 +447,41 @@ public class StoryCommentsFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void readability() {
+        mReadability = !mReadability;
+        if (mReadability) {
+            mReadabilityService.getReadabilityForArticle(HoloHackerNewsApplication.getREADABILITY_TOKEN(),
+                    mStoryDetail.getUrl(),
+                    new Callback<ReadabilityArticle>() {
+                        @Override
+                        public void success(ReadabilityArticle readabilityArticle, Response response) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            stringBuilder.append("<HTML><HEAD><LINK href=\"style.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
+                            stringBuilder.append("<h1>")
+                                    .append(readabilityArticle.getTitle())
+                                    .append("</h1>");
+                            stringBuilder.append(readabilityArticle.getContent());
+                            stringBuilder.append("</body></HTML>");
+                            mWebView.loadDataWithBaseURL("file:///android_asset/", stringBuilder.toString(), "text/html", "utf-8", null);
+                        }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                        }
+                    });
+        }
+        else {
+            mWebView.loadUrl(mStoryDetail.getUrl());
+        }
+    }
+
+    @Override
+    public void onScroll(int l, int t, int oldL, int oldT) {
+        mFloatingActionButton.hide(t >= oldT);
+    }
+
+
     public interface OnStoryFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onStoryFragmentInteraction(String url);

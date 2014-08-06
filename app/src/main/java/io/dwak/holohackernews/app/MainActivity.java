@@ -21,6 +21,7 @@ public class MainActivity extends FragmentActivity
         StoryCommentsFragment.OnStoryFragmentInteractionListener,
         StoryLinkFragment.OnStoryLinkFragmentInteractionListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -58,11 +59,21 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.Fragment newFragment = null;
-        if (position<3) {
+        if (position < 3) {
             switch (position) {
                 case 0:
                     newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.TOP);
@@ -104,7 +115,7 @@ public class MainActivity extends FragmentActivity
                     .commit();
         }
         else {
-            switch(position){
+            switch (position) {
                 case 3:
                     Intent aboutIntent = new Intent(this, AboutActivity.class);
                     startActivity(aboutIntent);
@@ -262,4 +273,5 @@ public class MainActivity extends FragmentActivity
     public void onStoryLinkFragmentInteraction() {
         onBackPressed();
     }
+
 }

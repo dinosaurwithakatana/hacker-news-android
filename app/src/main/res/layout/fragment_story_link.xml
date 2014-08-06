@@ -1,68 +1,71 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@android:color/white"
-             android:animateLayoutChanges="true"
-             android:fitsSystemWindows="true"
-             tools:context="io.dwak.holohackernews.app.StoryLinkFragment">
+<io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    tools:context="io.dwak.holohackernews.app.StoryLinkFragment">
 
-    <RelativeLayout
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:background="@android:color/holo_orange_light"/>
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_alignParentTop="true"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:background="@android:color/holo_orange_light"
-            android:layout_centerInParent="true"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"/>
+    <LinearLayout
+        android:id="@+id/button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_below="@id/progress_bar"
+        android:background="@android:color/holo_orange_dark"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/button_bar"
-            android:layout_below="@id/progress_bar"
-            android:background="@android:color/holo_orange_dark"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="42dp">
+        <Button
+            android:id="@+id/web_back"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:background="@drawable/web_back"
+            android:visibility="visible"/>
 
-            <Button
-                android:id="@+id/web_back"
-                android:background="@drawable/web_back"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:visibility="visible"/>
+        <Button
+            android:id="@+id/close_link"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="4"
+            android:background="@drawable/orange_button"
+            android:text="@string/show_comments"
+            android:visibility="visible"/>
 
-            <Button
-                android:id="@+id/close_link"
-                android:text="@string/show_comments"
-                android:background="@drawable/orange_button"
-                android:layout_weight="4"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:visibility="visible"/>
+        <Button
+            android:id="@+id/web_forward"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:background="@drawable/web_forward"
+            android:visibility="visible"/>
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/web_forward"
-                android:background="@drawable/web_forward"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:visibility="visible"/>
-        </LinearLayout>
+    <io.dwak.holohackernews.app.widget.ObservableWebView
+        android:id="@+id/story_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/button_bar"
+        android:visibility="invisible">
 
-        <WebView
-            android:id="@+id/story_web_view"
-            android:layout_below="@id/button_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible">
+    </io.dwak.holohackernews.app.widget.ObservableWebView>
 
-        </WebView>
-    </RelativeLayout>
-
-
-</FrameLayout>
+    <com.faizmalkani.floatingactionbutton.FloatingActionButton
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/fabbutton"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"/>
+</io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout>
