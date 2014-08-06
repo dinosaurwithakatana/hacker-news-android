@@ -113,9 +113,9 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         int width = size.x;
         int height = size.y;
 
-        mLinkLayout.setStashPx(0);
-        mLinkLayout.setRevealPx(height);
-        mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.VERTICAL);
+        mLinkLayout.setStashPixel(0);
+        mLinkLayout.setRevealPixel(height);
+        mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TranslateDirection.TRANSLATE_DIRECTION_VERTICAL);
         mLinkLayout.setOpen(false);
 
         final ProgressBar progressBar = (ProgressBar) mLinkLayout.findViewById(R.id.progress_bar);
@@ -142,7 +142,6 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                Log.d(TAG, "page loaded");
                 mWebView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
             }
@@ -151,7 +150,6 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                Log.d(TAG, String.valueOf(newProgress));
                 progressBar.setMax(100);
                 progressBar.setProgress(newProgress);
 
@@ -271,7 +269,8 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                         mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
                         if (mWebViewBundle == null) {
                             mWebView.loadUrl(storyDetail.getUrl());
-                        } else {
+                        }
+                        else {
                             mWebView.restoreState(mWebViewBundle);
                         }
                     }
