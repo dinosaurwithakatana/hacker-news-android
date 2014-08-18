@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -53,16 +52,6 @@ public class MainActivity extends FragmentActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Checks the orientation of the screen
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -174,15 +163,6 @@ public class MainActivity extends FragmentActivity
             return true;
         }
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

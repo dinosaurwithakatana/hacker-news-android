@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -27,6 +28,12 @@ public class StoryDetailActivity extends FragmentActivity {
                     .add(R.id.container, mStoryCommentsFragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
     }
 
     @Override
