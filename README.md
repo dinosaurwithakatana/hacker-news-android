@@ -6,6 +6,8 @@ Started as a project to play with Square's [Retrofit](https://square.github.io/r
 Uses [cheeaun's](http://cheeaun.com/) [node-hnapi](https://github.com/cheeaun/node-hnapi/) project for it's API backend.
 
 
+Join the g+ beta here : https://plus.google.com/communities/112347719824323216860
+
 Building
 ---
 [![Build Status](https://travis-ci.org/dinosaurwithakatana/holo_hacker_news.svg?branch=master)](https://travis-ci.org/dinosaurwithakatana/holo_hacker_news) : Travis build uses custom target without readability turned on.
