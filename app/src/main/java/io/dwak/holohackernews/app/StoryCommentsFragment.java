@@ -52,6 +52,7 @@ import retrofit.client.Response;
 public class StoryCommentsFragment extends BaseFragment implements ObservableWebView.OnScrollChangedCallback {
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryCommentsFragment.class.getSimpleName();
+    public static final String HACKER_NEWS_ITEM_BASE_URL = "https://news.ycombinator.com/item?id=";
     private final int DISTANCE_TO_HIDE_ACTIONBAR = 1;
     private long mStoryId;
     private int mPrevVisibleItem;
@@ -60,7 +61,6 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     private CommentsListAdapter mListAdapter;
     private StoryDetail mStoryDetail;
     private Bundle mWebViewBundle;
-    private OnStoryFragmentInteractionListener mListener;
     private boolean mReadability;
 
     @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
@@ -123,7 +123,6 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         closeLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mListener.onStoryLinkFragmentInteraction();
                 mLinkLayout.setOpen(false);
             }
         });
@@ -222,15 +221,8 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
             }
         });
         mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, commentList);
-        mHeaderViewHolder = new HeaderViewHolder();
         View headerView = inflater.inflate(R.layout.comments_header, null);
-        mHeaderViewHolder.mStoryTitle = (TextView) headerView.findViewById(R.id.story_title);
-        mHeaderViewHolder.mStoryDomain = (TextView) headerView.findViewById(R.id.story_domain);
-        mHeaderViewHolder.mStorySubmitter = (TextView) headerView.findViewById(R.id.story_submitter);
-        mHeaderViewHolder.mStoryPoints = (TextView) headerView.findViewById(R.id.story_points);
-        mHeaderViewHolder.mStoryLongAgo = (TextView) headerView.findViewById(R.id.story_long_ago);
-        mHeaderViewHolder.mCommentsCount = (TextView) headerView.findViewById(R.id.comment_count);
-        mHeaderViewHolder.mContent = (TextView) headerView.findViewById(R.id.job_content);
+        mHeaderViewHolder = new HeaderViewHolder(headerView);
 
         mCommentsListView.setHeaderDividersEnabled(false);
         mCommentsListView.addHeaderView(headerView);
@@ -327,20 +319,12 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                     public void onClick(View view) {
                         mLinkLayout.setOpen(!mLinkLayout.isOpen());
                         if ("ask".equals(storyDetail.getType())) {
-//                            mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
                             storyDetail.setUrl("https://news.ycombinator.com/" + storyDetail.getUrl());
                         }
                         else if ("job".equals(storyDetail.getType())) {
                             if (storyDetail.getUrl().contains("/item?id=")) {
-//                                mListener.onStoryFragmentInteraction("https://news.ycombinator.com/" + storyDetail.getUrl());
                                 storyDetail.setUrl("https://news.ycombinator.com/" + storyDetail.getUrl());
                             }
-                            else {
-//                                mListener.onStoryFragmentInteraction(storyDetail.getUrl());
-                            }
-                        }
-                        else {
-//                            mListener.onStoryFragmentInteraction(storyDetail.getUrl());
                         }
                     }
                 });
@@ -359,20 +343,9 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         });
     }
 
-    void setActionbarVisibility(boolean visible) {
-        ((MainActivity) getActivity()).setActionbarVisible(visible);
-        Log.d(TAG, String.valueOf(visible));
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mListener = (OnStoryFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
@@ -400,8 +373,6 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener.onStoryCommentsFragmentDetach();
-        mListener = null;
     }
 
     @Override
@@ -426,7 +397,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, mStoryDetail.getUrl());
                                 break;
                             case 1:
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://news.ycombinator.com/item?id=" + mStoryId);
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + mStoryId);
                                 break;
                         }
                         sendIntent.setType("text/plain");
@@ -439,13 +410,20 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
             case R.id.action_open_browser:
                 Intent browserIntent = new Intent();
                 browserIntent.setAction(Intent.ACTION_VIEW);
-                browserIntent.setData(Uri.parse("https://news.ycombinator.com/item?id=" + mStoryId));
+                browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + mStoryId));
                 startActivity(browserIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean isLinkViewVisible(){
+       return mLinkLayout.isOpen();
+    }
+
+    public void hideLinkView(){
+        mLinkLayout.setOpen(false);
+    }
     private void readability() {
         mReadability = !mReadability;
         if (mReadability) {
@@ -480,21 +458,17 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         mFloatingActionButton.hide(t >= oldT);
     }
 
-
-    public interface OnStoryFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onStoryFragmentInteraction(String url);
-
-        public void onStoryCommentsFragmentDetach();
-    }
-
     static class HeaderViewHolder {
-        TextView mStoryTitle;
-        TextView mStoryDomain;
-        TextView mStorySubmitter;
-        TextView mStoryPoints;
-        TextView mStoryLongAgo;
-        TextView mCommentsCount;
-        TextView mContent;
+        @InjectView(R.id.story_title) TextView mStoryTitle;
+        @InjectView(R.id.story_domain) TextView mStoryDomain;
+        @InjectView(R.id.story_submitter) TextView mStorySubmitter;
+        @InjectView(R.id.story_points) TextView mStoryPoints;
+        @InjectView(R.id.story_long_ago) TextView mStoryLongAgo;
+        @InjectView(R.id.comment_count) TextView mCommentsCount;
+        @InjectView(R.id.job_content)TextView mContent;
+
+        public HeaderViewHolder(View headerView) {
+            ButterKnife.inject(this, headerView);
+        }
     }
 }

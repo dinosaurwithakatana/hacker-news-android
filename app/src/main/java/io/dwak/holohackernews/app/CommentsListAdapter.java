@@ -13,11 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import io.dwak.holohackernews.app.network.models.Comment;
-import io.dwak.holohackernews.app.network.models.StoryDetail;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.dwak.holohackernews.app.network.models.Comment;
+import io.dwak.holohackernews.app.network.models.StoryDetail;
 
 /**
  * Created by vishnu on 5/4/14.

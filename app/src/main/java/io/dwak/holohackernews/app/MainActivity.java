@@ -7,8 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,11 +15,10 @@ import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        StoryListFragment.OnStoryListFragmentInteractionListener,
-        StoryCommentsFragment.OnStoryFragmentInteractionListener,
-        StoryLinkFragment.OnStoryLinkFragmentInteractionListener {
+        StoryListFragment.OnStoryListFragmentInteractionListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String STORY_ID = "STORY_ID";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -91,12 +88,12 @@ public class MainActivity extends FragmentActivity
             if (fragmentManager.findFragmentByTag(mStoryUrl) != null
                     && fragmentManager.findFragmentByTag(mStoryUrl).isVisible()) {
 
-                Fragment linkfragment = fragmentManager.findFragmentByTag(mStoryUrl);
+                Fragment linkFragment = fragmentManager.findFragmentByTag(mStoryUrl);
                 Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
 
                 fragmentManager.beginTransaction()
-                        .hide(linkfragment)
-                        .remove(linkfragment)
+                        .hide(linkFragment)
+                        .remove(linkFragment)
                         .hide(commentFragment)
                         .remove(commentFragment)
                         .commit();
@@ -147,21 +144,6 @@ public class MainActivity extends FragmentActivity
         actionBar.setTitle(mTitle);
     }
 
-    public void replaceFragment(Fragment fragment, String tag) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(
-                R.anim.offscreen_left_to_view,
-                R.anim.view_left_to_offscreen,
-                R.anim.offscreen_right_to_view,
-                R.anim.view_right_to_offscreen);
-        transaction.addToBackStack(null);
-        transaction.add(R.id.container, fragment, tag);
-        transaction.show(fragment);
-        transaction.commit();
-    }
-
-
     public void setActionbarVisible(boolean visible) {
         if (visible) {
             getActionBar().show();
@@ -209,69 +191,9 @@ public class MainActivity extends FragmentActivity
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
-        replaceFragment(StoryCommentsFragment.newInstance(id), StoryCommentsFragment.class.getSimpleName());
+        Intent detailIntent = new Intent(this, StoryDetailActivity.class);
+        detailIntent.putExtra(STORY_ID, id);
+        startActivity(detailIntent);
+        overridePendingTransition(R.anim.offscreen_left_to_view, R.anim.fadeout);
     }
-
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().findFragmentByTag(mStoryUrl) != null
-                && getSupportFragmentManager().findFragmentByTag(mStoryUrl).isVisible()) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(
-                    R.anim.offscreen_up_to_view,
-                    R.anim.view_down_to_offscreen,
-                    R.anim.offscreen_up_to_view,
-                    R.anim.view_up_to_offscreen);
-            transaction.hide(getSupportFragmentManager().findFragmentByTag(mStoryUrl));
-            transaction.commit();
-            return;
-        }
-        else if (getSupportFragmentManager().findFragmentByTag(StoryCommentsFragment.class.getSimpleName()) != null
-                && getSupportFragmentManager().findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()) {
-            if (getSupportFragmentManager().findFragmentByTag(mStoryUrl) != null) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.remove(getSupportFragmentManager().findFragmentByTag(mStoryUrl));
-                transaction.commit();
-            }
-            super.onBackPressed();
-        }
-        else if (getSupportFragmentManager().findFragmentByTag(StoryListFragment.class.getSimpleName()) != null
-                && getSupportFragmentManager().findFragmentByTag(StoryListFragment.class.getSimpleName()).isVisible()) {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void onStoryFragmentInteraction(String url) {
-        mStoryUrl = url;
-        StoryLinkFragment fragment;
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(
-                R.anim.offscreen_up_to_view,
-                R.anim.view_up_to_offscreen,
-                R.anim.offscreen_up_to_view,
-                R.anim.view_down_to_offscreen);
-
-        if (getSupportFragmentManager().findFragmentByTag(url) == null) {
-            fragment = StoryLinkFragment.newInstance(url);
-            transaction.add(R.id.container, fragment, url);
-        }
-        else {
-            fragment = (StoryLinkFragment) getSupportFragmentManager().findFragmentByTag(url);
-        }
-        transaction.show(fragment);
-        transaction.commit();
-    }
-
-    @Override
-    public void onStoryCommentsFragmentDetach() {
-        getActionBar().setTitle(mTitle);
-    }
-
-    @Override
-    public void onStoryLinkFragmentInteraction() {
-        onBackPressed();
-    }
-
 }
