@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
-import io.dwak.holohackernews.app.manager.models.Story;
+import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.ReadabilityService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;

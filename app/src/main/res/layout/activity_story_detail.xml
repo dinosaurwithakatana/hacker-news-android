@@ -3,6 +3,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.dwak.holohackernews.app.StoryDetailActivity"
+    tools:context="io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity"
     android:fitsSystemWindows="true"
     tools:ignore="MergeRootFrame" />

@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui.about;
 
 import android.app.Activity;
 import android.app.ActionBar;

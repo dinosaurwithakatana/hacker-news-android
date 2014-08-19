@@ -10,7 +10,7 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="io.dwak.holohackernews.app.MainActivity">
+        tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity">
 
         <!-- As the main content view, the view below consumes the entire
              space available using match_parent in both dimensions. -->
@@ -38,7 +38,7 @@
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:name="io.dwak.holohackernews.app.NavigationDrawerFragment"
+            android:name="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment"
             tools:layout="@layout/fragment_navigation_drawer"/>
 
     </android.support.v4.widget.DrawerLayout>

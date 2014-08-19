@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -17,11 +17,13 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.ui.BaseFragment;
+import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.manager.FeedType;
 import io.dwak.holohackernews.app.manager.HackerNewsCallback;
 import io.dwak.holohackernews.app.manager.HackerNewsException;
 import io.dwak.holohackernews.app.manager.HackerNewsManager;
-import io.dwak.holohackernews.app.manager.models.Story;
+import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
 
 /**

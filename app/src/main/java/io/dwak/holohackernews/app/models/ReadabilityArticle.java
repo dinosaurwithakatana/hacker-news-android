@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.manager.models;
+package io.dwak.holohackernews.app.models;
 
 /**
  * Created by vishnu on 5/19/14.

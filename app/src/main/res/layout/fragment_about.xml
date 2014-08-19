@@ -4,7 +4,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            tools:context="io.dwak.holohackernews.app.AboutActivity$PlaceholderFragment">
+            tools:context="io.dwak.holohackernews.app.ui.about.AboutActivity$PlaceholderFragment">
 
     <FrameLayout
         android:background="@color/holo_light_bg"

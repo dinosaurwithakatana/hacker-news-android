@@ -16,6 +16,6 @@
         android:listSelector="@drawable/orange_card_selector"
         android:drawSelectorOnTop="true"
         android:background="#ffffff"
-        tools:context="io.dwak.holohackernews.app.NavigationDrawerFragment"/>
+        tools:context="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment"/>
 </FrameLayout>
 

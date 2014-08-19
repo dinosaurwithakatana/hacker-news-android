@@ -1,9 +1,12 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+
+import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.ui.storylist.MainActivity;
 
 public class StoryDetailActivity extends FragmentActivity {
 

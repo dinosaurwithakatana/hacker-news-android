@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.dwak.holohackernews.app.manager.models.Story;
+import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.models.Story;
 
 /**
  * Created by vishnu on 5/3/14.

@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,6 +17,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 

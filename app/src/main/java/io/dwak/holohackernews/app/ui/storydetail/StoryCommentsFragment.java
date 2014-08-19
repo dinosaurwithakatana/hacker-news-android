@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -38,6 +38,9 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.ui.BaseFragment;
+import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import io.dwak.holohackernews.app.network.models.ReadabilityArticle;

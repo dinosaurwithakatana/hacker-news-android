@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui.storylist;
 
 
 import android.app.ActionBar;
@@ -17,6 +17,8 @@ import android.widget.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import io.dwak.holohackernews.app.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

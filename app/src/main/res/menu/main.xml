@@ -1,4 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="io.dwak.holohackernews.app.MainActivity" >
+    tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity" >
 </menu>

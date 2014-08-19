@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -12,6 +12,11 @@ import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import io.dwak.holohackernews.app.ui.about.AboutActivity;
+import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.ui.storydetail.StoryCommentsFragment;
+import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 import io.dwak.holohackernews.app.manager.FeedType;
 
 public class MainActivity extends FragmentActivity

@@ -1,10 +1,12 @@
-package io.dwak.holohackernews.app;
+package io.dwak.holohackernews.app.ui;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.network.HackerNewsService;
 import com.google.gson.*;
 import io.dwak.holohackernews.app.network.ReadabilityService;

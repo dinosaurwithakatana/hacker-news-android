@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.manager.models;
+package io.dwak.holohackernews.app.models;
 
 import java.util.List;
 
