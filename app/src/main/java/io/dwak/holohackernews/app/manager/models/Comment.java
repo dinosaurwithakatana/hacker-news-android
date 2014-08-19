@@ -1,6 +1,4 @@
-package io.dwak.holohackernews.app.network.models;
-
-import com.google.gson.annotations.SerializedName;
+package io.dwak.holohackernews.app.manager.models;
 
 import java.util.List;
 
@@ -8,12 +6,12 @@ import java.util.List;
  * Created by vishnu on 5/3/14.
  */
 public class Comment {
-    @SerializedName("id") private Long mId;
-    @SerializedName("level") private int mLevel;
-    @SerializedName("user") private String mUser;
-    @SerializedName("time_ago") private String mTimeAgo;
-    @SerializedName("content") private String mContent;
-    @SerializedName("comments") private List<Comment> mChildComments;
+    private Long mId;
+    private int mLevel;
+    private String mUser;
+    private String mTimeAgo;
+    private String mContent;
+    private List<Comment> mChildComments;
 
     public long getId() {
         return mId;

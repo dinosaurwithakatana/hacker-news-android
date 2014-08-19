@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -39,11 +38,12 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.dwak.holohackernews.app.network.models.Comment;
+import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
+import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
-import io.dwak.holohackernews.app.network.models.StoryDetail;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
+import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -59,11 +59,11 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     private HeaderViewHolder mHeaderViewHolder;
     private ActionBar mActionBar;
     private CommentsListAdapter mListAdapter;
-    private StoryDetail mStoryDetail;
+    private NodeHNAPIStoryDetail mNodeHNAPIStoryDetail;
     private Bundle mWebViewBundle;
     private boolean mReadability;
 
-    @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.swipe_container) SmoothSwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.comments_list) ListView mCommentsListView;
     @InjectView(R.id.open_link) Button mOpenLinkDialogButton;
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
@@ -180,7 +180,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         mActionBar = getActivity().getActionBar();
         mActionBar.show();
         mActionBar.setTitle("Hacker News");
-        List<Comment> commentList = new ArrayList<Comment>();
+        List<NodeHNAPIComment> nodeHNAPICommentList = new ArrayList<NodeHNAPIComment>();
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mContainer = rootView.findViewById(R.id.container);
@@ -220,7 +220,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                 }
             }
         });
-        mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, commentList);
+        mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, nodeHNAPICommentList);
         View headerView = inflater.inflate(R.layout.comments_header, null);
         mHeaderViewHolder = new HeaderViewHolder(headerView);
 
@@ -233,7 +233,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                 android.R.color.holo_orange_light,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SmoothSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mSwipeRefreshLayout.setRefreshing(true);
@@ -246,41 +246,41 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     }
 
     private void refresh() {
-        mHackerNewsService.getItemDetails(mStoryId, new Callback<StoryDetail>() {
+        mHackerNewsService.getItemDetails(mStoryId, new Callback<NodeHNAPIStoryDetail>() {
 
             @Override
-            public void success(final StoryDetail storyDetail, Response response) {
-                mStoryDetail = storyDetail;
-                mHeaderViewHolder.mStoryTitle.setText(storyDetail.getTitle());
-                mHeaderViewHolder.mStorySubmitter.setText(storyDetail.getUser());
-                if (!"job".equals(storyDetail.getType())) {
+            public void success(final NodeHNAPIStoryDetail nodeHNAPIStoryDetail, Response response) {
+                mNodeHNAPIStoryDetail = nodeHNAPIStoryDetail;
+                mHeaderViewHolder.mStoryTitle.setText(nodeHNAPIStoryDetail.getTitle());
+                mHeaderViewHolder.mStorySubmitter.setText(nodeHNAPIStoryDetail.getUser());
+                if (!"job".equals(nodeHNAPIStoryDetail.getType())) {
                     mHeaderViewHolder.mContent.setVisibility(View.GONE);
-                    if ("link".equals(storyDetail.getType())) {
-                        String domain = storyDetail.getDomain();
+                    if ("link".equals(nodeHNAPIStoryDetail.getType())) {
+                        String domain = nodeHNAPIStoryDetail.getDomain();
                         mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
                         mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
                         if (mWebViewBundle == null) {
-                            mWebView.loadUrl(storyDetail.getUrl());
+                            mWebView.loadUrl(nodeHNAPIStoryDetail.getUrl());
                         }
                         else {
                             mWebView.restoreState(mWebViewBundle);
                         }
                     }
-                    else if ("ask".equals(storyDetail.getType())) {
+                    else if ("ask".equals(nodeHNAPIStoryDetail.getType())) {
                         mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
 
                         mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
-                        Spanned jobContent = Html.fromHtml(storyDetail.getContent());
+                        Spanned jobContent = Html.fromHtml(nodeHNAPIStoryDetail.getContent());
                         mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
                         mHeaderViewHolder.mContent.setText(jobContent);
                     }
-                    mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
-                    mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
-                    mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
+                    mHeaderViewHolder.mStoryPoints.setText(String.valueOf(nodeHNAPIStoryDetail.getPoints()));
+                    mHeaderViewHolder.mStoryLongAgo.setText(" | " + nodeHNAPIStoryDetail.getTimeAgo());
+                    mHeaderViewHolder.mCommentsCount.setText(nodeHNAPIStoryDetail.getCommentsCount() + " comments");
                 }
                 else {
                     mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
-                    Spanned jobContent = Html.fromHtml(storyDetail.getContent());
+                    Spanned jobContent = Html.fromHtml(nodeHNAPIStoryDetail.getContent());
                     mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
                     mHeaderViewHolder.mContent.setText(jobContent);
                     mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
@@ -309,7 +309,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                             mActionBar.setTitle("Hacker News");
                         }
                         else {
-                            mActionBar.setTitle(storyDetail.getTitle());
+                            mActionBar.setTitle(nodeHNAPIStoryDetail.getTitle());
                         }
                     }
                 });
@@ -318,18 +318,18 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                     @Override
                     public void onClick(View view) {
                         mLinkLayout.setOpen(!mLinkLayout.isOpen());
-                        if ("ask".equals(storyDetail.getType())) {
-                            storyDetail.setUrl("https://news.ycombinator.com/" + storyDetail.getUrl());
+                        if ("ask".equals(nodeHNAPIStoryDetail.getType())) {
+                            nodeHNAPIStoryDetail.setUrl("https://news.ycombinator.com/" + nodeHNAPIStoryDetail.getUrl());
                         }
-                        else if ("job".equals(storyDetail.getType())) {
-                            if (storyDetail.getUrl().contains("/item?id=")) {
-                                storyDetail.setUrl("https://news.ycombinator.com/" + storyDetail.getUrl());
+                        else if ("job".equals(nodeHNAPIStoryDetail.getType())) {
+                            if (nodeHNAPIStoryDetail.getUrl().contains("/item?id=")) {
+                                nodeHNAPIStoryDetail.setUrl("https://news.ycombinator.com/" + nodeHNAPIStoryDetail.getUrl());
                             }
                         }
                     }
                 });
-                mListAdapter.setStoryDetail(storyDetail);
-                mListAdapter.setComments(storyDetail.getCommentList());
+                mListAdapter.setNodeHNAPIStoryDetail(nodeHNAPIStoryDetail);
+                mListAdapter.setNodeHNAPIComments(nodeHNAPIStoryDetail.getNodeHNAPICommentList());
                 mListAdapter.notifyDataSetChanged();
                 showProgress(false);
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -394,7 +394,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                         sendIntent.setAction(Intent.ACTION_SEND);
                         switch (i) {
                             case 0:
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, mStoryDetail.getUrl());
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, mNodeHNAPIStoryDetail.getUrl());
                                 break;
                             case 1:
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + mStoryId);
@@ -428,7 +428,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         mReadability = !mReadability;
         if (mReadability) {
             mReadabilityService.getReadabilityForArticle(HoloHackerNewsApplication.getREADABILITY_TOKEN(),
-                    mStoryDetail.getUrl(),
+                    mNodeHNAPIStoryDetail.getUrl(),
                     new Callback<ReadabilityArticle>() {
                         @Override
                         public void success(ReadabilityArticle readabilityArticle, Response response) {
@@ -449,7 +449,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                     });
         }
         else {
-            mWebView.loadUrl(mStoryDetail.getUrl());
+            mWebView.loadUrl(mNodeHNAPIStoryDetail.getUrl());
         }
     }
 

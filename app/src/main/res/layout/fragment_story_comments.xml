@@ -56,7 +56,7 @@
                     android:visibility="visible"/>
             </LinearLayout>
 
-            <android.support.v4.widget.SwipeRefreshLayout
+            <io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout
                 android:id="@+id/swipe_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -69,11 +69,11 @@
                     android:clipToPadding="false"
                     android:fastScrollEnabled="true"
                     android:scrollbarStyle="outsideOverlay"/>
-            </android.support.v4.widget.SwipeRefreshLayout>
+            </io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout>
 
             <include
                 android:id="@+id/link_layout"
-                layout="@layout/fragment_story_link"
+                layout="@layout/view_story_link"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 

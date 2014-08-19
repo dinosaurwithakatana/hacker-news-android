@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Data model for a hackernews story
  * Created by vishnu on 4/21/14.
  */
-public class Story {
+public class NodeHNAPIStory {
     @SerializedName("id") private Long mStoryId;
     @SerializedName("title") private String mTitle;
     @SerializedName("url") private String mUrl;
@@ -17,7 +17,7 @@ public class Story {
     @SerializedName("comments_count") private int mNumComments;
     @SerializedName("type") private String mType;
 
-    public long getStoryId() {
+    public Long getStoryId() {
         return mStoryId;
     }
 

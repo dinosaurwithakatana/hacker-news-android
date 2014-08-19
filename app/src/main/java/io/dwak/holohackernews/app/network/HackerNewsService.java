@@ -1,12 +1,12 @@
 package io.dwak.holohackernews.app.network;
 
-import io.dwak.holohackernews.app.network.models.Story;
-import io.dwak.holohackernews.app.network.models.StoryDetail;
+import java.util.List;
+
+import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
+import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
-
-import java.util.List;
 
 /**
  * Retrofit service to interface with hacker news api
@@ -14,17 +14,17 @@ import java.util.List;
  */
 public interface HackerNewsService {
     @GET("/news")
-    void getTopStories(Callback<List<Story>> callback);
+    void getTopStories(Callback<List<NodeHNAPIStory>> callback);
 
     @GET("/news2")
-    void getTopStoriesPageTwo(Callback<List<Story>> callback);
+    void getTopStoriesPageTwo(Callback<List<NodeHNAPIStory>> callback);
 
     @GET("/newest")
-    void getNewestStories(Callback<List<Story>> callback);
+    void getNewestStories(Callback<List<NodeHNAPIStory>> callback);
 
     @GET("/best")
-    void getBestStories(Callback<List<Story>> callback);
+    void getBestStories(Callback<List<NodeHNAPIStory>> callback);
 
     @GET("/item/{itemId}")
-    void getItemDetails(@Path("itemId") long itemId, Callback<StoryDetail> callback);
+    void getItemDetails(@Path("itemId") long itemId, Callback<NodeHNAPIStoryDetail> callback);
 }

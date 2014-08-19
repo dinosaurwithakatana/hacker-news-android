@@ -17,70 +17,70 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.dwak.holohackernews.app.network.models.Comment;
-import io.dwak.holohackernews.app.network.models.StoryDetail;
+import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
+import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 
 /**
  * Created by vishnu on 5/4/14.
  */
-public class CommentsListAdapter extends ArrayAdapter<Comment> {
+public class CommentsListAdapter extends ArrayAdapter<NodeHNAPIComment> {
     private final int mResource;
-    private List<Comment> mComments;
+    private List<NodeHNAPIComment> mNodeHNAPIComments;
     private Context mContext;
-    private List<Comment> mExpandedComments;
-    private StoryDetail mStoryDetail;
+    private List<NodeHNAPIComment> mExpandedNodeHNAPIComments;
+    private NodeHNAPIStoryDetail mNodeHNAPIStoryDetail;
 
-    public CommentsListAdapter(Context context, int resource, List<Comment> objects) {
+    public CommentsListAdapter(Context context, int resource, List<NodeHNAPIComment> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
-        mComments = objects;
-        mExpandedComments = new ArrayList<Comment>();
+        mNodeHNAPIComments = objects;
+        mExpandedNodeHNAPIComments = new ArrayList<NodeHNAPIComment>();
     }
 
-    private void expandComments(Comment comment) {
-        mExpandedComments.add(comment);
+    private void expandComments(NodeHNAPIComment nodeHNAPIComment) {
+        mExpandedNodeHNAPIComments.add(nodeHNAPIComment);
 
-        if (comment.getChildComments().size() == 0) {
+        if (nodeHNAPIComment.getChildNodeHNAPIComments().size() == 0) {
             return;
         }
 
-        for (Comment childComment : comment.getChildComments()) {
-            expandComments(childComment);
+        for (NodeHNAPIComment childNodeHNAPIComment : nodeHNAPIComment.getChildNodeHNAPIComments()) {
+            expandComments(childNodeHNAPIComment);
         }
 
     }
 
-    public void setStoryDetail(StoryDetail storyDetail) {
-        mStoryDetail = storyDetail;
+    public void setNodeHNAPIStoryDetail(NodeHNAPIStoryDetail nodeHNAPIStoryDetail) {
+        mNodeHNAPIStoryDetail = nodeHNAPIStoryDetail;
     }
 
-    public void setComments(List<Comment> comments) {
-        mComments = comments;
-        mExpandedComments.clear();
-        for (Comment comment : mComments) {
-            expandComments(comment);
+    public void setNodeHNAPIComments(List<NodeHNAPIComment> nodeHNAPIComments) {
+        mNodeHNAPIComments = nodeHNAPIComments;
+        mExpandedNodeHNAPIComments.clear();
+        for (NodeHNAPIComment nodeHNAPIComment : mNodeHNAPIComments) {
+            expandComments(nodeHNAPIComment);
         }
     }
 
     @Override
     public int getCount() {
-        return mExpandedComments.size();
+        return mExpandedNodeHNAPIComments.size();
     }
 
     @Override
-    public Comment getItem(int position) {
-        return mExpandedComments.get(position);
+    public NodeHNAPIComment getItem(int position) {
+        return mExpandedNodeHNAPIComments.get(position);
     }
 
     @Override
-    public int getPosition(Comment item) {
-        return mExpandedComments.indexOf(item);
+    public int getPosition(NodeHNAPIComment item) {
+        return mExpandedNodeHNAPIComments.indexOf(item);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mExpandedComments.get(position).getLevel();
+        return mExpandedNodeHNAPIComments.get(position).getLevel();
     }
 
     private void commentAction(final int i) {
@@ -152,7 +152,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         }
         viewHolder.mCommentSubmitter.setTextColor(
                 mContext.getResources().getColor(
-                        mStoryDetail.getUser().equals(submitter)
+                        mNodeHNAPIStoryDetail.getUser().equals(submitter)
                                 ? android.R.color.holo_orange_light
                                 : android.R.color.black
                 )

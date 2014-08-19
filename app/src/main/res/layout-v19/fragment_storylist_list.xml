@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout
             android:id="@+id/swipe_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -37,7 +37,7 @@
                 android:drawSelectorOnTop="true"
                 android:listSelector="@drawable/orange_card_selector"
                 tools:listitem="@layout/comments_header"/>
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout>
     </RelativeLayout>
 
 

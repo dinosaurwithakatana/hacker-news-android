@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@android:color/white"
-    android:fitsSystemWindows="true"
-    tools:context="io.dwak.holohackernews.app.StoryLinkFragment">
+    android:fitsSystemWindows="true">
 
     <ProgressBar
         android:id="@+id/progress_bar"

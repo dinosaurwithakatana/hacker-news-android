@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import io.dwak.holohackernews.app.manager.FeedType;
+
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         StoryListFragment.OnStoryListFragmentInteractionListener{
@@ -62,13 +64,13 @@ public class MainActivity extends FragmentActivity
         if (position < 3) {
             switch (position) {
                 case 0:
-                    newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.TOP);
+                    newFragment = StoryListFragment.newInstance(FeedType.TOP);
                     break;
                 case 1:
-                    newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.BEST);
+                    newFragment = StoryListFragment.newInstance(FeedType.BEST);
                     break;
                 case 2:
-                    newFragment = StoryListFragment.newInstance(StoryListFragment.FeedType.NEW);
+                    newFragment = StoryListFragment.newInstance(FeedType.NEW);
                     break;
 
 

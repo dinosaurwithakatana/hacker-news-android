@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by vishnu on 5/3/14.
  */
-public class StoryDetail {
+public class NodeHNAPIStoryDetail {
     @SerializedName("id") private Long mId;
     @SerializedName("title") private String mTitle;
     @SerializedName("url") private String mUrl;
@@ -19,7 +19,7 @@ public class StoryDetail {
     @SerializedName("content") private String mContent;
     @SerializedName("poll") private Object mPoll;
     @SerializedName("link") private String mLink;
-    @SerializedName("comments") private List<Comment> mCommentList;
+    @SerializedName("comments") private List<NodeHNAPIComment> mNodeHNAPICommentList;
     @SerializedName("more_comments_id") private Long mMoreCommentsId;
     @SerializedName("type") private String mType;
 
@@ -37,13 +37,13 @@ public class StoryDetail {
                 ", mContent='" + mContent + '\'' +
                 ", mPoll=" + mPoll +
                 ", mLink='" + mLink + '\'' +
-                ", mCommentList=" + mCommentList +
+                ", mCommentList=" + mNodeHNAPICommentList +
                 ", mMoreCommentsId=" + mMoreCommentsId +
                 ", mType='" + mType + '\'' +
                 '}';
     }
 
-    public long getId() {
+    public Long getId() {
         return mId;
     }
 
@@ -59,7 +59,7 @@ public class StoryDetail {
         return mDomain;
     }
 
-    public int getPoints() {
+    public Integer getPoints() {
         return mPoints;
     }
 
@@ -87,8 +87,8 @@ public class StoryDetail {
         return mLink;
     }
 
-    public List<Comment> getCommentList() {
-        return mCommentList;
+    public List<NodeHNAPIComment> getNodeHNAPICommentList() {
+        return mNodeHNAPICommentList;
     }
 
     public Long getMoreCommentsId() {
