@@ -42,7 +42,7 @@ android {
             localProps.load(new FileInputStream(file('../local.properties')))
             def Properties keyProps = new Properties()
             keyProps.load(new FileInputStream(file(localProps['readability.props.file'])))
-            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("\""+keyProps["token"].toString()+"\"")
+            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("\"" + keyProps["token"].toString() + "\"")
             buildConfigField "boolean", "TRAVIS", 'false'
         }
         release {
@@ -51,7 +51,7 @@ android {
             localProps.load(new FileInputStream(file('../local.properties')))
             def Properties keyProps = new Properties()
             keyProps.load(new FileInputStream(file(localProps['readability.props.file'])))
-            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("\""+keyProps["token"].toString()+"\"")
+            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("\"" + keyProps["token"].toString() + "\"")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
             buildConfigField "boolean", "TRAVIS", 'false'
@@ -60,19 +60,19 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':app:libs:showcaseview')
     compile project(':app:libs:FloatingActionButton')
+    compile 'com.android.support:support-v4:20.0.0'
     compile 'com.squareup.retrofit:retrofit:1.5.0'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.0.0'
     compile 'com.nhaarman.listviewanimations:library:2.6.0'
     compile 'com.facebook.rebound:rebound:0.3.4'
     compile 'com.jakewharton:butterknife:5.1.1'
-    compile 'com.android.support:support-annotations:19.1.0'
+    compile 'com.android.support:support-annotations:20.0.0'
 }
 
-android.applicationVariants.all{ variant ->
+android.applicationVariants.all { variant ->
     variant.mergeAssets.doFirst {
         File fonts = file("${rootDir}/build/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.1/assets/fonts")
         if (fonts.exists()) {

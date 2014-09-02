@@ -36,6 +36,7 @@ public class HackerNewsManager {
     @Nullable private static HackerNewsManager sInstance;
     @NonNull private final HackerNewsService mHackerNewsService;
     @Nullable private ReadabilityService mReadabilityService = null;
+    @Nullable private List<Comment> mComments;
 
     public HackerNewsManager() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -84,7 +85,7 @@ public class HackerNewsManager {
         mHackerNewsService.getTopStoriesPageTwo(new RetrofitStoryListCallback(callback));
     }
 
-    public void getItemDetails(long storyId, final HackerNewsCallback<StoryDetail> callback){
+    public void getItemDetails(@NonNull long storyId, @NonNull final HackerNewsCallback<StoryDetail> callback){
        mHackerNewsService.getItemDetails(storyId, new Callback<NodeHNAPIStoryDetail>() {
            @Override
            public void success(NodeHNAPIStoryDetail nodeHNAPIStoryDetail, Response response) {
@@ -140,6 +141,7 @@ public class HackerNewsManager {
 
         return null;
     }
+
 
 
     class LongTypeAdapter implements JsonDeserializer<Long> {

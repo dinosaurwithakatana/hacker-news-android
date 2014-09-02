@@ -7,17 +7,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.ui.storydetail.StoryCommentsFragment;
-import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 import io.dwak.holohackernews.app.manager.FeedType;
+import io.dwak.holohackernews.app.ui.about.AboutActivity;
+import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
+import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -64,8 +65,8 @@ public class MainActivity extends FragmentActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.Fragment newFragment = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment newFragment = null;
         if (position < 3) {
             switch (position) {
                 case 0:
@@ -77,32 +78,8 @@ public class MainActivity extends FragmentActivity
                 case 2:
                     newFragment = StoryListFragment.newInstance(FeedType.NEW);
                     break;
-
-
             }
             onSectionAttached(position + 1);
-            if (fragmentManager.findFragmentByTag(mStoryUrl) != null
-                    && fragmentManager.findFragmentByTag(mStoryUrl).isVisible()) {
-
-                Fragment linkFragment = fragmentManager.findFragmentByTag(mStoryUrl);
-                Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
-
-                fragmentManager.beginTransaction()
-                        .hide(linkFragment)
-                        .remove(linkFragment)
-                        .hide(commentFragment)
-                        .remove(commentFragment)
-                        .commit();
-            }
-            else if (fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()) != null
-                    && fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName()).isVisible()) {
-                Fragment commentFragment = fragmentManager.findFragmentByTag(StoryCommentsFragment.class.getSimpleName());
-
-                fragmentManager.beginTransaction()
-                        .hide(commentFragment)
-                        .remove(commentFragment)
-                        .commit();
-            }
             fragmentManager.beginTransaction()
                     .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
                     .commit();
@@ -110,6 +87,10 @@ public class MainActivity extends FragmentActivity
         else {
             switch (position) {
                 case 3:
+                    Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                    startActivity(settingsIntent);
+                    break;
+                case 4:
                     Intent aboutIntent = new Intent(this, AboutActivity.class);
                     startActivity(aboutIntent);
                     break;

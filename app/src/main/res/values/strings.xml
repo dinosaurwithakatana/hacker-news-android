@@ -30,5 +30,7 @@
     <string name="dwak">Dinosaur With a Katana</string>
     <string name="website">Homepage and source code\nhttp://dwak.io/holo_hacker_news</string>
     <string name="title_activity_story_detail">StoryDetailActivity</string>
+    <string name="title_section_settings">Settings</string>
+    <string name="title_section_about">About</string>
 
 </resources>
