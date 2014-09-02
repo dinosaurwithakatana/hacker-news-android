@@ -17,6 +17,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
@@ -115,17 +117,10 @@ public class CommentsListAdapter extends ArrayAdapter<NodeHNAPIComment> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
-
         if (convertView == null) {
             convertView = ((Activity) mContext).getLayoutInflater().inflate(mResource, parent, false);
 
-            viewHolder = new ViewHolder();
-
-            viewHolder.mCommentContent = (TextView) convertView.findViewById(R.id.comment_content);
-            viewHolder.mColorCodeView = convertView.findViewById(R.id.color_code);
-            viewHolder.mCommentSubmissionTime = (TextView) convertView.findViewById(R.id.comment_submission_time);
-            viewHolder.mCommentSubmitter = (TextView) convertView.findViewById(R.id.comment_submitter);
-            viewHolder.mOverflow = (ImageButton) convertView.findViewById(R.id.comment_overflow);
+            viewHolder = new ViewHolder(convertView);
 
             convertView.setTag(viewHolder);
         }
@@ -200,10 +195,14 @@ public class CommentsListAdapter extends ArrayAdapter<NodeHNAPIComment> {
     }
 
     static class ViewHolder {
-        TextView mCommentContent;
-        View mColorCodeView;
-        TextView mCommentSubmitter;
-        TextView mCommentSubmissionTime;
-        ImageButton mOverflow;
+        @InjectView(R.id.comment_content) TextView mCommentContent;
+        @InjectView(R.id.color_code) View mColorCodeView;
+        @InjectView(R.id.comment_submission_time) TextView mCommentSubmissionTime;
+        @InjectView(R.id.comment_submitter)TextView mCommentSubmitter;
+        @InjectView(R.id.comment_overflow) ImageButton mOverflow;
+
+        public ViewHolder(View convertView) {
+            ButterKnife.inject(this, convertView);
+        }
     }
 }

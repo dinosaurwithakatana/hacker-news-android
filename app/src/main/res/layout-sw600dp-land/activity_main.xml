@@ -10,6 +10,7 @@
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
+        android:background="@color/holo_light_bg"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +32,6 @@
 
         <FrameLayout
             android:id="@+id/container"
-            android:background="@color/holo_light_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"/>

@@ -6,15 +6,24 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.*;
-import android.widget.*;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,26 +36,10 @@ import io.dwak.holohackernews.app.R;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    /**
-     * Remember the position of the selected item.
-     */
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-
-    /**
-     * Per the design guidelines, you should show the drawer on launch until the user manually
-     * expands it. This shared preference tracks this.
-     */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
-    /**
-     * A pointer to the current callbacks instance (the Activity).
-     */
     private NavigationDrawerCallbacks mCallbacks;
-
-    /**
-     * Helper component that ties the action bar to the navigation drawer.
-     */
-    private ActionBarDrawerToggle mDrawerToggle;
+    private HNDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
@@ -63,8 +56,6 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Read in the flag indicating whether or not the user has demonstrated awareness of the
-        // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
@@ -73,14 +64,12 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
     }
 
@@ -108,16 +97,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(navigationTitles, secondaryTitles);
         mDrawerListView.setAdapter(adapter);
-//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-//                getActionBar().getThemedContext(),
-//                R.layout.navigation_item,
-//                R.id.navigation_title,
-//                new String[]{
-//                        getString(R.string.title_section1),
-//                        getString(R.string.title_section2),
-//                        getString(R.string.title_section3),
-//                }
-//        ));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return rootView;
     }
@@ -146,7 +125,8 @@ public class NavigationDrawerFragment extends Fragment {
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
-        mDrawerToggle = new ActionBarDrawerToggle(
+        setContentPivot(mDrawerLayout.getRootView());
+        mDrawerToggle = new HNDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
                 R.drawable.ic_navigation_drawer,             /* nav drawer image to replace 'Up' caret */
@@ -275,6 +255,13 @@ public class NavigationDrawerFragment extends Fragment {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
     }
+    private void setContentPivot(View fragmentContainerView) {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        fragmentContainerView.setPivotY(size.y / 2);
+        fragmentContainerView.setPivotX(size.x / 2);
+    }
 
     private ActionBar getActionBar() {
         return getActivity().getActionBar();
@@ -353,4 +340,38 @@ public class NavigationDrawerFragment extends Fragment {
             return view;
         }
     }
+
+    private class HNDrawerToggle extends ActionBarDrawerToggle{
+
+        /**
+         * Construct a new ActionBarDrawerToggle.
+         * <p/>
+         * <p>The given {@link android.app.Activity} will be linked to the specified {@link android.support.v4.widget.DrawerLayout}.
+         * The provided drawer indicator drawable will animate slightly off-screen as the drawer
+         * is opened, indicating that in the open state the drawer will move off-screen when pressed
+         * and in the closed state the drawer will move on-screen when pressed.</p>
+         * <p/>
+         * <p>String resources must be provided to describe the open/close drawer actions for
+         * accessibility services.</p>
+         *
+         * @param activity                  The Activity hosting the drawer
+         * @param drawerLayout              The DrawerLayout to link to the given Activity's ActionBar
+         * @param drawerImageRes            A Drawable resource to use as the drawer indicator
+         * @param openDrawerContentDescRes  A String resource to describe the "open drawer" action
+         *                                  for accessibility
+         * @param closeDrawerContentDescRes A String resource to describe the "close drawer" action
+         */
+        public HNDrawerToggle(Activity activity, DrawerLayout drawerLayout, int drawerImageRes, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
+            super(activity, drawerLayout, drawerImageRes, openDrawerContentDescRes, closeDrawerContentDescRes);
+        }
+
+        @Override
+        public void onDrawerSlide(View drawerView, float offset){
+            super.onDrawerSlide(drawerView, offset);
+            mDrawerLayout.getChildAt(1).setScaleX(1 - (offset * 0.01f));
+            mDrawerLayout.getChildAt(1).setScaleY(1 - (offset * 0.01f));
+        }
+
+    }
+
 }

@@ -74,10 +74,6 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         if (getArguments() != null) {
             mFeedType = (FeedType) getArguments().getSerializable(FEED_TO_LOAD);
         }
-
-        mHackerNewsManager = HackerNewsManager.getInstance();
-        mStoryList = new ArrayList<Story>();
-        mPageTwoLoaded = false;
     }
 
     private void refresh() {
@@ -101,6 +97,10 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_storylist_list, container, false);
         ButterKnife.inject(this, view);
+
+        mHackerNewsManager = HackerNewsManager.getInstance();
+        mStoryList = new ArrayList<Story>();
+        mPageTwoLoaded = false;
 
         mContainer = view.findViewById(R.id.story_list);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);

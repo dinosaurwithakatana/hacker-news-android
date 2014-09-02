@@ -21,6 +21,27 @@ public class StoryDetail {
     private Long mMoreCommentsId;
     private String mType;
 
+    public StoryDetail(Long id, String title, String url,
+                       String domain, Integer points, String user,
+                       String timeAgo, Integer commentsCount, String content,
+                       Object poll, String link, List<Comment> commentList,
+                       Long moreCommentsId, String type) {
+        mId = id;
+        mTitle = title;
+        mUrl = url;
+        mDomain = domain;
+        mPoints = points;
+        mUser = user;
+        mTimeAgo = timeAgo;
+        mCommentsCount = commentsCount;
+        mContent = content;
+        mPoll = poll;
+        mLink = link;
+        mCommentList = commentList;
+        mMoreCommentsId = moreCommentsId;
+        mType = type;
+    }
+
     @Override
     public String toString() {
         return "StoryDetail{" +

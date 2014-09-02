@@ -1,8 +1,9 @@
 package io.dwak.holohackernews.app;
 
 import android.app.Application;
-import android.os.Build;
-import io.dwak.holohackernews.app.BuildConfig;
+import android.content.Context;
+
+import java.io.File;
 
 /**
  * Created by vishnu on 5/3/14.
@@ -11,7 +12,8 @@ public class HoloHackerNewsApplication extends Application {
     private static boolean mDebug = BuildConfig.DEBUG;
     private static String READABILITY_TOKEN = BuildConfig.READABILITY_TOKEN;
     private static boolean TRAVIS = BuildConfig.TRAVIS;
-    private static HoloHackerNewsApplication mInstance = new HoloHackerNewsApplication();
+    private static HoloHackerNewsApplication sInstance;
+    private Context mContext;
 
     public static String getREADABILITY_TOKEN() {
         return READABILITY_TOKEN;
@@ -20,6 +22,11 @@ public class HoloHackerNewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (sInstance == null) {
+            sInstance = this;
+        }
+
+        mContext = getApplicationContext();
     }
 
     public static boolean isDebug() {
@@ -31,10 +38,14 @@ public class HoloHackerNewsApplication extends Application {
     }
 
     public static HoloHackerNewsApplication getInstance() {
-        if (mInstance == null) {
-            mInstance = new HoloHackerNewsApplication();
-        }
+        return sInstance;
+    }
 
-        return mInstance;
+    public Context getContext() {
+        return mContext;
+    }
+
+    public File getApplicationCacheDir(){
+        return getCacheDir();
     }
 }

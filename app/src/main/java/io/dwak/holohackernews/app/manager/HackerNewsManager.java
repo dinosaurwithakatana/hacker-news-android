@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app.manager;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,10 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.Story;
+import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.ReadabilityService;
+import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
+import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -28,9 +33,9 @@ import retrofit.converter.GsonConverter;
  * Created by vishnu on 8/18/14.
  */
 public class HackerNewsManager {
-    private static HackerNewsManager sInstance;
-    private final HackerNewsService mHackerNewsService;
-    private ReadabilityService mReadabilityService = null;
+    @Nullable private static HackerNewsManager sInstance;
+    @NonNull private final HackerNewsService mHackerNewsService;
+    @Nullable private ReadabilityService mReadabilityService = null;
 
     public HackerNewsManager() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -52,6 +57,7 @@ public class HackerNewsManager {
         }
     }
 
+    @NonNull
     public static HackerNewsManager getInstance() {
         if (sInstance == null) {
             sInstance = new HackerNewsManager();
@@ -78,6 +84,19 @@ public class HackerNewsManager {
         mHackerNewsService.getTopStoriesPageTwo(new RetrofitStoryListCallback(callback));
     }
 
+    public void getItemDetails(long storyId, final HackerNewsCallback<StoryDetail> callback){
+       mHackerNewsService.getItemDetails(storyId, new Callback<NodeHNAPIStoryDetail>() {
+           @Override
+           public void success(NodeHNAPIStoryDetail nodeHNAPIStoryDetail, Response response) {
+
+           }
+
+           @Override
+           public void failure(RetrofitError error) {
+
+           }
+       });
+    }
     private static class RetrofitStoryListCallback implements Callback<List<NodeHNAPIStory>> {
         private final HackerNewsCallback<List<Story>> mCallback;
 
@@ -109,6 +128,19 @@ public class HackerNewsManager {
             mCallback.onResponse(null, new HackerNewsException(error));
         }
     }
+
+    private Comment fromNodeHNAPIComment(NodeHNAPIComment nodeHNAPIComment){
+        Comment comment = new Comment();
+        comment.setContent(nodeHNAPIComment.getContent());
+        comment.setId(nodeHNAPIComment.getId());
+        comment.setLevel(nodeHNAPIComment.getLevel());
+        comment.setTimeAgo(nodeHNAPIComment.getTimeAgo());
+        comment.setUser(nodeHNAPIComment.getUser());
+        List<Comment> childComments = new ArrayList<Comment>();
+
+        return null;
+    }
+
 
     class LongTypeAdapter implements JsonDeserializer<Long> {
 
