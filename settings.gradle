@@ -1,1 +1,1 @@
-include ':app', ':app:libs:showcaseview', ':app:libs:FloatingActionButton'
+include ':app', ':app:libs:showcaseview'

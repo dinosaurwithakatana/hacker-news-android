@@ -31,19 +31,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.faizmalkani.floatingactionbutton.FloatingActionButton;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
+import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
@@ -102,8 +102,8 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
         ButterKnife.inject(this, rootView);
 
-        mFloatingActionButton.setDrawable(getResources().getDrawable(R.drawable.ic_action_readability));
-        mFloatingActionButton.setColor(getResources().getColor(R.color.system_bar_tint));
+//        mFloatingActionButton.setDrawable(getResources().getDrawable(R.drawable.ic_action_readability));
+//        mFloatingActionButton.setColor(getResources().getColor(R.color.system_bar_tint));
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -458,7 +458,12 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
 
     @Override
     public void onScroll(int l, int t, int oldL, int oldT) {
-        mFloatingActionButton.hide(t >= oldT);
+        if(t >= oldT) {
+            mFloatingActionButton.hide();
+        }
+        else {
+            mFloatingActionButton.show();
+        }
     }
 
     static class HeaderViewHolder {

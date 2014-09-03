@@ -3,15 +3,13 @@ apply plugin: 'android'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.1"
-
+    buildToolsVersion '19.1'
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 19
         versionCode 4
-        versionName "0.9.7-BETA"
+        versionName '0.9.7-BETA'
     }
-
     signingConfigs {
         release {
             def Properties localProps = new Properties()
@@ -24,20 +22,19 @@ android {
             keyPassword keyProps["pass"]
         }
     }
-
     buildTypes {
         travis.initWith(buildTypes.debug)
         travis {
-            applicationIdSuffix ".travis"
-            versionNameSuffix "-travis"
+            applicationIdSuffix '.travis'
+            versionNameSuffix '-travis'
             debuggable true
             buildConfigField "String", "READABILITY_TOKEN", String.valueOf("null")
             buildConfigField "boolean", "TRAVIS", 'true'
         }
         debug.initWith(buildTypes.debug)
         debug {
-            applicationIdSuffix ".dev"
-            versionNameSuffix "-dev"
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
             def Properties localProps = new Properties()
             localProps.load(new FileInputStream(file('../local.properties')))
             def Properties keyProps = new Properties()
@@ -57,12 +54,13 @@ android {
             buildConfigField "boolean", "TRAVIS", 'false'
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':app:libs:showcaseview')
-    compile project(':app:libs:FloatingActionButton')
     compile 'com.android.support:support-v4:20.0.0'
     compile 'com.squareup.retrofit:retrofit:1.5.0'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.0.0'
@@ -70,6 +68,7 @@ dependencies {
     compile 'com.facebook.rebound:rebound:0.3.4'
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.android.support:support-annotations:20.0.0'
+    compile 'com.melnykov:floatingactionbutton:1.0.2'
 }
 
 android.applicationVariants.all { variant ->
