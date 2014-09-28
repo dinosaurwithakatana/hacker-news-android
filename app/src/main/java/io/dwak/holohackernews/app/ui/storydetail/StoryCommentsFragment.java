@@ -33,9 +33,6 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
@@ -44,8 +41,6 @@ import io.dwak.holohackernews.app.manager.HackerNewsCallback;
 import io.dwak.holohackernews.app.manager.HackerNewsException;
 import io.dwak.holohackernews.app.manager.HackerNewsManager;
 import io.dwak.holohackernews.app.models.StoryDetail;
-import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
-import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
@@ -67,7 +62,6 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     private HeaderViewHolder mHeaderViewHolder;
     private ActionBar mActionBar;
     private CommentsListAdapter mListAdapter;
-    private NodeHNAPIStoryDetail mNodeHNAPIStoryDetail;
     private Bundle mWebViewBundle;
     private boolean mReadability;
 
@@ -104,12 +98,9 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
         ButterKnife.inject(this, rootView);
 
-//        mFloatingActionButton.setDrawable(getResources().getDrawable(R.drawable.ic_action_readability));
-//        mFloatingActionButton.setColor(getResources().getColor(R.color.system_bar_tint));
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -189,7 +180,6 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         mActionBar = getActivity().getActionBar();
         mActionBar.show();
         mActionBar.setTitle("Hacker News");
-        List<NodeHNAPIComment> nodeHNAPICommentList = new ArrayList<NodeHNAPIComment>();
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mContainer = rootView.findViewById(R.id.container);
@@ -404,7 +394,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                         sendIntent.setAction(Intent.ACTION_SEND);
                         switch (i) {
                             case 0:
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, mNodeHNAPIStoryDetail.getUrl());
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, mStoryDetail.getUrl());
                                 break;
                             case 1:
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + mStoryId);
@@ -438,7 +428,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         mReadability = !mReadability;
         if (mReadability) {
             mReadabilityService.getReadabilityForArticle(HoloHackerNewsApplication.getREADABILITY_TOKEN(),
-                    mNodeHNAPIStoryDetail.getUrl(),
+                    mStoryDetail.getUrl(),
                     new Callback<ReadabilityArticle>() {
                         @Override
                         public void success(ReadabilityArticle readabilityArticle, Response response) {
@@ -459,7 +449,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                     });
         }
         else {
-            mWebView.loadUrl(mNodeHNAPIStoryDetail.getUrl());
+            mWebView.loadUrl(mStoryDetail.getUrl());
         }
     }
 
