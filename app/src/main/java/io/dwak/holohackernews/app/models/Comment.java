@@ -1,28 +1,26 @@
 package io.dwak.holohackernews.app.models;
 
-import java.util.List;
-
 /**
  * Created by vishnu on 5/3/14.
  */
 public class Comment {
     private Long mId;
     private int mLevel;
+    private boolean mOriginalPoster;
     private String mUser;
     private String mTimeAgo;
     private String mContent;
-    private List<Comment> mChildComments;
 
     public Comment() {
     }
 
-    public Comment(Long id, int level, String user, String timeAgo, String content, List<Comment> childComments) {
+    public Comment(Long id, int level, boolean originalPoster, String user, String timeAgo, String content) {
         mId = id;
         mLevel = level;
+        mOriginalPoster = originalPoster;
         mUser = user;
         mTimeAgo = timeAgo;
         mContent = content;
-        mChildComments = childComments;
     }
 
     public long getId() {
@@ -45,10 +43,6 @@ public class Comment {
         return mContent;
     }
 
-    public List<Comment> getChildComments() {
-        return mChildComments;
-    }
-
     public void setId(Long id) {
         mId = id;
     }
@@ -69,10 +63,6 @@ public class Comment {
         mContent = content;
     }
 
-    public void setChildComments(List<Comment> childComments) {
-        mChildComments = childComments;
-    }
-
     @Override
     public String toString() {
         return "Comment{" +
@@ -81,8 +71,14 @@ public class Comment {
                 ", mUser='" + mUser + '\'' +
                 ", mTimeAgo='" + mTimeAgo + '\'' +
                 ", mContent='" + mContent + '\'' +
-                ", mChildComments=" + mChildComments +
                 '}';
     }
 
+    public boolean isOriginalPoster() {
+        return mOriginalPoster;
+    }
+
+    public void setOriginalPoster(boolean originalPoster) {
+        mOriginalPoster = originalPoster;
+    }
 }

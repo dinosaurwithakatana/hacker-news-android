@@ -40,6 +40,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.manager.HackerNewsCallback;
+import io.dwak.holohackernews.app.manager.HackerNewsException;
+import io.dwak.holohackernews.app.manager.HackerNewsManager;
+import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
@@ -56,6 +60,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryCommentsFragment.class.getSimpleName();
     public static final String HACKER_NEWS_ITEM_BASE_URL = "https://news.ycombinator.com/item?id=";
+    public static final String HACKER_NEWS_BASE_URL = "https://news.ycombinator.com/";
     private final int DISTANCE_TO_HIDE_ACTIONBAR = 1;
     private long mStoryId;
     private int mPrevVisibleItem;
@@ -72,6 +77,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
     @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
+    private StoryDetail mStoryDetail;
 
     public StoryCommentsFragment() {
         // Required empty public constructor
@@ -118,7 +124,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
 
         mLinkLayout.setStashPixel(0);
         mLinkLayout.setRevealPixel(height);
-        mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TranslateDirection.TRANSLATE_DIRECTION_VERTICAL);
+        mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
         mLinkLayout.setOpen(false);
 
         final ProgressBar progressBar = (ProgressBar) mLinkLayout.findViewById(R.id.progress_bar);
@@ -223,7 +229,7 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                 }
             }
         });
-        mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, nodeHNAPICommentList);
+        mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item, mStoryDetail);
         View headerView = inflater.inflate(R.layout.comments_header, null);
         mHeaderViewHolder = new HeaderViewHolder(headerView);
 
@@ -249,99 +255,100 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     }
 
     private void refresh() {
-        mHackerNewsService.getItemDetails(mStoryId, new Callback<NodeHNAPIStoryDetail>() {
-
+        HackerNewsManager.getInstance().getItemDetails(mStoryId, new HackerNewsCallback<StoryDetail>() {
             @Override
-            public void success(final NodeHNAPIStoryDetail nodeHNAPIStoryDetail, Response response) {
-                mNodeHNAPIStoryDetail = nodeHNAPIStoryDetail;
-                mHeaderViewHolder.mStoryTitle.setText(nodeHNAPIStoryDetail.getTitle());
-                mHeaderViewHolder.mStorySubmitter.setText(nodeHNAPIStoryDetail.getUser());
-                if (!"job".equals(nodeHNAPIStoryDetail.getType())) {
-                    mHeaderViewHolder.mContent.setVisibility(View.GONE);
-                    if ("link".equals(nodeHNAPIStoryDetail.getType())) {
-                        String domain = nodeHNAPIStoryDetail.getDomain();
-                        mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
-                        mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
-                        if (mWebViewBundle == null) {
-                            mWebView.loadUrl(nodeHNAPIStoryDetail.getUrl());
-                        }
-                        else {
-                            mWebView.restoreState(mWebViewBundle);
-                        }
-                    }
-                    else if ("ask".equals(nodeHNAPIStoryDetail.getType())) {
-                        mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
-
-                        mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
-                        Spanned jobContent = Html.fromHtml(nodeHNAPIStoryDetail.getContent());
-                        mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-                        mHeaderViewHolder.mContent.setText(jobContent);
-                    }
-                    mHeaderViewHolder.mStoryPoints.setText(String.valueOf(nodeHNAPIStoryDetail.getPoints()));
-                    mHeaderViewHolder.mStoryLongAgo.setText(" | " + nodeHNAPIStoryDetail.getTimeAgo());
-                    mHeaderViewHolder.mCommentsCount.setText(nodeHNAPIStoryDetail.getCommentsCount() + " comments");
-                }
-                else {
-                    mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
-                    Spanned jobContent = Html.fromHtml(nodeHNAPIStoryDetail.getContent());
-                    mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-                    mHeaderViewHolder.mContent.setText(jobContent);
-                    mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
-                    mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
-                    mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
-
-                }
-                mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-                    @Override
-                    public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
-                    }
-
-                    @Override
-                    public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
-                        if (firstVisibleItem < mPrevVisibleItem - DISTANCE_TO_HIDE_ACTIONBAR) {
-//                            setActionbarVisibility(true);
-                            mPrevVisibleItem = firstVisibleItem;
-                        }
-                        else if (firstVisibleItem > mPrevVisibleItem + DISTANCE_TO_HIDE_ACTIONBAR) {
-//                            setActionbarVisibility(false);
-                            mPrevVisibleItem = firstVisibleItem;
-                        }
-                        if (firstVisibleItem == 0) {
-                            mActionBar.setTitle("Hacker News");
-                        }
-                        else {
-                            mActionBar.setTitle(nodeHNAPIStoryDetail.getTitle());
-                        }
-                    }
-                });
-                mOpenLinkDialogButton.setVisibility(View.VISIBLE);
-                mOpenLinkDialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mLinkLayout.setOpen(!mLinkLayout.isOpen());
-                        if ("ask".equals(nodeHNAPIStoryDetail.getType())) {
-                            nodeHNAPIStoryDetail.setUrl("https://news.ycombinator.com/" + nodeHNAPIStoryDetail.getUrl());
-                        }
-                        else if ("job".equals(nodeHNAPIStoryDetail.getType())) {
-                            if (nodeHNAPIStoryDetail.getUrl().contains("/item?id=")) {
-                                nodeHNAPIStoryDetail.setUrl("https://news.ycombinator.com/" + nodeHNAPIStoryDetail.getUrl());
+            public void onResponse(StoryDetail response, HackerNewsException exception) {
+                if (exception == null) {
+                    Log.d(TAG, response.toString());
+                    mStoryDetail = response;
+                    mHeaderViewHolder.mStoryTitle.setText(mStoryDetail.getTitle());
+                    mHeaderViewHolder.mStorySubmitter.setText(mStoryDetail.getUser());
+                    if (!"job".equals(mStoryDetail.getType())) {
+                        mHeaderViewHolder.mContent.setVisibility(View.GONE);
+                        if ("link".equals(mStoryDetail.getType())) {
+                            String domain = mStoryDetail.getDomain();
+                            mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
+                            mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
+                            if (mWebViewBundle == null) {
+                                mWebView.loadUrl(mStoryDetail.getUrl());
+                            }
+                            else {
+                                mWebView.restoreState(mWebViewBundle);
                             }
                         }
-                    }
-                });
-                mListAdapter.setNodeHNAPIStoryDetail(nodeHNAPIStoryDetail);
-                mListAdapter.setNodeHNAPIComments(nodeHNAPIStoryDetail.getNodeHNAPICommentList());
-                mListAdapter.notifyDataSetChanged();
-                showProgress(false);
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
+                        else if ("ask".equals(mStoryDetail.getType())) {
+                            mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d(TAG, error.toString());
-                Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
+                            mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
+                            Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
+                            mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+                            mHeaderViewHolder.mContent.setText(jobContent);
+                        }
+                        mHeaderViewHolder.mStoryPoints.setText(String.valueOf(mStoryDetail.getPoints()));
+                        mHeaderViewHolder.mStoryLongAgo.setText(" | " + mStoryDetail.getTimeAgo());
+                        mHeaderViewHolder.mCommentsCount.setText(mStoryDetail.getCommentsCount() + " comments");
+                    }
+                    else {
+                        mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
+                        Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
+                        mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+                        mHeaderViewHolder.mContent.setText(jobContent);
+                        mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
+                        mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
+                        mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
+                    }
+
+                    mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+                        @Override
+                        public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+
+                        }
+
+                        @Override
+                        public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
+                            if (firstVisibleItem < mPrevVisibleItem - DISTANCE_TO_HIDE_ACTIONBAR) {
+//                            setActionbarVisibility(true);
+                                mPrevVisibleItem = firstVisibleItem;
+                            }
+                            else if (firstVisibleItem > mPrevVisibleItem + DISTANCE_TO_HIDE_ACTIONBAR) {
+//                            setActionbarVisibility(false);
+                                mPrevVisibleItem = firstVisibleItem;
+                            }
+                            if (firstVisibleItem == 0) {
+                                mActionBar.setTitle("Hacker News");
+                            }
+                            else {
+                                mActionBar.setTitle(mStoryDetail.getTitle());
+                            }
+                        }
+                    });
+
+                    mOpenLinkDialogButton.setVisibility(View.VISIBLE);
+                    mOpenLinkDialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mLinkLayout.setOpen(!mLinkLayout.isOpen());
+                            if ("ask".equals(mStoryDetail.getType())) {
+                                mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
+                            }
+                            else if ("job".equals(mStoryDetail.getType())) {
+                                if (mStoryDetail.getUrl().contains("/item?id=")) {
+                                    mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
+                                }
+                            }
+                        }
+                    });
+
+                    mListAdapter.clear();
+                    mListAdapter.addAll(mStoryDetail.getCommentList());
+                    showProgress(false);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+                else {
+                    Log.d(TAG, exception.toString());
+                    Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

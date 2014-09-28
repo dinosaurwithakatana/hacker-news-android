@@ -16,14 +16,10 @@ import io.dwak.holohackernews.app.R;
  */
 public class NavigationDrawerAdapter extends ArrayAdapter<NavigationDrawerItem> {
     private final Context mContext;
-    private final int mResource;
-    private final List<NavigationDrawerItem> mNavigationDrawerItems;
 
     public NavigationDrawerAdapter(Context context, int resource, List<NavigationDrawerItem> navigationDrawerItems) {
         super(context, resource, navigationDrawerItems);
         mContext = context;
-        mResource = resource;
-        mNavigationDrawerItems = navigationDrawerItems;
     }
 
     @Override

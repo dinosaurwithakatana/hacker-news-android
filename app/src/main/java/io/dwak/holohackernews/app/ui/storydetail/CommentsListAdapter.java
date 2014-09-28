@@ -14,77 +14,26 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
-import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
+import io.dwak.holohackernews.app.models.Comment;
+import io.dwak.holohackernews.app.models.StoryDetail;
 
 /**
  * Created by vishnu on 5/4/14.
  */
-public class CommentsListAdapter extends ArrayAdapter<NodeHNAPIComment> {
+public class CommentsListAdapter extends ArrayAdapter<Comment> {
     private final int mResource;
-    private List<NodeHNAPIComment> mNodeHNAPIComments;
-    private Context mContext;
-    private List<NodeHNAPIComment> mExpandedNodeHNAPIComments;
-    private NodeHNAPIStoryDetail mNodeHNAPIStoryDetail;
+    private final StoryDetail mStoryDetail;
+    private final Context mContext;
 
-    public CommentsListAdapter(Context context, int resource, List<NodeHNAPIComment> objects) {
-        super(context, resource, objects);
+    public CommentsListAdapter(Context context, int resource, StoryDetail storyDetail) {
+        super(context, resource);
         mContext = context;
         mResource = resource;
-        mNodeHNAPIComments = objects;
-        mExpandedNodeHNAPIComments = new ArrayList<NodeHNAPIComment>();
-    }
-
-    private void expandComments(NodeHNAPIComment nodeHNAPIComment) {
-        mExpandedNodeHNAPIComments.add(nodeHNAPIComment);
-
-        if (nodeHNAPIComment.getChildNodeHNAPIComments().size() == 0) {
-            return;
-        }
-
-        for (NodeHNAPIComment childNodeHNAPIComment : nodeHNAPIComment.getChildNodeHNAPIComments()) {
-            expandComments(childNodeHNAPIComment);
-        }
-
-    }
-
-    public void setNodeHNAPIStoryDetail(NodeHNAPIStoryDetail nodeHNAPIStoryDetail) {
-        mNodeHNAPIStoryDetail = nodeHNAPIStoryDetail;
-    }
-
-    public void setNodeHNAPIComments(List<NodeHNAPIComment> nodeHNAPIComments) {
-        mNodeHNAPIComments = nodeHNAPIComments;
-        mExpandedNodeHNAPIComments.clear();
-        for (NodeHNAPIComment nodeHNAPIComment : mNodeHNAPIComments) {
-            expandComments(nodeHNAPIComment);
-        }
-    }
-
-    @Override
-    public int getCount() {
-        return mExpandedNodeHNAPIComments.size();
-    }
-
-    @Override
-    public NodeHNAPIComment getItem(int position) {
-        return mExpandedNodeHNAPIComments.get(position);
-    }
-
-    @Override
-    public int getPosition(NodeHNAPIComment item) {
-        return mExpandedNodeHNAPIComments.indexOf(item);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return mExpandedNodeHNAPIComments.get(position).getLevel();
+        mStoryDetail = storyDetail;
     }
 
     private void commentAction(final int i) {
@@ -149,7 +98,7 @@ public class CommentsListAdapter extends ArrayAdapter<NodeHNAPIComment> {
         }
         viewHolder.mCommentSubmitter.setTextColor(
                 mContext.getResources().getColor(
-                        mNodeHNAPIStoryDetail.getUser().equals(submitter)
+                                getItem(position).isOriginalPoster()
                                 ? android.R.color.holo_orange_light
                                 : android.R.color.black
                 )

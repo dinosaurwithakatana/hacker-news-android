@@ -23,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import io.dwak.holohackernews.app.R;
@@ -144,7 +143,9 @@ public class NavigationDrawerFragment extends Fragment {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
+            if (mDrawerListView != null) {
+                mCallbacks.onNavigationDrawerItemSelected((NavigationDrawerItem) mDrawerListView.getAdapter().getItem(position));
+            }
         }
     }
 
@@ -170,7 +171,6 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        selectItem(mCurrentSelectedPosition);
     }
 
     @Override
@@ -186,26 +186,17 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        List<String> navigationTitles = Arrays.asList(
-                getString(R.string.title_section1),
-                getString(R.string.title_section2),
-                getString(R.string.title_section3));
-
-        List<String> secondaryTitles = Arrays.asList(
-                "Settings",
-                "About"
-        );
-
         List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<NavigationDrawerItem>();
-        navigationDrawerItems.add(new NavigationDrawerItem(0, getResources().getString(R.string.title_section1), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(0, getResources().getString(R.string.title_section2), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(0, getResources().getString(R.string.title_section2), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
-        navigationDrawerItems.add(new NavigationDrawerItem(R.drawable.ic_action_about, getResources().getString(R.string.title_section_about), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section1), false));
+        navigationDrawerItems.add(new NavigationDrawerItem(1, 0, getResources().getString(R.string.title_section2), false));
+        navigationDrawerItems.add(new NavigationDrawerItem(2, 0, getResources().getString(R.string.title_section3), false));
+        navigationDrawerItems.add(new NavigationDrawerItem(3, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(4, R.drawable.ic_action_about, getResources().getString(R.string.title_section_about), true));
 
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), 0, navigationDrawerItems);
         mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        selectItem(mCurrentSelectedPosition);
         return rootView;
     }
 
@@ -283,8 +274,10 @@ public class NavigationDrawerFragment extends Fragment {
     public static interface NavigationDrawerCallbacks {
         /**
          * Called when an item in the navigation drawer is selected.
+         *
+         * @param drawerItem
          */
-        void onNavigationDrawerItemSelected(int position);
+        void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem);
     }
 
     private class HNDrawerToggle extends ActionBarDrawerToggle {

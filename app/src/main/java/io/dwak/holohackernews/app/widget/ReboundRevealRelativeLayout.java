@@ -17,16 +17,14 @@ import com.facebook.rebound.SpringSystem;
 public class ReboundRevealRelativeLayout extends RelativeLayout {
     private static final SpringConfig SPRING_CONFIG = SpringConfig.fromOrigamiTensionAndFriction(6, 6);
 
-    public static enum TranslateDirection {
-        TRANSLATE_DIRECTION_VERTICAL,
-        TRANSLATE_DIRECTION_HORIZONTAL
-    }
+    public static final int TRANSLATE_DIRECTION_VERTICAL = 0;
+    public static final int TRANSLATE_DIRECTION_HORIZONTAL= 1;
 
     private int mRevealPixel;
     private int mStashPixel;
     private Spring mSpring;
     private boolean mOpen;
-    private TranslateDirection mTranslateDirection;
+    private int mTranslateDirection;
     private RevealListener mRevealListener;
 
     public ReboundRevealRelativeLayout(Context context) {
@@ -73,7 +71,7 @@ public class ReboundRevealRelativeLayout extends RelativeLayout {
      *
      * @param translateDirection {@link io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout.TranslateDirection} describing the direction to animate
      */
-    public void setTranslateDirection(TranslateDirection translateDirection) {
+    public void setTranslateDirection(int translateDirection) {
         mTranslateDirection = translateDirection;
     }
 

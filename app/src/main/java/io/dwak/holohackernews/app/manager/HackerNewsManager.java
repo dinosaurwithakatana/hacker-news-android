@@ -89,12 +89,35 @@ public class HackerNewsManager {
        mHackerNewsService.getItemDetails(storyId, new Callback<NodeHNAPIStoryDetail>() {
            @Override
            public void success(NodeHNAPIStoryDetail nodeHNAPIStoryDetail, Response response) {
+               List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.getNodeHNAPICommentList();
+               List<NodeHNAPIComment> expandedComments = new ArrayList<NodeHNAPIComment>();
+               for (NodeHNAPIComment nodeHNAPIComment : nodeHNAPIComments) {
+                   expandComments(expandedComments, nodeHNAPIComment);
+               }
 
+               List<Comment> commentList = new ArrayList<Comment>();
+
+               for (NodeHNAPIComment expandedComment : expandedComments) {
+                   Comment comment  = new Comment(expandedComment.getId(), expandedComment.getLevel(),
+                           expandedComment.getUser().toLowerCase().equals(nodeHNAPIStoryDetail.getUser().toLowerCase()),
+                           expandedComment.getUser(), expandedComment.getTimeAgo(), expandedComment.getContent());
+                   commentList.add(comment);
+               }
+
+               StoryDetail storyDetail = new StoryDetail(nodeHNAPIStoryDetail.getId(), nodeHNAPIStoryDetail.getTitle(),
+                       nodeHNAPIStoryDetail.getUrl(), nodeHNAPIStoryDetail.getDomain(),
+                       nodeHNAPIStoryDetail.getPoints(), nodeHNAPIStoryDetail.getUser(),
+                       nodeHNAPIStoryDetail.getTimeAgo(), nodeHNAPIStoryDetail.getCommentsCount(),
+                       nodeHNAPIStoryDetail.getContent(), nodeHNAPIStoryDetail.getPoll(),
+                       nodeHNAPIStoryDetail.getLink(), commentList, nodeHNAPIStoryDetail.getMoreCommentsId(),
+                       nodeHNAPIStoryDetail.getType());
+
+               callback.onResponse(storyDetail, null);
            }
 
            @Override
            public void failure(RetrofitError error) {
-
+                callback.onResponse(null, new HackerNewsException(error));
            }
        });
     }
@@ -130,19 +153,17 @@ public class HackerNewsManager {
         }
     }
 
-    private Comment fromNodeHNAPIComment(NodeHNAPIComment nodeHNAPIComment){
-        Comment comment = new Comment();
-        comment.setContent(nodeHNAPIComment.getContent());
-        comment.setId(nodeHNAPIComment.getId());
-        comment.setLevel(nodeHNAPIComment.getLevel());
-        comment.setTimeAgo(nodeHNAPIComment.getTimeAgo());
-        comment.setUser(nodeHNAPIComment.getUser());
-        List<Comment> childComments = new ArrayList<Comment>();
 
-        return null;
+    private void expandComments(List<NodeHNAPIComment> expandedComments, NodeHNAPIComment nodeHNAPIComment){
+        expandedComments.add(nodeHNAPIComment);
+        if (nodeHNAPIComment.getChildNodeHNAPIComments().size() == 0) {
+            return;
+        }
+
+        for (NodeHNAPIComment childNodeHNAPIComment : nodeHNAPIComment.getChildNodeHNAPIComments()) {
+            expandComments(expandedComments, childNodeHNAPIComment);
+        }
     }
-
-
 
     class LongTypeAdapter implements JsonDeserializer<Long> {
 

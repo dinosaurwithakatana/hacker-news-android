@@ -45,12 +45,12 @@
             tools:layout="@layout/fragment_navigation_drawer"/>
 
     </android.support.v4.widget.DrawerLayout>
-    <fragment
-        android:layout_weight="3"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:name="io.dwak.holohackernews.app.ui.storydetail.StoryCommentsFragment"
-        tools:layout="@layout/fragment_story_comments"
-        android:id="@+id/comments_fragment"/>
+    <!--<fragment-->
+        <!--android:layout_weight="3"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:name="io.dwak.holohackernews.app.ui.storydetail.StoryCommentsFragment"-->
+        <!--tools:layout="@layout/fragment_story_comments"-->
+        <!--android:id="@+id/comments_fragment"/>-->
 </LinearLayout>
 

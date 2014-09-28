@@ -16,16 +16,17 @@ import android.widget.Toast;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.manager.FeedType;
+import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        StoryListFragment.OnStoryListFragmentInteractionListener{
+        StoryListFragment.OnStoryListFragmentInteractionListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
     public static final String STORY_ID = "STORY_ID";
+    private static final String TAG = MainActivity.class.getSimpleName();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -37,6 +38,11 @@ public class MainActivity extends FragmentActivity
     private CharSequence mTitle;
     private String mStoryUrl;
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,61 +63,45 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
-    }
-
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment newFragment = null;
-        if (position < 3) {
-            switch (position) {
-                case 0:
-                    newFragment = StoryListFragment.newInstance(FeedType.TOP);
-                    break;
-                case 1:
-                    newFragment = StoryListFragment.newInstance(FeedType.BEST);
-                    break;
-                case 2:
-                    newFragment = StoryListFragment.newInstance(FeedType.NEW);
-                    break;
-            }
-            onSectionAttached(position + 1);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
-                    .commit();
-        }
-        else {
-            switch (position) {
-                case 3:
-                    Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                    startActivity(settingsIntent);
-                    break;
-                case 4:
-                    Intent aboutIntent = new Intent(this, AboutActivity.class);
-                    startActivity(aboutIntent);
-                    break;
-            }
-        }
-    }
-
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
+        switch (drawerItem.getId()) {
+            case 0:
                 mTitle = getString(R.string.title_section1);
+                newFragment = StoryListFragment.newInstance(FeedType.TOP);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .commit();
+                setTitle(mTitle);
+                break;
+            case 1:
+                mTitle = getString(R.string.title_section2);
+                newFragment = StoryListFragment.newInstance(FeedType.BEST);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .commit();
+                setTitle(mTitle);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_section3);
+                newFragment = StoryListFragment.newInstance(FeedType.NEW);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .commit();
+                setTitle(mTitle);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                break;
+            case 4:
+                Intent aboutIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutIntent);
                 break;
         }
-        setTitle(mTitle);
+
     }
 
     public void restoreActionBar() {
