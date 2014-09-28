@@ -9,6 +9,12 @@ public class ReadabilityArticle {
     private String mShortUrl;
     private String mContent;
 
+    public ReadabilityArticle(String title, String leadImageUrl, String shortUrl, String content) {
+        mTitle = title;
+        mLeadImageUrl = leadImageUrl;
+        mShortUrl = shortUrl;
+        mContent = content;
+    }
 
     public String getLeadImageUrl() {
         return mLeadImageUrl;

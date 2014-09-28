@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.manager.FeedType;
+import io.dwak.holohackernews.app.manager.hackernews.FeedType;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
@@ -26,7 +26,6 @@ public class MainActivity extends FragmentActivity
         StoryListFragment.OnStoryListFragmentInteractionListener {
 
     public static final String STORY_ID = "STORY_ID";
-    private static final String TAG = MainActivity.class.getSimpleName();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -36,7 +35,6 @@ public class MainActivity extends FragmentActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private String mStoryUrl;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -59,14 +57,13 @@ public class MainActivity extends FragmentActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        mStoryUrl = "";
     }
 
     @Override
     public void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment newFragment = null;
+        Fragment newFragment;
         switch (drawerItem.getId()) {
             case 0:
                 mTitle = getString(R.string.title_section1);

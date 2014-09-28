@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.manager;
+package io.dwak.holohackernews.app.manager.hackernews;
 
 /**
 * Created by vishnu on 8/18/14.

@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.manager;
+package io.dwak.holohackernews.app.manager.hackernews;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,16 +14,15 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.manager.Callback;
+import io.dwak.holohackernews.app.manager.Exception;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.HackerNewsService;
-import io.dwak.holohackernews.app.network.ReadabilityService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
-import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -35,7 +34,6 @@ import retrofit.converter.GsonConverter;
 public class HackerNewsManager {
     @Nullable private static HackerNewsManager sInstance;
     @NonNull private final HackerNewsService mHackerNewsService;
-    @Nullable private ReadabilityService mReadabilityService = null;
     @Nullable private List<Comment> mComments;
 
     public HackerNewsManager() {
@@ -48,14 +46,6 @@ public class HackerNewsManager {
                 .build();
 
         mHackerNewsService = restAdapter.create(HackerNewsService.class);
-
-        if (!HoloHackerNewsApplication.isTRAVIS()) {
-            RestAdapter readabilityRestAdapter = new RestAdapter.Builder()
-                    .setEndpoint("https://readability.com/api/content/v1/")
-                    .build();
-
-            mReadabilityService = readabilityRestAdapter.create(ReadabilityService.class);
-        }
     }
 
     @NonNull
@@ -67,7 +57,7 @@ public class HackerNewsManager {
         return sInstance;
     }
 
-    public void getStories(@NonNull FeedType feedType, @NonNull final HackerNewsCallback<List<Story>> callback){
+    public void getStories(@NonNull FeedType feedType, @NonNull final Callback<List<Story>> callback){
        switch (feedType){
            case BEST:
                mHackerNewsService.getBestStories(new RetrofitStoryListCallback(callback));
@@ -81,12 +71,12 @@ public class HackerNewsManager {
        }
     }
 
-    public void getTopStoriesPageTwo(@NonNull final HackerNewsCallback<List<Story>> callback){
+    public void getTopStoriesPageTwo(@NonNull final Callback<List<Story>> callback){
         mHackerNewsService.getTopStoriesPageTwo(new RetrofitStoryListCallback(callback));
     }
 
-    public void getItemDetails(@NonNull long storyId, @NonNull final HackerNewsCallback<StoryDetail> callback){
-       mHackerNewsService.getItemDetails(storyId, new Callback<NodeHNAPIStoryDetail>() {
+    public void getItemDetails(@NonNull long storyId, @NonNull final Callback<StoryDetail> callback){
+       mHackerNewsService.getItemDetails(storyId, new retrofit.Callback<NodeHNAPIStoryDetail>() {
            @Override
            public void success(NodeHNAPIStoryDetail nodeHNAPIStoryDetail, Response response) {
                List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.getNodeHNAPICommentList();
@@ -117,14 +107,14 @@ public class HackerNewsManager {
 
            @Override
            public void failure(RetrofitError error) {
-                callback.onResponse(null, new HackerNewsException(error));
+                callback.onResponse(null, new Exception(error));
            }
        });
     }
-    private static class RetrofitStoryListCallback implements Callback<List<NodeHNAPIStory>> {
-        private final HackerNewsCallback<List<Story>> mCallback;
+    private static class RetrofitStoryListCallback implements retrofit.Callback<List<NodeHNAPIStory>> {
+        private final Callback<List<Story>> mCallback;
 
-        public RetrofitStoryListCallback(HackerNewsCallback<List<Story>> callback) {
+        public RetrofitStoryListCallback(Callback<List<Story>> callback) {
             mCallback = callback;
         }
 
@@ -149,7 +139,7 @@ public class HackerNewsManager {
 
         @Override
         public void failure(RetrofitError error) {
-            mCallback.onResponse(null, new HackerNewsException(error));
+            mCallback.onResponse(null, new Exception(error));
         }
     }
 

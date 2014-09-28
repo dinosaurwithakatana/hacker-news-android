@@ -1,9 +1,8 @@
 package io.dwak.holohackernews.app.network;
 
-import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
+import io.dwak.holohackernews.app.network.models.NetworkReadabilityArticle;
 import retrofit.Callback;
 import retrofit.http.GET;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -11,5 +10,5 @@ import retrofit.http.Query;
  */
 public interface ReadabilityService {
     @GET("/parser/")
-    void getReadabilityForArticle(@Query("token") String token, @Query("url") String url, Callback<ReadabilityArticle> callback);
+    void getReadabilityForArticle(@Query("token") String token, @Query("url") String url, Callback<NetworkReadabilityArticle> callback);
 }

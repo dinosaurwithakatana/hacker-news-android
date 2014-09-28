@@ -17,12 +17,12 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.manager.Callback;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.manager.FeedType;
-import io.dwak.holohackernews.app.manager.HackerNewsCallback;
-import io.dwak.holohackernews.app.manager.HackerNewsException;
-import io.dwak.holohackernews.app.manager.HackerNewsManager;
+import io.dwak.holohackernews.app.manager.hackernews.FeedType;
+import io.dwak.holohackernews.app.manager.Exception;
+import io.dwak.holohackernews.app.manager.hackernews.HackerNewsManager;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
 
@@ -137,9 +137,9 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
                 @Override
                 public void onLoadMore(int page, int totalItemsCount) {
                     if (!mPageTwoLoaded) {
-                        mHackerNewsManager.getTopStoriesPageTwo(new HackerNewsCallback<List<Story>>() {
+                        mHackerNewsManager.getTopStoriesPageTwo(new Callback<List<Story>>() {
                             @Override
-                            public void onResponse(List<Story> response, HackerNewsException exception) {
+                            public void onResponse(List<Story> response, Exception exception) {
                                 if (exception == null) {
                                     mListAdapter.addAll(response);
                                     mPageTwoLoaded = true;
@@ -198,9 +198,9 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         public void onStoryListFragmentInteraction(long id);
     }
 
-    private class StoryRequestCallback implements HackerNewsCallback<List<Story>> {
+    private class StoryRequestCallback implements Callback<List<Story>> {
         @Override
-        public void onResponse(List<Story> response, HackerNewsException exception) {
+        public void onResponse(List<Story> response, Exception exception) {
             if (exception == null) {
                 mListAdapter.addAll(response);
                 showProgress(false);

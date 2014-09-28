@@ -60,15 +60,14 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':app:libs:showcaseview')
     compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.squareup.retrofit:retrofit:1.5.0'
-    compile 'com.github.johnkil.android-robototextview:robototextview:2.0.0'
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
+    compile 'com.github.johnkil.android-robototextview:robototextview:2.0.1'
     compile 'com.nhaarman.listviewanimations:library:2.6.0'
-    compile 'com.facebook.rebound:rebound:0.3.4'
-    compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.facebook.rebound:rebound:0.3.6'
+    compile 'com.jakewharton:butterknife:5.1.2'
     compile 'com.android.support:support-annotations:20.0.0'
-    compile 'com.melnykov:floatingactionbutton:1.0.2'
+    compile 'com.melnykov:floatingactionbutton:1.0.3'
     compile 'com.loopeer.android.thirdparty:swipe-back-layout:1.0'
 }
 

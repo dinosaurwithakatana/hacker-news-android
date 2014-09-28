@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by vishnu on 5/19/14.
  */
-public class ReadabilityArticle {
+public class NetworkReadabilityArticle {
     @SerializedName("title") private String mTitle;
     @SerializedName("lead_image_url") private String mLeadImageUrl;
     @SerializedName("short_url") private String mShortUrl;

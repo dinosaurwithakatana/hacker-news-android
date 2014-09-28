@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -37,18 +38,15 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.manager.HackerNewsCallback;
-import io.dwak.holohackernews.app.manager.HackerNewsException;
-import io.dwak.holohackernews.app.manager.HackerNewsManager;
+import io.dwak.holohackernews.app.manager.Callback;
+import io.dwak.holohackernews.app.manager.Exception;
+import io.dwak.holohackernews.app.manager.hackernews.HackerNewsManager;
+import io.dwak.holohackernews.app.manager.readability.ReadabilityManager;
 import io.dwak.holohackernews.app.models.StoryDetail;
-import io.dwak.holohackernews.app.network.models.ReadabilityArticle;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 
 public class StoryCommentsFragment extends BaseFragment implements ObservableWebView.OnScrollChangedCallback {
@@ -247,9 +245,9 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     }
 
     private void refresh() {
-        HackerNewsManager.getInstance().getItemDetails(mStoryId, new HackerNewsCallback<StoryDetail>() {
+        HackerNewsManager.getInstance().getItemDetails(mStoryId, new Callback<StoryDetail>() {
             @Override
-            public void onResponse(StoryDetail response, HackerNewsException exception) {
+            public void onResponse(StoryDetail response, Exception exception) {
                 if (exception == null) {
                     Log.d(TAG, response.toString());
                     mStoryDetail = response;
@@ -429,26 +427,32 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     private void readability() {
         mReadability = !mReadability;
         if (mReadability) {
-            mReadabilityService.getReadabilityForArticle(HoloHackerNewsApplication.getREADABILITY_TOKEN(),
-                    mStoryDetail.getUrl(),
-                    new Callback<ReadabilityArticle>() {
-                        @Override
-                        public void success(ReadabilityArticle readabilityArticle, Response response) {
-                            StringBuilder stringBuilder = new StringBuilder();
-                            stringBuilder.append("<HTML><HEAD><LINK href=\"style.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
-                            stringBuilder.append("<h1>")
-                                    .append(readabilityArticle.getTitle())
-                                    .append("</h1>");
-                            stringBuilder.append(readabilityArticle.getContent());
-                            stringBuilder.append("</body></HTML>");
-                            mWebView.loadDataWithBaseURL("file:///android_asset/", stringBuilder.toString(), "text/html", "utf-8", null);
-                        }
+            ReadabilityManager readabilityManager = ReadabilityManager.getInstance();
 
-                        @Override
-                        public void failure(RetrofitError error) {
+            if(readabilityManager.isEnabled()){
+                readabilityManager.getReadabilityForArticle(mStoryDetail.getUrl(),
+                        new Callback<io.dwak.holohackernews.app.models.ReadabilityArticle>() {
 
-                        }
-                    });
+                            @Override
+                            public void onResponse(@Nullable io.dwak.holohackernews.app.models.ReadabilityArticle response, @Nullable Exception exception) {
+                                if(exception == null){
+                                    if(response !=null){
+                                        StringBuilder stringBuilder = new StringBuilder();
+                                        stringBuilder.append("<HTML><HEAD><LINK href=\"style.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
+                                        stringBuilder.append("<h1>")
+                                                .append(response.getTitle())
+                                                .append("</h1>");
+                                        stringBuilder.append(response.getContent());
+                                        stringBuilder.append("</body></HTML>");
+                                        mWebView.loadDataWithBaseURL("file:///android_asset/", stringBuilder.toString(), "text/html", "utf-8", null);
+
+                                    }
+                                }
+
+                            }
+                        });
+
+            }
         }
         else {
             mWebView.loadUrl(mStoryDetail.getUrl());
