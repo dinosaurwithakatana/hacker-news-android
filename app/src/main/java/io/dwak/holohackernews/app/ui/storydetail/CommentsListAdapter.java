@@ -20,6 +20,7 @@ import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
+import io.dwak.holohackernews.app.util.UIUtils;
 
 /**
  * Created by vishnu on 5/4/14.
@@ -104,8 +105,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
                 )
         );
 
-        float scale = mContext.getResources().getDisplayMetrics().density;
-        int dpAsPixels = (int) (getItem(position).getLevel() * 12 * scale + 0.5f);
+        int dpAsPixels = UIUtils.dpAsPixels(mContext, getItem(position).getLevel() * 12);
 
         if (getItem(position).getLevel() != 0) {
             convertView.setPadding(dpAsPixels, 0, 4, 0);

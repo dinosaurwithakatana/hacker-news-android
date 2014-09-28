@@ -113,8 +113,8 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
         int width = size.x;
         int height = size.y;
 
-        mLinkLayout.setStashPixel(0);
-        mLinkLayout.setRevealPixel(height);
+        mLinkLayout.setStashPixel(height);
+        mLinkLayout.setRevealPixel(0);
         mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
         mLinkLayout.setOpen(false);
 

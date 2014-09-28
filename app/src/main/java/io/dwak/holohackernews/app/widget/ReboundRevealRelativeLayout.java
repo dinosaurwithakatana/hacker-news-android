@@ -79,8 +79,8 @@ public class ReboundRevealRelativeLayout extends RelativeLayout {
         @Override
         public void onSpringUpdate(Spring spring) {
             float val = (float) spring.getCurrentValue();
-            float maxTranslate = mRevealPixel;
-            float minTranslate = mStashPixel;
+            float maxTranslate = mStashPixel;
+            float minTranslate = mRevealPixel;
             float range = maxTranslate - minTranslate;
             float translate = (val * range) + minTranslate;
 
