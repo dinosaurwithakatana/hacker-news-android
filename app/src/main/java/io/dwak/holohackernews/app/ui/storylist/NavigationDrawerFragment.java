@@ -25,6 +25,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
@@ -190,7 +191,7 @@ public class NavigationDrawerFragment extends Fragment {
         navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section1), false));
         navigationDrawerItems.add(new NavigationDrawerItem(1, 0, getResources().getString(R.string.title_section2), false));
         navigationDrawerItems.add(new NavigationDrawerItem(2, 0, getResources().getString(R.string.title_section3), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(3, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
+        if(HoloHackerNewsApplication.isDebug()) navigationDrawerItems.add(new NavigationDrawerItem(3, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
         navigationDrawerItems.add(new NavigationDrawerItem(4, R.drawable.ic_action_about, getResources().getString(R.string.title_section_about), true));
 
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), 0, navigationDrawerItems);
