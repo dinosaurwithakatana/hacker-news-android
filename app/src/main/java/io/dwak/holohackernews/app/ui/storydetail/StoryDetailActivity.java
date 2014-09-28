@@ -3,20 +3,38 @@ package io.dwak.holohackernews.app.ui.storydetail;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.ui.storylist.MainActivity;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-public class StoryDetailActivity extends FragmentActivity {
+public class StoryDetailActivity extends SwipeBackActivity{
 
     private StoryCommentsFragment mStoryCommentsFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_detail);
+        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
+        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        swipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
+            @Override
+            public void onScrollStateChange(int i, float v) {
 
+            }
+
+            @Override
+            public void onEdgeTouch(int i) {
+
+            }
+
+            @Override
+            public void onScrollOverThreshold() {
+
+            }
+        });
         Intent intent = getIntent();
         long storyId = 0;
         if(intent !=null){

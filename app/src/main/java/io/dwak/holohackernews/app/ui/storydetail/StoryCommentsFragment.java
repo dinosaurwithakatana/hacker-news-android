@@ -64,6 +64,9 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
     private CommentsListAdapter mListAdapter;
     private Bundle mWebViewBundle;
     private boolean mReadability;
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
     @InjectView(R.id.swipe_container) SmoothSwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.comments_list) ListView mCommentsListView;
@@ -100,7 +103,6 @@ public class StoryCommentsFragment extends BaseFragment implements ObservableWeb
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
         ButterKnife.inject(this, rootView);
-
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

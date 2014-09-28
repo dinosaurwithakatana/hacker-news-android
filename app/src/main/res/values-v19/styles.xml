@@ -15,5 +15,6 @@
         <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Hntheme.Widget</item>
         <item name="android:windowBackground">@color/system_bar_tint</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>
