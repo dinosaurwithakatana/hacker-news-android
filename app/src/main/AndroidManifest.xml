@@ -33,7 +33,7 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_story_detail"
             android:parentActivityName=".ui.storylist.MainActivity"
-            android:theme="@style/Theme.Hntheme" >
+            android:theme="@style/Theme.Hntheme.Detail" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
