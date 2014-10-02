@@ -71,6 +71,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
     }
 
     private void refresh() {
+        mListAdapter.clear();
         Observable<List<NodeHNAPIStory>> observable = null;
         switch (mFeedType) {
             case TOP:
