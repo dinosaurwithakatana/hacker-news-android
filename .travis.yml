@@ -8,7 +8,6 @@ android:
   - build-tools-20.0
 before_script:
 - cp keystore.properties.example keystore.properties
-- cp readability.properties.example readability.properties
 - cp local.properties.example local.properties
 script: "./gradlew clean assembleDebug"
 deploy:
