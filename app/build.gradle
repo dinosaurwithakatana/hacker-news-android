@@ -25,14 +25,6 @@ android {
         }
     }
     buildTypes {
-        travis.initWith(buildTypes.debug)
-        travis {
-            applicationIdSuffix '.travis'
-            versionNameSuffix '-travis'
-            debuggable true
-            buildConfigField "String", "READABILITY_TOKEN", String.valueOf("null")
-            buildConfigField "boolean", "TRAVIS", 'true'
-        }
         debug.initWith(buildTypes.debug)
         debug {
             applicationIdSuffix '.dev'

@@ -10,7 +10,6 @@ import java.io.File;
 
 import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
 import io.dwak.holohackernews.app.network.HackerNewsService;
-import io.dwak.holohackernews.app.network.ReadabilityService;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -19,17 +18,9 @@ import retrofit.converter.GsonConverter;
  */
 public class HoloHackerNewsApplication extends Application {
     private static boolean mDebug = BuildConfig.DEBUG;
-    private static String READABILITY_TOKEN = BuildConfig.READABILITY_TOKEN;
-    private static boolean TRAVIS = BuildConfig.TRAVIS;
     private static HoloHackerNewsApplication sInstance;
     private Context mContext;
     private HackerNewsService mHackerNewsService;
-    private ReadabilityService mReadabilityService;
-    private boolean mReadabilityEnabled = false;
-
-    public static String getREADABILITY_TOKEN() {
-        return READABILITY_TOKEN;
-    }
 
     @Override
     public void onCreate() {
@@ -38,27 +29,11 @@ public class HoloHackerNewsApplication extends Application {
             sInstance = this;
         }
 
-        if (!HoloHackerNewsApplication.isTRAVIS()) {
-            if(mReadabilityService == null) {
-                RestAdapter readabilityRestAdapter = new RestAdapter.Builder()
-                        .setEndpoint("https://readability.com/api/content/v1/")
-                        .build();
-
-                mReadabilityService = readabilityRestAdapter.create(ReadabilityService.class);
-
-                mReadabilityEnabled = true;
-            }
-        }
-
         mContext = getApplicationContext();
     }
 
     public static boolean isDebug() {
         return mDebug;
-    }
-
-    public static boolean isTRAVIS() {
-        return TRAVIS;
     }
 
     public static HoloHackerNewsApplication getInstance() {
@@ -87,13 +62,5 @@ public class HoloHackerNewsApplication extends Application {
         }
 
         return mHackerNewsService;
-    }
-
-    public ReadabilityService getReadabilityService(){
-        return mReadabilityService;
-    }
-
-    public boolean isReadabilityEnabled() {
-        return mReadabilityEnabled;
     }
 }

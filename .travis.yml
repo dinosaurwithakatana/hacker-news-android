@@ -13,4 +13,4 @@ before_script:
     - cp readability.properties.example readability.properties
     - cp local.properties.example local.properties
 
-script: ./gradlew clean assembleTravis
+script: ./gradlew clean assembleDebug

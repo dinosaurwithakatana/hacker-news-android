@@ -32,6 +32,8 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,6 @@ import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
-import io.dwak.holohackernews.app.models.ReadabilityArticle;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.ui.BaseFragment;
@@ -434,42 +435,11 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private void readability() {
         mReadability = !mReadability;
         if (mReadability) {
-            if (HoloHackerNewsApplication.getInstance().isReadabilityEnabled()) {
-                HoloHackerNewsApplication.getInstance().getReadabilityService()
-                        .getReadabilityForArticle(HoloHackerNewsApplication.getREADABILITY_TOKEN(),
-                                mStoryDetail.getUrl())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .map(networkReadabilityArticle -> {
-                            networkReadabilityArticle.setContent("<HTML><HEAD><LINK href=\"style.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>"
-                                    + "<h1>"
-                                    + networkReadabilityArticle.getTitle()
-                                    + "</h1>"
-                                    + networkReadabilityArticle.getContent()
-                                    + "</body></HTML>");
-                            return networkReadabilityArticle;
-                        })
-                        .map(networkReadabilityArticle -> new ReadabilityArticle(networkReadabilityArticle.getTitle(),
-                                networkReadabilityArticle.getLeadImageUrl(),
-                                networkReadabilityArticle.getShortUrl(),
-                                networkReadabilityArticle.getContent()))
-                        .subscribe(new Subscriber<ReadabilityArticle>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(ReadabilityArticle readabilityArticle) {
-                                mWebView.loadDataWithBaseURL("file:///android_asset/", readabilityArticle.getContent(), "text/html", "utf-8", null);
-                            }
-                        });
-
+            final String readabilityJS = "javascript:(%0A%28function%28%29%7Bwindow.baseUrl%3D%27//www.readability.com%27%3Bwindow.readabilityToken%3D%2798fX3vYgEcKF2uvS7HTuScqeDgegMF74HVHuLYwF%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/read.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)";
+            try {
+                mWebView.loadUrl(URLDecoder.decode(readabilityJS, "utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
         }
         else {
