@@ -83,4 +83,7 @@
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Hntheme</item>
     </style>
 
+    <style name="Theme.Hntheme.Detail" parent="Theme.Hntheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

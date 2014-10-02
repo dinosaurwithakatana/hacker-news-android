@@ -27,4 +27,8 @@ public class NetworkReadabilityArticle {
     public String getShortUrl() {
         return mShortUrl;
     }
+
+    public void setContent(String content) {
+        mContent = content;
+    }
 }

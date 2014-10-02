@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +18,25 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.dwak.holohackernews.app.manager.Callback;
-import io.dwak.holohackernews.app.ui.BaseFragment;
+import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.manager.hackernews.FeedType;
-import io.dwak.holohackernews.app.manager.Exception;
-import io.dwak.holohackernews.app.manager.hackernews.HackerNewsManager;
 import io.dwak.holohackernews.app.models.Story;
+import io.dwak.holohackernews.app.network.HackerNewsService;
+import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
+import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
+ * <p>
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
- * <p/>
+ * <p>
  * Activities containing this fragment MUST implement the {@link StoryListFragment.OnStoryListFragmentInteractionListener}
  * interface.
  */
@@ -39,18 +44,16 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
 
     public static final String FEED_TO_LOAD = "feed_to_load";
     private static final String TAG = StoryListFragment.class.getSimpleName();
-    /**
-     * The fragment's ListView/GridView.
-     */
+
     @InjectView(R.id.story_list) AbsListView mListView;
+    @InjectView(R.id.swipe_container) SmoothSwipeRefreshLayout mSwipeRefreshLayout;
+
     private String mTitle;
     private FeedType mFeedType;
-    private List<Story> mStoryList;
     private OnStoryListFragmentInteractionListener mListener;
-    private SmoothSwipeRefreshLayout mSwipeRefreshLayout;
     private StoryListAdapter mListAdapter;
-    private HackerNewsManager mHackerNewsManager;
     private boolean mPageTwoLoaded;
+    private HackerNewsService mHackerNewsService;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,17 +70,58 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mFeedType = (FeedType) getArguments().getSerializable(FEED_TO_LOAD);
+    private void refresh() {
+        Observable<List<NodeHNAPIStory>> observable = null;
+        switch (mFeedType) {
+            case TOP:
+                observable = mHackerNewsService.getTopStories();
+                break;
+            case BEST:
+                observable = mHackerNewsService.getBestStories();
+                break;
+            case NEW:
+                observable = mHackerNewsService.getNewestStories();
+                break;
         }
+
+        react(observable, false);
     }
 
-    private void refresh() {
-        mHackerNewsManager.getStories(mFeedType, new StoryRequestCallback());
+    private void react(Observable<List<NodeHNAPIStory>> observable, boolean pageTwo) {
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .flatMap(nodeHNAPIStories -> Observable.from(nodeHNAPIStories))
+                .map(nodeStory -> new Story(nodeStory.getStoryId(),
+                        nodeStory.getTitle(),
+                        nodeStory.getUrl(),
+                        nodeStory.getDomain(),
+                        nodeStory.getPoints(),
+                        nodeStory.getSubmitter(),
+                        nodeStory.getPublishedTime(),
+                        nodeStory.getNumComments(),
+                        nodeStory.getType()))
+                .subscribe(new Subscriber<Story>() {
+                    @Override
+                    public void onCompleted() {
+                        showProgress(false);
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mPageTwoLoaded = pageTwo;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        new AlertDialog.Builder(getActivity())
+                                .setPositiveButton("ok", null)
+                                .setMessage(e.getLocalizedMessage())
+                                .create()
+                                .show();
+                    }
+
+                    @Override
+                    public void onNext(Story story) {
+                        mListAdapter.add(story);
+                    }
+                });
     }
 
     @Override
@@ -93,20 +137,28 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mFeedType = (FeedType) getArguments().getSerializable(FEED_TO_LOAD);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_storylist_list, container, false);
         ButterKnife.inject(this, view);
 
-        mHackerNewsManager = HackerNewsManager.getInstance();
-        mStoryList = new ArrayList<Story>();
+        mHackerNewsService = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance();
+        List<Story> storyList = new ArrayList<Story>();
         mPageTwoLoaded = false;
 
         mContainer = view.findViewById(R.id.story_list);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         final ActionBar actionBar = getActivity().getActionBar();
-        actionBar.show();
         switch (mFeedType) {
             case TOP:
                 mTitle = "Top";
@@ -122,8 +174,8 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         showProgress(true);
 
         // Set the adapter
-        mStoryList = new ArrayList<Story>();
-        mListAdapter = new StoryListAdapter(mStoryList, getActivity(), R.layout.comments_header);
+        storyList = new ArrayList<Story>();
+        mListAdapter = new StoryListAdapter(storyList, getActivity(), R.layout.comments_header);
 
         // Assign the ListView to the AnimationAdapter and vice versa
         ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(mListAdapter);
@@ -137,15 +189,8 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
                 @Override
                 public void onLoadMore(int page, int totalItemsCount) {
                     if (!mPageTwoLoaded) {
-                        mHackerNewsManager.getTopStoriesPageTwo(new Callback<List<Story>>() {
-                            @Override
-                            public void onResponse(List<Story> response, Exception exception) {
-                                if (exception == null) {
-                                    mListAdapter.addAll(response);
-                                    mPageTwoLoaded = true;
-                                }
-                            }
-                        });
+                        Observable<List<NodeHNAPIStory>> observable = mHackerNewsService.getTopStoriesPageTwo();
+                        react(observable, true);
                     }
                 }
             });
@@ -153,17 +198,13 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
 
         refresh();
 
-        mSwipeRefreshLayout = (SmoothSwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorScheme(android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light);
-        mSwipeRefreshLayout.setOnRefreshListener(new SmoothSwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mSwipeRefreshLayout.setRefreshing(true);
-                refresh();
-            }
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mSwipeRefreshLayout.setRefreshing(true);
+            refresh();
         });
 
         return view;
@@ -189,26 +230,12 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p/>
+     * <p>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnStoryListFragmentInteractionListener {
         public void onStoryListFragmentInteraction(long id);
-    }
-
-    private class StoryRequestCallback implements Callback<List<Story>> {
-        @Override
-        public void onResponse(List<Story> response, Exception exception) {
-            if (exception == null) {
-                mListAdapter.addAll(response);
-                showProgress(false);
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-            else {
-                exception.printStackTrace();
-            }
-        }
     }
 }

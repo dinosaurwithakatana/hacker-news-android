@@ -11,7 +11,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class StoryDetailActivity extends SwipeBackActivity{
 
-    private StoryCommentsFragment mStoryCommentsFragment;
+    private StoryDetailFragment mStoryDetailFragment;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -19,22 +19,6 @@ public class StoryDetailActivity extends SwipeBackActivity{
         setContentView(R.layout.activity_story_detail);
         SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
         swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
-        swipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
-            @Override
-            public void onScrollStateChange(int i, float v) {
-
-            }
-
-            @Override
-            public void onEdgeTouch(int i) {
-
-            }
-
-            @Override
-            public void onScrollOverThreshold() {
-
-            }
-        });
         Intent intent = getIntent();
         long storyId = 0;
         if(intent !=null){
@@ -44,9 +28,9 @@ public class StoryDetailActivity extends SwipeBackActivity{
             }
         }
         if (savedInstanceState == null) {
-            mStoryCommentsFragment = StoryCommentsFragment.newInstance(storyId);
+            mStoryDetailFragment = StoryDetailFragment.newInstance(storyId);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, mStoryCommentsFragment)
+                    .add(R.id.container, mStoryDetailFragment)
                     .commit();
         }
     }
@@ -59,8 +43,8 @@ public class StoryDetailActivity extends SwipeBackActivity{
 
     @Override
     public void onBackPressed() {
-        if(mStoryCommentsFragment.isLinkViewVisible()){
-            mStoryCommentsFragment.hideLinkView();
+        if(mStoryDetailFragment.isLinkViewVisible()){
+            mStoryDetailFragment.hideLinkView();
         }
         else {
             super.onBackPressed();

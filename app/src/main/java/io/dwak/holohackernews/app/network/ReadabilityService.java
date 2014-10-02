@@ -4,6 +4,7 @@ import io.dwak.holohackernews.app.network.models.NetworkReadabilityArticle;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import rx.Observable;
 
 /**
  * Created by vishnu on 5/19/14.
@@ -11,4 +12,7 @@ import retrofit.http.Query;
 public interface ReadabilityService {
     @GET("/parser/")
     void getReadabilityForArticle(@Query("token") String token, @Query("url") String url, Callback<NetworkReadabilityArticle> callback);
+
+    @GET("/parser/")
+    Observable<NetworkReadabilityArticle> getReadabilityForArticle(@Query("token") String token, @Query("url") String url);
 }

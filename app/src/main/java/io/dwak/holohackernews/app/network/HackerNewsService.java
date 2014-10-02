@@ -7,6 +7,7 @@ import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
+import rx.Observable;
 
 /**
  * Retrofit service to interface with hacker news api
@@ -16,15 +17,30 @@ public interface HackerNewsService {
     @GET("/news")
     void getTopStories(Callback<List<NodeHNAPIStory>> callback);
 
+    @GET("/news")
+    Observable<List<NodeHNAPIStory>> getTopStories();
+
     @GET("/news2")
     void getTopStoriesPageTwo(Callback<List<NodeHNAPIStory>> callback);
+
+    @GET("/news2")
+    Observable<List<NodeHNAPIStory>> getTopStoriesPageTwo();
 
     @GET("/newest")
     void getNewestStories(Callback<List<NodeHNAPIStory>> callback);
 
+    @GET("/newest")
+    Observable<List<NodeHNAPIStory>> getNewestStories();
+
     @GET("/best")
     void getBestStories(Callback<List<NodeHNAPIStory>> callback);
 
+    @GET("/best")
+    Observable<List<NodeHNAPIStory>> getBestStories();
+
     @GET("/item/{itemId}")
     void getItemDetails(@Path("itemId") long itemId, Callback<NodeHNAPIStoryDetail> callback);
+
+    @GET("/item/{itemId}")
+    Observable<NodeHNAPIStoryDetail> getItemDetails(@Path("itemId") long itemId);
 }
