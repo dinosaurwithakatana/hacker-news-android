@@ -23,10 +23,9 @@ Chat
 Screenshots
 ---
 
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.35.png)
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.32.png)
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.40.png)
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.47.png)
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.52.png)
-![Screen](https://github.com/dinosaurwithakatana/holo_hacker_news/raw/master/screenshots/2014-05-24%2001.41.58.png)
+![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.30.03.png)
+![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.28.37.png)
+![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.29.02.png)
+![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.29.15.png)
+![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.29.48.png)
 
