@@ -14,7 +14,7 @@ deploy:
   provider: releases
   api_key:
     secure: IzDuRCD8EEZ6LFe8xzBnp1roZ6tx5gC8pLtJZQ6FpdRF1L6gOEB/4o1ruPwVJBb3iz3TlYhMvrEmZo2oAkFOE6o1fzKpjMCl+olHxA1CGVBWQKBEm9CLpH73+/GVeFjg+jUyCsvumFJ/8OG12cxiIq3KPglm71nbWKavqxUGO78=
-  file: ${TRAVIS_BUILD_DIR}/app/build/outputs/apk/app-release.apk
+  file: ${TRAVIS_BUILD_DIR}/app/build/outputs/apk/app-debug.apk
   on:
     repo: dinosaurwithakatana/holo_hacker_news
     branch: master
