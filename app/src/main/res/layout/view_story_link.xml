@@ -36,7 +36,7 @@
             android:id="@+id/close_link"
             android:layout_width="0dp"
             android:layout_height="42dp"
-            android:layout_weight="4"
+            android:layout_weight="6"
             android:background="@drawable/orange_button"
             android:text="@string/show_comments"
             android:visibility="visible"/>
