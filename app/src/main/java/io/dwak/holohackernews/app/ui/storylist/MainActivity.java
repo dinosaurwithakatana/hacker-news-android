@@ -151,4 +151,9 @@ public class MainActivity extends FragmentActivity
         startActivity(detailIntent);
         overridePendingTransition(R.anim.offscreen_left_to_view, R.anim.fadeout);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

@@ -2,7 +2,11 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,8 +116,16 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
                     @Override
                     public void onError(Throwable e) {
                         new AlertDialog.Builder(getActivity())
-                                .setPositiveButton("ok", null)
-                                .setMessage(e.getLocalizedMessage())
+                                .setPositiveButton("Restart", (dialogInterface, i) -> {
+                                    Intent mStartActivity = new Intent(getActivity(), MainActivity.class);
+                                    int mPendingIntentId = 123456;
+                                    PendingIntent mPendingIntent = PendingIntent.getActivity(getActivity(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                                    AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+                                    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                                    getActivity().finish();
+                                })
+                                .setNegativeButton("Close app", (dialogInterface, i) -> getActivity().finish())
+                                .setMessage("Something went wrong!")
                                 .create()
                                 .show();
                     }
