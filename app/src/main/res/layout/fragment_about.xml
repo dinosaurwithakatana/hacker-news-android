@@ -62,7 +62,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:background="@drawable/card_bg"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.devspark.robototextview.widget.RobotoTextView
@@ -88,11 +88,72 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rxjava"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:background="@drawable/card_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/rxjava_title"
+                    android:textColor="@android:color/black"
+                    android:text="@string/netflix_rxjava"
+                    android:textSize="18sp"
+                    app:typeface="roboto_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/rxjava_license"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@id/rxjava_title"
+                    android:text="@string/netflix_rxjava_license"
+                    app:typeface="roboto_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rebound"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:background="@drawable/card_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/rebound_title"
+                    android:textColor="@android:color/black"
+                    android:text="@string/facebook_rebound"
+                    android:textSize="18sp"
+                    app:typeface="roboto_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/rebound_license"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@id/rebound_title"
+                    android:text="@string/facebook_rebound_license"
+                    app:typeface="roboto_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:id="@+id/roboto_text_view"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:background="@drawable/card_bg"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.devspark.robototextview.widget.RobotoTextView
@@ -118,41 +179,11 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/showcaseview"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:background="@drawable/card_bg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <com.devspark.robototextview.widget.RobotoTextView
-                    android:id="@+id/showcaseview_title"
-                    android:textColor="@android:color/black"
-                    android:text="@string/scv"
-                    android:textSize="18sp"
-                    app:typeface="roboto_medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <com.devspark.robototextview.widget.RobotoTextView
-                    android:id="@+id/scv_license"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4dp"
-                    android:layout_below="@id/showcaseview_title"
-                    android:text="@string/scv_license"
-                    app:typeface="roboto_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/listviewanimations"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:background="@drawable/card_bg"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.devspark.robototextview.widget.RobotoTextView
@@ -171,6 +202,36 @@
                     android:layout_marginTop="4dp"
                     android:layout_below="@id/lva_title"
                     android:text="@string/lva_license"
+                    app:typeface="roboto_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/floatingactionbutton"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:background="@drawable/card_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/fab_title"
+                    android:textColor="@android:color/black"
+                    android:text="melnykov : FloatingActionButton"
+                    android:textSize="18sp"
+                    app:typeface="roboto_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/fab_license"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@id/fab_title"
+                    android:text="@string/fab_license"
                     app:typeface="roboto_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
