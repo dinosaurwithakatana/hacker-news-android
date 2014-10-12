@@ -6,7 +6,7 @@ Started as a project to play with Square's [Retrofit](https://square.github.io/r
 Uses [cheeaun's](http://cheeaun.com/) [node-hnapi](https://github.com/cheeaun/node-hnapi/) project for it's API backend.
 
 
-Join the g+ beta here : https://plus.google.com/communities/112347719824323216860
+[![Get it on Google Play!](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=io.dwak.holohackernews.app)
 
 Building
 ---
