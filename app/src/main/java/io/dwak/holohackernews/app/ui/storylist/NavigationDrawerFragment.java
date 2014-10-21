@@ -29,6 +29,9 @@ import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
+import io.dwak.rx.events.RxEvents;
+import io.dwak.rx.events.events.abslistview.RxListItemClickEvent;
+import rx.functions.Action1;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -177,7 +180,8 @@ public class NavigationDrawerFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
-        mDrawerListView.setOnItemClickListener((parent, view, position, id) -> selectItem(position));
+        RxEvents.observableFromListItemClick(mDrawerListView)
+                .subscribe(rxListItemClickEvent -> selectItem(rxListItemClickEvent.getPosition()));
 
         List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<NavigationDrawerItem>();
         navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section1), false));

@@ -1,6 +1,5 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -8,11 +7,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 
 import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
@@ -30,6 +30,7 @@ import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
+import io.dwak.rx.events.RxEvents;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,7 +45,7 @@ import rx.schedulers.Schedulers;
  * Activities containing this fragment MUST implement the {@link StoryListFragment.OnStoryListFragmentInteractionListener}
  * interface.
  */
-public class StoryListFragment extends BaseFragment implements AbsListView.OnItemClickListener {
+public class StoryListFragment extends BaseFragment {
 
     public static final String FEED_TO_LOAD = "feed_to_load";
     private static final String TAG = StoryListFragment.class.getSimpleName();
@@ -119,8 +120,8 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
                                 .setPositiveButton("Restart", (dialogInterface, i) -> {
                                     Intent mStartActivity = new Intent(getActivity(), MainActivity.class);
                                     int mPendingIntentId = 123456;
-                                    PendingIntent mPendingIntent = PendingIntent.getActivity(getActivity(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-                                    AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+                                    PendingIntent mPendingIntent = PendingIntent.getActivity(getActivity(), mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                                    AlarmManager mgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
                                     mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
                                     getActivity().finish();
                                 })
@@ -165,13 +166,13 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         ButterKnife.inject(this, view);
 
         mHackerNewsService = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance();
-        List<Story> storyList = new ArrayList<Story>();
+        List<Story> storyList;
         mPageTwoLoaded = false;
 
         mContainer = view.findViewById(R.id.story_list);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
-        final ActionBar actionBar = getActivity().getActionBar();
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         switch (mFeedType) {
             case TOP:
                 mTitle = "Top";
@@ -189,7 +190,7 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         showProgress(true);
 
         // Set the adapter
-        storyList = new ArrayList<Story>();
+        storyList = new ArrayList<>();
         mListAdapter = new StoryListAdapter(storyList, getActivity(), R.layout.comments_header);
 
         // Assign the ListView to the AnimationAdapter and vice versa
@@ -198,7 +199,12 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
         mListView.setAdapter(scaleInAnimationAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        RxEvents.observableFromListItemClick(mListView)
+                .subscribe(rxListItemClickEvent -> {
+                    if (mListener != null) {
+                        mListener.onStoryListFragmentInteraction(mListAdapter.getItemId(rxListItemClickEvent.getPosition()));
+                    }
+                });
         if (mFeedType == FeedType.TOP) {
             mListView.setOnScrollListener(new EndlessScrollListener() {
                 @Override
@@ -229,15 +235,6 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onStoryListFragmentInteraction(mListAdapter.getItemId(position));
-        }
     }
 
     /**

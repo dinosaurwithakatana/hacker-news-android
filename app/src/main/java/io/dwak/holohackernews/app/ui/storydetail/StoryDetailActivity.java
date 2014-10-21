@@ -1,8 +1,10 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.widget.Toolbar;
 
 import io.dwak.holohackernews.app.R;
@@ -20,6 +22,9 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
         setContentView(R.layout.activity_story_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar !=null){
+            toolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
+            toolbar.setNavigationOnClickListener(v -> navigateUpToFromChild(StoryDetailActivity.this,
+                    IntentCompat.makeMainActivity(new ComponentName(StoryDetailActivity.this, MainActivity.class))));
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(toolbar);
         }

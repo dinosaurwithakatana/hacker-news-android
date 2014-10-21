@@ -2,8 +2,10 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:background="@drawable/card_bg"
-              android:padding="8dp"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
               android:longClickable="false"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
@@ -16,15 +18,16 @@
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_points"
             android:textColor="@android:color/black"
-            android:text="24"
+            tools:text="24"
             android:gravity="center"
             android:textSize="24sp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             app:typeface="roboto_bold"
-            android:layout_marginRight="12dp"
-            android:layout_width="42dp"
-            android:layout_height="wrap_content"/>
+            android:layout_marginRight="8dp"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_title"
