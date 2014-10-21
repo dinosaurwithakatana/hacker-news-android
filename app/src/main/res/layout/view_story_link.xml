@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_below="@id/progress_bar"
-        android:background="@android:color/holo_orange_dark"
+        android:background="?attr/colorPrimaryDark"
         android:orientation="horizontal">
 
         <Button
@@ -67,6 +67,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:src="@drawable/ic_action_readability"
-        fab:fab_colorNormal="@color/system_bar_tint"
-        fab:fab_colorPressed="@color/list_selector_orange"/>
+        fab:fab_colorNormal="?attr/colorPrimary"
+        fab:fab_colorPressed="?attr/colorPrimaryDark"/>
 </io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout>

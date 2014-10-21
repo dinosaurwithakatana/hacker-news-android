@@ -1,13 +1,13 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -76,7 +76,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private long mStoryId;
     private int mPrevVisibleItem;
     private HeaderViewHolder mHeaderViewHolder;
-    private ActionBar mActionBar;
+    private android.support.v7.app.ActionBar mActionBar;
     private CommentsListAdapter mListAdapter;
     private Bundle mWebViewBundle;
     private boolean mReadability;
@@ -304,9 +304,11 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         });
         mPrevVisibleItem = 1;
 
-        mActionBar = getActivity().getActionBar();
-        mActionBar.show();
-        mActionBar.setTitle("Hacker News");
+        mActionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        if(mActionBar!=null) {
+            mActionBar.show();
+            mActionBar.setTitle("Hacker News");
+        }
 
         showProgress(true);
 

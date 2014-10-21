@@ -183,7 +183,9 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
                 mTitle = "Newest";
                 break;
         }
-        actionBar.setTitle(mTitle);
+        if (actionBar != null) {
+            actionBar.setTitle(mTitle);
+        }
         showProgress(true);
 
         // Set the adapter

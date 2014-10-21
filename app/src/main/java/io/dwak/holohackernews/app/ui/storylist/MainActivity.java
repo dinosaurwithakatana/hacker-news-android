@@ -6,12 +6,13 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
@@ -21,7 +22,7 @@ import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         StoryListFragment.OnStoryListFragmentInteractionListener {
 
@@ -48,8 +49,13 @@ public class MainActivity extends FragmentActivity
 //        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar!=null){
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(toolbar);
+        }
         mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         // Set up the drawer.
@@ -102,7 +108,7 @@ public class MainActivity extends FragmentActivity
     }
 
     public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);

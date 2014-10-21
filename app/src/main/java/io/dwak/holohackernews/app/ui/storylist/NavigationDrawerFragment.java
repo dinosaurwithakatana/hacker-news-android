@@ -3,15 +3,16 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -71,9 +71,11 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
@@ -122,12 +124,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Defer code dependent on restoration of previous instance state.
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
+        mDrawerLayout.post(() -> mDrawerToggle.syncState());
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
@@ -180,18 +177,14 @@ public class NavigationDrawerFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
+        mDrawerListView.setOnItemClickListener((parent, view, position, id) -> selectItem(position));
 
         List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<NavigationDrawerItem>();
         navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section1), false));
         navigationDrawerItems.add(new NavigationDrawerItem(1, 0, getResources().getString(R.string.title_section2), false));
         navigationDrawerItems.add(new NavigationDrawerItem(2, 0, getResources().getString(R.string.title_section3), false));
-        if(HoloHackerNewsApplication.isDebug()) navigationDrawerItems.add(new NavigationDrawerItem(3, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
+        if (HoloHackerNewsApplication.isDebug())
+            navigationDrawerItems.add(new NavigationDrawerItem(3, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
         navigationDrawerItems.add(new NavigationDrawerItem(4, R.drawable.ic_action_about, getResources().getString(R.string.title_section_about), true));
 
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), 0, navigationDrawerItems);
@@ -251,7 +244,7 @@ public class NavigationDrawerFragment extends Fragment {
      * 'context', rather than just what's in the current screen.
      */
     private void showGlobalContextActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
@@ -263,10 +256,6 @@ public class NavigationDrawerFragment extends Fragment {
         display.getSize(size);
         fragmentContainerView.setPivotY(size.y / 2);
         fragmentContainerView.setPivotX(size.x / 2);
-    }
-
-    private ActionBar getActionBar() {
-        return getActivity().getActionBar();
     }
 
     /**
