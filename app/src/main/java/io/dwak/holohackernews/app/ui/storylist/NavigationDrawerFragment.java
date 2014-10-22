@@ -183,7 +183,7 @@ public class NavigationDrawerFragment extends Fragment {
         RxEvents.observableFromListItemClick(mDrawerListView)
                 .subscribe(rxListItemClickEvent -> selectItem(rxListItemClickEvent.getPosition()));
 
-        List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<NavigationDrawerItem>();
+        List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<>();
         navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section1), false));
         navigationDrawerItems.add(new NavigationDrawerItem(1, 0, getResources().getString(R.string.title_section2), false));
         navigationDrawerItems.add(new NavigationDrawerItem(2, 0, getResources().getString(R.string.title_section3), false));
