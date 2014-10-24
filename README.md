@@ -1,4 +1,4 @@
-HoloHacker News
+Hacker News
 ================
 
 Started as a project to play with Square's [Retrofit](https://square.github.io/retrofit/) library, ended up making a daily driver for reading hacker news.
