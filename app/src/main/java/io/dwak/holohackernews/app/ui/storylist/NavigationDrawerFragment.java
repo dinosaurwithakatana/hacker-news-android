@@ -42,6 +42,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+    public static final int NAVIGATION_ITEM_COUNT = 5;
     private NavigationDrawerCallbacks mCallbacks;
     private HNDrawerToggle mDrawerToggle;
 
@@ -133,9 +134,9 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
-        if (position < 3) mCurrentSelectedPosition = position;
+        if (position < NAVIGATION_ITEM_COUNT) mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
-            if (position < 3)
+            if (position < NAVIGATION_ITEM_COUNT)
                 mDrawerListView.setItemChecked(position, true);
             else
                 mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -184,12 +185,13 @@ public class NavigationDrawerFragment extends Fragment {
                 .subscribe(rxListItemClickEvent -> selectItem(rxListItemClickEvent.getPosition()));
 
         List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<>();
-        navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section1), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(1, 0, getResources().getString(R.string.title_section2), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(2, 0, getResources().getString(R.string.title_section3), false));
-        if (HoloHackerNewsApplication.isDebug())
-            navigationDrawerItems.add(new NavigationDrawerItem(3, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
-        navigationDrawerItems.add(new NavigationDrawerItem(4, R.drawable.ic_action_about, getResources().getString(R.string.title_section_about), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section_top), false));
+        navigationDrawerItems.add(new NavigationDrawerItem(1, 0, getResources().getString(R.string.title_section_best), false));
+        navigationDrawerItems.add(new NavigationDrawerItem(2, 0, getResources().getString(R.string.title_section_newest), false));
+        navigationDrawerItems.add(new NavigationDrawerItem(3, 0, getResources().getString(R.string.title_section_show), false));
+        navigationDrawerItems.add(new NavigationDrawerItem(4, 0, getResources().getString(R.string.title_section_show_new), false));
+        if(HoloHackerNewsApplication.isDebug()) navigationDrawerItems.add(new NavigationDrawerItem(5, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(6, R.drawable.ic_action_about, getResources().getString(R.string.title_section_about), true));
 
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), 0, navigationDrawerItems);
         mDrawerListView.setAdapter(adapter);

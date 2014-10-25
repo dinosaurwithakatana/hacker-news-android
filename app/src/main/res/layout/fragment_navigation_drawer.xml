@@ -9,4 +9,5 @@
     android:listSelector="@drawable/orange_card_selector"
     android:drawSelectorOnTop="true"
     android:background="#ffffff"
+    android:groupIndicator="@null"
     tools:context="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment" />

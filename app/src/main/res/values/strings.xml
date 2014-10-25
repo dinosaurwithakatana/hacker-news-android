@@ -2,9 +2,12 @@
 <resources>
 
     <string name="app_name">Hacker News</string>
-    <string name="title_section1">Top</string>
-    <string name="title_section2">Best</string>
-    <string name="title_section3">Newest</string>
+    <string name="title_section_top">Top</string>
+    <string name="title_section_best">Best</string>
+    <string name="title_section_newest">Newest</string>
+    <string name="title_section_show">ShowHN</string>
+    <string name="title_section_show_new">ShowHN - New</string>
+    <string name="title_section_more">More…</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>

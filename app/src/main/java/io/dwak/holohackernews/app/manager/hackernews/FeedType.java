@@ -6,5 +6,7 @@ package io.dwak.holohackernews.app.manager.hackernews;
 public enum FeedType {
     TOP,
     BEST,
-    NEW
+    NEW,
+    SHOW,
+    SHOW_NEW
 }
