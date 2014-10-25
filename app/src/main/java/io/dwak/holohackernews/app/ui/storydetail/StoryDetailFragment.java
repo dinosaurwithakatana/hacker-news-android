@@ -106,7 +106,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     }
 
     private void refresh() {
-        HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId)
+        mSubscription = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .map(nodeHNAPIStoryDetail -> {
@@ -382,6 +382,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
     @Override
     public void onDetach() {
+        mSubscription.unsubscribe();
         super.onDetach();
     }
 
