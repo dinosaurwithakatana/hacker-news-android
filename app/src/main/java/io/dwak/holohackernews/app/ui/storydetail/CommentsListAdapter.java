@@ -115,6 +115,21 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
             viewHolder.mColorCode.setLayoutParams(colorCodeLayoutParams);
 
         }
+        else {
+            FrameLayout.LayoutParams commentsContainerLayoutParams= new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+            commentsContainerLayoutParams.setMargins(0,
+                    commentsContainerLayoutParams.topMargin,
+                    commentsContainerLayoutParams.rightMargin,
+                    commentsContainerLayoutParams.bottomMargin);
+            viewHolder.mCommentsContainer.setLayoutParams(commentsContainerLayoutParams);
+
+            FrameLayout.LayoutParams colorCodeLayoutParams = new FrameLayout.LayoutParams(viewHolder.mColorCode.getLayoutParams());
+            colorCodeLayoutParams.setMargins(0,
+                    colorCodeLayoutParams.topMargin,
+                    colorCodeLayoutParams.rightMargin,
+                    colorCodeLayoutParams.bottomMargin);
+            viewHolder.mColorCode.setLayoutParams(colorCodeLayoutParams);
+        }
 
         switch (getItem(position).getLevel() % 8) {
             case 0:
