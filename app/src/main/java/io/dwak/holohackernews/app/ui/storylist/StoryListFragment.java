@@ -94,7 +94,7 @@ public class StoryListFragment extends BaseFragment {
     }
 
     private void react(Observable<List<NodeHNAPIStory>> observable, boolean pageTwo) {
-        observable.observeOn(AndroidSchedulers.mainThread())
+        mSubscription = observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .flatMap(nodeHNAPIStories -> Observable.from(nodeHNAPIStories))
                 .map(nodeStory -> new Story(nodeStory.getStoryId(),
@@ -233,8 +233,9 @@ public class StoryListFragment extends BaseFragment {
 
     @Override
     public void onDetach() {
-        super.onDetach();
         mListener = null;
+        mSubscription.unsubscribe();
+        super.onDetach();
     }
 
     /**

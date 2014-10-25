@@ -54,7 +54,7 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(mStoryDetailFragment.isLinkViewVisible()){
+        if(mStoryDetailFragment != null && mStoryDetailFragment.isLinkViewVisible()){
             mStoryDetailFragment.hideLinkView();
         }
         else {
