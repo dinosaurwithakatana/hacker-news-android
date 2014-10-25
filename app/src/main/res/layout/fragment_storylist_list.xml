@@ -29,7 +29,6 @@
             android:layout_height="match_parent"
             android:dividerHeight="8dp"
             android:divider="@android:color/transparent"
-            android:drawSelectorOnTop="true"
             android:listSelector="@drawable/orange_card_selector"
             tools:listitem="@layout/comments_header"/>
     </io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout>

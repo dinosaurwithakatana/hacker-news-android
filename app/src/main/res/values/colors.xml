@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="list_selector_orange">#ff9e80</color>
+    <color name="list_selector_orange">#aaff9e80</color>
     <color name="showcase_bg">#ccffbb33</color>
     <color name="holo_light_bg">#fff3f3f3</color>
     <color name="system_bar_tint">#FF8800</color>
