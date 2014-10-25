@@ -89,6 +89,12 @@ public class StoryListFragment extends BaseFragment implements AbsListView.OnIte
             case NEW:
                 observable = mHackerNewsService.getNewestStories();
                 break;
+            case SHOW:
+                observable = mHackerNewsService.getShowStories();
+                break;
+            case SHOW_NEW:
+                observable = mHackerNewsService.getShowNewStories();
+                break;
         }
 
         react(observable, false);

@@ -66,7 +66,7 @@ public class MainActivity extends FragmentActivity
         Fragment newFragment;
         switch (drawerItem.getId()) {
             case 0:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_section_top);
                 newFragment = StoryListFragment.newInstance(FeedType.TOP);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity
                 setTitle(mTitle);
                 break;
             case 1:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_section_best);
                 newFragment = StoryListFragment.newInstance(FeedType.BEST);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity
                 setTitle(mTitle);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_section_newest);
                 newFragment = StoryListFragment.newInstance(FeedType.NEW);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
@@ -90,10 +90,26 @@ public class MainActivity extends FragmentActivity
                 setTitle(mTitle);
                 break;
             case 3:
+                mTitle = getString(R.string.title_section_show);
+                newFragment = StoryListFragment.newInstance(FeedType.SHOW);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .commit();
+                setTitle(mTitle);
+                break;
+            case 4:
+                mTitle = getString(R.string.title_section_show_new);
+                newFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .commit();
+                setTitle(mTitle);
+                break;
+            case 5:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 break;
-            case 4:
+            case 6:
                 Intent aboutIntent = new Intent(this, AboutActivity.class);
                 startActivity(aboutIntent);
                 break;

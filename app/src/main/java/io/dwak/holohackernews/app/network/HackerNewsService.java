@@ -38,9 +38,16 @@ public interface HackerNewsService {
     @GET("/best")
     Observable<List<NodeHNAPIStory>> getBestStories();
 
+    @GET("/show")
+    Observable<List<NodeHNAPIStory>> getShowStories();
+
+    @GET("/shownew")
+    Observable<List<NodeHNAPIStory>> getShowNewStories();
+
     @GET("/item/{itemId}")
     void getItemDetails(@Path("itemId") long itemId, Callback<NodeHNAPIStoryDetail> callback);
 
     @GET("/item/{itemId}")
     Observable<NodeHNAPIStoryDetail> getItemDetails(@Path("itemId") long itemId);
+
 }

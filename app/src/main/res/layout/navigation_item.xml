@@ -6,11 +6,11 @@
               android:background="@drawable/nav_menu_item_bg"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/navigation_title"
         app:typeface="roboto_light"
-        android:textSize="26sp"
+        android:textSize="22sp"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
