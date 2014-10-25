@@ -100,7 +100,6 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         int contentLeftMargin = UIUtils.dpAsPixels(mContext, 4);
 
         if (getItem(position).getLevel() != 0) {
-//            viewHolder.mCommentsContainer.setPadding(dpAsPixels, 0, 4, 0);
             FrameLayout.LayoutParams commentsContainerLayoutParams= new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
             commentsContainerLayoutParams.setMargins(contentLeftMargin,
                     commentsContainerLayoutParams.topMargin,
@@ -116,11 +115,6 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
             viewHolder.mColorCode.setLayoutParams(colorCodeLayoutParams);
 
         }
-//        else {
-//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
-//            layoutParams.setMargins(dpAsPixels, layoutParams.topMargin, layoutParams.rightMargin, layoutParams.bottomMargin);
-//            viewHolder.mCommentsContainer.setPadding(4, 0, 4, 0);
-//        }
 
         switch (getItem(position).getLevel() % 8) {
             case 0:
@@ -156,7 +150,6 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         @InjectView(R.id.comment_submission_time) TextView mCommentSubmissionTime;
         @InjectView(R.id.comment_submitter)TextView mCommentSubmitter;
         @InjectView(R.id.comment_overflow) ImageButton mOverflow;
-        @InjectView(R.id.comment_details) View mCommentDetails;
         @InjectView(R.id.comments_container) View mCommentsContainer;
         @InjectView(R.id.color_code) View mColorCode;
 
