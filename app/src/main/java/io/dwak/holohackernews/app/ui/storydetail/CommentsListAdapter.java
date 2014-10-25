@@ -1,16 +1,16 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -40,24 +40,21 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
     private void commentAction(final int i) {
         final CharSequence[] commentActions = {"Share Comment", "Share Comment Content"};
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setItems(commentActions, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int j) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                switch (j) {
-                    case 0:
-                        sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                "https://news.ycombinator.com/item?id=" + getItem(i).getId());
-                        break;
-                    case 1:
-                        sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                getItem(i).getUser() + ": " + Html.fromHtml(getItem(i).getContent()));
-                        break;
-                }
-                sendIntent.setType("text/plain");
-                mContext.startActivity(sendIntent);
+        builder.setItems(commentActions, (dialogInterface, j) -> {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            switch (j) {
+                case 0:
+                    sendIntent.putExtra(Intent.EXTRA_TEXT,
+                            "https://news.ycombinator.com/item?id=" + getItem(i).getId());
+                    break;
+                case 1:
+                    sendIntent.putExtra(Intent.EXTRA_TEXT,
+                            getItem(i).getUser() + ": " + Html.fromHtml(getItem(i).getContent()));
+                    break;
             }
+            sendIntent.setType("text/plain");
+            mContext.startActivity(sendIntent);
         });
 
         builder.create().show();
@@ -68,13 +65,12 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = ((Activity) mContext).getLayoutInflater().inflate(mResource, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(mResource, parent, false);
 
             viewHolder = new ViewHolder(convertView);
 
             convertView.setTag(viewHolder);
         }
-
         else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
@@ -83,12 +79,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mCommentContent.setText(commentContent);
         viewHolder.mCommentSubmissionTime.setText(getItem(position).getTimeAgo());
-        viewHolder.mOverflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                commentAction(position);
-            }
-        });
+        viewHolder.mOverflow.setOnClickListener(view -> commentAction(position));
 
         String submitter = getItem(position).getUser();
         if (HoloHackerNewsApplication.isDebug()) {
@@ -105,39 +96,56 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
                 )
         );
 
-        int dpAsPixels = UIUtils.dpAsPixels(mContext, getItem(position).getLevel() * 12);
+        int colorCodeLeftMargin = UIUtils.dpAsPixels(mContext, getItem(position).getLevel() * 12);
+        int contentLeftMargin = UIUtils.dpAsPixels(mContext, 4);
 
         if (getItem(position).getLevel() != 0) {
-            convertView.setPadding(dpAsPixels, 0, 4, 0);
+//            viewHolder.mCommentsContainer.setPadding(dpAsPixels, 0, 4, 0);
+            FrameLayout.LayoutParams commentsContainerLayoutParams= new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+            commentsContainerLayoutParams.setMargins(contentLeftMargin,
+                    commentsContainerLayoutParams.topMargin,
+                    commentsContainerLayoutParams.rightMargin,
+                    commentsContainerLayoutParams.bottomMargin);
+            viewHolder.mCommentsContainer.setLayoutParams(commentsContainerLayoutParams);
+
+            FrameLayout.LayoutParams colorCodeLayoutParams = new FrameLayout.LayoutParams(viewHolder.mColorCode.getLayoutParams());
+            colorCodeLayoutParams.setMargins(colorCodeLeftMargin,
+                    colorCodeLayoutParams.topMargin,
+                    colorCodeLayoutParams.rightMargin,
+                    colorCodeLayoutParams.bottomMargin);
+            viewHolder.mColorCode.setLayoutParams(colorCodeLayoutParams);
+
         }
-        else {
-            convertView.setPadding(4, 0, 4, 0);
-        }
+//        else {
+//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+//            layoutParams.setMargins(dpAsPixels, layoutParams.topMargin, layoutParams.rightMargin, layoutParams.bottomMargin);
+//            viewHolder.mCommentsContainer.setPadding(4, 0, 4, 0);
+//        }
 
         switch (getItem(position).getLevel() % 8) {
             case 0:
-                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_blue_bright);
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_blue_bright);
                 break;
             case 1:
-                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_green_light);
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_green_light);
                 break;
             case 2:
-                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_red_light);
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_red_light);
                 break;
             case 3:
-                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_orange_light);
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_orange_light);
                 break;
             case 4:
-                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_purple);
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_purple);
                 break;
             case 5:
-                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_green_dark);
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_green_dark);
                 break;
             case 6:
-                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_red_dark);
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_red_dark);
                 break;
             case 7:
-                viewHolder.mColorCodeView.setBackgroundResource(android.R.color.holo_orange_dark);
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_orange_dark);
                 break;
         }
         return convertView;
@@ -145,10 +153,12 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
 
     static class ViewHolder {
         @InjectView(R.id.comment_content) TextView mCommentContent;
-        @InjectView(R.id.color_code) View mColorCodeView;
         @InjectView(R.id.comment_submission_time) TextView mCommentSubmissionTime;
         @InjectView(R.id.comment_submitter)TextView mCommentSubmitter;
         @InjectView(R.id.comment_overflow) ImageButton mOverflow;
+        @InjectView(R.id.comment_details) View mCommentDetails;
+        @InjectView(R.id.comments_container) View mCommentsContainer;
+        @InjectView(R.id.color_code) View mColorCode;
 
         public ViewHolder(View convertView) {
             ButterKnife.inject(this, convertView);
