@@ -1,4 +1,4 @@
-HoloHacker News
+Hacker News
 ================
 
 Started as a project to play with Square's [Retrofit](https://square.github.io/retrofit/) library, ended up making a daily driver for reading hacker news.
@@ -16,16 +16,31 @@ Copy each of the `*.properties.example` to their respective properties files and
 
 Import into Android studio, should work out of the box.
 
+Roadmap
+-------
+
+*  Switch to Official API (using my wrapper api) [#16](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/16)
+
+*  Tablet UI [#18](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/18)
+
+*  Collapsible comments [#5](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/5)
+
+*  User Settings
+  *  Font Size [#10](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/10)
+  
+  *  Animtion Settings [#11](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/11)
+  
+  *  Night Mode [#12](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/12)
+  
+
+*  Offline Caching [#13](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/13)
+
+*  Show HN [#14](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/14)
+
+
+
 Chat
 --
 [![Gitter chat](https://badges.gitter.im/dinosaurwithakatana/holo_hacker_news.png)](https://gitter.im/dinosaurwithakatana/holo_hacker_news)
 
-Screenshots
----
-
-![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.30.03.png)
-![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.28.37.png)
-![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.29.02.png)
-![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.29.15.png)
-![Screen](https://raw.githubusercontent.com/dinosaurwithakatana/holo_hacker_news/master/screenshots/2014-10-02%2009.29.48.png)
 
