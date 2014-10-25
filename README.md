@@ -35,8 +35,6 @@ Roadmap
 
 *  Offline Caching [#13](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/13)
 
-*  Show HN [#14](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/14)
-
 
 
 Chat
