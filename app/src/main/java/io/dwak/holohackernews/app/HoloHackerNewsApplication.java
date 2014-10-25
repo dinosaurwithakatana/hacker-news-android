@@ -10,6 +10,7 @@ import java.io.File;
 
 import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
 import io.dwak.holohackernews.app.network.HackerNewsService;
+import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -30,6 +31,7 @@ public class HoloHackerNewsApplication extends Application {
         }
 
         mContext = getApplicationContext();
+        LocalDataManager.initialize(mContext);
     }
 
     public static boolean isDebug() {
