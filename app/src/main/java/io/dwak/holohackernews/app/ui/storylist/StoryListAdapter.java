@@ -31,6 +31,15 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
     }
 
     @Override
+    public boolean add(Story object) {
+        if(!contains(object)){
+            return super.add(object);
+        }
+
+        return false;
+    }
+
+    @Override
     public long getItemId(int location) {
         return getItem(location).getStoryId();
     }
