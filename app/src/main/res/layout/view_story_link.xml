@@ -1,6 +1,7 @@
 <io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -16,39 +17,45 @@
         android:layout_centerInParent="true"
         android:background="@android:color/holo_orange_light"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/button_bar"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_below="@id/progress_bar"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:background="@android:color/holo_orange_dark"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/web_back"
-            android:layout_width="0dp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_weight="1"
             android:background="@drawable/web_back"
-            android:visibility="visible"/>
-
-        <Button
-            android:id="@+id/close_link"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_weight="6"
-            android:background="@drawable/orange_button"
-            android:text="@string/show_comments"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            tools:ignore="RtlHardcoded"/>
 
         <Button
             android:id="@+id/web_forward"
-            android:layout_width="0dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_weight="1"
             android:background="@drawable/web_forward"
-            android:visibility="visible"/>
-    </LinearLayout>
+            android:visibility="visible"
+            tools:ignore="RtlHardcoded"/>
+
+        <Button
+            android:id="@+id/close_link"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_toRightOf="@id/web_back"
+            android:layout_toLeftOf="@id/web_forward"
+            android:background="@drawable/orange_button"
+            android:text="@string/show_comments"
+            android:visibility="visible"
+            tools:ignore="RtlHardcoded"/>
+    </RelativeLayout>
 
     <io.dwak.holohackernews.app.widget.ObservableWebView
         android:id="@+id/story_web_view"
@@ -68,5 +75,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_action_readability"
         fab:fab_colorNormal="@color/system_bar_tint"
-        fab:fab_colorPressed="@color/list_selector_orange"/>
+        fab:fab_colorPressed="@color/list_selector_orange"
+        tools:ignore="RtlHardcoded"/>
 </io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout>
