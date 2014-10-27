@@ -116,5 +116,23 @@ public class Story {
                 ", mType='" + mType + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Story story = (Story) o;
+
+        if (mStoryId != null ? !mStoryId.equals(story.mStoryId) : story.mStoryId != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return mStoryId != null ? mStoryId.hashCode() : 0;
+    }
 }
 
