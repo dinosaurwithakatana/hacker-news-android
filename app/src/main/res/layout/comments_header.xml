@@ -2,6 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:background="@drawable/card_bg"
               android:padding="8dp"
               android:longClickable="false"
@@ -16,15 +17,17 @@
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_points"
             android:textColor="@android:color/black"
-            android:text="24"
+            tools:text="24"
             android:gravity="center"
             android:textSize="24sp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             app:typeface="roboto_bold"
             android:layout_marginRight="12dp"
-            android:layout_width="42dp"
-            android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="42dp"
+            tools:ignore="RtlHardcoded"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_title"
