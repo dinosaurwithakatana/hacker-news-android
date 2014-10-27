@@ -23,8 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/button_bar"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_alignParentBottom="true"
@@ -32,29 +34,33 @@
 
                 <Button
                     android:id="@+id/prev_top_level"
-                    android:layout_width="0dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="42dp"
                     android:layout_height="42dp"
-                    android:layout_weight="1"
                     android:background="@drawable/navigation_up"
-                    android:visibility="visible"/>
-
-                <Button
-                    android:id="@+id/open_link"
-                    android:layout_width="0dp"
-                    android:layout_height="42dp"
-                    android:layout_weight="4"
-                    android:background="@drawable/orange_button"
-                    android:text="@string/show_link"
-                    android:visibility="visible"/>
+                    android:visibility="visible"
+                    tools:ignore="RtlHardcoded"/>
 
                 <Button
                     android:id="@+id/next_top_level"
-                    android:layout_width="0dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="42dp"
                     android:layout_height="42dp"
-                    android:layout_weight="1"
                     android:background="@drawable/navigation_down"
-                    android:visibility="visible"/>
-            </LinearLayout>
+                    android:visibility="visible"
+                    tools:ignore="RtlHardcoded"/>
+
+                <Button
+                    android:id="@+id/open_link"
+                    android:layout_toRightOf="@id/prev_top_level"
+                    android:layout_toLeftOf="@id/next_top_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:background="@drawable/orange_button"
+                    android:text="@string/show_link"
+                    android:visibility="visible"
+                    tools:ignore="RtlHardcoded"/>
+            </RelativeLayout>
 
             <io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout
                 android:id="@+id/swipe_container"
