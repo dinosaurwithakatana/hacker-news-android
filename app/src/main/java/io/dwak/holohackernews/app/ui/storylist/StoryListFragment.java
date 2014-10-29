@@ -202,7 +202,7 @@ public class StoryListFragment extends BaseFragment {
         mListAdapter = new StoryListAdapter(storyList, getActivity(), R.layout.comments_header);
 
         // Assign the ListView to the AnimationAdapter and vice versa
-        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(mListAdapter);
+        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(mListAdapter, .9f, 0, 250);
         scaleInAnimationAdapter.setAbsListView(mListView);
         mListView.setAdapter(scaleInAnimationAdapter);
 
@@ -210,7 +210,7 @@ public class StoryListFragment extends BaseFragment {
         RxEvents.observableFromListItemClick(mListView)
                 .subscribe(rxListItemClickEvent -> {
                     if (mListener != null) {
-                        mListener.onStoryListFragmentInteraction(mListAdapter.getItemId(rxListItemClickEvent.getPosition()));
+                        mListener.onStoryListFragmentInteraction(mListAdapter.getItemId(rxListItemClickEvent.getPosition()), rxListItemClickEvent.getView());
                     }
                 });
         if (mFeedType == FeedType.TOP) {
@@ -277,6 +277,6 @@ public class StoryListFragment extends BaseFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnStoryListFragmentInteractionListener {
-        public void onStoryListFragmentInteraction(long id);
+        public void onStoryListFragmentInteraction(long id, View view);
     }
 }

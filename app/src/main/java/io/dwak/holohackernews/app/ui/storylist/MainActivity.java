@@ -1,6 +1,8 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -9,10 +11,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
@@ -162,16 +165,24 @@ public class MainActivity extends ActionBarActivity
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NewApi")
     @Override
-    public void onStoryListFragmentInteraction(long id) {
+    public void onStoryListFragmentInteraction(long id, View view) {
         if (HoloHackerNewsApplication.isDebug()) {
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
         Intent detailIntent = new Intent(this, StoryDetailActivity.class);
         detailIntent.putExtra(STORY_ID, id);
-        startActivity(detailIntent);
-        overridePendingTransition(R.anim.offscreen_left_to_view, R.anim.fadeout);
+        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP){
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(this, view, "story_header");
+            startActivity(detailIntent, options.toBundle());
+        }
+        else{
+            startActivity(detailIntent);
+            overridePendingTransition(R.anim.offscreen_left_to_view, R.anim.fadeout);
+        }
     }
 
     @Override

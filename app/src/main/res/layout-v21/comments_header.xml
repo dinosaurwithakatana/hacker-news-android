@@ -8,7 +8,8 @@
               android:paddingRight="16dp"
               android:longClickable="false"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+    android:transitionName="story_header">
 
     <RelativeLayout
         android:id="@+id/header_base"
@@ -38,8 +39,7 @@
             android:textSize="18sp"
             app:typeface="roboto_medium"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="RtlHardcoded"/>
+            android:layout_height="wrap_content"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_submitter"
@@ -52,7 +52,7 @@
             app:typeface="roboto_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:ignore="RtlHardcoded"/>
+            />
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_domain"
@@ -65,8 +65,7 @@
             android:maxLines="1"
             app:typeface="roboto_light"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="RtlHardcoded"/>
+            android:layout_height="wrap_content"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_long_ago"
@@ -80,8 +79,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="RtlHardcoded"/>
+            android:layout_height="wrap_content"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/comment_count"
@@ -91,8 +89,7 @@
             android:layout_toRightOf="@id/story_points"
             android:layout_below="@id/story_long_ago"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="RtlHardcoded"/>
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
     <com.devspark.robototextview.widget.RobotoTextView

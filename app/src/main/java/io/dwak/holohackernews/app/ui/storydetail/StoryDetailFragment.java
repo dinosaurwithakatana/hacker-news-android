@@ -136,7 +136,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                 .subscribe(new Subscriber<StoryDetail>() {
                     @Override
                     public void onCompleted() {
-                        showProgress(false);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
@@ -310,7 +309,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
             mActionBar.setTitle("Hacker News");
         }
 
-        showProgress(true);
+        showProgress(false);
 
         mCommentsListView = (ListView) rootView.findViewById(R.id.comments_list);
 
