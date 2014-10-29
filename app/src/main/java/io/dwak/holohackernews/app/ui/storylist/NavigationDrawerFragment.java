@@ -8,11 +8,11 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,8 +30,6 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.rx.events.RxEvents;
-import io.dwak.rx.events.events.abslistview.RxListItemClickEvent;
-import rx.functions.Action1;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -86,8 +84,7 @@ public class NavigationDrawerFragment extends Fragment {
         setContentPivot(mDrawerLayout.getRootView());
         mDrawerToggle = new HNDrawerToggle(
                 getActivity(),                    /* host Activity */
-                mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_navigation_drawer,             /* nav drawer image to replace 'Up' caret */
+                mDrawerLayout,
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {
@@ -288,16 +285,14 @@ public class NavigationDrawerFragment extends Fragment {
          * <p/>
          * <p>String resources must be provided to describe the open/close drawer actions for
          * accessibility services.</p>
-         *
-         * @param activity                  The Activity hosting the drawer
+         *  @param activity                  The Activity hosting the drawer
          * @param drawerLayout              The DrawerLayout to link to the given Activity's ActionBar
-         * @param drawerImageRes            A Drawable resource to use as the drawer indicator
          * @param openDrawerContentDescRes  A String resource to describe the "open drawer" action
-         *                                  for accessibility
+ *                                  for accessibility
          * @param closeDrawerContentDescRes A String resource to describe the "close drawer" action
          */
-        public HNDrawerToggle(Activity activity, DrawerLayout drawerLayout, int drawerImageRes, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
-            super(activity, drawerLayout, drawerImageRes, openDrawerContentDescRes, closeDrawerContentDescRes);
+        public HNDrawerToggle(Activity activity, DrawerLayout drawerLayout, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
+            super(activity, drawerLayout, openDrawerContentDescRes, closeDrawerContentDescRes);
         }
 
         @Override
