@@ -2,20 +2,22 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/toolbar"
-             android:id="@+id/toolbar"
-             android:layout_alignParentTop="true"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
 
     <android.support.v4.widget.DrawerLayout
-        android:layout_below="@id/toolbar"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity">
 
         <!-- As the main content view, the view below consumes the entire
@@ -26,25 +28,25 @@
 
             <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_centerInParent="true"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
+                android:layout_centerInParent="true"
                 android:visibility="gone"/>
         </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/container"
-            android:background="@color/holo_light_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/holo_light_bg"
             android:visibility="visible"/>
 
         <fragment
             android:id="@+id/navigation_drawer"
+            android:name="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:name="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment"
             tools:layout="@layout/fragment_navigation_drawer"/>
 
     </android.support.v4.widget.DrawerLayout>

@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_below="@id/progress_bar"
-        android:background="?attr/colorPrimaryDark"
+        android:background="?attr/colorPrimary"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:orientation="horizontal">
