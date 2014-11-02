@@ -2,14 +2,13 @@
 <resources>
 
     <style name="AppTheme" parent="AppTheme.Base">
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
 
     <style name="AppTheme.Detail" parent="AppTheme.Base">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 </resources>

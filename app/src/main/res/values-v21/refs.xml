@@ -7,7 +7,5 @@
     For more on layout aliases, see:
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
-    <item name="fragment_storylistfragment" type="layout">@layout/fragment_storylist_list</item>
-
-    <item name="header_shadow" type="drawable">@drawable/bottom_shadow</item>
+    <item name="header_shadow" type="drawable">@null</item>
 </resources>

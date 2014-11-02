@@ -136,6 +136,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                 .subscribe(new Subscriber<StoryDetail>() {
                     @Override
                     public void onCompleted() {
+                        showProgress(false);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
@@ -355,6 +356,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
             refresh();
         });
 
+        showProgress(true);
         refresh();
         return rootView;
     }

@@ -1,54 +1,50 @@
-<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
-<RelativeLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
-
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
+    tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity">
+    <!-- Main layout -->
+    <io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity">
+        android:clipChildren="false"
+        app:shadowDrawable="@drawable/header_shadow">
 
-        <!-- As the main content view, the view below consumes the entire
-             space available using match_parent in both dimensions. -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_centerInParent="true"
-                android:visibility="gone"/>
-        </RelativeLayout>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/holo_light_bg"
+            android:layout_marginTop="@dimen/toolbar_height"
             android:visibility="visible"/>
 
-        <fragment
-            android:id="@+id/navigation_drawer"
-            android:name="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            tools:layout="@layout/fragment_navigation_drawer"/>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"/>
+    </io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout>
 
-    </android.support.v4.widget.DrawerLayout>
-</RelativeLayout>
+    <fragment
+        android:id="@+id/navigation_drawer"
+        android:name="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        tools:layout="@layout/fragment_navigation_drawer"/>
 
+
+</android.support.v4.widget.DrawerLayout>

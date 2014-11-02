@@ -6,13 +6,14 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.ui.storylist.MainActivity;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import tv.acfun.a63.swipe.SwipeAppCompatActivity;
 
-public class StoryDetailActivity extends ActionBarActivity{
+public class StoryDetailActivity extends SwipeAppCompatActivity{
 
     private StoryDetailFragment mStoryDetailFragment;
 
@@ -28,8 +29,8 @@ public class StoryDetailActivity extends ActionBarActivity{
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(toolbar);
         }
-//        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
-//        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
+        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         Intent intent = getIntent();
         long storyId = 0;
         if(intent !=null){
