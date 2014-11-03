@@ -2,6 +2,7 @@
 <resources>
 
     <style name="AppTheme" parent="AppTheme.Base"/>
+    <style name="AppThemeNight" parent="AppTheme.Base.Night"/>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -10,7 +11,18 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.Base.Night" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme.Detail" parent="AppTheme.Base">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppTheme.Detail.Night" parent="AppTheme.Base.Night">
         <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

@@ -6,4 +6,8 @@
     <color name="system_bar_tint">#FF8800</color>
     <color name="colorPrimary">#ff5722</color>
     <color name="colorPrimaryDark">#e64a19</color>
+    <color name="colorPrimaryNight">#bf360c</color>
+    <color name="colorPrimaryDarkNight">#212121</color>
+    <color name="cardBackground">#ffffff</color>
+    <color name="cardBackgroundNight">#757575</color>
 </resources>

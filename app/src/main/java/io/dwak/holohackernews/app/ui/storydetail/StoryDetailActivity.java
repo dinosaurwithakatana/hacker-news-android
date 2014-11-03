@@ -1,41 +1,41 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.IntentCompat;
 import android.support.v7.widget.Toolbar;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.ui.storylist.MainActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import tv.acfun.a63.swipe.SwipeAppCompatActivity;
 
-public class StoryDetailActivity extends SwipeAppCompatActivity{
+public class StoryDetailActivity extends SwipeAppCompatActivity {
 
+    @InjectView(R.id.toolbar) Toolbar mToolbar;
     private StoryDetailFragment mStoryDetailFragment;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar !=null){
-            toolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
-            toolbar.setNavigationOnClickListener(v -> navigateUpToFromChild(StoryDetailActivity.this,
-                    IntentCompat.makeMainActivity(new ComponentName(StoryDetailActivity.this, MainActivity.class))));
-            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-            setSupportActionBar(toolbar);
+        ButterKnife.inject(this);
+        if (mToolbar != null) {
+            mToolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
+            mToolbar.setNavigationOnClickListener(v -> finish());
+            mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(mToolbar);
         }
         SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
         swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         Intent intent = getIntent();
         long storyId = 0;
-        if(intent !=null){
+        if (intent != null) {
             Bundle extras = intent.getExtras();
-            if(extras!=null){
+            if (extras != null) {
                 storyId = extras.getLong(MainActivity.STORY_ID);
             }
         }
@@ -55,12 +55,12 @@ public class StoryDetailActivity extends SwipeAppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        if(mStoryDetailFragment != null && mStoryDetailFragment.isLinkViewVisible()){
+        if (mStoryDetailFragment != null && mStoryDetailFragment.isLinkViewVisible()) {
             mStoryDetailFragment.hideLinkView();
         }
         else {
             super.onBackPressed();
-            if(Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP){
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
                 finishAfterTransition();
             }
             else {

@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="AppTheme.Base">
+    <style name="AppTheme" parent="AppTheme.Base"/>
+    <style name="AppThemeNight" parent="AppTheme.Base.Night"/>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
+    <style name="AppTheme.Base.Night" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowBackground">@color/colorPrimaryDarkNight</item>
+    </style>
 
-    <style name="AppTheme.Detail" parent="AppTheme.Base">
+    <style name="AppThemeNight.Detail" parent="AppTheme.Base.Night">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/colorPrimaryDarkNight</item>
     </style>
 </resources>
