@@ -2,7 +2,6 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +26,7 @@ public class MainActivity extends BaseActivity
         StoryListFragment.OnStoryListFragmentInteractionListener {
 
     public static final String STORY_ID = "STORY_ID";
+    public static final String DETAILS_CONTAINER_VISIBLE = "DETAILS_CONTAINER_VISIBLE";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -38,6 +38,8 @@ public class MainActivity extends BaseActivity
     private CharSequence mTitle;
     private boolean mIsDualPane;
     private StoryDetailFragment mStoryDetailFragment;
+    private Fragment mStoryListFragment;
+    private View mDetailsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +61,21 @@ public class MainActivity extends BaseActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        View detailsContainer = findViewById(R.id.details_container);
-        mIsDualPane = detailsContainer != null;
+        mDetailsContainer = findViewById(R.id.details_container);
+        mIsDualPane = mDetailsContainer != null;
+
+        if(savedInstanceState != null){
+            boolean detailsContainerVisible = savedInstanceState.getBoolean(DETAILS_CONTAINER_VISIBLE, false);
+            if(detailsContainerVisible){
+                mDetailsContainer.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(DETAILS_CONTAINER_VISIBLE, mDetailsContainer.getVisibility() == View.VISIBLE);
     }
 
     @Override
@@ -78,45 +87,44 @@ public class MainActivity extends BaseActivity
     public void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment newFragment;
         switch (drawerItem.getId()) {
             case 0:
                 mTitle = getString(R.string.title_section_top);
-                newFragment = StoryListFragment.newInstance(FeedType.TOP);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.TOP);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
                         .commit();
                 setTitle(mTitle);
                 break;
             case 1:
                 mTitle = getString(R.string.title_section_best);
-                newFragment = StoryListFragment.newInstance(FeedType.BEST);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.BEST);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
                         .commit();
                 setTitle(mTitle);
                 break;
             case 2:
                 mTitle = getString(R.string.title_section_newest);
-                newFragment = StoryListFragment.newInstance(FeedType.NEW);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.NEW);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
                         .commit();
                 setTitle(mTitle);
                 break;
             case 3:
                 mTitle = getString(R.string.title_section_show);
-                newFragment = StoryListFragment.newInstance(FeedType.SHOW);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
                         .commit();
                 setTitle(mTitle);
                 break;
             case 4:
                 mTitle = getString(R.string.title_section_show_new);
-                newFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
+                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
                         .commit();
                 setTitle(mTitle);
                 break;
@@ -160,6 +168,7 @@ public class MainActivity extends BaseActivity
 
         if(mIsDualPane){
             mStoryDetailFragment = StoryDetailFragment.newInstance(id);
+            mDetailsContainer.setVisibility(View.VISIBLE);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.details_container, mStoryDetailFragment)
                     .commit();

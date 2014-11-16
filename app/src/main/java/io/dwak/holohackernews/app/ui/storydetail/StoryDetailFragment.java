@@ -61,6 +61,8 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    public static final String LINK_DRAWER_OPEN = "LINK_DRAWER_OPEN";
+    public static final String TOP_VISIBLE_COMMENT = "TOP_VISIBLE_COMMENT";
     private final int DISTANCE_TO_HIDE_ACTIONBAR = 1;
     @InjectView(R.id.prev_top_level) Button mPrevTopLevel;
     @InjectView(R.id.next_top_level) Button mNextTopLevel;
@@ -80,6 +82,16 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private CommentsListAdapter mListAdapter;
     private Bundle mWebViewBundle;
     private boolean mReadability;
+    private boolean mWasLinkLayoutOpen;
+
+    public StoryDetail getStoryDetail() {
+        return mStoryDetail;
+    }
+
+    public void setStoryDetail(StoryDetail storyDetail) {
+        mStoryDetail = storyDetail;
+    }
+
     private StoryDetail mStoryDetail;
 
     public StoryDetailFragment() {
@@ -236,6 +248,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         if (getArguments() != null) {
             mStoryId = getArguments().getLong(STORY_ID);
         }
@@ -247,6 +260,9 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
+        if(savedInstanceState!=null) {
+            mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
+        }
         ButterKnife.inject(this, rootView);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mContainer = rootView.findViewById(R.id.container);
@@ -260,15 +276,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mLinkLayout.setStashPixel(height);
         mLinkLayout.setRevealPixel(0);
         mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
-        mLinkLayout.setVisibility(View.INVISIBLE);
-        mLinkLayout.setOpen(false);
-        mLinkLayout.setRevealListener(new ReboundRevealRelativeLayout.RevealListener() {
-            @Override
-            public void onVisibilityChange(boolean visible) {
-                mLinkLayout.setVisibility(View.VISIBLE);
-                mLinkLayout.setRevealListener(null);
-            }
-        });
+        mLinkLayout.setOpen(mWasLinkLayoutOpen);
 
         final ProgressBar webProgressBar = (ProgressBar) mLinkLayout.findViewById(R.id.web_progress_bar);
         mCloseLink.setOnClickListener(view -> mLinkLayout.setOpen(false));
@@ -356,7 +364,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mCommentsListView.setAdapter(mListAdapter);
 
 
-        mSwipeRefreshLayout.setColorScheme(android.R.color.holo_orange_dark,
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light);
@@ -382,6 +390,8 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mWebView.saveState(outState);
+        outState.putBoolean(LINK_DRAWER_OPEN, mLinkLayout.isOpen());
+        outState.putInt(TOP_VISIBLE_COMMENT, mCommentsListView.getFirstVisiblePosition());
     }
 
     @Override
@@ -393,7 +403,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
     @Override
     public void onDetach() {
-        mSubscription.unsubscribe();
+        if(mSubscription!=null) mSubscription.unsubscribe();
         super.onDetach();
     }
 

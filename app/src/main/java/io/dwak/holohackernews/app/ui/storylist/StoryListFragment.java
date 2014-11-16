@@ -161,6 +161,7 @@ public class StoryListFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
 
         if (getArguments() != null) {
             mFeedType = (FeedType) getArguments().getSerializable(FEED_TO_LOAD);
@@ -264,6 +265,14 @@ public class StoryListFragment extends BaseFragment {
         mListener = null;
         mSubscription.unsubscribe();
         super.onDetach();
+    }
+
+    public int getListPosition(){
+        return mListView.getFirstVisiblePosition();
+    }
+
+    public void setListPosition(int position){
+        mListView.setSelection(position);
     }
 
     /**

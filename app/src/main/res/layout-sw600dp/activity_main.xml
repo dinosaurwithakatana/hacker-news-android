@@ -6,10 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/holo_light_bg"
     tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity">
     <!-- Main layout -->
     <io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout
         android:id="@+id/main_content"
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
@@ -25,7 +27,8 @@
         <LinearLayout
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:weightSum="1"
+            android:animateLayoutChanges="true"
+            android:layoutAnimation="@anim/detail_pane_animation"
             android:layout_marginTop="@dimen/toolbar_height"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -44,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@color/holo_light_bg"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             </LinearLayout>
 
