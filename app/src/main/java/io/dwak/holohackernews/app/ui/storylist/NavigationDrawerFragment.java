@@ -1,17 +1,17 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +28,7 @@ import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
+import io.dwak.rx.events.RxEvents;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -71,17 +72,18 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
         setContentPivot(mDrawerLayout.getRootView());
         mDrawerToggle = new HNDrawerToggle(
                 getActivity(),                    /* host Activity */
-                mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_navigation_drawer,             /* nav drawer image to replace 'Up' caret */
+                mDrawerLayout,
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {
@@ -114,13 +116,6 @@ public class NavigationDrawerFragment extends Fragment {
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
         };
-
-        // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-        // per the navigation drawer design guidelines.
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-            mDrawerLayout.openDrawer(mFragmentContainerView);
-        }
-
         // Defer code dependent on restoration of previous instance state.
         mDrawerLayout.post(() -> mDrawerToggle.syncState());
 
@@ -159,6 +154,7 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setRetainInstance(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
@@ -175,7 +171,8 @@ public class NavigationDrawerFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
-        mDrawerListView.setOnItemClickListener((parent, view, position, id) -> selectItem(position));
+        RxEvents.observableFromListItemClick(mDrawerListView)
+                .subscribe(rxListItemClickEvent -> selectItem(rxListItemClickEvent.getPosition()));
 
         List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<>();
         navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section_top), false));
@@ -243,9 +240,8 @@ public class NavigationDrawerFragment extends Fragment {
      * 'context', rather than just what's in the current screen.
      */
     private void showGlobalContextActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
     }
 
@@ -255,10 +251,6 @@ public class NavigationDrawerFragment extends Fragment {
         display.getSize(size);
         fragmentContainerView.setPivotY(size.y / 2);
         fragmentContainerView.setPivotX(size.x / 2);
-    }
-
-    private ActionBar getActionBar() {
-        return getActivity().getActionBar();
     }
 
     /**
@@ -285,23 +277,19 @@ public class NavigationDrawerFragment extends Fragment {
          * <p/>
          * <p>String resources must be provided to describe the open/close drawer actions for
          * accessibility services.</p>
-         *
-         * @param activity                  The Activity hosting the drawer
+         *  @param activity                  The Activity hosting the drawer
          * @param drawerLayout              The DrawerLayout to link to the given Activity's ActionBar
-         * @param drawerImageRes            A Drawable resource to use as the drawer indicator
          * @param openDrawerContentDescRes  A String resource to describe the "open drawer" action
-         *                                  for accessibility
+ *                                  for accessibility
          * @param closeDrawerContentDescRes A String resource to describe the "close drawer" action
          */
-        public HNDrawerToggle(Activity activity, DrawerLayout drawerLayout, int drawerImageRes, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
-            super(activity, drawerLayout, drawerImageRes, openDrawerContentDescRes, closeDrawerContentDescRes);
+        public HNDrawerToggle(Activity activity, DrawerLayout drawerLayout, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
+            super(activity, drawerLayout, openDrawerContentDescRes, closeDrawerContentDescRes);
         }
 
         @Override
         public void onDrawerSlide(View drawerView, float offset) {
             super.onDrawerSlide(drawerView, offset);
-            mDrawerLayout.getChildAt(1).setScaleX(1 - (offset * 0.01f));
-            mDrawerLayout.getChildAt(1).setScaleY(1 - (offset * 0.01f));
         }
 
     }

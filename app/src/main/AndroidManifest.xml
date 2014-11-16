@@ -9,10 +9,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Hntheme" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".ui.storylist.MainActivity"
-            android:configChanges="orientation|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,27 +23,18 @@
             android:name=".ui.about.AboutActivity"
             android:label="@string/title_activity_about"
             android:parentActivityName=".ui.storylist.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
         </activity>
         <activity
             android:name=".ui.storydetail.StoryDetailActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_story_detail"
             android:parentActivityName=".ui.storylist.MainActivity"
-            android:theme="@style/Theme.Hntheme.Detail" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
+            android:theme="@style/AppTheme.Detail" >
         </activity>
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ui.storylist.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.dwak.holohackernews.app.ui.storylist.MainActivity" />
         </activity>
     </application>
 

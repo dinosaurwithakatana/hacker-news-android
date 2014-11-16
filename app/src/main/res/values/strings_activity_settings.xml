@@ -1,5 +1,5 @@
 <resources>
-        <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
 
@@ -56,4 +56,14 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string-array name="themeNames">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="themeValues">
+        <item>lightDark</item>
+        <item>dark</item>
+    </string-array>
 </resources>

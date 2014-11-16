@@ -1,13 +1,14 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -47,7 +48,6 @@ import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
-import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -61,13 +61,15 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    public static final String LINK_DRAWER_OPEN = "LINK_DRAWER_OPEN";
+    public static final String TOP_VISIBLE_COMMENT = "TOP_VISIBLE_COMMENT";
     private final int DISTANCE_TO_HIDE_ACTIONBAR = 1;
     @InjectView(R.id.prev_top_level) Button mPrevTopLevel;
     @InjectView(R.id.next_top_level) Button mNextTopLevel;
     @InjectView(R.id.web_back) Button mWebBack;
     @InjectView(R.id.close_link) Button mCloseLink;
     @InjectView(R.id.web_forward) Button mWebForward;
-    @InjectView(R.id.swipe_container) SmoothSwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.comments_list) ListView mCommentsListView;
     @InjectView(R.id.open_link) Button mOpenLinkDialogButton;
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
@@ -76,10 +78,20 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private long mStoryId;
     private int mPrevVisibleItem;
     private HeaderViewHolder mHeaderViewHolder;
-    private ActionBar mActionBar;
+    private android.support.v7.app.ActionBar mActionBar;
     private CommentsListAdapter mListAdapter;
     private Bundle mWebViewBundle;
     private boolean mReadability;
+    private boolean mWasLinkLayoutOpen;
+
+    public StoryDetail getStoryDetail() {
+        return mStoryDetail;
+    }
+
+    public void setStoryDetail(StoryDetail storyDetail) {
+        mStoryDetail = storyDetail;
+    }
+
     private StoryDetail mStoryDetail;
 
     public StoryDetailFragment() {
@@ -106,6 +118,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     }
 
     private void refresh() {
+        showProgress(true);
         mSubscription = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -119,10 +132,12 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                     List<Comment> commentList = new ArrayList<Comment>();
 
                     for (NodeHNAPIComment expandedComment : expandedComments) {
-                        Comment comment = new Comment(expandedComment.getId(), expandedComment.getLevel(),
-                                expandedComment.getUser().toLowerCase().equals(nodeHNAPIStoryDetail.getUser().toLowerCase()),
-                                expandedComment.getUser(), expandedComment.getTimeAgo(), expandedComment.getContent());
-                        commentList.add(comment);
+                        if(expandedComment.getUser()!=null) {
+                            Comment comment = new Comment(expandedComment.getId(), expandedComment.getLevel(),
+                                    expandedComment.getUser().toLowerCase().equals(nodeHNAPIStoryDetail.getUser().toLowerCase()),
+                                    expandedComment.getUser(), expandedComment.getTimeAgo(), expandedComment.getContent());
+                            commentList.add(comment);
+                        }
                     }
 
                     return new StoryDetail(nodeHNAPIStoryDetail.getId(), nodeHNAPIStoryDetail.getTitle(),
@@ -142,7 +157,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, e.toString());
+                        Log.d(TAG, e.getStackTrace()[0] + " : "+ e.toString());
                         Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
                     }
 
@@ -233,6 +248,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         if (getArguments() != null) {
             mStoryId = getArguments().getLong(STORY_ID);
         }
@@ -244,6 +260,9 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
+        if(savedInstanceState!=null) {
+            mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
+        }
         ButterKnife.inject(this, rootView);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mContainer = rootView.findViewById(R.id.container);
@@ -257,7 +276,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mLinkLayout.setStashPixel(height);
         mLinkLayout.setRevealPixel(0);
         mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
-        mLinkLayout.setOpen(false);
+        mLinkLayout.setOpen(mWasLinkLayoutOpen);
 
         final ProgressBar webProgressBar = (ProgressBar) mLinkLayout.findViewById(R.id.web_progress_bar);
         mCloseLink.setOnClickListener(view -> mLinkLayout.setOpen(false));
@@ -304,11 +323,11 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         });
         mPrevVisibleItem = 1;
 
-        mActionBar = getActivity().getActionBar();
-        mActionBar.show();
-        mActionBar.setTitle("Hacker News");
-
-        showProgress(true);
+        mActionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        if(mActionBar!=null) {
+            mActionBar.show();
+            mActionBar.setTitle("Hacker News");
+        }
 
         mCommentsListView = (ListView) rootView.findViewById(R.id.comments_list);
 
@@ -345,7 +364,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mCommentsListView.setAdapter(mListAdapter);
 
 
-        mSwipeRefreshLayout.setColorScheme(android.R.color.holo_orange_dark,
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light);
@@ -371,6 +390,8 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mWebView.saveState(outState);
+        outState.putBoolean(LINK_DRAWER_OPEN, mLinkLayout.isOpen());
+        outState.putInt(TOP_VISIBLE_COMMENT, mCommentsListView.getFirstVisiblePosition());
     }
 
     @Override
@@ -382,7 +403,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
     @Override
     public void onDetach() {
-        mSubscription.unsubscribe();
+        if(mSubscription!=null) mSubscription.unsubscribe();
         super.onDetach();
     }
 

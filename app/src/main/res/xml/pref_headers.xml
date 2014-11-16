@@ -5,9 +5,4 @@
     <header
         android:fragment="io.dwak.holohackernews.app.ui.settings.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
-
-    <!--<header-->
-        <!--android:fragment="io.dwak.holohackernews.app.ui.settings.SettingsActivity$DataSyncPreferenceFragment"-->
-        <!--android:title="@string/pref_header_data_sync" />-->
-
 </preference-headers>

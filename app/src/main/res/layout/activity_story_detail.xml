@@ -1,11 +1,25 @@
-<FrameLayout
-    android:id="@+id/container"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context="io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity"
-    tools:ignore="MergeRootFrame"/>
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar"
+             android:id="@+id/toolbar"
+             android:layout_alignParentTop="true"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:ignore="MergeRootFrame"/>
+</RelativeLayout>
+
 
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Hntheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:actionBarItemBackground">@drawable/selectable_background_hntheme</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Hntheme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Hntheme</item>
@@ -14,6 +13,7 @@
         <item name="android:itemTextAppearance">@style/TextAppearance</item>
         <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Hntheme.Widget</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/system_bar_tint</item>
     </style>
 </resources>
