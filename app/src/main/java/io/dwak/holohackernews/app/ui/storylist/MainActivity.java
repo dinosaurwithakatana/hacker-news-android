@@ -44,14 +44,13 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(toolbar);
         }
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -91,42 +90,27 @@ public class MainActivity extends BaseActivity
             case 0:
                 mTitle = getString(R.string.title_section_top);
                 mStoryListFragment = StoryListFragment.newInstance(FeedType.TOP);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                loadFeedList(fragmentManager);
                 break;
             case 1:
                 mTitle = getString(R.string.title_section_best);
                 mStoryListFragment = StoryListFragment.newInstance(FeedType.BEST);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                loadFeedList(fragmentManager);
                 break;
             case 2:
                 mTitle = getString(R.string.title_section_newest);
                 mStoryListFragment = StoryListFragment.newInstance(FeedType.NEW);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                loadFeedList(fragmentManager);
                 break;
             case 3:
                 mTitle = getString(R.string.title_section_show);
                 mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                loadFeedList(fragmentManager);
                 break;
             case 4:
                 mTitle = getString(R.string.title_section_show_new);
                 mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                loadFeedList(fragmentManager);
                 break;
             case 5:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
@@ -138,6 +122,15 @@ public class MainActivity extends BaseActivity
                 break;
         }
 
+    }
+
+    private void loadFeedList(FragmentManager fragmentManager) {
+        if(!(mStoryListFragment!=null && fragmentManager.findFragmentByTag(StoryListFragment.class.getSimpleName() + mTitle) !=null)){
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName() + mTitle)
+                    .commit();
+            setTitle(mTitle);
+        }
     }
 
     public void restoreActionBar() {
