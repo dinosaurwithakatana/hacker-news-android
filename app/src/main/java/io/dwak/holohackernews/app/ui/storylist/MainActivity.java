@@ -1,31 +1,28 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.manager.hackernews.FeedType;
+import io.dwak.holohackernews.app.ui.BaseActivity;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
+import io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends BaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         StoryListFragment.OnStoryListFragmentInteractionListener {
 
@@ -39,12 +36,8 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
-    }
+    private boolean mIsDualPane;
+    private StoryDetailFragment mStoryDetailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +46,7 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar!=null){
+        if (toolbar != null) {
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(toolbar);
         }
@@ -66,6 +59,19 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        View detailsContainer = findViewById(R.id.details_container);
+        mIsDualPane = detailsContainer != null;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -128,29 +134,9 @@ public class MainActivity extends ActionBarActivity
 
     public void restoreActionBar() {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
-    public void setActionbarVisible(boolean visible) {
-        if (visible) {
-            getActionBar().show();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                WindowManager.LayoutParams params = getWindow().getAttributes();
-                params.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                getWindow().setAttributes(params);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            }
-        }
-        else {
-            getActionBar().hide();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            }
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -172,21 +158,27 @@ public class MainActivity extends ActionBarActivity
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
-        Intent detailIntent = new Intent(this, StoryDetailActivity.class);
-        detailIntent.putExtra(STORY_ID, id);
-        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP){
-            ActivityOptions options = ActivityOptions
-                    .makeSceneTransitionAnimation(this, view, "story_header");
-            startActivity(detailIntent, options.toBundle());
+        if(mIsDualPane){
+            mStoryDetailFragment = StoryDetailFragment.newInstance(id);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.details_container, mStoryDetailFragment)
+                    .commit();
         }
-        else{
+        else {
+            Intent detailIntent = new Intent(this, StoryDetailActivity.class);
+            detailIntent.putExtra(STORY_ID, id);
             startActivity(detailIntent);
             overridePendingTransition(R.anim.offscreen_left_to_view, R.anim.fadeout);
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed() {
+        if (mIsDualPane && mStoryDetailFragment != null && mStoryDetailFragment.isLinkViewVisible()) {
+            mStoryDetailFragment.hideLinkView();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }

@@ -4,6 +4,7 @@
     <color name="showcase_bg">#ccffbb33</color>
     <color name="holo_light_bg">#fff3f3f3</color>
     <color name="system_bar_tint">#FF8800</color>
+    <color name="colorAccent">#ff5722</color>
     <color name="colorPrimary">#ff5722</color>
     <color name="colorPrimaryDark">#e64a19</color>
     <color name="colorPrimaryNight">#bf360c</color>

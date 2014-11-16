@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -31,7 +32,6 @@ import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import io.dwak.holohackernews.app.ui.BaseFragment;
-import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
 import io.dwak.rx.events.RxEvents;
 import rx.Observable;
 import rx.Subscriber;
@@ -53,7 +53,7 @@ public class StoryListFragment extends BaseFragment {
     private static final String TAG = StoryListFragment.class.getSimpleName();
 
     @InjectView(R.id.story_list) AbsListView mListView;
-    @InjectView(R.id.swipe_container) SmoothSwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private String mTitle;
     private FeedType mFeedType;

@@ -17,9 +17,9 @@
 package tv.acfun.a63.swipe;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
+import io.dwak.holohackernews.app.ui.BaseActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.SwipeBackLayout.SwipeListener;
 import me.imid.swipebacklayout.lib.Utils;
@@ -29,7 +29,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
  * @author Yrom
  *
  */
-public class SwipeAppCompatActivity extends ActionBarActivity implements SwipeBackActivityBase{
+public class SwipeAppCompatActivity extends BaseActivity implements SwipeBackActivityBase{
     
     private tv.acfun.a63.swipe.SwipeBackHelper mHelper;
 

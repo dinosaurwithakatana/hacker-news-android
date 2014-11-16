@@ -296,8 +296,6 @@ public class NavigationDrawerFragment extends Fragment {
         @Override
         public void onDrawerSlide(View drawerView, float offset) {
             super.onDrawerSlide(drawerView, offset);
-            mDrawerLayout.getChildAt(1).setScaleX(1 - (offset * 0.01f));
-            mDrawerLayout.getChildAt(1).setScaleY(1 - (offset * 0.01f));
         }
 
     }

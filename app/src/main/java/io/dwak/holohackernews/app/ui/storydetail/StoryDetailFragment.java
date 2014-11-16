@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spanned;
@@ -47,7 +48,6 @@ import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
-import io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -67,7 +67,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     @InjectView(R.id.web_back) Button mWebBack;
     @InjectView(R.id.close_link) Button mCloseLink;
     @InjectView(R.id.web_forward) Button mWebForward;
-    @InjectView(R.id.swipe_container) SmoothSwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.comments_list) ListView mCommentsListView;
     @InjectView(R.id.open_link) Button mOpenLinkDialogButton;
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
@@ -106,6 +106,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     }
 
     private void refresh() {
+        showProgress(true);
         mSubscription = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -119,10 +120,12 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                     List<Comment> commentList = new ArrayList<Comment>();
 
                     for (NodeHNAPIComment expandedComment : expandedComments) {
-                        Comment comment = new Comment(expandedComment.getId(), expandedComment.getLevel(),
-                                expandedComment.getUser().toLowerCase().equals(nodeHNAPIStoryDetail.getUser().toLowerCase()),
-                                expandedComment.getUser(), expandedComment.getTimeAgo(), expandedComment.getContent());
-                        commentList.add(comment);
+                        if(expandedComment.getUser()!=null) {
+                            Comment comment = new Comment(expandedComment.getId(), expandedComment.getLevel(),
+                                    expandedComment.getUser().toLowerCase().equals(nodeHNAPIStoryDetail.getUser().toLowerCase()),
+                                    expandedComment.getUser(), expandedComment.getTimeAgo(), expandedComment.getContent());
+                            commentList.add(comment);
+                        }
                     }
 
                     return new StoryDetail(nodeHNAPIStoryDetail.getId(), nodeHNAPIStoryDetail.getTitle(),
@@ -142,7 +145,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, e.toString());
+                        Log.d(TAG, e.getStackTrace()[0] + " : "+ e.toString());
                         Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
                     }
 
@@ -257,7 +260,15 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mLinkLayout.setStashPixel(height);
         mLinkLayout.setRevealPixel(0);
         mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
+        mLinkLayout.setVisibility(View.INVISIBLE);
         mLinkLayout.setOpen(false);
+        mLinkLayout.setRevealListener(new ReboundRevealRelativeLayout.RevealListener() {
+            @Override
+            public void onVisibilityChange(boolean visible) {
+                mLinkLayout.setVisibility(View.VISIBLE);
+                mLinkLayout.setRevealListener(null);
+            }
+        });
 
         final ProgressBar webProgressBar = (ProgressBar) mLinkLayout.findViewById(R.id.web_progress_bar);
         mCloseLink.setOnClickListener(view -> mLinkLayout.setOpen(false));
@@ -310,8 +321,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
             mActionBar.setTitle("Hacker News");
         }
 
-        showProgress(false);
-
         mCommentsListView = (ListView) rootView.findViewById(R.id.comments_list);
 
         mPrevTopLevel.setOnClickListener(view -> {
@@ -356,7 +365,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
             refresh();
         });
 
-        showProgress(true);
         refresh();
         return rootView;
     }

@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -64,7 +63,7 @@
                     tools:ignore="RtlHardcoded"/>
             </RelativeLayout>
 
-            <io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout
+            <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -77,7 +76,7 @@
                     android:clipToPadding="false"
                     android:fastScrollEnabled="true"
                     android:scrollbarStyle="outsideOverlay"/>
-            </io.dwak.holohackernews.app.widget.SmoothSwipeRefreshLayout>
+            </android.support.v4.widget.SwipeRefreshLayout>
 
             <include
                 android:id="@+id/link_layout"

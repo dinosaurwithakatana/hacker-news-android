@@ -43,4 +43,5 @@
 
     <string name="themeSum">The app-wide theme.</string>
     <string name="theme">Theme</string>
+    <string name="title_settings">Settings</string>
 </resources>
