@@ -12,7 +12,7 @@
         <shape android:shape="rectangle"
                android:dither="true">
             <corners android:radius="2dp" />
-            <solid android:color="@android:color/white" />
+            <solid android:color="@color/cardBackground" />
             <padding android:bottom="8dp"
                      android:left="8dp"
                      android:right="8dp"

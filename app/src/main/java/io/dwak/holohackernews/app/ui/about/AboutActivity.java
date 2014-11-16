@@ -1,24 +1,28 @@
 package io.dwak.holohackernews.app.ui.about;
 
-import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 import io.dwak.holohackernews.app.R;
 
-public class AboutActivity extends Activity {
+public class AboutActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar !=null){
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            toolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
+            toolbar.setNavigationOnClickListener(v -> finish());
+            setSupportActionBar(toolbar);
+        }
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -37,8 +41,7 @@ public class AboutActivity extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_about, container, false);
-            return rootView;
+            return inflater.inflate(R.layout.fragment_about, container, false);
         }
     }
 }

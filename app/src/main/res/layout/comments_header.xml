@@ -4,7 +4,8 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:background="@drawable/card_bg"
-              android:padding="8dp"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
               android:longClickable="false"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
@@ -32,12 +33,13 @@
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_title"
             android:textColor="@android:color/black"
-            android:text="Hello Header"
+            tools:text="Hello Header"
             android:layout_toRightOf="@id/story_points"
             android:textSize="18sp"
             app:typeface="roboto_medium"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_submitter"
@@ -45,12 +47,12 @@
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@id/story_points"
             android:layout_below="@id/story_title"
-            android:text="iwhdwdh"
+            tools:text="iwhdwdh"
             android:textColor="@android:color/holo_orange_light"
             app:typeface="roboto_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            tools:ignore="RtlHardcoded"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_domain"
@@ -59,11 +61,12 @@
             android:layout_marginTop="4dp"
             android:layout_below="@id/story_title"
             android:layout_toRightOf="@id/story_submitter"
-            android:text="blah blah blah blah blah blah blah"
+            tools:text="blah blah blah blah blah blah blah"
             android:maxLines="1"
             app:typeface="roboto_light"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_long_ago"
@@ -72,12 +75,13 @@
             android:layout_marginTop="4dp"
             android:layout_below="@id/story_title"
             android:layout_toRightOf="@id/story_domain"
-            android:text="14 hours ago"
+            tools:text="14 hours ago"
             app:typeface="roboto_light"
             android:maxLines="1"
             android:ellipsize="end"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/comment_count"
@@ -87,7 +91,8 @@
             android:layout_toRightOf="@id/story_points"
             android:layout_below="@id/story_long_ago"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded"/>
     </RelativeLayout>
 
     <com.devspark.robototextview.widget.RobotoTextView

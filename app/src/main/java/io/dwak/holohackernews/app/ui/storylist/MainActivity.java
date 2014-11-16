@@ -1,31 +1,32 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
-import android.app.ActionBar;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.WindowManager;
+import android.view.View;
 import android.widget.Toast;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.manager.hackernews.FeedType;
+import io.dwak.holohackernews.app.ui.BaseActivity;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
+import io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends BaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         StoryListFragment.OnStoryListFragmentInteractionListener {
 
     public static final String STORY_ID = "STORY_ID";
+    public static final String DETAILS_CONTAINER_VISIBLE = "DETAILS_CONTAINER_VISIBLE";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -35,21 +36,23 @@ public class MainActivity extends FragmentActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
-    }
+    private boolean mIsDualPane;
+    private StoryDetailFragment mStoryDetailFragment;
+    private Fragment mStoryListFragment;
+    private View mDetailsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(toolbar);
+        }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         // Set up the drawer.
@@ -57,53 +60,57 @@ public class MainActivity extends FragmentActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        mDetailsContainer = findViewById(R.id.details_container);
+        mIsDualPane = mDetailsContainer != null;
+
+        if(savedInstanceState != null){
+            boolean detailsContainerVisible = savedInstanceState.getBoolean(DETAILS_CONTAINER_VISIBLE, false);
+            if(detailsContainerVisible){
+                mDetailsContainer.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(DETAILS_CONTAINER_VISIBLE, mDetailsContainer.getVisibility() == View.VISIBLE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
     public void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment newFragment;
         switch (drawerItem.getId()) {
             case 0:
                 mTitle = getString(R.string.title_section_top);
-                newFragment = StoryListFragment.newInstance(FeedType.TOP);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.TOP);
+                loadFeedList(fragmentManager);
                 break;
             case 1:
                 mTitle = getString(R.string.title_section_best);
-                newFragment = StoryListFragment.newInstance(FeedType.BEST);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.BEST);
+                loadFeedList(fragmentManager);
                 break;
             case 2:
                 mTitle = getString(R.string.title_section_newest);
-                newFragment = StoryListFragment.newInstance(FeedType.NEW);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.NEW);
+                loadFeedList(fragmentManager);
                 break;
             case 3:
                 mTitle = getString(R.string.title_section_show);
-                newFragment = StoryListFragment.newInstance(FeedType.SHOW);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW);
+                loadFeedList(fragmentManager);
                 break;
             case 4:
                 mTitle = getString(R.string.title_section_show_new);
-                newFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, newFragment, StoryListFragment.class.getSimpleName())
-                        .commit();
-                setTitle(mTitle);
+                mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
+                loadFeedList(fragmentManager);
                 break;
             case 5:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
@@ -117,31 +124,20 @@ public class MainActivity extends FragmentActivity
 
     }
 
+    private void loadFeedList(FragmentManager fragmentManager) {
+        if(!(mStoryListFragment!=null && fragmentManager.findFragmentByTag(StoryListFragment.class.getSimpleName() + mTitle) !=null)){
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName() + mTitle)
+                    .commit();
+            setTitle(mTitle);
+        }
+    }
+
     public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
-    public void setActionbarVisible(boolean visible) {
-        if (visible) {
-            getActionBar().show();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                WindowManager.LayoutParams params = getWindow().getAttributes();
-                params.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                getWindow().setAttributes(params);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            }
-        }
-        else {
-            getActionBar().hide();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            }
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,20 +152,35 @@ public class MainActivity extends FragmentActivity
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NewApi")
     @Override
-    public void onStoryListFragmentInteraction(long id) {
+    public void onStoryListFragmentInteraction(long id, View view) {
         if (HoloHackerNewsApplication.isDebug()) {
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
-        Intent detailIntent = new Intent(this, StoryDetailActivity.class);
-        detailIntent.putExtra(STORY_ID, id);
-        startActivity(detailIntent);
-        overridePendingTransition(R.anim.offscreen_left_to_view, R.anim.fadeout);
+        if(mIsDualPane){
+            mStoryDetailFragment = StoryDetailFragment.newInstance(id);
+            mDetailsContainer.setVisibility(View.VISIBLE);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.details_container, mStoryDetailFragment)
+                    .commit();
+        }
+        else {
+            Intent detailIntent = new Intent(this, StoryDetailActivity.class);
+            detailIntent.putExtra(STORY_ID, id);
+            startActivity(detailIntent);
+            overridePendingTransition(R.anim.offscreen_left_to_view, R.anim.fadeout);
+        }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed() {
+        if (mIsDualPane && mStoryDetailFragment != null && mStoryDetailFragment.isLinkViewVisible()) {
+            mStoryDetailFragment.hideLinkView();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }
