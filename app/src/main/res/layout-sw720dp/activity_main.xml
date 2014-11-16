@@ -6,10 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/holo_light_bg"
     tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity">
     <!-- Main layout -->
     <io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout
         android:id="@+id/main_content"
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
@@ -22,20 +24,36 @@
             android:layout_gravity="center"
             android:visibility="gone"/>
 
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/holo_light_bg"
+        <LinearLayout
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:animateLayoutChanges="true"
+            android:layoutAnimation="@anim/detail_pane_animation"
             android:layout_marginTop="@dimen/toolbar_height"
-            android:visibility="visible"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_weight=".35"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/holo_light_bg"
+                android:visibility="visible"
+                tools:background="@android:color/background_dark"/>
+
+            <FrameLayout
+                android:id="@+id/details_container"
+                android:layout_weight=".65"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/holo_light_bg"
+                android:visibility="gone"/>
+
+            </LinearLayout>
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"/>
+            layout="@layout/toolbar"/>
     </io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout>
 
     <fragment

@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity
 
         if(savedInstanceState != null){
             boolean detailsContainerVisible = savedInstanceState.getBoolean(DETAILS_CONTAINER_VISIBLE, false);
-            if(detailsContainerVisible){
+            if(mDetailsContainer != null && detailsContainerVisible){
                 mDetailsContainer.setVisibility(View.VISIBLE);
             }
         }
@@ -74,7 +74,9 @@ public class MainActivity extends BaseActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(DETAILS_CONTAINER_VISIBLE, mDetailsContainer.getVisibility() == View.VISIBLE);
+        if (mDetailsContainer != null) {
+            outState.putBoolean(DETAILS_CONTAINER_VISIBLE, mDetailsContainer.getVisibility() == View.VISIBLE);
+        }
     }
 
     @Override
@@ -159,7 +161,7 @@ public class MainActivity extends BaseActivity
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
-        if(mIsDualPane){
+        if(mIsDualPane && mDetailsContainer !=null){
             mStoryDetailFragment = StoryDetailFragment.newInstance(id);
             mDetailsContainer.setVisibility(View.VISIBLE);
             getSupportFragmentManager().beginTransaction()
