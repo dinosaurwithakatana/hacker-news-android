@@ -3,6 +3,7 @@ package io.dwak.holohackernews.app.ui;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -19,17 +20,23 @@ public class BaseFragment extends Fragment {
     protected Subscription mSubscription;
 
     protected void showProgress(boolean showProgress){
-        ObjectAnimator fadeIn = (ObjectAnimator) AnimatorInflater.loadAnimator(getActivity(), R.animator.fadein);
-        ObjectAnimator fadeOut = (ObjectAnimator) AnimatorInflater.loadAnimator(getActivity(), R.animator.fadeout);
-        if(showProgress){
-            FadeListener fadeInListener = new FadeListener(mContainer, mProgressBar);
-            fadeIn.addListener(fadeInListener);
-            fadeIn.start();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ObjectAnimator fadeIn = (ObjectAnimator) AnimatorInflater.loadAnimator(getActivity(), R.animator.fadein);
+            ObjectAnimator fadeOut = (ObjectAnimator) AnimatorInflater.loadAnimator(getActivity(), R.animator.fadeout);
+            if (showProgress) {
+                FadeListener fadeInListener = new FadeListener(mContainer, mProgressBar);
+                fadeIn.addListener(fadeInListener);
+                fadeIn.start();
+            }
+            else {
+                FadeListener fadeOutListener = new FadeListener(mProgressBar, mContainer);
+                fadeOut.addListener(fadeOutListener);
+                fadeOut.start();
+            }
         }
         else {
-            FadeListener fadeOutListener = new FadeListener(mProgressBar, mContainer);
-            fadeOut.addListener(fadeOutListener);
-            fadeOut.start();
+            mProgressBar.setVisibility(showProgress ? View.VISIBLE : View.GONE);
+            mContainer.setVisibility(showProgress ? View.GONE : View.VISIBLE);
         }
     }
 
