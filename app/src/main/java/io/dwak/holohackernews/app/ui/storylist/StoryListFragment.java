@@ -184,7 +184,7 @@ public class StoryListFragment extends BaseFragment {
         }
         showProgress(true);
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null || mListAdapter == null || mStoryList == null) {
             // Set the adapter
             mListAdapter = new StoryListAdapter(mStoryList, getActivity(), R.layout.comments_header);
 
