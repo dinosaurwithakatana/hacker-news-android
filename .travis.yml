@@ -5,7 +5,11 @@ env:
   - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
 android:
   components:
+  - platform-tools
+  - tools
+  - android-21
   - build-tools-21.0.1
+  - extra-android-m2repository
 before_script:
 - cp keystore.properties.example keystore.properties
 - cp local.properties.example local.properties
