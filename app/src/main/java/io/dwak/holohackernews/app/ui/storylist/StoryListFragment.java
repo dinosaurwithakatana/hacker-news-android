@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
 
@@ -30,6 +31,7 @@ import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.rx.events.RxEvents;
+import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -123,13 +125,20 @@ public class StoryListFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        throw new RuntimeException(e);
+                        if(e instanceof RetrofitError){
+                            Toast.makeText(getActivity(), "Unable to connect to API!", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            throw new RuntimeException(e);
+                        }
                     }
 
                     @Override
                     public void onNext(Story story) {
-                        mStoryList.add(story);
-                        mListAdapter.add(story);
+                        if(story.getStoryId()!=null) {
+                            mStoryList.add(story);
+                            mListAdapter.add(story);
+                        }
                     }
                 });
     }
