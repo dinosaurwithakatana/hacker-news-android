@@ -30,7 +30,7 @@ public class Story {
         mType = type;
     }
 
-    public long getStoryId() {
+    public Long getStoryId() {
         return mStoryId;
     }
 
