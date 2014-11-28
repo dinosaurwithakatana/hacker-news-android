@@ -165,7 +165,7 @@ public class MainActivity extends BaseActivity
             mStoryDetailFragment = StoryDetailFragment.newInstance(id);
             mDetailsContainer.setVisibility(View.VISIBLE);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.details_container, mStoryDetailFragment)
+                    .replace(R.id.details_container, mStoryDetailFragment)
                     .commit();
         }
         else {
