@@ -5,12 +5,12 @@ apply plugin: 'retrolambda'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '21.0.2'
+    buildToolsVersion '21.1.1'
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 23
-        versionName '2.2.2'
+        versionCode 24
+        versionName '2.3.0'
     }
     signingConfigs {
         release {
