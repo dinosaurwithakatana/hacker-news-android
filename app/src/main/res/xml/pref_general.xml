@@ -2,13 +2,11 @@
 
     <CheckBoxPreference
         android:key="pref_link_first"
-        android:title="Show link first"
-        android:summary="Shows the link first if enabled"
+        android:title="@string/pref_link_first_title"
         android:defaultValue="false" />
 
     <CheckBoxPreference
         android:key="pref_system_browser"
         android:title="@string/pref_system_browser_title"
-        android:summary="@string/pref_system_browser_summary"
         android:defaultValue="false" />
 </PreferenceScreen>

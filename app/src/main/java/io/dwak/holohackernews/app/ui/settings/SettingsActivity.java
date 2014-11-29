@@ -36,8 +36,10 @@ public class SettingsActivity extends BaseActivity {
 
         Toolbar toolbar = getToolbar();
         toolbar.setTitle(R.string.title_settings);
-        toolbar.setNavigationIcon(R.drawable.ic_navigation_back);
+        toolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(view -> finish());
+        setSupportActionBar(toolbar);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
