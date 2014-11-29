@@ -1,2 +1,0 @@
-configurations.create("default")
-artifacts.add("default", file("realm-0.70.1.aar"))
