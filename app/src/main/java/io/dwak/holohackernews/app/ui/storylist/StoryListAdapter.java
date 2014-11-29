@@ -5,10 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.nhaarman.listviewanimations.ArrayAdapter;
-
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -24,19 +22,10 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
     private Context mContext;
     private int mResource;
 
-    public StoryListAdapter(List<Story> objects, Context context, int resource) {
-        super(objects);
+    public StoryListAdapter(Context context, int resource, List<Story> objects) {
+        super(context, resource, objects);
         mContext = context;
         mResource = resource;
-    }
-
-    @Override
-    public boolean add(Story object) {
-        if(!contains(object)){
-            return super.add(object);
-        }
-
-        return false;
     }
 
     @Override
