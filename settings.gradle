@@ -1,1 +1,1 @@
-include ':app', ':realm', ':rxeventslib'
+include ':app', ':rxeventslib'

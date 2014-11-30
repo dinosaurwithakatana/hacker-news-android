@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.2'
+        classpath 'com.android.tools.build:gradle:1.0.0-rc1'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'me.tatarka:gradle-retrolambda:2.4.0'
@@ -19,6 +19,6 @@ allprojects {
     }
 }
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '2.2.1'
 }
 

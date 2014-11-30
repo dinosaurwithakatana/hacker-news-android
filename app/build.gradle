@@ -1,6 +1,5 @@
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-//apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'retrolambda'
 
 android {
@@ -9,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 24
-        versionName '2.3.0'
+        versionCode 25
+        versionName '2.5'
     }
     signingConfigs {
         release {
@@ -33,10 +32,9 @@ android {
             localProps.load(new FileInputStream(file('../local.properties')))
         }
         release {
-            runProguard false
+            minifyEnabled false
             def Properties localProps = new Properties()
             localProps.load(new FileInputStream(file('../local.properties')))
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
     }
@@ -49,14 +47,11 @@ android {
 }
 
 dependencies {
-//    apt fileTree(dir: 'libs', include: ['*.jar'])
-//    compile project(':realm')
     compile project(':rxeventslib')
-    compile 'com.android.support:support-v4:21.0.0'
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.0.1'
-    compile 'com.nhaarman.listviewanimations:library:2.6.0'
     compile 'com.facebook.rebound:rebound:0.3.6'
     compile 'com.jakewharton:butterknife:5.1.2'
     compile 'com.android.support:support-annotations:21.0.0'

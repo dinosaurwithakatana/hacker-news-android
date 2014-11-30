@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.storylist.MainActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import tv.acfun.a63.swipe.SwipeAppCompatActivity;
@@ -55,7 +56,7 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mStoryDetailFragment != null && mStoryDetailFragment.isLinkViewVisible()) {
+        if (mStoryDetailFragment != null && mStoryDetailFragment.isLinkViewVisible() && !UserPreferenceManager.showLinkFirst(this)) {
             mStoryDetailFragment.hideLinkView();
         }
         else {

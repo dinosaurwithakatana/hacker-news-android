@@ -15,8 +15,6 @@ import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,8 +133,7 @@ public class StoryListFragment extends BaseFragment {
 
                     @Override
                     public void onNext(Story story) {
-                        if(story.getStoryId()!=null) {
-                            mStoryList.add(story);
+                        if(story.getStoryId()!=null && mListAdapter.getPosition(story) == -1) {
                             mListAdapter.add(story);
                         }
                     }
@@ -195,7 +192,8 @@ public class StoryListFragment extends BaseFragment {
 
         if (savedInstanceState == null || mListAdapter == null || mStoryList == null) {
             // Set the adapter
-            mListAdapter = new StoryListAdapter(mStoryList, getActivity(), R.layout.comments_header);
+            mStoryList = new ArrayList<>();
+            mListAdapter = new StoryListAdapter(getActivity(), R.layout.comments_header, mStoryList);
 
             final boolean returningUser = LocalDataManager.getInstance().isReturningUser();
 
@@ -216,16 +214,11 @@ public class StoryListFragment extends BaseFragment {
 
                 LocalDataManager.getInstance().setReturningUser(true);
             }
-
-            mStoryList = new ArrayList<>();
             refresh();
         }
         else {
             showProgress(false);
         }
-        // Assign the ListView to the AnimationAdapter and vice versa
-        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(mListAdapter, .9f, 0, 250);
-        scaleInAnimationAdapter.setAbsListView(mListView);
 
         // Set OnItemClickListener so we can be notified on item clicks
         RxEvents.observableFromListItemClick(mListView)

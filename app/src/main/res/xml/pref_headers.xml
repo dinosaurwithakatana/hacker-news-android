@@ -3,6 +3,6 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="io.dwak.holohackernews.app.ui.settings.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="io.dwak.holohackernews.app.ui.settings.SettingsActivity$SettingsFragment"
         android:title="@string/pref_header_general" />
 </preference-headers>
