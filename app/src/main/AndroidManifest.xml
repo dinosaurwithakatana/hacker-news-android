@@ -34,6 +34,7 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.Settings"
             android:parentActivityName=".ui.storylist.MainActivity" >
         </activity>
     </application>

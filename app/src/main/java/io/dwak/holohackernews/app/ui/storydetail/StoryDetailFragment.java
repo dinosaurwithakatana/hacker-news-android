@@ -45,6 +45,7 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
@@ -152,6 +153,9 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                     @Override
                     public void onCompleted() {
                         showProgress(false);
+                        if(UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())){
+                            openLinkInExternalBrowser();
+                        }
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
@@ -173,11 +177,17 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                                 String domain = mStoryDetail.getDomain();
                                 mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
                                 mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
-                                if (mWebViewBundle == null) {
-                                    mWebView.loadUrl(mStoryDetail.getUrl());
+                                if(UserPreferenceManager.isExternalBrowserEnabled(getActivity())){
+                                    openLinkInExternalBrowser();
                                 }
                                 else {
-                                    mWebView.restoreState(mWebViewBundle);
+                                    if (mWebViewBundle == null) {
+                                        mWebView.loadUrl(mStoryDetail.getUrl());
+                                        Intent browserIntent = new Intent();
+                                    }
+                                    else {
+                                        mWebView.restoreState(mWebViewBundle);
+                                    }
                                 }
                             }
                             else if ("ask".equals(mStoryDetail.getType())) {
@@ -222,14 +232,19 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
                         mOpenLinkDialogButton.setVisibility(View.VISIBLE);
                         mOpenLinkDialogButton.setOnClickListener(view -> {
-                            mLinkLayout.setOpen(!mLinkLayout.isOpen());
-                            if ("ask".equals(mStoryDetail.getType())) {
-                                mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
-                            }
-                            else if ("job".equals(mStoryDetail.getType())) {
-                                if (mStoryDetail.getUrl().contains("/item?id=")) {
+                            if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+                                mLinkLayout.setOpen(!mLinkLayout.isOpen());
+                                if ("ask".equals(mStoryDetail.getType())) {
                                     mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
                                 }
+                                else if ("job".equals(mStoryDetail.getType())) {
+                                    if (mStoryDetail.getUrl().contains("/item?id=")) {
+                                        mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
+                                    }
+                                }
+                            }
+                            else {
+                                openLinkInExternalBrowser();
                             }
                         });
 
@@ -238,6 +253,13 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
                     }
                 });
+    }
+
+    private void openLinkInExternalBrowser() {
+        Intent browserIntent = new Intent();
+        browserIntent.setAction(Intent.ACTION_VIEW);
+        browserIntent.setData(Uri.parse(mStoryDetail.getUrl()));
+        startActivity(browserIntent);
     }
 
     @Override
@@ -276,7 +298,9 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mLinkLayout.setStashPixel(height);
         mLinkLayout.setRevealPixel(0);
         mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
-        mLinkLayout.setOpen(mWasLinkLayoutOpen);
+        if(!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+            mLinkLayout.setOpen(mWasLinkLayoutOpen || (UserPreferenceManager.showLinkFirst(getActivity())));
+        }
 
         final ProgressBar webProgressBar = (ProgressBar) mLinkLayout.findViewById(R.id.web_progress_bar);
         mCloseLink.setOnClickListener(view -> mLinkLayout.setOpen(false));
