@@ -177,7 +177,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                                 String domain = mStoryDetail.getDomain();
                                 mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
                                 mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
-                                if(UserPreferenceManager.isExternalBrowserEnabled(getActivity())){
+                                if(UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())){
                                     openLinkInExternalBrowser();
                                 }
                                 else {
