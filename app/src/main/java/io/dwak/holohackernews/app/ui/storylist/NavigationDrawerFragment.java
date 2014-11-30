@@ -180,7 +180,7 @@ public class NavigationDrawerFragment extends Fragment {
         navigationDrawerItems.add(new NavigationDrawerItem(2, 0, getResources().getString(R.string.title_section_newest), false));
         navigationDrawerItems.add(new NavigationDrawerItem(3, 0, getResources().getString(R.string.title_section_show), false));
         navigationDrawerItems.add(new NavigationDrawerItem(4, 0, getResources().getString(R.string.title_section_show_new), false));
-        if(HoloHackerNewsApplication.isDebug()) navigationDrawerItems.add(new NavigationDrawerItem(5, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(5, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
         navigationDrawerItems.add(new NavigationDrawerItem(6, R.drawable.ic_action_about, getResources().getString(R.string.title_section_about), true));
 
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), 0, navigationDrawerItems);
