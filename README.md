@@ -26,8 +26,6 @@ Roadmap
 *  User Settings
   *  Font Size [#10](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/10)
   
-  *  Animtion Settings [#11](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/11)
-  
   *  Night Mode [#12](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/12)
   
 
