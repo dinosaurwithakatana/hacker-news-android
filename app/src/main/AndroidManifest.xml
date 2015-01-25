@@ -30,6 +30,21 @@
             android:label="@string/title_activity_story_detail"
             android:parentActivityName=".ui.storylist.MainActivity"
             android:theme="@style/AppTheme.Detail" >
+            <intent-filter>
+                <data
+                    android:host="news.ycombinator.com"
+                    android:pathPrefix="/item"
+                    android:scheme="http" />
+                <data
+                    android:host="news.ycombinator.com"
+                    android:pathPrefix="/item"
+                    android:scheme="https" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.settings.SettingsActivity"

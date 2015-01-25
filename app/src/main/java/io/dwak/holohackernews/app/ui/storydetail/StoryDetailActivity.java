@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +39,11 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
             Bundle extras = intent.getExtras();
             if (extras != null) {
                 storyId = extras.getLong(MainActivity.STORY_ID);
+            }
+
+            final Uri data = intent.getData();
+            if(data != null){
+                storyId = Long.parseLong(data.getQueryParameter("id"));
             }
         }
         if (savedInstanceState == null) {
