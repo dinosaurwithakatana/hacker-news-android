@@ -29,6 +29,7 @@
 
                 <com.devspark.robototextview.widget.RobotoTextView
                     app:typeface="roboto_black"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:text="@string/app_name"
@@ -37,6 +38,7 @@
 
                 <com.devspark.robototextview.widget.RobotoTextView
                     app:typeface="roboto_light"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:text="@string/dwak"
@@ -50,6 +52,7 @@
 
                 <com.devspark.robototextview.widget.RobotoTextView
                     android:text="@string/website"
+                    android:textColor="@android:color/black"
                     android:autoLink="web"
                     app:typeface="roboto_light"
                     android:gravity="center_horizontal"
