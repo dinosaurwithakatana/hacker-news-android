@@ -21,14 +21,10 @@ Roadmap
 
 *  Switch to Official API (using my wrapper api) [#16](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/16)
 
-*  Tablet UI [#18](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/18)
-
 *  Collapsible comments [#5](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/5)
 
 *  User Settings
   *  Font Size [#10](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/10)
-  
-  *  Animtion Settings [#11](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/11)
   
   *  Night Mode [#12](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/12)
   
