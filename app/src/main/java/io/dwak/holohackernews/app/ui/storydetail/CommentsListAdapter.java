@@ -19,7 +19,6 @@ import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
-import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.util.UIUtils;
 
 /**
@@ -27,14 +26,12 @@ import io.dwak.holohackernews.app.util.UIUtils;
  */
 public class CommentsListAdapter extends ArrayAdapter<Comment> {
     private final int mResource;
-    private final StoryDetail mStoryDetail;
     private final Context mContext;
 
-    public CommentsListAdapter(Context context, int resource, StoryDetail storyDetail) {
+    public CommentsListAdapter(Context context, int resource) {
         super(context, resource);
         mContext = context;
         mResource = resource;
-        mStoryDetail = storyDetail;
     }
 
     private void commentAction(final int i) {
