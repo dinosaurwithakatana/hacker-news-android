@@ -13,6 +13,7 @@ public class UserPreferenceManager {
     public static final String SHOULD_USE_EXTERNAL_BROWSER = "pref_system_browser";
     public static final String PREF_LINK_FIRST = "pref_link_first";
     public static final String PREF_LIST_ANIMATIONS = "pref_list_animations";
+    private static final String PREF_NIGHT_MODE = "pref_night_mode";
 
     public static void useExternalBrowser(@NonNull final Context context, final boolean shouldUseSystemBrowser){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -39,5 +40,10 @@ public class UserPreferenceManager {
                                                                   SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    public static boolean isNightModeEnabled(@NonNull final Context context){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(PREF_NIGHT_MODE, false);
     }
 }

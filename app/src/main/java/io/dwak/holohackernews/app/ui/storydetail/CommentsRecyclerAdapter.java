@@ -66,7 +66,7 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         RecyclerView.ViewHolder viewHolder = null;
         switch (viewType) {
             case CommentRecyclerItem.VIEW_TYPE_HEADER:
-                viewHolder = HeaderViewHolder.create((View) mList.get(0).getObject());
+                viewHolder = HeaderViewHolder.create(mContext, (View) mList.get(0).getObject());
                 break;
             case CommentRecyclerItem.VIEW_TYPE_COMMENT:
                 viewHolder = CommentViewHolder.create(LayoutInflater.from(mContext), mListener::onCommentClicked);

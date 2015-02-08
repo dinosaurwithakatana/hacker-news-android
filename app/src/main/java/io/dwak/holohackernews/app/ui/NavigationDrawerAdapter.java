@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 
 /**
  * Created by vishnu on 9/2/14.
@@ -28,11 +29,14 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavigationDrawerItem> 
             view = ((Activity) mContext).getLayoutInflater().inflate(R.layout.secondary_navigation_item, null);
             TextView secondaryNavigationTitle = (TextView) view.findViewById(R.id.secondary_navigation_title);
             secondaryNavigationTitle.setText(getItem(position).getTitle());
+            secondaryNavigationTitle.setTextColor(UserPreferenceManager.isNightModeEnabled(mContext) ? mContext.getResources().getColor(android.R.color.white) : mContext.getResources().getColor(android.R.color.black));
             secondaryNavigationTitle.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(getItem(position).getIconResId()), null, null, null);
         }
         else {
             view = ((Activity) mContext).getLayoutInflater().inflate(R.layout.navigation_item, null);
-            ((TextView) view.findViewById(R.id.navigation_title)).setText(getItem(position).getTitle());
+            final TextView textView = (TextView) view.findViewById(R.id.navigation_title);
+            textView.setText(getItem(position).getTitle());
+            textView.setTextColor(UserPreferenceManager.isNightModeEnabled(mContext) ? mContext.getResources().getColor(android.R.color.white) : mContext.getResources().getColor(android.R.color.black));
         }
         return view;
     }

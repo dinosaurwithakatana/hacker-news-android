@@ -13,6 +13,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Story;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
+import io.dwak.holohackernews.app.util.UIUtils;
 
 /**
  * Created by vishnu on 5/3/14.
@@ -46,6 +48,10 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        viewHolder.mView.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(mContext)
+                        ? mContext.getResources().getColor(R.color.cardBackgroundNight)
+                        : mContext.getResources().getColor(R.color.cardBackground)
+        );
         viewHolder.mTitle.setText(getItem(position).getTitle());
         viewHolder.mSubmittedBy.setText(getItem(position).getSubmitter());
         viewHolder.mSubmissionTime.setText(getItem(position).getPublishedTime());
@@ -59,6 +65,9 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         viewHolder.mPoints.setText(String.valueOf(getItem(position).getPoints()));
         viewHolder.mCommentsCount.setText(getItem(position).getNumComments() + " comments");
 
+        UIUtils.setTextColor(mContext,
+                viewHolder.mTitle, viewHolder.mSubmissionTime, viewHolder.mDomain, viewHolder.mPoints, viewHolder.mCommentsCount);
+
         return convertView;
     }
 
@@ -69,8 +78,10 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         @InjectView(R.id.story_domain) TextView mDomain;
         @InjectView(R.id.story_points) TextView mPoints;
         @InjectView(R.id.comment_count) TextView mCommentsCount;
+        View mView;
 
         public ViewHolder(View view) {
+            mView = view;
             ButterKnife.inject(this, view);
         }
     }

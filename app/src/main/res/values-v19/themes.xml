@@ -11,12 +11,14 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="background">@android:color/white</item>
     </style>
 
     <style name="AppTheme.Base.Night" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimary">@color/colorPrimaryDarkNight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
         <item name="colorAccent">@android:color/white</item>
+        <item name="background">@color/backgroundNight</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowBackground">@color/colorPrimaryDarkNight</item>

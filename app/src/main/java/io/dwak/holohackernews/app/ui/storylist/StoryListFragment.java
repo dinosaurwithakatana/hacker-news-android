@@ -27,6 +27,7 @@ import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.rx.events.RxEvents;
 import retrofit.RetrofitError;
@@ -165,6 +166,9 @@ public class StoryListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_storylist_list, container, false);
+        view.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(getActivity())
+                ? getResources().getColor(R.color.backgroundNight)
+                : getResources().getColor(R.color.background));
         ButterKnife.inject(this, view);
 
         mHackerNewsService = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance();

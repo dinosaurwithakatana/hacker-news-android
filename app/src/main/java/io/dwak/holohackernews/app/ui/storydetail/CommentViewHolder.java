@@ -18,6 +18,7 @@ import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.util.UIUtils;
 
 /**
@@ -50,6 +51,12 @@ class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     static void bind(Context context, CommentViewHolder viewHolder, Comment comment, int hiddenChildrenCount) {
         final Spanned commentContent = Html.fromHtml(comment.getContent());
+        viewHolder.mItemView.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(context)
+                ? context.getResources().getColor(R.color.cardBackgroundNight)
+                : context.getResources().getColor(R.color.cardBackground));
+        viewHolder.mCommentsContainer.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(context)
+                ? context.getResources().getColor(R.color.cardBackgroundNight)
+                : context.getResources().getColor(R.color.cardBackground));
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mCommentContent.setText(commentContent);
         if(hiddenChildrenCount == 0){
@@ -137,6 +144,11 @@ class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
                 viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_orange_dark);
                 break;
         }
+
+        UIUtils.setTextColor(context,
+                viewHolder.mCommentContent,
+                viewHolder.mCommentSubmissionTime,
+                viewHolder.mCommentSubmitter);
     }
 
     static void commentAction(Context context, Comment comment) {

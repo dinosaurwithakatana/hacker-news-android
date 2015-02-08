@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -71,10 +73,11 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
     @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
+    @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
     private long mStoryId;
     private int mPrevVisibleItem;
-//    private HeaderViewHolder mHeaderViewHolder;
-    private android.support.v7.app.ActionBar mActionBar;
+    //    private HeaderViewHolder mHeaderViewHolder;
+    private ActionBar mActionBar;
     private CommentsListAdapter mListAdapter;
     private Bundle mWebViewBundle;
     private boolean mReadability;
@@ -84,6 +87,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private CommentsRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager mLayoutManager;
     private View mHeaderView;
+    private View mRootView;
 
     public StoryDetailFragment() {
         // Required empty public constructor
@@ -242,18 +246,24 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initTheme();
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
         if (savedInstanceState != null) {
             mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
         }
-        ButterKnife.inject(this, rootView);
+        ButterKnife.inject(this, mRootView);
         mViewModel = new StoryDetailViewModel(mStoryId);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
-        mContainer = rootView.findViewById(R.id.container);
+        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.progress_bar);
+        mContainer = mRootView.findViewById(R.id.container);
         mFloatingActionButton.setOnClickListener(view -> readability());
         setupWebViewDrawer();
 
@@ -279,7 +289,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         });
         mNextTopLevel.setOnClickListener(view -> {
             int currentIndex = mLayoutManager.findFirstCompletelyVisibleItemPosition() - 1;
-            if(currentIndex < 0 ){
+            if (currentIndex < 0) {
                 currentIndex = 0;
             }
             for (int i = currentIndex + 1; i < mRecyclerAdapter.getItemCount(); i++) {
@@ -294,7 +304,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         });
         mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item);
         mRecyclerAdapter = new CommentsRecyclerAdapter(getActivity(), position -> {
-            if(mRecyclerAdapter.areChildrenHidden(position)){
+            if (mRecyclerAdapter.areChildrenHidden(position)) {
                 mRecyclerAdapter.showChildComments(position);
             }
             else {
@@ -317,7 +327,25 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         });
 
         refresh();
-        return rootView;
+        return mRootView;
+    }
+
+    private void initTheme() {
+        mRootView.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(getActivity())
+                ? getResources().getColor(R.color.backgroundNight)
+                : getResources().getColor(R.color.background));
+        mButtonBar.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(getActivity())
+                ? getResources().getColor(R.color.colorPrimaryDarkNight)
+                : getResources().getColor(R.color.colorPrimary));
+        mOpenLinkDialogButton.setBackgroundResource(UserPreferenceManager.isNightModeEnabled(getActivity())
+                ? R.drawable.orange_button_dark
+                : R.drawable.orange_button);
+        mOpenLinkDialogButton.setBackgroundResource(UserPreferenceManager.isNightModeEnabled(getActivity())
+                ? R.drawable.orange_button_dark
+                : R.drawable.orange_button);
+        if(mRecyclerAdapter != null) {
+            mRecyclerAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

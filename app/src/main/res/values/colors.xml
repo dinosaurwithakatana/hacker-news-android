@@ -4,11 +4,13 @@
     <color name="showcase_bg">#ccffbb33</color>
     <color name="holo_light_bg">#fff3f3f3</color>
     <color name="system_bar_tint">#FF8800</color>
-    <color name="colorAccent">#ff5722</color>
+    <color name="colorAccent">#b0ff541a</color>
     <color name="colorPrimary">#ff5722</color>
     <color name="colorPrimaryDark">#e64a19</color>
     <color name="colorPrimaryNight">#bf360c</color>
     <color name="colorPrimaryDarkNight">#212121</color>
     <color name="cardBackground">#ffffff</color>
-    <color name="cardBackgroundNight">#757575</color>
+    <color name="cardBackgroundNight">#ff373737</color>
+    <color name="backgroundNight">#ff121212</color>
+    <color name="background">#ffffff</color>
 </resources>
