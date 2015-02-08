@@ -293,17 +293,19 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
             }
         });
         mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item);
-        mRecyclerAdapter = new CommentsRecyclerAdapter(getActivity());
+        mRecyclerAdapter = new CommentsRecyclerAdapter(getActivity(), position -> {
+            if(mRecyclerAdapter.areChildrenHidden(position)){
+                mRecyclerAdapter.showChildComments(position);
+            }
+            else {
+                mRecyclerAdapter.hideChildComments(position);
+            }
+        });
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mCommentsRecyclerView.setLayoutManager(mLayoutManager);
         mCommentsRecyclerView.setAdapter(mRecyclerAdapter);
         mHeaderView = inflater.inflate(R.layout.comments_header, null);
         mRecyclerAdapter.addHeaderView(mHeaderView);
-
-//        mCommentsListView.setHeaderDividersEnabled(false);
-//        mCommentsListView.addHeaderView(headerView);
-//        mCommentsListView.setAdapter(mListAdapter);
-
 
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light,

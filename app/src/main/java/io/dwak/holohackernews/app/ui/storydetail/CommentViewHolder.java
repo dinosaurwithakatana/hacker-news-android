@@ -21,31 +21,45 @@ import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.util.UIUtils;
 
 /**
-* Created by vishnu on 2/2/15.
-*/
-class CommentViewHolder extends RecyclerView.ViewHolder {
+ * Created by vishnu on 2/2/15.
+ */
+class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     @InjectView(R.id.comment_content) TextView mCommentContent;
     @InjectView(R.id.comment_submission_time) TextView mCommentSubmissionTime;
     @InjectView(R.id.comment_submitter) TextView mCommentSubmitter;
     @InjectView(R.id.comment_overflow) ImageButton mOverflow;
     @InjectView(R.id.comments_container) View mCommentsContainer;
     @InjectView(R.id.color_code) View mColorCode;
+    @InjectView(R.id.hidden_comment_count) TextView mHiddenCommentCount;
+    private View mItemView;
+    private CommentItemListener mListener;
 
-    public CommentViewHolder(View itemView) {
+    private CommentViewHolder(View itemView, CommentItemListener listener) {
         super(itemView);
+        mItemView = itemView;
+        mListener = listener;
         ButterKnife.inject(this, itemView);
+        mItemView.setOnClickListener(this);
     }
 
-    static CommentViewHolder create(LayoutInflater inflater) {
+    static CommentViewHolder create(LayoutInflater inflater, CommentItemListener listener) {
         View commentItemView = inflater.inflate(R.layout.comments_list_item, null);
-        CommentViewHolder commentViewHolder = new CommentViewHolder(commentItemView);
+        CommentViewHolder commentViewHolder = new CommentViewHolder(commentItemView, listener);
         return commentViewHolder;
     }
 
-    static void bind(Context context, CommentViewHolder viewHolder, Comment comment) {
+    static void bind(Context context, CommentViewHolder viewHolder, Comment comment, int hiddenChildrenCount) {
         final Spanned commentContent = Html.fromHtml(comment.getContent());
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mCommentContent.setText(commentContent);
+        if(hiddenChildrenCount == 0){
+           viewHolder.mHiddenCommentCount.setVisibility(View.GONE);
+        }
+        else {
+            viewHolder.mHiddenCommentCount.setVisibility(View.VISIBLE);
+            viewHolder.mHiddenCommentCount.setText("+" + hiddenChildrenCount);
+        }
+
         viewHolder.mCommentSubmissionTime.setText(comment.getTimeAgo());
         viewHolder.mOverflow.setOnClickListener(view -> commentAction(context, comment));
 
@@ -54,7 +68,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
             viewHolder.mCommentSubmitter.setText(viewHolder.getPosition() + " " + submitter);
         }
         else {
-        viewHolder.mCommentSubmitter.setText(submitter);
+            viewHolder.mCommentSubmitter.setText(submitter);
         }
         viewHolder.mCommentSubmitter.setTextColor(
                 context.getResources().getColor(
@@ -67,7 +81,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
         int contentLeftMargin = UIUtils.dpAsPixels(context, 4);
 
         if (comment.getLevel() != 0) {
-            FrameLayout.LayoutParams commentsContainerLayoutParams= new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+            FrameLayout.LayoutParams commentsContainerLayoutParams = new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
             commentsContainerLayoutParams.setMargins(contentLeftMargin,
                     commentsContainerLayoutParams.topMargin,
                     commentsContainerLayoutParams.rightMargin,
@@ -83,7 +97,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
 
         }
         else {
-            FrameLayout.LayoutParams commentsContainerLayoutParams= new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+            FrameLayout.LayoutParams commentsContainerLayoutParams = new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
             commentsContainerLayoutParams.setMargins(0,
                     commentsContainerLayoutParams.topMargin,
                     commentsContainerLayoutParams.rightMargin,
@@ -146,6 +160,17 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
         });
 
         builder.create().show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mListener != null) {
+            mListener.onClick(getPosition());
+        }
+    }
+
+    public interface CommentItemListener {
+        void onClick(int position);
     }
 
 }
