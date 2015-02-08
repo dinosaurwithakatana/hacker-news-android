@@ -11,6 +11,8 @@ public class Comment {
     private String mTimeAgo;
     private String mContent;
 
+    private boolean mHidden;
+
     public Comment() {
     }
 
@@ -81,4 +83,13 @@ public class Comment {
     public void setOriginalPoster(boolean originalPoster) {
         mOriginalPoster = originalPoster;
     }
+
+    public boolean isHidden() {
+        return mHidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        mHidden = hidden;
+    }
+
 }
