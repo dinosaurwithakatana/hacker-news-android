@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 28
-        versionName '3.0-BETA'
+        versionCode 29
+        versionName '3.0.1-BETA'
     }
     signingConfigs {
         release {
