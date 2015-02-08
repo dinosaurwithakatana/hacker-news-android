@@ -4,7 +4,7 @@ apply plugin: 'retrolambda'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '21.1.1'
+    buildToolsVersion '21.1.2'
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 21
@@ -58,6 +58,7 @@ dependencies {
     compile 'com.melnykov:floatingactionbutton:1.0.3'
     compile 'com.loopeer.android.thirdparty:swipe-back-layout:1.0'
     compile 'com.netflix.rxjava:rxjava-android:0.20.4'
+    compile 'com.android.support:recyclerview-v7:21.0.3'
 }
 
 
