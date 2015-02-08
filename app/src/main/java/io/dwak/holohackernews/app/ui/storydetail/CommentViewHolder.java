@@ -9,6 +9,7 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
+import io.dwak.holohackernews.app.util.UIUtils;
 
 /**
 * Created by vishnu on 2/2/15.
@@ -61,6 +63,66 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
                                 : android.R.color.black
                 )
         );
+        int colorCodeLeftMargin = UIUtils.dpAsPixels(context, comment.getLevel() * 12);
+        int contentLeftMargin = UIUtils.dpAsPixels(context, 4);
+
+        if (comment.getLevel() != 0) {
+            FrameLayout.LayoutParams commentsContainerLayoutParams= new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+            commentsContainerLayoutParams.setMargins(contentLeftMargin,
+                    commentsContainerLayoutParams.topMargin,
+                    commentsContainerLayoutParams.rightMargin,
+                    commentsContainerLayoutParams.bottomMargin);
+            viewHolder.mCommentsContainer.setLayoutParams(commentsContainerLayoutParams);
+
+            FrameLayout.LayoutParams colorCodeLayoutParams = new FrameLayout.LayoutParams(viewHolder.mColorCode.getLayoutParams());
+            colorCodeLayoutParams.setMargins(colorCodeLeftMargin,
+                    colorCodeLayoutParams.topMargin,
+                    colorCodeLayoutParams.rightMargin,
+                    colorCodeLayoutParams.bottomMargin);
+            viewHolder.mColorCode.setLayoutParams(colorCodeLayoutParams);
+
+        }
+        else {
+            FrameLayout.LayoutParams commentsContainerLayoutParams= new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+            commentsContainerLayoutParams.setMargins(0,
+                    commentsContainerLayoutParams.topMargin,
+                    commentsContainerLayoutParams.rightMargin,
+                    commentsContainerLayoutParams.bottomMargin);
+            viewHolder.mCommentsContainer.setLayoutParams(commentsContainerLayoutParams);
+
+            FrameLayout.LayoutParams colorCodeLayoutParams = new FrameLayout.LayoutParams(viewHolder.mColorCode.getLayoutParams());
+            colorCodeLayoutParams.setMargins(0,
+                    colorCodeLayoutParams.topMargin,
+                    colorCodeLayoutParams.rightMargin,
+                    colorCodeLayoutParams.bottomMargin);
+            viewHolder.mColorCode.setLayoutParams(colorCodeLayoutParams);
+        }
+        switch (comment.getLevel() % 8) {
+            case 0:
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_blue_bright);
+                break;
+            case 1:
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_green_light);
+                break;
+            case 2:
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_red_light);
+                break;
+            case 3:
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_orange_light);
+                break;
+            case 4:
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_purple);
+                break;
+            case 5:
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_green_dark);
+                break;
+            case 6:
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_red_dark);
+                break;
+            case 7:
+                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_orange_dark);
+                break;
+        }
     }
 
     static void commentAction(Context context, Comment comment) {

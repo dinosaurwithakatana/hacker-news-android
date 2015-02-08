@@ -14,8 +14,7 @@ public class CommentLevelItemDecoration extends RecyclerView.ItemDecoration{
     }
 
     @Override
-    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        super.onDrawOver(c, parent, state);
-        CommentsRecyclerAdapter adapter = (CommentsRecyclerAdapter) parent.getAdapter();
+    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+        super.onDraw(c, parent, state);
     }
 }
