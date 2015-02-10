@@ -9,8 +9,8 @@
               android:layout_height="wrap_content">
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/navigation_title"
-        app:typeface="roboto_light"
-        android:textSize="22sp"
+        app:typeface="roboto_medium"
+        android:textSize="14sp"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

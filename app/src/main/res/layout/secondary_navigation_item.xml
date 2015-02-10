@@ -2,21 +2,27 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:paddingTop="16dp"
-              android:paddingBottom="16dp"
-              android:paddingRight="16dp"
-              android:paddingLeft="12dp"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:paddingLeft="16dp"
+              android:gravity="center_vertical"
               android:background="@drawable/nav_menu_item_bg"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:minHeight="48dp"
+              android:layout_height="48dp"
+              tools:ignore="RtlHardcoded,RtlSymmetry">
+
+    <ImageView
+        android:id="@+id/navigation_drawer_item_icon"
+        android:layout_marginRight="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
 
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/secondary_navigation_title"
-        app:typeface="roboto_light"
-        android:drawablePadding="4dp"
+        app:typeface="roboto_medium"
         android:gravity="center_vertical"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

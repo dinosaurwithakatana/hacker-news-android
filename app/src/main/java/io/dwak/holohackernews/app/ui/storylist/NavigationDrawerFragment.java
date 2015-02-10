@@ -2,12 +2,15 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -19,16 +22,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
+import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.rx.events.RxEvents;
+import rx.android.observables.AndroidObservable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -47,9 +57,10 @@ public class NavigationDrawerFragment extends Fragment {
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
+    private int mCurrentSelectedPosition = 1;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private boolean mDropDownVisible = false;
 
     public NavigationDrawerFragment() {
     }
@@ -171,17 +182,67 @@ public class NavigationDrawerFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
+        View headerView = inflater.inflate(R.layout.navigation_drawer_header, null);
+        View headerContainer = headerView.findViewById(R.id.main_container);
+        View headerDropDown = headerView.findViewById(R.id.drop_down);
+        TextView loginButton = (TextView) headerView.findViewById(R.id.secondary_navigation_title);
+        TextView userName = (TextView) headerView.findViewById(R.id.username);
+        TextView userNameLogo = (TextView) headerView.findViewById(R.id.username_icon);
+        ImageView loginIcon = (ImageView) headerView.findViewById(R.id.navigation_drawer_item_icon);
+        loginButton.setOnClickListener(v -> {
+            if(LocalDataManager.getInstance().getUserLoginCookie() == null){
+                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(loginIntent);
+            }
+            else {
+                LocalDataManager.getInstance().setUserLoginCookie(null);
+                Intent logoutIntent = new Intent(LoginActivity.LOGOUT);
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(logoutIntent);
+            }
+        });
+
+        headerContainer.setOnClickListener(v -> {
+           headerDropDown.setVisibility(mDropDownVisible ? View.GONE : View.VISIBLE);
+            mDropDownVisible = !mDropDownVisible;
+        });
+
+        mDrawerListView.addHeaderView(headerView);
         RxEvents.observableFromListItemClick(mDrawerListView)
                 .subscribe(rxListItemClickEvent -> selectItem(rxListItemClickEvent.getPosition()));
 
         List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<>();
-        navigationDrawerItems.add(new NavigationDrawerItem(0, 0, getResources().getString(R.string.title_section_top), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(1, 0, getResources().getString(R.string.title_section_best), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(2, 0, getResources().getString(R.string.title_section_newest), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(3, 0, getResources().getString(R.string.title_section_show), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(4, 0, getResources().getString(R.string.title_section_show_new), false));
-        navigationDrawerItems.add(new NavigationDrawerItem(5, R.drawable.ic_action_setting, getResources().getString(R.string.title_section_settings), true));
-        navigationDrawerItems.add(new NavigationDrawerItem(6, R.drawable.ic_action_about, getResources().getString(R.string.title_section_about), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(0, R.drawable.ic_trending_up, getResources().getString(R.string.title_section_top), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(1, R.drawable.ic_best, getResources().getString(R.string.title_section_best), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(2, R.drawable.ic_new_releases, getResources().getString(R.string.title_section_newest), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(3, R.drawable.ic_show, getResources().getString(R.string.title_section_show), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(4, 0, getResources().getString(R.string.title_section_show_new), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(5, R.drawable.ic_settings, getResources().getString(R.string.title_section_settings), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(6, R.drawable.ic_info, getResources().getString(R.string.title_section_about), true));
+
+        IntentFilter intentFilter = new IntentFilter(LoginActivity.LOGIN_SUCCESS);
+        IntentFilter logOutFilter = new IntentFilter(LoginActivity.LOGOUT);
+        AndroidObservable.fromLocalBroadcast(getActivity(), intentFilter)
+                .subscribeOn(Schedulers.immediate())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Intent>() {
+                    @Override
+                    public void call(Intent intent) {
+                        loginButton.setText("Logout");
+                        loginIcon.setImageResource(R.drawable.ic_close);
+                    }
+                });
+
+        AndroidObservable.fromLocalBroadcast(getActivity(), logOutFilter)
+                .subscribeOn(Schedulers.immediate())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Intent>() {
+                    @Override
+                    public void call(Intent intent) {
+                        loginButton.setText("Login");
+                        loginIcon.setImageResource(R.drawable.ic_add);
+                    }
+                });
+
 
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), 0, navigationDrawerItems);
         mDrawerListView.setAdapter(adapter);

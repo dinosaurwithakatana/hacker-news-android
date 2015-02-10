@@ -87,43 +87,44 @@ public class MainActivity extends BaseActivity
     @Override
     public void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        switch (drawerItem.getId()) {
-            case 0:
-                mTitle = getString(R.string.title_section_top);
-                mStoryListFragment = StoryListFragment.newInstance(FeedType.TOP);
-                loadFeedList(fragmentManager);
-                break;
-            case 1:
-                mTitle = getString(R.string.title_section_best);
-                mStoryListFragment = StoryListFragment.newInstance(FeedType.BEST);
-                loadFeedList(fragmentManager);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section_newest);
-                mStoryListFragment = StoryListFragment.newInstance(FeedType.NEW);
-                loadFeedList(fragmentManager);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section_show);
-                mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW);
-                loadFeedList(fragmentManager);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section_show_new);
-                mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
-                loadFeedList(fragmentManager);
-                break;
-            case 5:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
-                break;
-            case 6:
-                Intent aboutIntent = new Intent(this, AboutActivity.class);
-                startActivity(aboutIntent);
-                break;
+        if(drawerItem != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            switch (drawerItem.getId()) {
+                case 0:
+                    mTitle = getString(R.string.title_section_top);
+                    mStoryListFragment = StoryListFragment.newInstance(FeedType.TOP);
+                    loadFeedList(fragmentManager);
+                    break;
+                case 1:
+                    mTitle = getString(R.string.title_section_best);
+                    mStoryListFragment = StoryListFragment.newInstance(FeedType.BEST);
+                    loadFeedList(fragmentManager);
+                    break;
+                case 2:
+                    mTitle = getString(R.string.title_section_newest);
+                    mStoryListFragment = StoryListFragment.newInstance(FeedType.NEW);
+                    loadFeedList(fragmentManager);
+                    break;
+                case 3:
+                    mTitle = getString(R.string.title_section_show);
+                    mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW);
+                    loadFeedList(fragmentManager);
+                    break;
+                case 4:
+                    mTitle = getString(R.string.title_section_show_new);
+                    mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
+                    loadFeedList(fragmentManager);
+                    break;
+                case 5:
+                    Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                    startActivity(settingsIntent);
+                    break;
+                case 6:
+                    Intent aboutIntent = new Intent(this, AboutActivity.class);
+                    startActivity(aboutIntent);
+                    break;
+            }
         }
-
     }
 
     private void loadFeedList(FragmentManager fragmentManager) {
