@@ -6,9 +6,13 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,6 +39,12 @@ public class LoginActivity extends ActionBarActivity {
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setSaveFormData(false);
+        webSettings.setSavePassword(false); // Not needed for API level 18 or greater (deprecated)
+        mLoginWebview.clearHistory();
+        mLoginWebview.clearCache(true);
+        mLoginWebview.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
+
         mLoginWebview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -50,9 +60,9 @@ public class LoginActivity extends ActionBarActivity {
                     }
                     final String[] userCookieSplit = userCookie.split("=");
                     LocalDataManager.getInstance().setUserLoginCookie(userCookieSplit[1]);
-                    Log.d(TAG, cookies);
                     Intent loginIntent = new Intent(LOGIN_SUCCESS);
                     LocalBroadcastManager.getInstance(LoginActivity.this).sendBroadcast(loginIntent);
+                    mLoginWebview.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
 //                    finish();
                 }
             }
@@ -62,5 +72,23 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    /* An instance of this class will be registered as a JavaScript interface */
+    class MyJavaScriptInterface
+    {
+        @JavascriptInterface
+        @SuppressWarnings("unused")
+        public void processHTML(String html)
+        {
+            // process the html as needed by the app
+            final Pattern compile = Pattern.compile("<span class=\"pagetop\"><a href=\"user\\?id=(.*?)\">");
+            Matcher matcher = compile.matcher(html);
+            String group = null;
+            while(matcher.find()){
+                group = matcher.group();
+            }
+            Log.d(TAG, group.substring(matcher.start(), matcher.end()));
+        }
     }
 }

@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -50,6 +51,7 @@ public class NavigationDrawerFragment extends Fragment {
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     public static final int NAVIGATION_ITEM_COUNT = 5;
+    private static final String TAG = NavigationDrawerFragment.class.getSimpleName();
     private NavigationDrawerCallbacks mCallbacks;
     private HNDrawerToggle mDrawerToggle;
 
@@ -189,15 +191,31 @@ public class NavigationDrawerFragment extends Fragment {
         TextView userName = (TextView) headerView.findViewById(R.id.username);
         TextView userNameLogo = (TextView) headerView.findViewById(R.id.username_icon);
         ImageView loginIcon = (ImageView) headerView.findViewById(R.id.navigation_drawer_item_icon);
+
+        if(LocalDataManager.getInstance().getUserLoginCookie() != null){
+            loginButton.setText("Logout");
+            loginIcon.setImageResource(R.drawable.ic_close);
+        }
+        else {
+            loginButton.setText("Login");
+            loginIcon.setImageResource(R.drawable.ic_add);
+        }
         loginButton.setOnClickListener(v -> {
             if(LocalDataManager.getInstance().getUserLoginCookie() == null){
                 Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(loginIntent);
             }
             else {
-                LocalDataManager.getInstance().setUserLoginCookie(null);
-                Intent logoutIntent = new Intent(LoginActivity.LOGOUT);
-                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(logoutIntent);
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("Are you sure?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            LocalDataManager.getInstance().setUserLoginCookie(null);
+                            Intent logoutIntent = new Intent(LoginActivity.LOGOUT);
+                            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(logoutIntent);
+                        })
+                        .setNegativeButton("No", null)
+                        .create()
+                        .show();
             }
         });
 
