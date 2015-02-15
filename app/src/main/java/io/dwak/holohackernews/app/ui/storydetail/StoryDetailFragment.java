@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Display;
@@ -178,7 +179,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mHeaderViewHolder.mStorySubmitter.setText(mStoryDetail.getUser());
         if (!"job".equals(mStoryDetail.getType())) {
             mHeaderViewHolder.mContent.setVisibility(View.GONE);
-            if ("link".equals(mStoryDetail.getType())) {
+            if ("link".equals(mStoryDetail.getType()) && !TextUtils.isEmpty(mStoryDetail.getDomain())) {
                 String domain = mStoryDetail.getDomain();
                 mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
                 mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
