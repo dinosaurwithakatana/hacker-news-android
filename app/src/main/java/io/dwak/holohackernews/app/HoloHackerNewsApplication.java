@@ -14,6 +14,7 @@ import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.LoginService;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import retrofit.RestAdapter;
+import retrofit.android.AndroidLog;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
@@ -78,6 +79,7 @@ public class HoloHackerNewsApplication extends Application {
             Gson gson = gsonBuilder.create();
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setLog(new AndroidLog("Retrofit"))
                     .setClient(new OkClient(new OkHttpClient().setFollowSslRedirects(true)))
                     .setConverter(new GsonConverter(gson))
                     .setEndpoint("https://news.ycombinator.com")

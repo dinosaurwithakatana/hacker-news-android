@@ -19,7 +19,6 @@ import retrofit.client.Header;
 import rx.Observable;
 import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class LoginActivity extends ActionBarActivity {
@@ -38,33 +37,35 @@ public class LoginActivity extends ActionBarActivity {
         ButterKnife.inject(this);
 
 
+        // Creates Observables from the EditTexts and enables the login button if they aren't empty
         final Observable<Boolean> userNameObservable = ViewObservable.text(mUsername, true)
                 .map(editText -> !TextUtils.isEmpty(editText.getText()));
         final Observable<Boolean> passwordObservable = ViewObservable.text(mPassword, true)
                 .map(editText -> !TextUtils.isEmpty(editText.getText()));
         Observable.combineLatest(userNameObservable, passwordObservable,
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean t1) {
-                        mLoginButton.setProgress(0);
-                        mLoginButton.setEnabled(t1);
-                    }
+                .subscribe(t1 -> {
+                    mLoginButton.setProgress(0);
+                    mLoginButton.setEnabled(t1);
                 });
 
         ViewObservable.clicks(mLoginButton, false)
                 .subscribe(button -> {
                     mLoginButton.setIndeterminateProgressMode(true);
+                    mLoginButton.setProgress(50);
                     HoloHackerNewsApplication.getInstance()
                             .getLoginServiceInstance()
-                            .login(mUsername.getText().toString(), mPassword.getText().toString())
+                            .login("news", mUsername.getText().toString(), mPassword.getText().toString())
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .map(response -> {
                                 String userCookie = null;
                                 for (Header header : response.getHeaders()) {
-                                    if ("user".equals(header.getName())) {
-                                        userCookie = header.getValue();
+                                    if ("set-cookie".equals(header.getName())) {
+                                        if (header.getValue().contains("user")) {
+                                            userCookie = header.getValue().substring(5);
+                                            userCookie = userCookie.split(";")[0];
+                                        }
                                     }
                                 }
                                 return userCookie;
