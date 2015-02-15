@@ -40,6 +40,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         mListener = listener;
         ButterKnife.inject(this, itemView);
         mItemView.setOnClickListener(this);
+        mCommentContent.setOnClickListener(this);
     }
 
     static CommentViewHolder create(LayoutInflater inflater, CommentItemListener listener) {
