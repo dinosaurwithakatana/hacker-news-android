@@ -5,5 +5,7 @@
     android:exitFadeDuration="@android:integer/config_shortAnimTime">
     <item android:state_pressed="true" android:drawable="@color/colorPrimaryDark"/>
     <item android:state_pressed="false" android:drawable="@color/colorPrimary"/>
+    <item android:state_enabled="false" android:drawable="@color/cardBackgroundNight"/>
+    <item android:state_enabled="true" android:drawable="@color/colorPrimary"/>
 
 </selector>

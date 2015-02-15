@@ -12,9 +12,11 @@ public class LocalDataManager {
     public static final String LOCAL_PREFS_NAME = "local_prefs";
     public static final String PREF_RETURNING_USER = "PREF_RETURNING_USER";
     public static final String PREF_USER_LOGIN_COOKIE = "PREF_USER_LOGIN_COOKIE";
+    private static final String PREF_USERNAME = "PREF_USERNAME";
     private static LocalDataManager sInstance;
     private final SharedPreferences mPreferences;
     private Context mContext;
+    private String mUserName;
 
     private LocalDataManager(@NonNull Context context) {
         mContext = context;
@@ -71,5 +73,13 @@ public class LocalDataManager {
     @Nullable
     public String getUserLoginCookie(){
         return getString(PREF_USER_LOGIN_COOKIE);
+    }
+
+    public void setUserName(@NonNull String userName) {
+        set(PREF_USERNAME, userName);
+    }
+
+    public String getUserName(){
+        return getString(PREF_USERNAME);
     }
 }

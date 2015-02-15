@@ -1,13 +1,16 @@
 package io.dwak.holohackernews.app.network;
 
-import retrofit.http.GET;
-import retrofit.http.Header;
+import retrofit.client.Response;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
+import retrofit.http.POST;
 import rx.Observable;
 
 /**
  * Created by vishnu on 2/9/15.
  */
 public interface LoginService {
-    @GET("/")
-    Observable getFrontPage(@Header("user") String header);
+    @FormUrlEncoded
+    @POST("/login")
+    Observable<Response> login(@Field("acct") String username, @Field("pw") String password);
 }

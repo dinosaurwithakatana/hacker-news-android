@@ -4,27 +4,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.webkit.CookieManager;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.text.TextUtils;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.dd.CircularProgressButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
+import retrofit.client.Header;
+import rx.Observable;
+import rx.android.observables.ViewObservable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class LoginActivity extends ActionBarActivity {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
     public static final String LOGIN_SUCCESS = "login-success";
     public static final String LOGOUT = "logout";
-    @InjectView(R.id.login_webview) WebView mLoginWebview;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    @InjectView(R.id.username) EditText mUsername;
+    @InjectView(R.id.password) EditText mPassword;
+    @InjectView(R.id.login_button_with_progress) CircularProgressButton mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,63 +37,57 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
 
-        mLoginWebview.loadUrl("https://news.ycombinator.com/login");
-        WebSettings webSettings = mLoginWebview.getSettings();
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setSupportZoom(true);
-        webSettings.setBuiltInZoomControls(true);
-        webSettings.setDisplayZoomControls(false);
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setSaveFormData(false);
-        webSettings.setSavePassword(false); // Not needed for API level 18 or greater (deprecated)
-        mLoginWebview.clearHistory();
-        mLoginWebview.clearCache(true);
-        mLoginWebview.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
 
-        mLoginWebview.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                if(url.equals("https://news.ycombinator.com/")) {
-                    String cookies = CookieManager.getInstance().getCookie(url);
-                    final String[] split = cookies.split("; ");
-                    String userCookie = null;
-                    for (String s : split) {
-                        if(s.toLowerCase().contains("user")){
-                            userCookie = s;
-                        }
+        final Observable<Boolean> userNameObservable = ViewObservable.text(mUsername, true)
+                .map(editText -> !TextUtils.isEmpty(editText.getText()));
+        final Observable<Boolean> passwordObservable = ViewObservable.text(mPassword, true)
+                .map(editText -> !TextUtils.isEmpty(editText.getText()));
+        Observable.combineLatest(userNameObservable, passwordObservable,
+                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean t1) {
+                        mLoginButton.setProgress(0);
+                        mLoginButton.setEnabled(t1);
                     }
-                    final String[] userCookieSplit = userCookie.split("=");
-                    LocalDataManager.getInstance().setUserLoginCookie(userCookieSplit[1]);
-                    Intent loginIntent = new Intent(LOGIN_SUCCESS);
-                    LocalBroadcastManager.getInstance(LoginActivity.this).sendBroadcast(loginIntent);
-                    mLoginWebview.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-//                    finish();
-                }
-            }
-        });
+                });
+
+        ViewObservable.clicks(mLoginButton, false)
+                .subscribe(button -> {
+                    mLoginButton.setIndeterminateProgressMode(true);
+                    HoloHackerNewsApplication.getInstance()
+                            .getLoginServiceInstance()
+                            .login(mUsername.getText().toString(), mPassword.getText().toString())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .map(response -> {
+                                String userCookie = null;
+                                for (Header header : response.getHeaders()) {
+                                    if ("user".equals(header.getName())) {
+                                        userCookie = header.getValue();
+                                    }
+                                }
+                                return userCookie;
+                            })
+                            .subscribe(userCookie -> {
+                                if (userCookie == null) {
+                                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                    mLoginButton.setProgress(-1);
+                                }
+                                else {
+                                    mLoginButton.setProgress(100);
+                                    LocalDataManager.getInstance().setUserLoginCookie(userCookie);
+                                    LocalDataManager.getInstance().setUserName(mUsername.getText().toString());
+                                    Intent loginIntent = new Intent(LOGIN_SUCCESS);
+                                    LocalBroadcastManager.getInstance(LoginActivity.this).sendBroadcast(loginIntent);
+                                    LoginActivity.this.finish();
+                                }
+                            });
+                });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    /* An instance of this class will be registered as a JavaScript interface */
-    class MyJavaScriptInterface
-    {
-        @JavascriptInterface
-        @SuppressWarnings("unused")
-        public void processHTML(String html)
-        {
-            // process the html as needed by the app
-            final Pattern compile = Pattern.compile("<span class=\"pagetop\"><a href=\"user\\?id=(.*?)\">");
-            Matcher matcher = compile.matcher(html);
-            String group = null;
-            while(matcher.find()){
-                group = matcher.group();
-            }
-            Log.d(TAG, group.substring(matcher.start(), matcher.end()));
-        }
     }
 }

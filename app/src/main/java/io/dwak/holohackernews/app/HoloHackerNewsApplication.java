@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
 
@@ -13,6 +14,7 @@ import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.LoginService;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
 /**
@@ -59,6 +61,7 @@ public class HoloHackerNewsApplication extends Application {
             Gson gson = gsonBuilder.create();
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setConverter(new GsonConverter(gson))
+                    .setClient(new OkClient(new OkHttpClient()))
                     .setEndpoint("https://whispering-fortress-7282.herokuapp.com/")
                     .build();
 
@@ -74,6 +77,8 @@ public class HoloHackerNewsApplication extends Application {
             gsonBuilder.registerTypeAdapter(Long.class, new LongTypeAdapter());
             Gson gson = gsonBuilder.create();
             RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setClient(new OkClient(new OkHttpClient().setFollowSslRedirects(true)))
                     .setConverter(new GsonConverter(gson))
                     .setEndpoint("https://news.ycombinator.com")
                     .build();
