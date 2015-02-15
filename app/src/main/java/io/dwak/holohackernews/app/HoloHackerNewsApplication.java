@@ -57,7 +57,7 @@ public class HoloHackerNewsApplication extends Application {
             Gson gson = gsonBuilder.create();
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setConverter(new GsonConverter(gson))
-                    .setEndpoint("http://fathomless-island-9288.herokuapp.com/")
+                    .setEndpoint("https://whispering-fortress-7282.herokuapp.com/")
                     .build();
 
             mHackerNewsService = restAdapter.create(HackerNewsService.class);
