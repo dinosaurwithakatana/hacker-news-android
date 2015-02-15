@@ -213,6 +213,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
             mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
             Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
             mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+            mHeaderViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
             mHeaderViewHolder.mContent.setText(jobContent);
             mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
             mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
