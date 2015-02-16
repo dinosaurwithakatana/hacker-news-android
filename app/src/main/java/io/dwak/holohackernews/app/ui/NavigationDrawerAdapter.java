@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavigationDrawerItem> 
                             null);
             TextView secondaryNavigationTitle = (TextView) view.findViewById(R.id.secondary_navigation_title);
             secondaryNavigationTitle.setText(getItem(position).getTitle());
-            secondaryNavigationTitle.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(getItem(position).getIconResId()), null, null, null);
+            ImageView icon = (ImageView) view.findViewById(R.id.navigation_drawer_item_icon);
+            icon.setImageResource(getItem(position).getIconResId());
         }
         else {
             view = ((Activity) mContext).getLayoutInflater()

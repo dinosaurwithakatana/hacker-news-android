@@ -1,5 +1,6 @@
 package io.dwak.holohackernews.app.ui;
 
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
 /**
@@ -7,18 +8,18 @@ import android.support.annotation.NonNull;
  */
 public class NavigationDrawerItem {
     private int mId;
-    private int mIconResId;
+    @DrawableRes private int mIconResId;
     @NonNull private String mTitle;
     private boolean mShouldDisplayIcon;
 
-    public NavigationDrawerItem(int id, int iconResId, @NonNull String title, boolean displayIcon) {
+    public NavigationDrawerItem(int id, @DrawableRes int iconResId, @NonNull String title, boolean displayIcon) {
         mId = id;
         mIconResId = iconResId;
         mTitle = title;
         mShouldDisplayIcon = displayIcon;
     }
 
-    public int getIconResId() {
+    public @DrawableRes int getIconResId() {
         return mIconResId;
     }
 

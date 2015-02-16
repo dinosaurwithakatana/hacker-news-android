@@ -49,8 +49,13 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.Settings"
-            android:parentActivityName=".ui.storylist.MainActivity" >
+            android:parentActivityName=".ui.storylist.MainActivity"
+            android:theme="@style/AppTheme.Settings" >
+        </activity>
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:theme="@style/Theme.Transparent"
+            android:label="@string/title_activity_login" >
         </activity>
     </application>
 

@@ -5,13 +5,13 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.io.File;
+import com.squareup.okhttp.OkHttpClient;
 
 import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
 import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
 /**
@@ -46,10 +46,6 @@ public class HoloHackerNewsApplication extends Application {
         return mContext;
     }
 
-    public File getApplicationCacheDir(){
-        return getCacheDir();
-    }
-
     public HackerNewsService getHackerNewsServiceInstance(){
         if(mHackerNewsService==null) {
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -57,6 +53,7 @@ public class HoloHackerNewsApplication extends Application {
             Gson gson = gsonBuilder.create();
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setConverter(new GsonConverter(gson))
+                    .setClient(new OkClient(new OkHttpClient()))
                     .setEndpoint("https://whispering-fortress-7282.herokuapp.com/")
                     .build();
 
@@ -65,4 +62,5 @@ public class HoloHackerNewsApplication extends Application {
 
         return mHackerNewsService;
     }
+
 }

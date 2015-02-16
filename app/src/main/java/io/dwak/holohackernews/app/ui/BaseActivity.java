@@ -37,12 +37,12 @@ public class BaseActivity extends ActionBarActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        if(UserPreferenceManager.isNightModeEnabled(this)){
-            getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkNight));
-        }
-        else {
-            getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }
-
+        if (getToolbar() != null)
+            if (UserPreferenceManager.isNightModeEnabled(this)) {
+                getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkNight));
+            }
+            else {
+                getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
     }
 }

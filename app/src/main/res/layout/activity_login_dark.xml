@@ -1,0 +1,45 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:padding="52dp"
+    android:layout_height="match_parent"
+    android:background="@color/cardBackgroundNight"
+    android:orientation="vertical"
+    >
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/username"
+        app:floatingLabel="highlight"
+        app:baseColor="@android:color/white"
+        android:padding="4dp"
+        android:hint="@string/username"
+        android:gravity="center_vertical"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/password"
+        android:inputType="textPassword"
+        app:floatingLabel="highlight"
+        app:baseColor="@android:color/white"
+        android:hint="@string/password"
+        android:padding="4dp"
+        android:gravity="center_vertical"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"/>
+    <com.dd.CircularProgressButton
+        android:id="@+id/login_button_with_progress"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:cpb_selectorIdle="@drawable/login_button"
+        app:cpb_textComplete="@string/complete"
+        app:cpb_textError="@string/error"
+        app:cpb_textIdle="@string/login" />
+
+</LinearLayout>
+
+
