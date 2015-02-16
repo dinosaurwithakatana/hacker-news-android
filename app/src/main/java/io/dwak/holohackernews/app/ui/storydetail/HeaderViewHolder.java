@@ -28,11 +28,9 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
     }
 
     static HeaderViewHolder create(View headerView){
-        HeaderViewHolder headerViewHolder = new HeaderViewHolder(headerView);
-        return headerViewHolder;
+        return new HeaderViewHolder(headerView);
     }
 
     static void bind(){
-
     }
 }

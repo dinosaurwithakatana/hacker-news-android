@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -76,8 +77,10 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         @InjectView(R.id.story_domain) TextView mDomain;
         @InjectView(R.id.story_points) TextView mPoints;
         @InjectView(R.id.comment_count) TextView mCommentsCount;
+        View mView;
 
         public ViewHolder(View view) {
+            mView = view;
             ButterKnife.inject(this, view);
         }
     }

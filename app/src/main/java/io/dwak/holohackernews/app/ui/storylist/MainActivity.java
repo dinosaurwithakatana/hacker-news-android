@@ -40,15 +40,21 @@ public class MainActivity extends BaseActivity
     private StoryDetailFragment mStoryDetailFragment;
     private Fragment mStoryListFragment;
     private View mDetailsContainer;
+    private Toolbar mToolbar;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-            setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(mToolbar);
         }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)

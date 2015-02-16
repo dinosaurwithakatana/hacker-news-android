@@ -16,6 +16,11 @@
 
 package io.dwak.holohackernews.app.ui.settings;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -24,6 +29,7 @@ import android.support.v7.widget.Toolbar;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.BaseActivity;
+import io.dwak.holohackernews.app.ui.storylist.MainActivity;
 
 /**
  * Activity for customizing app settings.
@@ -72,6 +78,21 @@ public class SettingsActivity extends BaseActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if(key.equals(UserPreferenceManager.PREF_NIGHT_MODE)){
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("This requires an application restart")
+                        .setPositiveButton("Ok", (dialog, which) -> {
+                            Intent mStartActivity = new Intent(getActivity(), MainActivity.class);
+                            mStartActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            int mPendingIntentId = 123456;
+                            PendingIntent mPendingIntent = PendingIntent.getActivity(getActivity(), mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                            AlarmManager mgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                            getActivity().finish();
+                        })
+                        .create()
+                        .show();
+            }
         }
     }
 }

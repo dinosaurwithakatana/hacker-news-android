@@ -27,6 +27,7 @@ import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.rx.events.RxEvents;
 import retrofit.RetrofitError;
@@ -164,7 +165,7 @@ public class StoryListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_storylist_list, container, false);
+        View view = getRootView(inflater, container);
         ButterKnife.inject(this, view);
 
         mHackerNewsService = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance();
@@ -193,7 +194,11 @@ public class StoryListFragment extends BaseFragment {
         if (savedInstanceState == null || mListAdapter == null || mStoryList == null) {
             // Set the adapter
             mStoryList = new ArrayList<>();
-            mListAdapter = new StoryListAdapter(getActivity(), R.layout.comments_header, mStoryList);
+            mListAdapter = new StoryListAdapter(getActivity(),
+                    UserPreferenceManager.isNightModeEnabled(getActivity())
+                            ? R.layout.comments_header_dark
+                            : R.layout.comments_header,
+                    mStoryList);
 
             final boolean returningUser = LocalDataManager.getInstance().isReturningUser();
 
@@ -267,6 +272,15 @@ public class StoryListFragment extends BaseFragment {
         mListener = null;
         mSubscription.unsubscribe();
         super.onDetach();
+    }
+
+    @Override
+    protected View getRootView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
+                        ? R.layout.fragment_storylist_list_dark
+                        : R.layout.fragment_storylist_list,
+                container,
+                false);
     }
 
     /**

@@ -47,4 +47,5 @@
     <string name="pref_system_browser_title">Open links in system browser</string>
     <string name="pref_system_browser_summary">Use system browser to open links</string>
     <string name="pref_link_first_title">Show link first</string>
+    <string name="pref_night_mode_title">Night Mode</string>
 </resources>

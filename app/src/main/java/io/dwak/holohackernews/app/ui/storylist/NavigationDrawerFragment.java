@@ -24,8 +24,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.rx.events.RxEvents;
@@ -169,7 +169,11 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+                UserPreferenceManager.isNightModeEnabled(getActivity())
+                        ? R.layout.fragment_navigation_drawer_dark
+                        : R.layout.fragment_navigation_drawer,
+                container,
+                false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
         RxEvents.observableFromListItemClick(mDrawerListView)
                 .subscribe(rxListItemClickEvent -> selectItem(rxListItemClickEvent.getPosition()));
