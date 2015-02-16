@@ -3,7 +3,6 @@ package io.dwak.holohackernews.app.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
 
@@ -11,12 +10,13 @@ import com.dd.CircularProgressButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.BaseViewModelActivity;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import rx.Observable;
 import rx.android.observables.ViewObservable;
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
 
     public static final String LOGIN_SUCCESS = "login-success";
     public static final String LOGOUT = "logout";
@@ -24,14 +24,13 @@ public class LoginActivity extends ActionBarActivity {
     @InjectView(R.id.username) EditText mUsername;
     @InjectView(R.id.password) EditText mPassword;
     @InjectView(R.id.login_button_with_progress) CircularProgressButton mLoginButton;
-    private LoginViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
-        mViewModel = new LoginViewModel();
+        setViewModel(new LoginViewModel());
 
         // Creates Observables from the EditTexts and enables the login button if they aren't empty
         final Observable<Boolean> userNameObservable = ViewObservable.text(mUsername, true)
@@ -49,7 +48,7 @@ public class LoginActivity extends ActionBarActivity {
                 .subscribe(button -> {
                     mLoginButton.setIndeterminateProgressMode(true);
                     mLoginButton.setProgress(50);
-                    mViewModel.login(mUsername.getText().toString(), mPassword.getText().toString())
+                    getViewModel().login(mUsername.getText().toString(), mPassword.getText().toString())
                             .subscribe(userCookie -> {
                                 if (userCookie == null) {
                                     mLoginButton.setProgress(-1);

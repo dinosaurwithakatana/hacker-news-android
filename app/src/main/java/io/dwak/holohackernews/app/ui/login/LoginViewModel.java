@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
 
+import io.dwak.holohackernews.app.BaseViewModel;
 import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
 import io.dwak.holohackernews.app.network.LoginService;
 import retrofit.RestAdapter;
@@ -17,7 +18,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by vishnu on 2/15/15.
  */
-public class LoginViewModel {
+public class LoginViewModel extends BaseViewModel{
     private final LoginService mLoginService;
 
     public LoginViewModel() {
