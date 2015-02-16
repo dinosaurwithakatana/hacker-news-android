@@ -78,7 +78,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private long mStoryId;
     private int mPrevVisibleItem;
     //    private HeaderViewHolder mHeaderViewHolder;
-    private CommentsListAdapter mListAdapter;
     private Bundle mWebViewBundle;
     private boolean mReadability;
     private boolean mWasLinkLayoutOpen;
@@ -258,7 +257,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
+        mRootView = getRootView(inflater, container);
         if (savedInstanceState != null) {
             mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
         }
@@ -304,7 +303,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                 }
             }
         });
-        mListAdapter = new CommentsListAdapter(getActivity(), R.layout.comments_list_item);
         mRecyclerAdapter = new CommentsRecyclerAdapter(getActivity(), position -> {
             if (mRecyclerAdapter.areChildrenHidden(position)) {
                 mRecyclerAdapter.showChildComments(position);
@@ -316,7 +314,10 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mCommentsRecyclerView.setLayoutManager(mLayoutManager);
         mCommentsRecyclerView.setAdapter(mRecyclerAdapter);
-        mHeaderView = inflater.inflate(R.layout.comments_header, null);
+        mHeaderView = inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
+                ? R.layout.comments_header_dark
+                : R.layout.comments_header,
+                null);
         mRecyclerAdapter.addHeaderView(mHeaderView);
 
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
@@ -496,6 +497,10 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
     @Override
     protected View getRootView(LayoutInflater inflater, ViewGroup container) {
-        return null;
+        return inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
+                ? R.layout.fragment_story_comments_dark
+                : R.layout.fragment_story_comments,
+                container,
+                false);
     }
 }

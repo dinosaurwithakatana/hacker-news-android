@@ -1,0 +1,100 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/backgroundNight"
+             tools:context="io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment">
+
+    <RelativeLayout
+        android:id="@+id/comments_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"/>
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/button_bar"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimaryDarkNight">
+
+                <Button
+                    android:id="@+id/prev_top_level"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/navigation_up"
+                    android:visibility="visible"
+                    tools:ignore="RtlHardcoded"/>
+
+                <Button
+                    android:id="@+id/next_top_level"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/navigation_down"
+                    android:visibility="visible"
+                    tools:ignore="RtlHardcoded"/>
+
+                <Button
+                    android:id="@+id/open_link"
+                    android:layout_toRightOf="@id/prev_top_level"
+                    android:layout_toLeftOf="@id/next_top_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:background="@drawable/dark_button"
+                    android:text="@string/show_link"
+                    android:visibility="visible"
+                    tools:ignore="RtlHardcoded"/>
+            </RelativeLayout>
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/button_bar">
+
+                <!--<ListView-->
+                    <!--android:id="@+id/comments_list"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:clipToPadding="false"-->
+                    <!--android:fastScrollEnabled="true"-->
+                    <!--android:scrollbarStyle="outsideOverlay"/>-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/comments_recycler"
+                    android:background="@color/list_selector_orange"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fastScrollEnabled="true"
+                    android:scrollbarStyle="outsideOverlay"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <include
+                android:id="@+id/link_layout"
+                layout="@layout/view_story_link_dark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</FrameLayout>

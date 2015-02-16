@@ -4,7 +4,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:background="@android:color/white"
+                android:background="@color/cardBackgroundNight"
                 android:animateLayoutChanges="true"
                 android:longClickable="true"
                 android:layout_width="match_parent"
@@ -18,7 +18,7 @@
 
         <RelativeLayout
             android:id="@+id/comments_container"
-            android:background="@color/cardBackground"
+            android:background="@color/cardBackgroundNight"
             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,13 +65,14 @@
                 android:id="@+id/comment_content"
                 android:layout_marginTop="12dp"
                 android:layout_below="@id/comment_details"
-                android:text="bwdawdhadljalksaoiwdjwa"
-                android:textColor="@android:color/black"
+                tools:text="bwdawdhadljalksaoiwdjwa"
+                android:textColor="@android:color/white"
                 android:layout_marginLeft="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:ignore="RtlHardcoded"/>
 
             <LinearLayout
                 android:id="@+id/comment_item_action_layout"

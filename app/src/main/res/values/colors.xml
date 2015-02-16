@@ -7,7 +7,7 @@
     <color name="colorAccent">#b0ff541a</color>
     <color name="colorPrimary">#ff5722</color>
     <color name="colorPrimaryDark">#e64a19</color>
-    <color name="colorPrimaryNight">#bf360c</color>
+    <color name="colorPrimaryNight">#ff272727</color>
     <color name="colorPrimaryDarkNight">#212121</color>
     <color name="cardBackground">#ffffff</color>
     <color name="cardBackgroundNight">#ff373737</color>

@@ -18,6 +18,7 @@ import butterknife.InjectView;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.util.UIUtils;
 
 /**
@@ -43,8 +44,11 @@ class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         mCommentContent.setOnClickListener(this);
     }
 
-    static CommentViewHolder create(LayoutInflater inflater, CommentItemListener listener) {
-        View commentItemView = inflater.inflate(R.layout.comments_list_item, null);
+    static CommentViewHolder create(Context context, LayoutInflater inflater, CommentItemListener listener) {
+        View commentItemView = inflater.inflate(UserPreferenceManager.isNightModeEnabled(context)
+                ? R.layout.comments_list_item_dark
+                : R.layout.comments_list_item,
+                null);
         CommentViewHolder commentViewHolder = new CommentViewHolder(commentItemView, listener);
         return commentViewHolder;
     }
@@ -53,8 +57,8 @@ class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         final Spanned commentContent = Html.fromHtml(comment.getContent());
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mCommentContent.setText(commentContent);
-        if(hiddenChildrenCount == 0){
-           viewHolder.mHiddenCommentCount.setVisibility(View.GONE);
+        if (hiddenChildrenCount == 0) {
+            viewHolder.mHiddenCommentCount.setVisibility(View.GONE);
         }
         else {
             viewHolder.mHiddenCommentCount.setVisibility(View.VISIBLE);
@@ -71,13 +75,15 @@ class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         else {
             viewHolder.mCommentSubmitter.setText(submitter);
         }
-        viewHolder.mCommentSubmitter.setTextColor(
-                context.getResources().getColor(
-                        comment.isOriginalPoster()
-                                ? android.R.color.holo_orange_light
-                                : android.R.color.black
-                )
-        );
+        if (comment.isOriginalPoster()) {
+            viewHolder.mCommentSubmitter.setTextColor(context.getResources().getColor(android.R.color.holo_orange_light));
+        }
+        else {
+            viewHolder.mCommentSubmitter.setTextColor(UserPreferenceManager.isNightModeEnabled(context)
+                    ?context.getResources().getColor(android.R.color.white)
+                    : context.getResources().getColor(android.R.color.black));
+        }
+
         int colorCodeLeftMargin = UIUtils.dpAsPixels(context, comment.getLevel() * 12);
         int contentLeftMargin = UIUtils.dpAsPixels(context, 4);
 
