@@ -37,9 +37,7 @@ import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.rx.events.RxEvents;
 import rx.android.observables.AndroidObservable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import rx.android.observables.ViewObservable;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -48,9 +46,9 @@ import rx.schedulers.Schedulers;
  */
 public class NavigationDrawerFragment extends Fragment {
 
+    public static final int NAVIGATION_ITEM_COUNT = 5;
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-    public static final int NAVIGATION_ITEM_COUNT = 5;
     private static final String TAG = NavigationDrawerFragment.class.getSimpleName();
     private NavigationDrawerCallbacks mCallbacks;
     private HNDrawerToggle mDrawerToggle;
@@ -63,6 +61,12 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
     private boolean mDropDownVisible = false;
+    private TextView mUserNameView;
+    private TextView mUserNameLogoView;
+    private ImageView mLoginIcon;
+    private TextView mLoginButton;
+    private View mHeaderContainer;
+    private View mHeaderDropDown;
 
     public NavigationDrawerFragment() {
     }
@@ -185,42 +189,39 @@ public class NavigationDrawerFragment extends Fragment {
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
         View headerView = inflater.inflate(R.layout.navigation_drawer_header, null);
-        View headerContainer = headerView.findViewById(R.id.main_container);
-        View headerDropDown = headerView.findViewById(R.id.drop_down);
-        TextView loginButton = (TextView) headerView.findViewById(R.id.secondary_navigation_title);
-        TextView userName = (TextView) headerView.findViewById(R.id.username);
-        TextView userNameLogo = (TextView) headerView.findViewById(R.id.username_icon);
-        ImageView loginIcon = (ImageView) headerView.findViewById(R.id.navigation_drawer_item_icon);
+        mHeaderContainer = headerView.findViewById(R.id.main_container);
+        mHeaderDropDown = headerView.findViewById(R.id.drop_down);
+        mLoginButton = (TextView) headerView.findViewById(R.id.secondary_navigation_title);
+        mUserNameView = (TextView) headerView.findViewById(R.id.username);
+        mUserNameLogoView = (TextView) headerView.findViewById(R.id.username_icon);
+        mLoginIcon = (ImageView) headerView.findViewById(R.id.navigation_drawer_item_icon);
 
-        if(LocalDataManager.getInstance().getUserLoginCookie() != null){
-            loginButton.setText("Logout");
-            loginIcon.setImageResource(R.drawable.ic_close);
-        }
-        else {
-            loginButton.setText("Login");
-            loginIcon.setImageResource(R.drawable.ic_add);
-        }
-        loginButton.setOnClickListener(v -> {
-            if(LocalDataManager.getInstance().getUserLoginCookie() == null){
-                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(loginIntent);
-            }
-            else {
-                new AlertDialog.Builder(getActivity())
-                        .setMessage("Are you sure?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
-                            LocalDataManager.getInstance().setUserLoginCookie(null);
-                            Intent logoutIntent = new Intent(LoginActivity.LOGOUT);
-                            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(logoutIntent);
-                        })
-                        .setNegativeButton("No", null)
-                        .create()
-                        .show();
-            }
-        });
+        refreshLoginHeader();
+        ViewObservable.clicks(mLoginButton, false)
+                .map(textView -> LocalDataManager.getInstance().getUserLoginCookie())
+                .map(userLoginCookie -> userLoginCookie == null)
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(loginIntent);
+                    }
+                    else {
+                        new AlertDialog.Builder(getActivity())
+                                .setMessage("Are you sure?")
+                                .setPositiveButton("Yes", (dialog, which) -> {
+                                    LocalDataManager.getInstance().setUserLoginCookie(null);
+                                    LocalDataManager.getInstance().setUserName(null);
+                                    Intent logoutIntent = new Intent(LoginActivity.LOGOUT);
+                                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(logoutIntent);
+                                })
+                                .setNegativeButton("No", null)
+                                .create()
+                                .show();
+                    }
+                });
 
-        headerContainer.setOnClickListener(v -> {
-           headerDropDown.setVisibility(mDropDownVisible ? View.GONE : View.VISIBLE);
+        mHeaderContainer.setOnClickListener(v -> {
+            mHeaderDropDown.setVisibility(mDropDownVisible ? View.GONE : View.VISIBLE);
             mDropDownVisible = !mDropDownVisible;
         });
 
@@ -237,30 +238,11 @@ public class NavigationDrawerFragment extends Fragment {
         navigationDrawerItems.add(new NavigationDrawerItem(5, R.drawable.ic_settings, getResources().getString(R.string.title_section_settings), true));
         navigationDrawerItems.add(new NavigationDrawerItem(6, R.drawable.ic_info, getResources().getString(R.string.title_section_about), true));
 
-        IntentFilter intentFilter = new IntentFilter(LoginActivity.LOGIN_SUCCESS);
-        IntentFilter logOutFilter = new IntentFilter(LoginActivity.LOGOUT);
-        AndroidObservable.fromLocalBroadcast(getActivity(), intentFilter)
-                .subscribeOn(Schedulers.immediate())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Intent>() {
-                    @Override
-                    public void call(Intent intent) {
-                        loginButton.setText("Logout");
-                        loginIcon.setImageResource(R.drawable.ic_close);
-                    }
-                });
+        AndroidObservable.fromLocalBroadcast(getActivity(), new IntentFilter(LoginActivity.LOGIN_SUCCESS))
+                .subscribe(intent -> refreshLoginHeader());
 
-        AndroidObservable.fromLocalBroadcast(getActivity(), logOutFilter)
-                .subscribeOn(Schedulers.immediate())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Intent>() {
-                    @Override
-                    public void call(Intent intent) {
-                        loginButton.setText("Login");
-                        loginIcon.setImageResource(R.drawable.ic_add);
-                    }
-                });
-
+        AndroidObservable.fromLocalBroadcast(getActivity(), new IntentFilter(LoginActivity.LOGOUT))
+                .subscribe(intent -> refreshLoginHeader());
 
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), 0, navigationDrawerItems);
         mDrawerListView.setAdapter(adapter);
@@ -314,6 +296,28 @@ public class NavigationDrawerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void refreshLoginHeader() {
+        final String userLoginCookie = LocalDataManager.getInstance().getUserLoginCookie();
+        final String username = LocalDataManager.getInstance().getUserName();
+        if (username != null) {
+            mUserNameView.setText(username);
+            mUserNameLogoView.setText(String.valueOf(username.charAt(0)));
+        }
+        else {
+            mUserNameView.setText(getResources().getString(R.string.app_name));
+            mUserNameLogoView.setText("hn");
+        }
+
+        if (userLoginCookie != null) {
+            mLoginButton.setText("Logout");
+            mLoginIcon.setImageResource(R.drawable.ic_close);
+        }
+        else {
+            mLoginButton.setText("Login");
+            mLoginIcon.setImageResource(R.drawable.ic_add);
+        }
+    }
+
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app
      * 'context', rather than just what's in the current screen.
@@ -356,10 +360,11 @@ public class NavigationDrawerFragment extends Fragment {
          * <p/>
          * <p>String resources must be provided to describe the open/close drawer actions for
          * accessibility services.</p>
-         *  @param activity                  The Activity hosting the drawer
+         *
+         * @param activity                  The Activity hosting the drawer
          * @param drawerLayout              The DrawerLayout to link to the given Activity's ActionBar
          * @param openDrawerContentDescRes  A String resource to describe the "open drawer" action
- *                                  for accessibility
+         *                                  for accessibility
          * @param closeDrawerContentDescRes A String resource to describe the "close drawer" action
          */
         public HNDrawerToggle(Activity activity, DrawerLayout drawerLayout, int openDrawerContentDescRes, int closeDrawerContentDescRes) {

@@ -6,7 +6,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 
@@ -35,7 +34,6 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
-
 
         // Creates Observables from the EditTexts and enables the login button if they aren't empty
         final Observable<Boolean> userNameObservable = ViewObservable.text(mUsername, true)
@@ -72,7 +70,6 @@ public class LoginActivity extends ActionBarActivity {
                             })
                             .subscribe(userCookie -> {
                                 if (userCookie == null) {
-                                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                                     mLoginButton.setProgress(-1);
                                 }
                                 else {

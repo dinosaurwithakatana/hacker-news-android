@@ -52,5 +52,6 @@
     <string name="login">Login</string>
     <string name="error">Error</string>
     <string name="complete">Complete</string>
+    <string name="logout">Logout</string>
 
 </resources>

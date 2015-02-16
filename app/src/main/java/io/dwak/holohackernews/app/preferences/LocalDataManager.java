@@ -75,7 +75,7 @@ public class LocalDataManager {
         return getString(PREF_USER_LOGIN_COOKIE);
     }
 
-    public void setUserName(@NonNull String userName) {
+    public void setUserName(String userName) {
         set(PREF_USERNAME, userName);
     }
 
