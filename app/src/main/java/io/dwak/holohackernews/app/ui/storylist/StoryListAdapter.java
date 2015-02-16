@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,13 @@ public class StoryListAdapter extends ArrayAdapter<Story> {
         viewHolder.mSubmissionTime.setText(getItem(position).getPublishedTime());
         if (getItem(position).getType().equals("link")) {
             String domain = getItem(position).getDomain();
-            viewHolder.mDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20) + " | ");
+            if(!TextUtils.isEmpty(domain)){
+                viewHolder.mDomain.setVisibility(View.VISIBLE);
+                viewHolder.mDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20) + " | ");
+            }
+            else{
+                viewHolder.mDomain.setVisibility(View.GONE);
+            }
         }
         else{
             viewHolder.mDomain.setText(" | " + getItem(position).getType() + " | ");

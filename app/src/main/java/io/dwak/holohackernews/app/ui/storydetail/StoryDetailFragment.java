@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Display;
@@ -77,7 +78,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private long mStoryId;
     private int mPrevVisibleItem;
     //    private HeaderViewHolder mHeaderViewHolder;
-    private ActionBar mActionBar;
     private CommentsListAdapter mListAdapter;
     private Bundle mWebViewBundle;
     private boolean mReadability;
@@ -88,6 +88,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private LinearLayoutManager mLayoutManager;
     private View mHeaderView;
     private View mRootView;
+    private ActionBar mActionBar;
 
     public StoryDetailFragment() {
         // Required empty public constructor
@@ -182,7 +183,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mHeaderViewHolder.mStorySubmitter.setText(mStoryDetail.getUser());
         if (!"job".equals(mStoryDetail.getType())) {
             mHeaderViewHolder.mContent.setVisibility(View.GONE);
-            if ("link".equals(mStoryDetail.getType())) {
+            if ("link".equals(mStoryDetail.getType()) && !TextUtils.isEmpty(mStoryDetail.getDomain())) {
                 String domain = mStoryDetail.getDomain();
                 mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
                 mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
@@ -199,13 +200,14 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                     }
                 }
             }
-            else if ("ask".equals(mStoryDetail.getType())) {
+            else {
                 mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
 
                 mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
                 Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
                 mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
                 mHeaderViewHolder.mContent.setText(jobContent);
+                mHeaderViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
             }
             mHeaderViewHolder.mStoryPoints.setText(String.valueOf(mStoryDetail.getPoints()));
             mHeaderViewHolder.mStoryLongAgo.setText(" | " + mStoryDetail.getTimeAgo());
@@ -215,6 +217,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
             mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
             Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
             mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+            mHeaderViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
             mHeaderViewHolder.mContent.setText(jobContent);
             mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
             mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
