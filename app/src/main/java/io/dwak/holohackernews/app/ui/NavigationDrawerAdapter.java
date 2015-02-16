@@ -26,17 +26,23 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavigationDrawerItem> 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         if (getItem(position).shouldDisplayIcon()) {
-            view = ((Activity) mContext).getLayoutInflater().inflate(R.layout.secondary_navigation_item, null);
+            view = ((Activity) mContext).getLayoutInflater()
+                    .inflate(UserPreferenceManager.isNightModeEnabled(mContext)
+                                    ? R.layout.secondary_navigation_item_dark
+                                    : R.layout.secondary_navigation_item,
+                            null);
             TextView secondaryNavigationTitle = (TextView) view.findViewById(R.id.secondary_navigation_title);
             secondaryNavigationTitle.setText(getItem(position).getTitle());
-            secondaryNavigationTitle.setTextColor(UserPreferenceManager.isNightModeEnabled(mContext) ? mContext.getResources().getColor(android.R.color.white) : mContext.getResources().getColor(android.R.color.black));
             secondaryNavigationTitle.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(getItem(position).getIconResId()), null, null, null);
         }
         else {
-            view = ((Activity) mContext).getLayoutInflater().inflate(R.layout.navigation_item, null);
+            view = ((Activity) mContext).getLayoutInflater()
+                    .inflate(UserPreferenceManager.isNightModeEnabled(mContext)
+                                    ? R.layout.navigation_item_dark
+                                    : R.layout.navigation_item,
+                            null);
             final TextView textView = (TextView) view.findViewById(R.id.navigation_title);
             textView.setText(getItem(position).getTitle());
-            textView.setTextColor(UserPreferenceManager.isNightModeEnabled(mContext) ? mContext.getResources().getColor(android.R.color.white) : mContext.getResources().getColor(android.R.color.black));
         }
         return view;
     }

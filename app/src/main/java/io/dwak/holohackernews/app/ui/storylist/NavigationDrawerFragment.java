@@ -169,10 +169,11 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
-        rootView.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(getActivity()) ? getResources().getColor(R.color.backgroundNight)
-                        : getResources().getColor(android.R.color.white)
-        );
+                UserPreferenceManager.isNightModeEnabled(getActivity())
+                        ? R.layout.fragment_navigation_drawer_dark
+                        : R.layout.fragment_navigation_drawer,
+                container,
+                false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
         RxEvents.observableFromListItemClick(mDrawerListView)
                 .subscribe(rxListItemClickEvent -> selectItem(rxListItemClickEvent.getPosition()));

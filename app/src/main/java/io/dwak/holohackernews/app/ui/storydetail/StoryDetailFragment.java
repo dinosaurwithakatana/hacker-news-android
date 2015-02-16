@@ -249,7 +249,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     @Override
     public void onResume() {
         super.onResume();
-        initTheme();
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -328,24 +327,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
         refresh();
         return mRootView;
-    }
-
-    private void initTheme() {
-        mRootView.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(getActivity())
-                ? getResources().getColor(R.color.backgroundNight)
-                : getResources().getColor(R.color.background));
-        mButtonBar.setBackgroundColor(UserPreferenceManager.isNightModeEnabled(getActivity())
-                ? getResources().getColor(R.color.colorPrimaryDarkNight)
-                : getResources().getColor(R.color.colorPrimary));
-        mOpenLinkDialogButton.setBackgroundResource(UserPreferenceManager.isNightModeEnabled(getActivity())
-                ? R.drawable.orange_button_dark
-                : R.drawable.orange_button);
-        mOpenLinkDialogButton.setBackgroundResource(UserPreferenceManager.isNightModeEnabled(getActivity())
-                ? R.drawable.orange_button_dark
-                : R.drawable.orange_button);
-        if(mRecyclerAdapter != null) {
-            mRecyclerAdapter.notifyDataSetChanged();
-        }
     }
 
     @Override
@@ -508,5 +489,10 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         else {
             mFloatingActionButton.show();
         }
+    }
+
+    @Override
+    protected View getRootView(LayoutInflater inflater, ViewGroup container) {
+        return null;
     }
 }
