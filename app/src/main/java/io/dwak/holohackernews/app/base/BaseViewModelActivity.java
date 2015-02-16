@@ -1,12 +1,13 @@
 package io.dwak.holohackernews.app.base;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+
+import io.dwak.holohackernews.app.ui.BaseActivity;
 
 /**
  * Created by vishnu on 2/15/15.
  */
-public class BaseViewModelActivity<T extends BaseViewModel> extends ActionBarActivity {
+public class BaseViewModelActivity<T extends BaseViewModel> extends BaseActivity{
     private T mViewModel;
 
     @Override

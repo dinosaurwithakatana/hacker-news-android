@@ -9,4 +9,9 @@
         android:key="pref_system_browser"
         android:title="@string/pref_system_browser_title"
         android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="pref_night_mode"
+        android:title="@string/pref_night_mode_title"
+        android:defaultValue="false" />
 </PreferenceScreen>

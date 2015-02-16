@@ -32,6 +32,7 @@ import java.util.List;
 
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.login.LoginActivity;
@@ -185,10 +186,18 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final boolean nightModeEnabled = UserPreferenceManager.isNightModeEnabled(getActivity());
         View rootView = inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+                nightModeEnabled
+                        ? R.layout.fragment_navigation_drawer_dark
+                        : R.layout.fragment_navigation_drawer,
+                container,
+                false);
         mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
-        View headerView = inflater.inflate(R.layout.navigation_drawer_header, null);
+        View headerView = inflater.inflate(nightModeEnabled
+                ? R.layout.navigation_drawer_header_dark
+                : R.layout.navigation_drawer_header,
+                null);
         mHeaderContainer = headerView.findViewById(R.id.main_container);
         mHeaderDropDown = headerView.findViewById(R.id.drop_down);
         mLoginButton = (TextView) headerView.findViewById(R.id.secondary_navigation_title);
@@ -197,7 +206,7 @@ public class NavigationDrawerFragment extends Fragment {
         mLoginIcon = (ImageView) headerView.findViewById(R.id.navigation_drawer_item_icon);
 
         refreshLoginHeader();
-        ViewObservable.clicks(mLoginButton, false)
+        ViewObservable.clicks(mHeaderDropDown, false)
                 .map(textView -> LocalDataManager.getInstance().getUserLoginCookie())
                 .map(userLoginCookie -> userLoginCookie == null)
                 .subscribe(aBoolean -> {
@@ -227,13 +236,13 @@ public class NavigationDrawerFragment extends Fragment {
                 .subscribe(rxListItemClickEvent -> selectItem(rxListItemClickEvent.getPosition()));
 
         List<NavigationDrawerItem> navigationDrawerItems = new ArrayList<>();
-        navigationDrawerItems.add(new NavigationDrawerItem(0, R.drawable.ic_trending_up, getResources().getString(R.string.title_section_top), true));
-        navigationDrawerItems.add(new NavigationDrawerItem(1, R.drawable.ic_best, getResources().getString(R.string.title_section_best), true));
-        navigationDrawerItems.add(new NavigationDrawerItem(2, R.drawable.ic_new_releases, getResources().getString(R.string.title_section_newest), true));
-        navigationDrawerItems.add(new NavigationDrawerItem(3, R.drawable.ic_show, getResources().getString(R.string.title_section_show), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(0, nightModeEnabled ? R.drawable.ic_trending_up_white : R.drawable.ic_trending_up, getResources().getString(R.string.title_section_top), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(1, nightModeEnabled ? R.drawable.ic_best_white : R.drawable.ic_best, getResources().getString(R.string.title_section_best), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(2, nightModeEnabled ? R.drawable.ic_new_releases_white : R.drawable.ic_new_releases, getResources().getString(R.string.title_section_newest), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(3, nightModeEnabled ? R.drawable.ic_show_white : R.drawable.ic_show, getResources().getString(R.string.title_section_show), true));
         navigationDrawerItems.add(new NavigationDrawerItem(4, 0, getResources().getString(R.string.title_section_show_new), true));
-        navigationDrawerItems.add(new NavigationDrawerItem(5, R.drawable.ic_settings, getResources().getString(R.string.title_section_settings), true));
-        navigationDrawerItems.add(new NavigationDrawerItem(6, R.drawable.ic_info, getResources().getString(R.string.title_section_about), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(5, nightModeEnabled ? R.drawable.ic_settings_white : R.drawable.ic_settings, getResources().getString(R.string.title_section_settings), true));
+        navigationDrawerItems.add(new NavigationDrawerItem(6, nightModeEnabled ? R.drawable.ic_info_white : R.drawable.ic_info, getResources().getString(R.string.title_section_about), true));
 
         AndroidObservable.fromLocalBroadcast(getActivity(), new IntentFilter(LoginActivity.LOGIN_SUCCESS))
                 .subscribe(intent -> refreshLoginHeader());
@@ -312,11 +321,11 @@ public class NavigationDrawerFragment extends Fragment {
 
         if (userLoginCookie != null) {
             mLoginButton.setText("Logout");
-            mLoginIcon.setImageResource(R.drawable.ic_close);
+            mLoginIcon.setImageResource(UserPreferenceManager.isNightModeEnabled(getActivity()) ? R.drawable.ic_close_white : R.drawable.ic_close);
         }
         else {
             mLoginButton.setText("Login");
-            mLoginIcon.setImageResource(R.drawable.ic_add);
+            mLoginIcon.setImageResource(UserPreferenceManager.isNightModeEnabled(getActivity()) ? R.drawable.ic_add_white : R.drawable.ic_add);
         }
 
         mHeaderDropDown.setVisibility(View.GONE);

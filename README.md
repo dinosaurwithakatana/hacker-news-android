@@ -21,8 +21,6 @@ Roadmap
 
 *  Switch to Official API (using my wrapper api) [#16](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/16)
 
-*  Collapsible comments [#5](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/5)
-
 *  User Settings
   *  Font Size [#10](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/10)
   

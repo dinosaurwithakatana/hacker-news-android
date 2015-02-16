@@ -3,6 +3,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
     android:enterFadeDuration="@android:integer/config_shortAnimTime"
     android:exitFadeDuration="@android:integer/config_shortAnimTime">
-    <item android:state_pressed="true" android:drawable="@color/list_selector_orange"/>
+    <item android:state_pressed="true" android:drawable="@color/colorAccent"/>
     <item android:state_pressed="false" android:drawable="@android:color/transparent"/>
 </selector>

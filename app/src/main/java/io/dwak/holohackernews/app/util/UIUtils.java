@@ -10,4 +10,5 @@ public class UIUtils {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int) (densityPixels * scale + 0.5f);
     }
+
 }

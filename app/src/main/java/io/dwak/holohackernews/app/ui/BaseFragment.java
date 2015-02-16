@@ -5,7 +5,9 @@ import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import io.dwak.holohackernews.app.R;
@@ -14,7 +16,7 @@ import rx.Subscription;
 /**
  * Created by vishnu on 5/3/14.
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
     protected View mContainer;
     protected ProgressBar mProgressBar;
     protected Subscription mSubscription;
@@ -70,4 +72,6 @@ public class BaseFragment extends Fragment {
 
         }
     }
+
+    protected abstract View getRootView(LayoutInflater inflater, ViewGroup container);
 }
