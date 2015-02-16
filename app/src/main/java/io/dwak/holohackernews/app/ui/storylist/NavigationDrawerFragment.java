@@ -220,10 +220,7 @@ public class NavigationDrawerFragment extends Fragment {
                     }
                 });
 
-        mHeaderContainer.setOnClickListener(v -> {
-            mHeaderDropDown.setVisibility(mDropDownVisible ? View.GONE : View.VISIBLE);
-            mDropDownVisible = !mDropDownVisible;
-        });
+        mHeaderContainer.setOnClickListener(v -> toggleLoginDropDownVisibility());
 
         mDrawerListView.addHeaderView(headerView);
         RxEvents.observableFromListItemClick(mDrawerListView)
@@ -249,6 +246,11 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         selectItem(mCurrentSelectedPosition);
         return rootView;
+    }
+
+    private void toggleLoginDropDownVisibility() {
+        mHeaderDropDown.setVisibility(mDropDownVisible ? View.GONE : View.VISIBLE);
+        mDropDownVisible = !mDropDownVisible;
     }
 
     @Override
@@ -316,6 +318,9 @@ public class NavigationDrawerFragment extends Fragment {
             mLoginButton.setText("Login");
             mLoginIcon.setImageResource(R.drawable.ic_add);
         }
+
+        mHeaderDropDown.setVisibility(View.GONE);
+        mDropDownVisible = false;
     }
 
     /**

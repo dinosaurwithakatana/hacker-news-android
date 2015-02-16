@@ -10,7 +10,7 @@ import com.dd.CircularProgressButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.dwak.holohackernews.app.BaseViewModelActivity;
+import io.dwak.holohackernews.app.base.BaseViewModelActivity;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import rx.Observable;
