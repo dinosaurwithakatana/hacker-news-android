@@ -2,8 +2,6 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -11,7 +9,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -31,14 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.rx.events.RxEvents;
 import rx.android.observables.AndroidObservable;
-import rx.android.observables.ViewObservable;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -206,30 +201,30 @@ public class NavigationDrawerFragment extends Fragment {
         mLoginIcon = (ImageView) headerView.findViewById(R.id.navigation_drawer_item_icon);
 
         refreshLoginHeader();
-        ViewObservable.clicks(mHeaderDropDown, false)
-                .map(textView -> LocalDataManager.getInstance().getUserLoginCookie())
-                .map(userLoginCookie -> userLoginCookie == null)
-                .subscribe(aBoolean -> {
-                    if (aBoolean) {
-                        Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                        startActivity(loginIntent);
-                    }
-                    else {
-                        new AlertDialog.Builder(getActivity())
-                                .setMessage("Are you sure?")
-                                .setPositiveButton("Yes", (dialog, which) -> {
-                                    LocalDataManager.getInstance().setUserLoginCookie(null);
-                                    LocalDataManager.getInstance().setUserName(null);
-                                    Intent logoutIntent = new Intent(LoginActivity.LOGOUT);
-                                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(logoutIntent);
-                                })
-                                .setNegativeButton("No", null)
-                                .create()
-                                .show();
-                    }
-                });
+//        ViewObservable.clicks(mHeaderDropDown, false)
+//                .map(textView -> LocalDataManager.getInstance().getUserLoginCookie())
+//                .map(userLoginCookie -> userLoginCookie == null)
+//                .subscribe(aBoolean -> {
+//                    if (aBoolean) {
+//                        Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+//                        startActivity(loginIntent);
+//                    }
+//                    else {
+//                        new AlertDialog.Builder(getActivity())
+//                                .setMessage("Are you sure?")
+//                                .setPositiveButton("Yes", (dialog, which) -> {
+//                                    LocalDataManager.getInstance().setUserLoginCookie(null);
+//                                    LocalDataManager.getInstance().setUserName(null);
+//                                    Intent logoutIntent = new Intent(LoginActivity.LOGOUT);
+//                                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(logoutIntent);
+//                                })
+//                                .setNegativeButton("No", null)
+//                                .create()
+//                                .show();
+//                    }
+//                });
 
-        mHeaderContainer.setOnClickListener(v -> toggleLoginDropDownVisibility());
+//        mHeaderContainer.setOnClickListener(v -> toggleLoginDropDownVisibility());
 
         mDrawerListView.addHeaderView(headerView);
         RxEvents.observableFromListItemClick(mDrawerListView)
@@ -308,8 +303,10 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void refreshLoginHeader() {
-        final String userLoginCookie = LocalDataManager.getInstance().getUserLoginCookie();
-        final String username = LocalDataManager.getInstance().getUserName();
+//        final String userLoginCookie = LocalDataManager.getInstance().getUserLoginCookie();
+//        final String username = LocalDataManager.getInstance().getUserName();
+        final String userLoginCookie = null;
+        final String username = null;
         if (username != null) {
             mUserNameView.setText(username);
             mUserNameLogoView.setText(String.valueOf(username.charAt(0)));

@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:background="@drawable/ic_social_person"
+                    android:background="@drawable/ic_person"
                     android:layout_gravity="center_vertical"
                     android:layout_width="16dp"
                     android:layout_height="16dp"/>

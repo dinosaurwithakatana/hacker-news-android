@@ -88,6 +88,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private View mHeaderView;
     private View mRootView;
     private ActionBar mActionBar;
+    private int mCurrentFirstCompletelyVisibleItemIndex = 0;
 
     public StoryDetailFragment() {
         // Required empty public constructor
@@ -277,27 +278,26 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         }
 
         mPrevTopLevel.setOnClickListener(view -> {
-            int currentIndex = mLayoutManager.findFirstCompletelyVisibleItemPosition() - 1;
-            for (int i = currentIndex - 1; i >= 0; i--) {
-                if (((Comment) mRecyclerAdapter.getItem(i)).getLevel() == 0) {
+            for (int i = mCurrentFirstCompletelyVisibleItemIndex- 1; i >= 0; i--) {
+                final Object item = mRecyclerAdapter.getItem(i);
+                if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
                     if (HoloHackerNewsApplication.isDebug()) {
                         Log.d(TAG, String.valueOf(i));
                     }
+                    mCurrentFirstCompletelyVisibleItemIndex = i;
                     mCommentsRecyclerView.smoothScrollToPosition(i);
                     return;
                 }
             }
         });
         mNextTopLevel.setOnClickListener(view -> {
-            int currentIndex = mLayoutManager.findFirstCompletelyVisibleItemPosition() - 1;
-            if (currentIndex < 0) {
-                currentIndex = 0;
-            }
-            for (int i = currentIndex + 1; i < mRecyclerAdapter.getItemCount(); i++) {
-                if (((Comment) mRecyclerAdapter.getItem(i)).getLevel() == 0) {
+            for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mRecyclerAdapter.getItemCount(); i++) {
+                final Object item = mRecyclerAdapter.getItem(i);
+                if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
                     if (HoloHackerNewsApplication.isDebug()) {
                         Log.d(TAG, String.valueOf(i));
                     }
+                    mCurrentFirstCompletelyVisibleItemIndex = i;
                     mCommentsRecyclerView.smoothScrollToPosition(i);
                     return;
                 }
