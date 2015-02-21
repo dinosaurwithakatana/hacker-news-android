@@ -31,7 +31,6 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
         super.onCreate(savedInstanceState);
         setContentView(UserPreferenceManager.isNightModeEnabled(this) ? R.layout.activity_login_dark : R.layout.activity_login);
         ButterKnife.inject(this);
-        setViewModel(new LoginViewModel());
 
         // Creates Observables from the EditTexts and enables the login button if they aren't empty
         final Observable<Boolean> userNameObservable = ViewObservable.text(mUsername, true)
@@ -63,6 +62,11 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
                                 }
                             });
                 });
+    }
+
+    @Override
+    public Class<LoginViewModel> getViewModelClass() {
+        return LoginViewModel.class;
     }
 
     @Override

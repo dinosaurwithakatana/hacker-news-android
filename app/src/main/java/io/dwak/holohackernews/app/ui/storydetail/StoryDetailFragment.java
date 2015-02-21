@@ -160,22 +160,24 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
     private void updateWebView() {
         mOpenLinkDialogButton.setVisibility(View.VISIBLE);
-        mOpenLinkDialogButton.setOnClickListener(view -> {
-            if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-                mLinkLayout.setOpen(!mLinkLayout.isOpen());
-                if ("ask".equals(mStoryDetail.getType())) {
-                    mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
-                }
-                else if ("job".equals(mStoryDetail.getType())) {
-                    if (mStoryDetail.getUrl().contains("/item?id=")) {
-                        mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
+        ViewObservable.clicks(mOpenLinkDialogButton, false)
+                .map(button -> UserPreferenceManager.isExternalBrowserEnabled(getActivity()))
+                .subscribe(externalBrowserEnabled -> {
+                    if (externalBrowserEnabled) {
+                        mLinkLayout.setOpen(!mLinkLayout.isOpen());
+                        if ("ask".equals(mStoryDetail.getType())) {
+                            mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
+                        }
+                        else if ("job".equals(mStoryDetail.getType())) {
+                            if (mStoryDetail.getUrl().contains("/item?id=")) {
+                                mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
+                            }
+                        }
                     }
-                }
-            }
-            else {
-                openLinkInExternalBrowser();
-            }
-        });
+                    else {
+                        openLinkInExternalBrowser();
+                    }
+                });
     }
 
     private void updateHeader() {
@@ -267,7 +269,8 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         mViewModel = new StoryDetailViewModel(mStoryId);
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.progress_bar);
         mContainer = mRootView.findViewById(R.id.container);
-        mFloatingActionButton.setOnClickListener(view -> readability());
+        ViewObservable.clicks(mFloatingActionButton, false)
+                .subscribe(floatingActionButton -> readability());
         setupWebViewDrawer();
 
         mPrevVisibleItem = 1;
