@@ -49,6 +49,7 @@ import io.dwak.holohackernews.app.ui.BaseFragment;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import rx.Subscriber;
+import rx.android.observables.ViewObservable;
 
 
 public class StoryDetailFragment extends BaseFragment implements ObservableWebView.OnScrollChangedCallback {
@@ -277,32 +278,43 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
             mActionBar.setTitle("Hacker News");
         }
 
-        mPrevTopLevel.setOnClickListener(view -> {
-            for (int i = mCurrentFirstCompletelyVisibleItemIndex- 1; i >= 0; i--) {
-                final Object item = mRecyclerAdapter.getItem(i);
-                if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                    if (HoloHackerNewsApplication.isDebug()) {
-                        Log.d(TAG, String.valueOf(i));
+        ViewObservable.clicks(mPrevTopLevel, false)
+                .map(button -> {
+                    for (int i = mCurrentFirstCompletelyVisibleItemIndex- 1; i >= 0; i--) {
+                        final Object item = mRecyclerAdapter.getItem(i);
+                        if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                            if (HoloHackerNewsApplication.isDebug()) {
+                                Log.d(TAG, String.valueOf(i));
+                            }
+                            return i;
+                        }
                     }
-                    mCurrentFirstCompletelyVisibleItemIndex = i;
-                    mCommentsRecyclerView.smoothScrollToPosition(i);
-                    return;
-                }
-            }
-        });
-        mNextTopLevel.setOnClickListener(view -> {
-            for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mRecyclerAdapter.getItemCount(); i++) {
-                final Object item = mRecyclerAdapter.getItem(i);
-                if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                    if (HoloHackerNewsApplication.isDebug()) {
-                        Log.d(TAG, String.valueOf(i));
+                    return null;
+                })
+                .filter(integer -> integer > 0)
+                .subscribe(integer -> {
+                    mCurrentFirstCompletelyVisibleItemIndex = integer;
+                    mCommentsRecyclerView.smoothScrollToPosition(integer);
+                });
+        ViewObservable.clicks(mNextTopLevel, false)
+                .map(button -> {
+                    for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mRecyclerAdapter.getItemCount(); i++) {
+                        final Object item = mRecyclerAdapter.getItem(i);
+                        if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                            if (HoloHackerNewsApplication.isDebug()) {
+                                Log.d(TAG, String.valueOf(i));
+                            }
+                            return i;
+                        }
                     }
-                    mCurrentFirstCompletelyVisibleItemIndex = i;
-                    mCommentsRecyclerView.smoothScrollToPosition(i);
-                    return;
-                }
-            }
-        });
+                    return -1;
+                })
+                .filter(integer -> integer > 0)
+                .subscribe(visibleItemIndex -> {
+                    mCurrentFirstCompletelyVisibleItemIndex = visibleItemIndex;
+                    mCommentsRecyclerView.smoothScrollToPosition(visibleItemIndex);
+                });
+
         mRecyclerAdapter = new CommentsRecyclerAdapter(getActivity(), position -> {
             if (mRecyclerAdapter.areChildrenHidden(position)) {
                 mRecyclerAdapter.showChildComments(position);
@@ -450,16 +462,13 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
         mWebView.setOnScrollChangedCallback(this);
 
-        mWebBack.setOnClickListener(view -> {
-            if (mWebView.canGoBack()) {
-                mWebView.goBack();
-            }
-        });
-        mWebForward.setOnClickListener(view -> {
-            if (mWebView.canGoForward()) {
-                mWebView.goForward();
-            }
-        });
+        ViewObservable.clicks(mWebBack, false)
+                .filter(button -> mWebView.canGoBack())
+                .subscribe(canGoback -> mWebView.goBack());
+
+        ViewObservable.clicks(mWebForward, false)
+                .filter(button -> mWebView.canGoForward())
+                .subscribe(canGoForward -> mWebView.goForward());
     }
 
     public boolean isLinkViewVisible() {
