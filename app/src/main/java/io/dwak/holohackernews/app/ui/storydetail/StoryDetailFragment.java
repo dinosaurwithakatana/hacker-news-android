@@ -207,7 +207,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                 Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
                 mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
                 mHeaderViewHolder.mContent.setText(jobContent);
-                mHeaderViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
+                mHeaderViewHolder.mContent.setTextColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(getActivity()) ? android.R.color.white : android.R.color.black));
             }
             mHeaderViewHolder.mStoryPoints.setText(String.valueOf(mStoryDetail.getPoints()));
             mHeaderViewHolder.mStoryLongAgo.setText(" | " + mStoryDetail.getTimeAgo());
