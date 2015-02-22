@@ -10,7 +10,7 @@ Uses [cheeaun's](http://cheeaun.com/) [node-hnapi](https://github.com/cheeaun/no
 
 Building
 ---
-[![Build Status](https://travis-ci.org/dinosaurwithakatana/holo_hacker_news.svg?branch=master)](https://travis-ci.org/dinosaurwithakatana/holo_hacker_news) 
+[![Build Status](https://travis-ci.org/dinosaurwithakatana/hacker-news-android.svg?branch=master)](https://travis-ci.org/dinosaurwithakatana/holo_hacker_news) 
 
 Copy each of the `*.properties.example` to their respective properties files and fill out as necessary.
 
