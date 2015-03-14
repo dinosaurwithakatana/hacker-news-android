@@ -28,7 +28,7 @@ import android.support.v7.widget.Toolbar;
 
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
-import io.dwak.holohackernews.app.ui.BaseActivity;
+import io.dwak.holohackernews.app.base.BaseActivity;
 import io.dwak.holohackernews.app.ui.storylist.MainActivity;
 
 /**

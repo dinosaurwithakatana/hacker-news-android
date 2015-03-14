@@ -44,13 +44,13 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
-import io.dwak.holohackernews.app.ui.BaseFragment;
+import io.dwak.holohackernews.app.ui.ViewModelFragment;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import rx.Subscriber;
 
 
-public class StoryDetailFragment extends BaseFragment implements ObservableWebView.OnScrollChangedCallback {
+public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel> implements ObservableWebView.OnScrollChangedCallback {
     public static final String HACKER_NEWS_ITEM_BASE_URL = "https://news.ycombinator.com/item?id=";
     public static final String HACKER_NEWS_BASE_URL = "https://news.ycombinator.com/";
     public static final String LINK_DRAWER_OPEN = "LINK_DRAWER_OPEN";
@@ -463,6 +463,11 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         else {
             mFloatingActionButton.show();
         }
+    }
+
+    @Override
+    protected Class<StoryDetailViewModel> getViewModelClass() {
+        return StoryDetailViewModel.class;
     }
 
     @Override

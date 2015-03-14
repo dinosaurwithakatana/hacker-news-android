@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.ui;
+package io.dwak.holohackernews.app.base;
 
 import android.os.Build;
 import android.os.Bundle;

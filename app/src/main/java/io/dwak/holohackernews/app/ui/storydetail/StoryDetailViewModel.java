@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
@@ -15,7 +16,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by vishnu on 2/2/15.
  */
-public class StoryDetailViewModel {
+public class StoryDetailViewModel extends BaseViewModel{
     private final Observable<NodeHNAPIStoryDetail> mItemDetails;
     private final long mStoryId;
 

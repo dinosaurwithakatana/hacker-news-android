@@ -14,7 +14,7 @@ import android.widget.Toast;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.manager.hackernews.FeedType;
-import io.dwak.holohackernews.app.ui.BaseActivity;
+import io.dwak.holohackernews.app.base.BaseActivity;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
