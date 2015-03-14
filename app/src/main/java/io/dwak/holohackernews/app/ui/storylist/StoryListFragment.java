@@ -22,7 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Story;
-import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.ViewModelFragment;
 import io.dwak.rx.events.RxEvents;
@@ -132,9 +131,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
                             : R.layout.comments_header,
                     mStoryList);
 
-            final boolean returningUser = LocalDataManager.getInstance().isReturningUser();
-
-            if (!returningUser) {
+            if (!getViewModel().isReturningUser()) {
                 new AlertDialog.Builder(getActivity())
                         .setMessage("There is a G+ community for the beta of this application! Wanna check it out?")
                         .setPositiveButton("Ok!", (dialog, which) -> {
@@ -149,8 +146,9 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
                         .create()
                         .show();
 
-                LocalDataManager.getInstance().setReturningUser(true);
+                getViewModel().setReturningUser(true);
             }
+
             refresh();
         }
         else {
@@ -215,17 +213,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
         return StoryListViewModel.class;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnStoryListFragmentInteractionListener {
-        public void onStoryListFragmentInteraction(long id, View view);
+        void onStoryListFragmentInteraction(long id, View view);
     }
 }

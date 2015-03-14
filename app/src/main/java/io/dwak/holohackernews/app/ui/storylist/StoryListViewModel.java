@@ -11,6 +11,7 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
+import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -118,4 +119,11 @@ public class StoryListViewModel extends BaseViewModel{
                 android.R.color.holo_orange_light};
     }
 
+    boolean isReturningUser(){
+        return LocalDataManager.getInstance().isReturningUser();
+    }
+
+    void setReturningUser(boolean returningUser){
+        LocalDataManager.getInstance().setReturningUser(returningUser);
+    }
 }
