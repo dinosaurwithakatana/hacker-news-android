@@ -1,5 +1,9 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
@@ -125,5 +129,21 @@ public class StoryListViewModel extends BaseViewModel{
 
     void setReturningUser(boolean returningUser){
         LocalDataManager.getInstance().setReturningUser(returningUser);
+    }
+
+    @NonNull
+    AlertDialog getBetaAlert(@NonNull Context context){
+        return new AlertDialog.Builder(context)
+                .setMessage("There is a G+ community for the beta of this application! Wanna check it out?")
+                .setPositiveButton("Ok!", (dialog, which) -> {
+                    Intent gPlusIntent = new Intent();
+                    gPlusIntent.setAction(Intent.ACTION_VIEW);
+                    gPlusIntent.setData(Uri.parse("https://plus.google.com/communities/112347719824323216860"));
+                    context.startActivity(gPlusIntent);
+                })
+                .setNegativeButton("Nah", (dialog, which) -> {
+
+                })
+                .create();
     }
 }

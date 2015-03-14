@@ -1,9 +1,6 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -132,18 +129,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
                     mStoryList);
 
             if (!getViewModel().isReturningUser()) {
-                new AlertDialog.Builder(getActivity())
-                        .setMessage("There is a G+ community for the beta of this application! Wanna check it out?")
-                        .setPositiveButton("Ok!", (dialog, which) -> {
-                            Intent gPlusIntent = new Intent();
-                            gPlusIntent.setAction(Intent.ACTION_VIEW);
-                            gPlusIntent.setData(Uri.parse("https://plus.google.com/communities/112347719824323216860"));
-                            startActivity(gPlusIntent);
-                        })
-                        .setNegativeButton("Nah", (dialog, which) -> {
-
-                        })
-                        .create()
+                getViewModel().getBetaAlert(getActivity())
                         .show();
 
                 getViewModel().setReturningUser(true);
@@ -155,7 +141,6 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
             showProgress(false);
         }
 
-        // Set OnItemClickListener so we can be notified on item clicks
         RxEvents.observableFromListItemClick(mListView)
                 .subscribe(rxListItemClickEvent -> {
                     if (mListener != null) {
