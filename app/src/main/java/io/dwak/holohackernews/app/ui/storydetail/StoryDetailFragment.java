@@ -30,7 +30,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -58,23 +57,17 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     public static final String TOP_VISIBLE_COMMENT = "TOP_VISIBLE_COMMENT";
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryDetailFragment.class.getSimpleName();
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-    private final int DISTANCE_TO_HIDE_ACTIONBAR = 1;
     @InjectView(R.id.prev_top_level) Button mPrevTopLevel;
     @InjectView(R.id.next_top_level) Button mNextTopLevel;
     @InjectView(R.id.web_back) Button mWebBack;
     @InjectView(R.id.close_link) Button mCloseLink;
     @InjectView(R.id.web_forward) Button mWebForward;
     @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
-    //    @InjectView(R.id.comments_list) ListView mCommentsListView;
     @InjectView(R.id.comments_recycler) RecyclerView mCommentsRecyclerView;
     @InjectView(R.id.open_link) Button mOpenLinkDialogButton;
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
     @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
-    @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
     private long mStoryId;
     private int mPrevVisibleItem;
     //    private HeaderViewHolder mHeaderViewHolder;
@@ -89,10 +82,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private View mRootView;
     private ActionBar mActionBar;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
-
-    public StoryDetailFragment() {
-        // Required empty public constructor
-    }
 
     public static StoryDetailFragment newInstance(long param1) {
         StoryDetailFragment fragment = new StoryDetailFragment();
@@ -125,24 +114,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                     public void onNext(StoryDetail storyDetail) {
                         Log.d(TAG, storyDetail.toString());
                         mStoryDetail = storyDetail;
-//                        mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//
-//                            @Override
-//                            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
-//                                if (firstVisibleItem == 0) {
-//                                    mActionBar.setTitle("Hacker News");
-//                                }
-//                                else {
-//                                    mActionBar.setTitle(mStoryDetail.getTitle());
-//                                }
-//                            }
-//                        });
-
                         updateWebView();
                         updateRecyclerView();
                     }
@@ -193,7 +164,6 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                 else {
                     if (mWebViewBundle == null) {
                         mWebView.loadUrl(mStoryDetail.getUrl());
-                        Intent browserIntent = new Intent();
                     }
                     else {
                         mWebView.restoreState(mWebViewBundle);

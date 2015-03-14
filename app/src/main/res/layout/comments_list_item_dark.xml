@@ -98,7 +98,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/comment_overflow"
+                android:background="@drawable/comment_overflow_dark"
                 android:layout_width="24dp"
                 android:layout_height="24dp"/>
             <TextView
