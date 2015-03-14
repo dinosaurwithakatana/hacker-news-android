@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.manager.hackernews.FeedType;
 import io.dwak.holohackernews.app.base.BaseActivity;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
@@ -98,27 +97,27 @@ public class MainActivity extends BaseActivity
             switch (drawerItem.getId()) {
                 case 0:
                     mTitle = getString(R.string.title_section_top);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.TOP);
+                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_TOP);
                     loadFeedList(fragmentManager);
                     break;
                 case 1:
                     mTitle = getString(R.string.title_section_best);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.BEST);
+                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_BEST);
                     loadFeedList(fragmentManager);
                     break;
                 case 2:
                     mTitle = getString(R.string.title_section_newest);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.NEW);
+                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_NEW);
                     loadFeedList(fragmentManager);
                     break;
                 case 3:
                     mTitle = getString(R.string.title_section_show);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW);
+                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW);
                     loadFeedList(fragmentManager);
                     break;
                 case 4:
                     mTitle = getString(R.string.title_section_show_new);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
+                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW_NEW);
                     loadFeedList(fragmentManager);
                     break;
                 case 5:

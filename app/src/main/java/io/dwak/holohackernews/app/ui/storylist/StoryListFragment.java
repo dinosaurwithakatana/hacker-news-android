@@ -21,7 +21,6 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.manager.hackernews.FeedType;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
@@ -44,10 +43,10 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
     private StoryListAdapter mListAdapter;
     private List<Story> mStoryList;
 
-    public static StoryListFragment newInstance(FeedType param1) {
+    public static StoryListFragment newInstance(@StoryListViewModel.FeedType int param1) {
         StoryListFragment fragment = new StoryListFragment();
         Bundle args = new Bundle();
-        args.putSerializable(FEED_TO_LOAD, param1);
+        args.putInt(FEED_TO_LOAD, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -102,7 +101,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         if (getArguments() != null) {
-            final FeedType feedType = (FeedType) getArguments().getSerializable(FEED_TO_LOAD);
+            @StoryListViewModel.FeedType final int feedType = getArguments().getInt(FEED_TO_LOAD);
             getViewModel().setFeedType(feedType);
         }
     }
@@ -165,7 +164,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
                         mListener.onStoryListFragmentInteraction(mListAdapter.getItemId(rxListItemClickEvent.getPosition()), rxListItemClickEvent.getView());
                     }
                 });
-        if (getViewModel().getFeedType() == FeedType.TOP) {
+        if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_TOP) {
             mListView.setOnScrollListener(new EndlessScrollListener() {
                 @Override
                 public void onLoadMore(int page, int totalItemsCount) {

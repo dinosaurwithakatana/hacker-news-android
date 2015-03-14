@@ -1,12 +1,14 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
-import io.dwak.holohackernews.app.manager.hackernews.FeedType;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import rx.Observable;
@@ -14,16 +16,25 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class StoryListViewModel extends BaseViewModel{
-    private FeedType mFeedType;
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({FEED_TYPE_TOP, FEED_TYPE_BEST, FEED_TYPE_NEW, FEED_TYPE_SHOW, FEED_TYPE_SHOW_NEW})
+    public @interface FeedType{}
+    public static final int FEED_TYPE_TOP = 0;
+    public static final int FEED_TYPE_BEST = 1;
+    public static final int FEED_TYPE_NEW = 2;
+    public static final int FEED_TYPE_SHOW = 3;
+    public static final int FEED_TYPE_SHOW_NEW = 4;
+
+    private @FeedType int mFeedType;
 
     private boolean mPageTwoLoaded;
 
     @NonNull
-    FeedType getFeedType(){
+    @FeedType int getFeedType(){
         return mFeedType;
     }
 
-    void setFeedType(@NonNull FeedType feedType){
+    void setFeedType(@NonNull @FeedType int feedType){
         mFeedType = feedType;
     }
 
@@ -31,14 +42,14 @@ public class StoryListViewModel extends BaseViewModel{
     String getTitle(){
         String title;
         switch (mFeedType) {
-            case TOP:
-                title = "Top";
+            case FEED_TYPE_TOP:
+                title = getResources().getString(R.string.title_top);
                 break;
-            case BEST:
-                title = "Best";
+            case FEED_TYPE_BEST:
+                title = getResources().getString(R.string.title_best);
                 break;
-            case NEW:
-                title = "Newest";
+            case FEED_TYPE_NEW:
+                title = getResources().getString(R.string.title_newest);
                 break;
             default:
                 title = getResources().getString(R.string.app_name);
@@ -50,19 +61,19 @@ public class StoryListViewModel extends BaseViewModel{
     private Observable<List<NodeHNAPIStory>> getObservable(){
         Observable<List<NodeHNAPIStory>> observable = null;
         switch (mFeedType) {
-            case TOP:
+            case FEED_TYPE_TOP:
                 observable = getHackerNewsService().getTopStories();
                 break;
-            case BEST:
+            case FEED_TYPE_BEST:
                 observable = getHackerNewsService().getBestStories();
                 break;
-            case NEW:
+            case FEED_TYPE_NEW:
                 observable = getHackerNewsService().getNewestStories();
                 break;
-            case SHOW:
+            case FEED_TYPE_SHOW:
                 observable = getHackerNewsService().getShowStories();
                 break;
-            case SHOW_NEW:
+            case FEED_TYPE_SHOW_NEW:
                 observable = getHackerNewsService().getShowNewStories();
                 break;
         }

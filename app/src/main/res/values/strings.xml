@@ -54,4 +54,7 @@
     <string name="complete">Complete</string>
     <string name="logout">Logout</string>
     <string name="pref_night_mode_title">Night Mode</string>
+    <string name="title_newest">Newest</string>
+    <string name="title_best">Best</string>
+    <string name="title_top">Top</string>
 </resources>
