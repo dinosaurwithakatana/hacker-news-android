@@ -29,12 +29,11 @@ public class StoryListViewModel extends BaseViewModel{
 
     private boolean mPageTwoLoaded;
 
-    @NonNull
     @FeedType int getFeedType(){
         return mFeedType;
     }
 
-    void setFeedType(@NonNull @FeedType int feedType){
+    void setFeedType(@FeedType int feedType){
         mFeedType = feedType;
     }
 
