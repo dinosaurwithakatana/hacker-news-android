@@ -24,8 +24,4 @@
         <item name="android:windowBackground">@color/colorPrimaryDarkNight</item>
     </style>
 
-    <style name="AppThemeNight.Detail" parent="AppTheme.Base.Night">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/colorPrimaryDarkNight</item>
-    </style>
 </resources>

@@ -4,4 +4,17 @@
         <attr name="shadowDrawable" format="reference" />
         <attr name="shadowVisible" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="AppTheme">
+        <attr name="commentHeader" format="reference" />
+        <attr name="commentListItemBackground" format="reference" />
+        <attr name="textColor" format="reference" />
+        <attr name="commentOverFlowIcon" format="reference" />
+        <attr name="commentProfileIcon" format="reference" />
+        <attr name="drawerIconTop" format="reference" />
+        <attr name="drawerIconBest" format="reference" />
+        <attr name="drawerIconNewest" format="reference" />
+        <attr name="drawerIconShowHn" format="reference" />
+        <attr name="drawerIconSettings" format="reference" />
+        <attr name="drawerIconAbout" format="reference" />
+    </declare-styleable>
 </resources>
