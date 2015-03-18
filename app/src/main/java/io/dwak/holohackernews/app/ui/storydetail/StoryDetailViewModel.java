@@ -17,12 +17,16 @@ import rx.schedulers.Schedulers;
  * Created by vishnu on 2/2/15.
  */
 public class StoryDetailViewModel extends BaseViewModel{
-    private final Observable<NodeHNAPIStoryDetail> mItemDetails;
-    private final long mStoryId;
+    private Observable<NodeHNAPIStoryDetail> mItemDetails;
+    private long mStoryId;
+
+    public StoryDetailViewModel() {
+        mStoryId = 0;
+        mItemDetails = null;
+    }
 
     public StoryDetailViewModel(long storyId) {
         mStoryId = storyId;
-        mItemDetails = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId);
     }
 
     public Observable<StoryDetail> getStoryDetail() {
@@ -65,5 +69,10 @@ public class StoryDetailViewModel extends BaseViewModel{
         for (NodeHNAPIComment childNodeHNAPIComment : nodeHNAPIComment.getChildNodeHNAPIComments()) {
             expandComments(expandedComments, childNodeHNAPIComment);
         }
+    }
+
+    public void setStoryId(long storyId){
+        mStoryId = storyId;
+        mItemDetails = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId);
     }
 }

@@ -1,5 +1,6 @@
 package io.dwak.holohackernews.app.ui;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,12 @@ public abstract class ViewModelFragment<T extends BaseViewModel> extends BaseFra
         }
 
         return mViewModel;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getViewModel();
     }
 
     @Override

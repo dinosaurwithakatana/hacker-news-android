@@ -162,7 +162,7 @@ public class MainActivity extends BaseActivity
 
     @SuppressLint("NewApi")
     @Override
-    public void onStoryListFragmentInteraction(long id, View view) {
+    public void onStoryListFragmentInteraction(long id) {
         if (HoloHackerNewsApplication.isDebug()) {
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }

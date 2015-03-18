@@ -74,7 +74,6 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     private Bundle mWebViewBundle;
     private boolean mReadability;
     private boolean mWasLinkLayoutOpen;
-    private StoryDetailViewModel mViewModel;
     private StoryDetail mStoryDetail;
     private CommentsRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -82,6 +81,9 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     private View mRootView;
     private ActionBar mActionBar;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
+
+    public StoryDetailFragment() {
+    }
 
     public static StoryDetailFragment newInstance(long param1) {
         StoryDetailFragment fragment = new StoryDetailFragment();
@@ -93,7 +95,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
 
     private void refresh() {
         showProgress(true);
-        mSubscription = mViewModel.getStoryDetail()
+        mSubscription = getViewModel().getStoryDetail()
                 .subscribe(new Subscriber<StoryDetail>() {
                     @Override
                     public void onCompleted() {
@@ -233,7 +235,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
             mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
         }
         ButterKnife.inject(this, mRootView);
-        mViewModel = new StoryDetailViewModel(mStoryId);
+        getViewModel().setStoryId(mStoryId);
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.progress_bar);
         mContainer = mRootView.findViewById(R.id.container);
         mFloatingActionButton.setOnClickListener(view -> readability());

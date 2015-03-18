@@ -116,13 +116,6 @@ public class StoryListViewModel extends BaseViewModel{
         mPageTwoLoaded = pageTwoLoaded;
     }
 
-    int[] getColorSchemeColors(){
-        return new int[]{android.R.color.holo_orange_dark,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_orange_dark,
-                android.R.color.holo_orange_light};
-    }
-
     boolean isReturningUser(){
         return LocalDataManager.getInstance().isReturningUser();
     }

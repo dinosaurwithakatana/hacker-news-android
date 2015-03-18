@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -21,7 +22,6 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.ViewModelFragment;
-import io.dwak.rx.events.RxEvents;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Subscriber;
@@ -32,12 +32,13 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
     private static final String TAG = StoryListFragment.class.getSimpleName();
     public static final String TOP_OF_LIST = "TOP_OF_LIST";
 
-    @InjectView(R.id.story_list) AbsListView mListView;
+    @InjectView(R.id.story_list) RecyclerView mRecyclerView;
     @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private OnStoryListFragmentInteractionListener mListener;
-    private StoryListAdapter mListAdapter;
     private List<Story> mStoryList;
+    private StoryRecyclerAdapter mRecyclerAdapter;
+    private LinearLayoutManager mLayoutManager;
 
     public static StoryListFragment newInstance(@StoryListViewModel.FeedType int param1) {
         StoryListFragment fragment = new StoryListFragment();
@@ -48,7 +49,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
     }
 
     private void refresh() {
-        mListAdapter.clear();
+        mRecyclerAdapter.clear();
         react(getViewModel().getStories(), false);
     }
 
@@ -73,8 +74,9 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
 
             @Override
             public void onNext(Story story) {
-                if (story.getStoryId() != null && mListAdapter.getPosition(story) == -1) {
-                    mListAdapter.add(story);
+                if (story.getStoryId() != null
+                        && mRecyclerAdapter.getPositionOfItem(story) == -1) {
+                    mRecyclerAdapter.addStory(story);
                 }
             }
         });
@@ -119,14 +121,16 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
         }
         showProgress(true);
 
-        if (savedInstanceState == null || mListAdapter == null || mStoryList == null) {
+        if (savedInstanceState == null || mRecyclerAdapter == null || mStoryList == null) {
             // Set the adapter
             mStoryList = new ArrayList<>();
-            mListAdapter = new StoryListAdapter(getActivity(),
-                    UserPreferenceManager.isNightModeEnabled(getActivity())
-                            ? R.layout.comments_header_dark
-                            : R.layout.comments_header,
-                    mStoryList);
+            mRecyclerAdapter = new StoryRecyclerAdapter(getActivity(),
+                    new ArrayList<>(),
+                    UserPreferenceManager.isNightModeEnabled(getActivity()) ? R.layout.comments_header_dark : R.layout.comments_header,
+                    position -> mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position)));
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
 
             if (!getViewModel().isReturningUser()) {
                 getViewModel().getBetaAlert(getActivity())
@@ -141,32 +145,28 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
             showProgress(false);
         }
 
-        RxEvents.observableFromListItemClick(mListView)
-                .subscribe(rxListItemClickEvent -> {
-                    if (mListener != null) {
-                        mListener.onStoryListFragmentInteraction(mListAdapter.getItemId(rxListItemClickEvent.getPosition()), rxListItemClickEvent.getView());
-                    }
-                });
         if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_TOP) {
-            mListView.setOnScrollListener(new EndlessScrollListener() {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount) {
-                    if (!getViewModel().isPageTwoLoaded()) {
-                        react(getViewModel().getTopStoriesPageTwo(), true);
-                    }
-                }
-            });
+//            mListView.setOnScrollListener(new EndlessScrollListener() {
+//                @Override
+//                public void onLoadMore(int page, int totalItemsCount) {
+//                    if (!getViewModel().isPageTwoLoaded()) {
+//                        react(getViewModel().getTopStoriesPageTwo(), true);
+//                    }
+//                }
+//            });
         }
-        mListView.setAdapter(mListAdapter);
+//        mListView.setAdapter(mListAdapter);
+        mRecyclerView.setAdapter(mRecyclerAdapter);
 
-        mSwipeRefreshLayout.setColorSchemeColors(getViewModel().getColorSchemeColors());
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.colorPrimaryDark));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(true);
             refresh();
         });
 
         if(savedInstanceState!=null){
-            mListView.setSelection(savedInstanceState.getInt(TOP_OF_LIST));
+//            mListView.setSelection(savedInstanceState.getInt(TOP_OF_LIST));
         }
 
         return view;
@@ -175,7 +175,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(TOP_OF_LIST, mListView.getFirstVisiblePosition());
+        outState.putInt(TOP_OF_LIST, mLayoutManager.findFirstVisibleItemPosition());
     }
 
     @Override
@@ -199,6 +199,6 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
     }
 
     public interface OnStoryListFragmentInteractionListener {
-        void onStoryListFragmentInteraction(long id, View view);
+        void onStoryListFragmentInteraction(long id);
     }
 }

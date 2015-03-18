@@ -48,8 +48,8 @@ android {
 
 dependencies {
     compile project(':rxeventslib')
-    compile 'com.android.support:support-v4:21.0.2'
-    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.0.1'
     compile 'com.facebook.rebound:rebound:0.3.6'

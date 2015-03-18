@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:background="@drawable/card_bg"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp"
-              android:longClickable="false"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-    android:transitionName="story_header">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:background="@drawable/comment_header_background"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:longClickable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:transitionName="story_header">
 
     <RelativeLayout
         android:id="@+id/header_base"
