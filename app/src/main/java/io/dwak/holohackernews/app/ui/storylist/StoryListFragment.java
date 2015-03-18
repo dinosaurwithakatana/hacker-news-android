@@ -146,16 +146,16 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
         }
 
         if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_TOP) {
-//            mListView.setOnScrollListener(new EndlessScrollListener() {
-//                @Override
-//                public void onLoadMore(int page, int totalItemsCount) {
-//                    if (!getViewModel().isPageTwoLoaded()) {
-//                        react(getViewModel().getTopStoriesPageTwo(), true);
-//                    }
-//                }
-//            });
+            mRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
+                @Override
+                public void onLoadMore(int current_page) {
+                    if (!getViewModel().isPageTwoLoaded()) {
+                        react(getViewModel().getTopStoriesPageTwo(), true);
+                    }
+                }
+            });
         }
-//        mListView.setAdapter(mListAdapter);
+
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
@@ -166,7 +166,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
         });
 
         if(savedInstanceState!=null){
-//            mListView.setSelection(savedInstanceState.getInt(TOP_OF_LIST));
+            mLayoutManager.scrollToPosition(savedInstanceState.getInt(TOP_OF_LIST));
         }
 
         return view;

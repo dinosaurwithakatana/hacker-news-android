@@ -21,8 +21,18 @@
         <item name="android:textAppearanceSmall">@style/HnTextAppearanceSmall</item>
     </style>
 
+    <style name="AppTheme.Settings.Night" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textAppearanceLarge">@style/HnTextAppearanceLarge</item>
+        <item name="android:textAppearanceMedium">@style/HnTextAppearanceMedium</item>
+        <item name="android:textAppearanceSmall">@style/HnTextAppearanceSmall</item>
+    </style>
+
     <style name="AppTheme.Base.Night" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryDarkNight</item>
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
         <item name="colorAccent">@android:color/white</item>
         <item name="android:windowNoTitle">true</item>
