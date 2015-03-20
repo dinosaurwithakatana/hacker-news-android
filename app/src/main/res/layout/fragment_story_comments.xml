@@ -57,7 +57,7 @@
                     android:layout_toLeftOf="@id/next_top_level"
                     android:layout_width="wrap_content"
                     android:layout_height="42dp"
-                    android:background="@drawable/orange_button"
+                    android:background="?linkDrawerButtonBackground"
                     android:text="@string/show_link"
                     android:visibility="visible"
                     tools:ignore="RtlHardcoded"/>
@@ -69,22 +69,15 @@
                 android:layout_height="match_parent"
                 android:layout_above="@id/button_bar">
 
-                <!--<ListView-->
-                    <!--android:id="@+id/comments_list"-->
-                    <!--android:visibility="gone"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:clipToPadding="false"-->
-                    <!--android:fastScrollEnabled="true"-->
-                    <!--android:scrollbarStyle="outsideOverlay"/>-->
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/comments_recycler"
-                    android:background="@color/list_selector_orange"
+                    android:background="?windowBackground"
                     android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fastScrollEnabled="true"
                     android:scrollbarStyle="outsideOverlay"/>
+
             </android.support.v4.widget.SwipeRefreshLayout>
 
             <include

@@ -10,7 +10,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="commentHeader">@style/CommentHeaderLight</item>
-        <item name="commentListItemBackground">@android:color/white</item>
     </style>
 
     <style name="AppTheme.Settings" parent="Theme.AppCompat.Light.NoActionBar">

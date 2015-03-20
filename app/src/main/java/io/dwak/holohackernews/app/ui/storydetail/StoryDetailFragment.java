@@ -474,10 +474,6 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
 
     @Override
     protected View getRootView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
-                ? R.layout.fragment_story_comments_dark
-                : R.layout.fragment_story_comments,
-                container,
-                false);
+        return inflater.inflate(R.layout.fragment_story_comments, container, false);
     }
 }

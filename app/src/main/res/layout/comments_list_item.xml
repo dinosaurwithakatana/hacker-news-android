@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:background="?attr/commentListItemBackground"
-                android:animateLayoutChanges="true"
-                android:longClickable="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?commentListItem"
+    android:animateLayoutChanges="true"
+    android:longClickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:id="@+id/color_code"
@@ -32,7 +33,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:background="@drawable/ic_person"
+                    android:background="?commentProfileIcon"
                     android:layout_gravity="center_vertical"
                     android:layout_width="16dp"
                     android:layout_height="16dp"/>
@@ -40,6 +41,7 @@
                 <com.devspark.robototextview.widget.RobotoTextView
                     android:id="@+id/comment_submitter"
                     android:layout_gravity="center_vertical"
+                    android:textColor="?textColor"
                     app:typeface="roboto_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -48,6 +50,7 @@
                     android:id="@+id/comment_divider"
                     app:typeface="roboto_light"
                     android:layout_gravity="center_vertical"
+                    android:textColor="?textColor"
                     android:text=" | "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -55,6 +58,7 @@
                 <com.devspark.robototextview.widget.RobotoTextView
                     android:id="@+id/comment_submission_time"
                     app:typeface="roboto_light_italic"
+                    android:textColor="?textColor"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -66,7 +70,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_below="@id/comment_details"
                 android:text="bwdawdhadljalksaoiwdjwa"
-                android:textColor="@android:color/black"
+                android:textColor="?textColor"
                 android:layout_marginLeft="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
@@ -97,9 +101,10 @@
                 android:layout_marginTop="4dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/comment_overflow"
+                android:background="?commentOverFlowIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"/>
+
             <TextView
                 android:id="@+id/hidden_comment_count"
                 android:layout_toLeftOf="@id/comment_overflow"

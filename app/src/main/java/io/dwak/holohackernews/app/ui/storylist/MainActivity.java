@@ -14,6 +14,7 @@ import android.widget.Toast;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseActivity;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
@@ -50,6 +51,7 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTheme(UserPreferenceManager.isNightModeEnabled(this) ? R.style.AppThemeNight : R.style.AppTheme);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -66,6 +68,7 @@ public class MainActivity extends BaseActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         mDetailsContainer = findViewById(R.id.details_container);
+        // The attributes you want retrieved
         mIsDualPane = mDetailsContainer != null;
 
         if(savedInstanceState != null){

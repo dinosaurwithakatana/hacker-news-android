@@ -186,11 +186,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
 
     @Override
     protected View getRootView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
-                        ? R.layout.fragment_storylist_list_dark
-                        : R.layout.fragment_storylist_list,
-                container,
-                false);
+        return inflater.inflate(R.layout.fragment_storylist_list, container, false);
     }
 
     @Override
