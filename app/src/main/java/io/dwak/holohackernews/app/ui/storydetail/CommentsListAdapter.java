@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         final Spanned commentContent = Html.fromHtml(getItem(position).getContent());
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mCommentContent.setText(commentContent);
+        viewHolder.mCommentContent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         viewHolder.mCommentSubmissionTime.setText(getItem(position).getTimeAgo());
         viewHolder.mOverflow.setOnClickListener(view -> commentAction(position));
 

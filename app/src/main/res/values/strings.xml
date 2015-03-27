@@ -54,4 +54,8 @@
     <string name="complete">Complete</string>
     <string name="logout">Logout</string>
     <string name="pref_night_mode_title">Night Mode</string>
+    <string name="text_size">Text size</string>
+    <string name="pref_text_size_small">small</string>
+    <string name="pref_text_size_medium">medium</string>
+    <string name="pref_text_size_large">large</string>
 </resources>
