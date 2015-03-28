@@ -162,7 +162,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                     openLinkInExternalBrowser();
                 }
                 else {
-                    if (mWebViewBundle == null) {
+                    if (mWebViewBundle == null && !UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
                         mWebView.loadUrl(mStoryDetail.getUrl());
                     }
                     else {
