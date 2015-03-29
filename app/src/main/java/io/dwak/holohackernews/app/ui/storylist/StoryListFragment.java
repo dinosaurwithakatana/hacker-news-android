@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,14 +35,13 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
     @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private OnStoryListFragmentInteractionListener mListener;
-    private List<Story> mStoryList;
     private StoryRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    public static StoryListFragment newInstance(@StoryListViewModel.FeedType int param1) {
+    public static StoryListFragment newInstance(@StoryListViewModel.FeedType int feedType) {
         StoryListFragment fragment = new StoryListFragment();
         Bundle args = new Bundle();
-        args.putInt(FEED_TO_LOAD, param1);
+        args.putInt(FEED_TO_LOAD, feedType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,8 +64,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
             public void onError(Throwable e) {
                 if (e instanceof RetrofitError) {
                     Toast.makeText(getActivity(), "Unable to connect to API!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     throw new RuntimeException(e);
                 }
             }
@@ -97,7 +94,6 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         if (getArguments() != null) {
             @StoryListViewModel.FeedType final int feedType = getArguments().getInt(FEED_TO_LOAD);
             getViewModel().setFeedType(feedType);
@@ -121,9 +117,8 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
         }
         showProgress(true);
 
-        if (savedInstanceState == null || mRecyclerAdapter == null || mStoryList == null) {
+        if (savedInstanceState == null || mRecyclerAdapter == null) {
             // Set the adapter
-            mStoryList = new ArrayList<>();
             mRecyclerAdapter = new StoryRecyclerAdapter(getActivity(),
                     new ArrayList<>(),
                     UserPreferenceManager.isNightModeEnabled(getActivity()) ? R.layout.comments_header_dark : R.layout.comments_header,
@@ -135,7 +130,6 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
             if (!getViewModel().isReturningUser()) {
                 getViewModel().getBetaAlert(getActivity())
                         .show();
-
                 getViewModel().setReturningUser(true);
             }
 

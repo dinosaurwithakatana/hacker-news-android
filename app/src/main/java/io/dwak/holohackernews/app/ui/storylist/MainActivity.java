@@ -38,9 +38,7 @@ public class MainActivity extends BaseActivity
     private CharSequence mTitle;
     private boolean mIsDualPane;
     private StoryDetailFragment mStoryDetailFragment;
-    private Fragment mStoryListFragment;
     private View mDetailsContainer;
-    private Toolbar mToolbar;
 
     @Override
     protected void onResume() {
@@ -52,10 +50,10 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTheme(UserPreferenceManager.isNightModeEnabled(this) ? R.style.AppThemeNight : R.style.AppTheme);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-            setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(toolbar);
         }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -96,32 +94,31 @@ public class MainActivity extends BaseActivity
     public void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem) {
         // update the main content by replacing fragments
         if(drawerItem != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
             switch (drawerItem.getId()) {
                 case 0:
                     mTitle = getString(R.string.title_section_top);
-                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_TOP);
-                    loadFeedList(fragmentManager);
+                    Fragment storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_TOP);
+                    loadFeedList(storyListFragment);
                     break;
                 case 1:
                     mTitle = getString(R.string.title_section_best);
-                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_BEST);
-                    loadFeedList(fragmentManager);
+                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_BEST);
+                    loadFeedList(storyListFragment);
                     break;
                 case 2:
                     mTitle = getString(R.string.title_section_newest);
-                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_NEW);
-                    loadFeedList(fragmentManager);
+                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_NEW);
+                    loadFeedList(storyListFragment);
                     break;
                 case 3:
                     mTitle = getString(R.string.title_section_show);
-                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW);
-                    loadFeedList(fragmentManager);
+                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW);
+                    loadFeedList(storyListFragment);
                     break;
                 case 4:
                     mTitle = getString(R.string.title_section_show_new);
-                    mStoryListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW_NEW);
-                    loadFeedList(fragmentManager);
+                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW_NEW);
+                    loadFeedList(storyListFragment);
                     break;
                 case 5:
                     Intent settingsIntent = new Intent(this, SettingsActivity.class);
@@ -135,10 +132,11 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void loadFeedList(FragmentManager fragmentManager) {
-        if(!(mStoryListFragment!=null && fragmentManager.findFragmentByTag(StoryListFragment.class.getSimpleName() + mTitle) !=null)){
+    private void loadFeedList(Fragment storyListFragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(!(storyListFragment!=null && fragmentManager.findFragmentByTag(StoryListFragment.class.getSimpleName() + mTitle) !=null)){
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName() + mTitle)
+                    .replace(R.id.container, storyListFragment, StoryListFragment.class.getSimpleName() + mTitle)
                     .commit();
             setTitle(mTitle);
         }
