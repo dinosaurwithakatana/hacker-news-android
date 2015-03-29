@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -136,12 +135,14 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                 mLinkLayout.setOpen(!mLinkLayout.isOpen());
                 if ("ask".equals(mStoryDetail.getType())) {
                     mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
-                } else if ("job".equals(mStoryDetail.getType())) {
+                }
+                else if ("job".equals(mStoryDetail.getType())) {
                     if (mStoryDetail.getUrl().contains("/item?id=")) {
                         mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
                     }
                 }
-            } else {
+            }
+            else {
                 openLinkInExternalBrowser();
             }
         });
@@ -372,27 +373,15 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        updateWebViewDrawerPosition();
-
-    }
-
-    private void updateWebViewDrawerPosition(){
+    private void setupWebViewDrawer() {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
+
         mLinkLayout.setStashPixel(height);
         mLinkLayout.setRevealPixel(0);
-        mLinkLayout.updateListener();
-        mLinkLayout.setOpen(mLinkLayout.isOpen());
-    }
-
-    private void setupWebViewDrawer() {
-        updateWebViewDrawerPosition();
         mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
         if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
             mLinkLayout.setOpen(mWasLinkLayoutOpen || (UserPreferenceManager.showLinkFirst(getActivity())));
