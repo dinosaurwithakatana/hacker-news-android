@@ -16,7 +16,6 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,12 +35,12 @@ import com.melnykov.fab.FloatingActionButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.ViewModelFragment;
+import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import rx.Subscriber;
@@ -79,9 +78,6 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     private ActionBar mActionBar;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
 
-    public StoryDetailFragment() {
-    }
-
     public static StoryDetailFragment newInstance(long param1) {
         StoryDetailFragment fragment = new StoryDetailFragment();
         Bundle args = new Bundle();
@@ -97,7 +93,8 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                     @Override
                     public void onCompleted() {
                         showProgress(false);
-                        if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+                        if (UserPreferenceManager.showLinkFirst(getActivity())
+                                && UserPreferenceManager.isExternalBrowserEnabled(getActivity())){
                             openLinkInExternalBrowser();
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
@@ -105,13 +102,13 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, e.getStackTrace()[0] + " : " + e.toString());
+                        HNLog.d(TAG, e.getStackTrace()[0] + " : " + e.toString());
                         Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onNext(StoryDetail storyDetail) {
-                        Log.d(TAG, storyDetail.toString());
+                        HNLog.d(TAG, storyDetail.toString());
                         mStoryDetail = storyDetail;
                         updateWebView();
                         updateRecyclerView();
@@ -250,9 +247,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
             for (int i = mCurrentFirstCompletelyVisibleItemIndex- 1; i >= 0; i--) {
                 final Object item = mRecyclerAdapter.getItem(i);
                 if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                    if (HoloHackerNewsApplication.isDebug()) {
-                        Log.d(TAG, String.valueOf(i));
-                    }
+                    HNLog.d(TAG, String.valueOf(i));
                     mCurrentFirstCompletelyVisibleItemIndex = i;
                     mCommentsRecyclerView.smoothScrollToPosition(i);
                     return;
@@ -263,9 +258,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
             for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mRecyclerAdapter.getItemCount(); i++) {
                 final Object item = mRecyclerAdapter.getItem(i);
                 if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                    if (HoloHackerNewsApplication.isDebug()) {
-                        Log.d(TAG, String.valueOf(i));
-                    }
+                    HNLog.d(TAG, String.valueOf(i));
                     mCurrentFirstCompletelyVisibleItemIndex = i;
                     mCommentsRecyclerView.smoothScrollToPosition(i);
                     return;
