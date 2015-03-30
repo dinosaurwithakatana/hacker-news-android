@@ -44,6 +44,8 @@ import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel> implements ObservableWebView.OnScrollChangedCallback {
@@ -88,12 +90,14 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     private void refresh() {
         showProgress(true);
         mSubscription = getViewModel().getStoryDetailObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<StoryDetail>() {
                     @Override
                     public void onCompleted() {
                         showProgress(false);
                         if (UserPreferenceManager.showLinkFirst(getActivity())
-                                && UserPreferenceManager.isExternalBrowserEnabled(getActivity())){
+                                && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
                             openLinkInExternalBrowser();
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
