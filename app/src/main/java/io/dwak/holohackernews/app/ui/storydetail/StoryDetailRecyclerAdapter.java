@@ -3,7 +3,6 @@ package io.dwak.holohackernews.app.ui.storydetail;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 import io.dwak.holohackernews.app.models.Comment;
+import io.dwak.holohackernews.app.models.StoryDetail;
+import io.dwak.holohackernews.app.util.HNLog;
 
-public class CommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = CommentsRecyclerAdapter.class.getSimpleName();
-    ArrayList<CommentRecyclerItem> mList;
+public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = StoryDetailRecyclerAdapter.class.getSimpleName();
+    ArrayList<StoryDetailRecyclerItem> mList;
     @NonNull private Context mContext;
     @NonNull private CommentsRecyclerListener mListener;
     private Map<Long, List<Comment>> mHiddenComments;
 
-    public CommentsRecyclerAdapter(@NonNull Context context, @NonNull CommentsRecyclerListener listener) {
+    public StoryDetailRecyclerAdapter(@NonNull Context context, @NonNull CommentsRecyclerListener listener) {
         mContext = context;
         mListener = listener;
         mList = new ArrayList<>();
@@ -30,46 +31,54 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public void addHeaderView(@NonNull View headerView) {
-        CommentRecyclerItem<View> item = new CommentRecyclerItem<>(headerView, CommentRecyclerItem.VIEW_TYPE_HEADER);
+        StoryDetailRecyclerItem<View> item = new StoryDetailRecyclerItem<>(headerView, StoryDetailRecyclerItem.VIEW_TYPE_HEADER);
         mList.add(0, item);
         notifyItemInserted(0);
     }
 
-    public void updateHeaderView(View headerView) {
-        CommentRecyclerItem<View> item = new CommentRecyclerItem<>(headerView, CommentRecyclerItem.VIEW_TYPE_HEADER);
-        mList.set(0, item);
-        notifyItemChanged(0);
+    public void updateHeader(@NonNull StoryDetail storyDetail){
+        StoryDetailRecyclerItem<StoryDetail> item = new StoryDetailRecyclerItem<>(storyDetail, StoryDetailRecyclerItem.VIEW_TYPE_HEADER);
+        if(mList.get(0).getViewType() == StoryDetailRecyclerItem.VIEW_TYPE_HEADER) {
+            mList.set(0, item);
+            notifyItemChanged(0);
+        }
+        else {
+            mList.add(0, item);
+            notifyItemInserted(0);
+        }
     }
 
     public void addComment(@NonNull Comment comment) {
-        CommentRecyclerItem<Comment> item = new CommentRecyclerItem<Comment>(comment, CommentRecyclerItem.VIEW_TYPE_COMMENT);
+        StoryDetailRecyclerItem<Comment> item = new StoryDetailRecyclerItem<Comment>(comment, StoryDetailRecyclerItem.VIEW_TYPE_COMMENT);
         mList.add(item);
         notifyItemInserted(mList.size());
     }
 
     public void addComment(int position, @NonNull Comment comment) {
-        CommentRecyclerItem<Comment> item = new CommentRecyclerItem<Comment>(comment, CommentRecyclerItem.VIEW_TYPE_COMMENT);
+        StoryDetailRecyclerItem<Comment> item = new StoryDetailRecyclerItem<Comment>(comment, StoryDetailRecyclerItem.VIEW_TYPE_COMMENT);
         mList.add(position, item);
         notifyItemInserted(position);
     }
 
     public void clear() {
-        final CommentRecyclerItem commentRecyclerItem = mList.get(0);
+        final StoryDetailRecyclerItem storyDetailRecyclerItem = mList.get(0);
         mList.clear();
-        mList.add(commentRecyclerItem);
+        mList.add(storyDetailRecyclerItem);
         notifyDataSetChanged();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "#onCreateViewHolder");
+        HNLog.d(TAG, "#onCreateViewHolder");
         RecyclerView.ViewHolder viewHolder = null;
         switch (viewType) {
-            case CommentRecyclerItem.VIEW_TYPE_HEADER:
-                viewHolder = HeaderViewHolder.create((View) mList.get(0).getObject());
+            case StoryDetailRecyclerItem.VIEW_TYPE_HEADER:
+                viewHolder = HeaderViewHolder.create(LayoutInflater.from(mContext), parent);
                 break;
-            case CommentRecyclerItem.VIEW_TYPE_COMMENT:
-                viewHolder = CommentViewHolder.create(mContext, LayoutInflater.from(mContext), mListener::onCommentClicked);
+            case StoryDetailRecyclerItem.VIEW_TYPE_COMMENT:
+                viewHolder = CommentViewHolder.create(
+                        LayoutInflater.from(mContext),
+                        parent);
                 break;
         }
         return viewHolder;
@@ -77,18 +86,25 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.d(TAG, "#onBindViewHolder");
+        HNLog.d(TAG, "#onBindViewHolder");
         switch (getItemViewType(position)) {
-            case CommentRecyclerItem.VIEW_TYPE_HEADER:
-                HeaderViewHolder.bind();
+            case StoryDetailRecyclerItem.VIEW_TYPE_HEADER:
+                HeaderViewHolder.bind(mContext,
+                        (HeaderViewHolder) holder,
+                        (StoryDetail) mList.get(0).getObject());
                 break;
-            case CommentRecyclerItem.VIEW_TYPE_COMMENT:
+            case StoryDetailRecyclerItem.VIEW_TYPE_COMMENT:
                 final Comment comment = (Comment) mList.get(position).getObject();
                 int hiddenCommentCount = 0;
                 if(mHiddenComments.containsKey(comment.getId())){
                     hiddenCommentCount = mHiddenComments.get(comment.getId()).size();
                 }
-                CommentViewHolder.bind(mContext, (CommentViewHolder) holder, comment, hiddenCommentCount);
+                CommentViewHolder.bind(mContext,
+                        (CommentViewHolder) holder,
+                        comment,
+                        hiddenCommentCount,
+                        mListener,
+                        position);
                 break;
         }
 
@@ -101,7 +117,12 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public long getItemId(int position) {
-        return ((Comment) mList.get(position).getObject()).getId();
+        if (position > 0) {
+            return ((Comment) mList.get(position).getObject()).getId();
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
@@ -116,22 +137,22 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void hideChildComments(int position) {
         ArrayList<Comment> childrenComments = new ArrayList<>();
         ArrayList<Integer> childrenCommentPositions = new ArrayList<>();
-        ArrayList<CommentRecyclerItem> commentRecyclerItemsToRemove = new ArrayList<>();
+        ArrayList<StoryDetailRecyclerItem> storyDetailRecyclerItemsToRemove = new ArrayList<>();
         Comment parentComment = (Comment) mList.get(position).getObject();
-        List<CommentRecyclerItem> possibleChildrenComments = mList.subList(position + 1, mList.size());
-        for (CommentRecyclerItem possibleChildrenComment : possibleChildrenComments) {
+        List<StoryDetailRecyclerItem> possibleChildrenComments = mList.subList(position + 1, mList.size());
+        for (StoryDetailRecyclerItem possibleChildrenComment : possibleChildrenComments) {
             if (((Comment) possibleChildrenComment.getObject()).getLevel() > parentComment.getLevel()) {
                 childrenCommentPositions.add(mList.indexOf(possibleChildrenComment));
                 childrenComments.add(((Comment) possibleChildrenComment.getObject()));
-                commentRecyclerItemsToRemove.add(possibleChildrenComment);
+                storyDetailRecyclerItemsToRemove.add(possibleChildrenComment);
             }
             else {
                 break;
             }
         }
 
-        if (!commentRecyclerItemsToRemove.isEmpty()) {
-            for (Object o : commentRecyclerItemsToRemove) {
+        if (!storyDetailRecyclerItemsToRemove.isEmpty()) {
+            for (Object o : storyDetailRecyclerItemsToRemove) {
                 mList.remove(o);
             }
         }
@@ -144,7 +165,7 @@ public class CommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public void showChildComments(int position) {
-        CommentRecyclerItem parentCommentItem = mList.get(position);
+        StoryDetailRecyclerItem parentCommentItem = mList.get(position);
         final Comment parentComment = (Comment) parentCommentItem.getObject();
         List<Comment> hiddenCommentsForParent = mHiddenComments.get(parentComment.getId());
         int insertIndex = mList.indexOf(parentCommentItem) + 1;

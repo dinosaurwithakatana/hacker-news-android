@@ -1,7 +1,6 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Point;
@@ -12,10 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,8 +65,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     private Bundle mWebViewBundle;
     private boolean mReadability;
     private boolean mWasLinkLayoutOpen;
-    private CommentsRecyclerAdapter mAdapter;
-    private View mHeaderView;
+    private StoryDetailRecyclerAdapter mAdapter;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
 
     public static StoryDetailFragment newInstance(long param1) {
@@ -108,9 +102,10 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                     public void onNext(StoryDetail storyDetail) {
                         HNLog.d(TAG, storyDetail.toString());
                         getViewModel().setStoryDetail(storyDetail);
-                        updateWebView();
                         updateHeader();
+                        updateWebView();
                         updateRecyclerView();
+                        openLink();
                     }
                 });
     }
@@ -142,53 +137,22 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     }
 
     private void updateHeader() {
-        HeaderViewHolder headerViewHolder = new HeaderViewHolder(mHeaderView);
-        StoryDetail storyDetail = getViewModel().getStoryDetail();
-        headerViewHolder.mStoryTitle.setText(storyDetail.getTitle());
-        headerViewHolder.mStorySubmitter.setText(storyDetail.getUser());
-        if (!StoryDetail.JOB.equals(storyDetail.getType())) {
-            headerViewHolder.mContent.setVisibility(View.GONE);
-            if (StoryDetail.LINK.equals(storyDetail.getType()) && !TextUtils.isEmpty(storyDetail.getDomain())) {
-                String domain = storyDetail.getDomain();
-                headerViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
-                headerViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
-                if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-                    openLinkInExternalBrowser();
-                }
-                else {
-                    if (mWebViewBundle == null && !UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-                        mWebView.loadUrl(storyDetail.getUrl());
-                    }
-                    else {
-                        mWebView.restoreState(mWebViewBundle);
-                    }
-                }
-            }
-            else {
-                headerViewHolder.mStoryDomain.setVisibility(View.GONE);
+        mAdapter.updateHeader(getViewModel().getStoryDetail());
+    }
 
-                headerViewHolder.mContent.setVisibility(View.VISIBLE);
-                Spanned jobContent = Html.fromHtml(storyDetail.getContent());
-                headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-                headerViewHolder.mContent.setText(jobContent);
-                headerViewHolder.mContent.setTextColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(getActivity()) ? android.R.color.white : android.R.color.black));
-            }
-            headerViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
-            headerViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
-            headerViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
+    private void openLink() {
+        StoryDetail storyDetail = getViewModel().getStoryDetail();
+        if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+            openLinkInExternalBrowser();
         }
         else {
-            headerViewHolder.mContent.setVisibility(View.VISIBLE);
-            Spanned jobContent = Html.fromHtml(storyDetail.getContent());
-            headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-            headerViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
-            headerViewHolder.mContent.setText(jobContent);
-            headerViewHolder.mStoryDomain.setVisibility(View.GONE);
-            headerViewHolder.mCommentsCount.setVisibility(View.GONE);
-            headerViewHolder.mStoryPoints.setVisibility(View.GONE);
+            if (mWebViewBundle == null && !UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+                mWebView.loadUrl(storyDetail.getUrl());
+            }
+            else {
+                mWebView.restoreState(mWebViewBundle);
+            }
         }
-
-        mAdapter.updateHeaderView(headerViewHolder.mHeaderView);
     }
 
     private void openLinkInExternalBrowser() {
@@ -199,11 +163,6 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null && getArguments().containsKey(STORY_ID)) {
@@ -211,11 +170,6 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
             getViewModel().setStoryId(storyId);
         }
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -260,7 +214,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                 }
             }
         });
-        mAdapter = new CommentsRecyclerAdapter(getActivity(), position -> {
+        mAdapter = new StoryDetailRecyclerAdapter(getActivity(), position -> {
             if (mAdapter.areChildrenHidden(position)) {
                 mAdapter.showChildComments(position);
             }
@@ -271,11 +225,6 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mCommentsRecyclerView.setLayoutManager(layoutManager);
         mCommentsRecyclerView.setAdapter(mAdapter);
-        mHeaderView = inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
-                ? R.layout.comments_header_dark
-                : R.layout.comments_header,
-                null);
-        mAdapter.addHeaderView(mHeaderView);
 
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light,
@@ -360,6 +309,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void setupWebViewDrawer() {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();

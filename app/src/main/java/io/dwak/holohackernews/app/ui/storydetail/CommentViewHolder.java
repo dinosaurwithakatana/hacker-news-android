@@ -9,6 +9,7 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import io.dwak.holohackernews.app.util.UIUtils;
 /**
  * Created by vishnu on 2/2/15.
  */
-class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+class CommentViewHolder extends RecyclerView.ViewHolder {
     @InjectView(R.id.comment_content) TextView mCommentContent;
     @InjectView(R.id.comment_submission_time) TextView mCommentSubmissionTime;
     @InjectView(R.id.comment_submitter) TextView mCommentSubmitter;
@@ -33,27 +34,21 @@ class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     @InjectView(R.id.color_code) View mColorCode;
     @InjectView(R.id.hidden_comment_count) TextView mHiddenCommentCount;
     private View mItemView;
-    private CommentItemListener mListener;
 
-    private CommentViewHolder(View itemView, CommentItemListener listener) {
+    private CommentViewHolder(View itemView) {
         super(itemView);
         mItemView = itemView;
-        mListener = listener;
         ButterKnife.inject(this, itemView);
-        mItemView.setOnClickListener(this);
-        mCommentContent.setOnClickListener(this);
     }
 
-    static CommentViewHolder create(Context context, LayoutInflater inflater, CommentItemListener listener) {
-        View commentItemView = inflater.inflate(UserPreferenceManager.isNightModeEnabled(context)
-                ? R.layout.comments_list_item_dark
-                : R.layout.comments_list_item,
-                null);
-        CommentViewHolder commentViewHolder = new CommentViewHolder(commentItemView, listener);
-        return commentViewHolder;
+    static CommentViewHolder create(LayoutInflater inflater, ViewGroup parent) {
+        return new CommentViewHolder(inflater.inflate(R.layout.comments_list_item, parent, false));
     }
 
-    static void bind(Context context, CommentViewHolder viewHolder, Comment comment, int hiddenChildrenCount) {
+    static void bind(Context context, CommentViewHolder viewHolder, Comment comment, int hiddenChildrenCount, StoryDetailRecyclerAdapter.CommentsRecyclerListener listener, int position) {
+        viewHolder.mItemView.setOnClickListener(v -> listener.onCommentClicked(position));
+        viewHolder.mCommentContent.setOnClickListener(v -> listener.onCommentClicked(position));
+
         final Spanned commentContent = Html.fromHtml(comment.getContent());
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mCommentContent.setText(commentContent);
@@ -169,16 +164,4 @@ class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
         builder.create().show();
     }
-
-    @Override
-    public void onClick(View v) {
-        if (mListener != null) {
-            mListener.onClick(getPosition());
-        }
-    }
-
-    public interface CommentItemListener {
-        void onClick(int position);
-    }
-
 }
