@@ -161,7 +161,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                     openLinkInExternalBrowser();
                 }
                 else {
-                    if (mWebViewBundle == null) {
+                    if (mWebViewBundle == null && !UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
                         mWebView.loadUrl(mStoryDetail.getUrl());
                     }
                     else {
