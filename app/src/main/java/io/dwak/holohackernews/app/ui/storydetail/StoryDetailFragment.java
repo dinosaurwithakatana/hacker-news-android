@@ -44,6 +44,7 @@ import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import rx.Subscriber;
+import rx.android.observables.AndroidObservable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -66,17 +67,11 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
     @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
-    private long mStoryId;
-    private int mPrevVisibleItem;
-    //    private HeaderViewHolder mHeaderViewHolder;
     private Bundle mWebViewBundle;
     private boolean mReadability;
     private boolean mWasLinkLayoutOpen;
-    private CommentsRecyclerAdapter mRecyclerAdapter;
-    private LinearLayoutManager mLayoutManager;
+    private CommentsRecyclerAdapter mAdapter;
     private View mHeaderView;
-    private View mRootView;
-    private ActionBar mActionBar;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
 
     public static StoryDetailFragment newInstance(long param1) {
@@ -89,7 +84,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
 
     private void refresh() {
         showProgress(true);
-        mSubscription = getViewModel().getStoryDetailObservable()
+        mSubscription = AndroidObservable.bindFragment(this, getViewModel().getStoryDetailObservable())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<StoryDetail>() {
@@ -120,10 +115,10 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     }
 
     private void updateRecyclerView() {
-        mRecyclerAdapter.clear();
+        mAdapter.clear();
         updateHeader();
         for (Comment comment : getViewModel().getStoryDetail().getCommentList()) {
-            mRecyclerAdapter.addComment(comment);
+            mAdapter.addComment(comment);
         }
     }
 
@@ -135,14 +130,12 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                 StoryDetail storyDetail = getViewModel().getStoryDetail();
                 if ("ask".equals(storyDetail.getType())) {
                     storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
-                }
-                else if ("job".equals(storyDetail.getType())) {
+                } else if ("job".equals(storyDetail.getType())) {
                     if (storyDetail.getUrl().contains("/item?id=")) {
                         storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
                     }
                 }
-            }
-            else {
+            } else {
                 openLinkInExternalBrowser();
             }
         });
@@ -195,7 +188,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
             mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
         }
 
-        mRecyclerAdapter.updateHeaderView(mHeaderViewHolder.mHeaderView);
+        mAdapter.updateHeaderView(mHeaderViewHolder.mHeaderView);
     }
 
     private void openLinkInExternalBrowser() {
@@ -213,9 +206,9 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        if (getArguments() != null) {
-            mStoryId = getArguments().getLong(STORY_ID);
+        if (getArguments() != null && getArguments().containsKey(STORY_ID)) {
+            long storyId = getArguments().getLong(STORY_ID);
+            getViewModel().setStoryId(storyId);
         }
         setHasOptionsMenu(true);
     }
@@ -229,28 +222,25 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = getRootView(inflater, container);
+        View rootView = getRootView(inflater, container);
         if (savedInstanceState != null) {
             mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
         }
-        ButterKnife.inject(this, mRootView);
-        getViewModel().setStoryId(mStoryId);
-        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.progress_bar);
-        mContainer = mRootView.findViewById(R.id.container);
+        ButterKnife.inject(this, rootView);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        mContainer = rootView.findViewById(R.id.container);
         mFloatingActionButton.setOnClickListener(view -> readability());
         setupWebViewDrawer();
 
-        mPrevVisibleItem = 1;
-
-        mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        if (mActionBar != null) {
-            mActionBar.show();
-            mActionBar.setTitle("Hacker News");
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
+            actionBar.setTitle("Hacker News");
         }
 
         mPrevTopLevel.setOnClickListener(view -> {
             for (int i = mCurrentFirstCompletelyVisibleItemIndex- 1; i >= 0; i--) {
-                final Object item = mRecyclerAdapter.getItem(i);
+                final Object item = mAdapter.getItem(i);
                 if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
                     HNLog.d(TAG, String.valueOf(i));
                     mCurrentFirstCompletelyVisibleItemIndex = i;
@@ -260,8 +250,8 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
             }
         });
         mNextTopLevel.setOnClickListener(view -> {
-            for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mRecyclerAdapter.getItemCount(); i++) {
-                final Object item = mRecyclerAdapter.getItem(i);
+            for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mAdapter.getItemCount(); i++) {
+                final Object item = mAdapter.getItem(i);
                 if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
                     HNLog.d(TAG, String.valueOf(i));
                     mCurrentFirstCompletelyVisibleItemIndex = i;
@@ -270,22 +260,22 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                 }
             }
         });
-        mRecyclerAdapter = new CommentsRecyclerAdapter(getActivity(), position -> {
-            if (mRecyclerAdapter.areChildrenHidden(position)) {
-                mRecyclerAdapter.showChildComments(position);
+        mAdapter = new CommentsRecyclerAdapter(getActivity(), position -> {
+            if (mAdapter.areChildrenHidden(position)) {
+                mAdapter.showChildComments(position);
             }
             else {
-                mRecyclerAdapter.hideChildComments(position);
+                mAdapter.hideChildComments(position);
             }
         });
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mCommentsRecyclerView.setLayoutManager(mLayoutManager);
-        mCommentsRecyclerView.setAdapter(mRecyclerAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mCommentsRecyclerView.setLayoutManager(layoutManager);
+        mCommentsRecyclerView.setAdapter(mAdapter);
         mHeaderView = inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
                 ? R.layout.comments_header_dark
                 : R.layout.comments_header,
                 null);
-        mRecyclerAdapter.addHeaderView(mHeaderView);
+        mAdapter.addHeaderView(mHeaderView);
 
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light,
@@ -297,7 +287,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
         });
 
         refresh();
-        return mRootView;
+        return rootView;
     }
 
     @Override
@@ -325,9 +315,9 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     }
 
     @Override
-    public void onDetach() {
+    public void onDestroy() {
         if (mSubscription != null) mSubscription.unsubscribe();
-        super.onDetach();
+        super.onDestroy();
     }
 
     @Override
@@ -351,20 +341,19 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                             sendIntent.putExtra(Intent.EXTRA_TEXT, getViewModel().getStoryDetail().getUrl());
                             break;
                         case 1:
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + mStoryId);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId());
                             break;
                     }
                     sendIntent.setType("text/plain");
                     startActivity(sendIntent);
-                });
-
-                builder.create();
-                builder.show();
+                })
+                .create()
+                .show();
                 break;
             case R.id.action_open_browser:
                 Intent browserIntent = new Intent();
                 browserIntent.setAction(Intent.ACTION_VIEW);
-                browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + mStoryId));
+                browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
                 startActivity(browserIntent);
                 break;
         }

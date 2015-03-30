@@ -82,6 +82,10 @@ public class StoryDetailViewModel extends BaseViewModel {
         mItemDetails = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId);
     }
 
+    long getStoryId(){
+        return mStoryId;
+    }
+
     @Nullable
     String getReadabilityUrl() {
         try {

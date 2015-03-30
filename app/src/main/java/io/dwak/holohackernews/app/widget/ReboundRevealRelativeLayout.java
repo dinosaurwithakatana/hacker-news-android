@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app.widget;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
@@ -8,6 +9,9 @@ import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringListener;
 import com.facebook.rebound.SpringSystem;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * A RelativeLayout that can be animated vertically or horizontally using Facebook's Rebound library
@@ -17,6 +21,9 @@ import com.facebook.rebound.SpringSystem;
 public class ReboundRevealRelativeLayout extends RelativeLayout {
     private static final SpringConfig SPRING_CONFIG = SpringConfig.fromOrigamiTensionAndFriction(6, 6);
 
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({TRANSLATE_DIRECTION_VERTICAL, TRANSLATE_DIRECTION_HORIZONTAL})
+    public @interface TranslateDirection{}
     public static final int TRANSLATE_DIRECTION_VERTICAL = 0;
     public static final int TRANSLATE_DIRECTION_HORIZONTAL= 1;
 
@@ -71,7 +78,7 @@ public class ReboundRevealRelativeLayout extends RelativeLayout {
      *
      * @param translateDirection {@link io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout.TranslateDirection} describing the direction to animate
      */
-    public void setTranslateDirection(int translateDirection) {
+    public void setTranslateDirection(@TranslateDirection int translateDirection) {
         mTranslateDirection = translateDirection;
     }
 
