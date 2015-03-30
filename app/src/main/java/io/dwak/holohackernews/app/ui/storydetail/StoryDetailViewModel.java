@@ -56,6 +56,7 @@ public class StoryDetailViewModel extends BaseViewModel {
                 }
             }
 
+            //noinspection ResourceType
             return new StoryDetail(nodeHNAPIStoryDetail.getId(), nodeHNAPIStoryDetail.getTitle(),
                     nodeHNAPIStoryDetail.getUrl(), nodeHNAPIStoryDetail.getDomain(),
                     nodeHNAPIStoryDetail.getPoints(), nodeHNAPIStoryDetail.getUser(),

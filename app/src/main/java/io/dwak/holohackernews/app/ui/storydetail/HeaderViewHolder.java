@@ -1,5 +1,6 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
+import io.dwak.holohackernews.app.models.StoryDetail;
 
 /**
 * Created by vishnu on 2/2/15.
@@ -32,5 +34,9 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
     }
 
     static void bind(){
+    }
+
+    static void bind(@NonNull StoryDetail storyDetail){
+
     }
 }

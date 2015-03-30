@@ -109,6 +109,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                         HNLog.d(TAG, storyDetail.toString());
                         getViewModel().setStoryDetail(storyDetail);
                         updateWebView();
+                        updateHeader();
                         updateRecyclerView();
                     }
                 });
@@ -116,7 +117,6 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
 
     private void updateRecyclerView() {
         mAdapter.clear();
-        updateHeader();
         for (Comment comment : getViewModel().getStoryDetail().getCommentList()) {
             mAdapter.addComment(comment);
         }
@@ -128,9 +128,9 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
             if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
                 mLinkLayout.setOpen(!mLinkLayout.isOpen());
                 StoryDetail storyDetail = getViewModel().getStoryDetail();
-                if ("ask".equals(storyDetail.getType())) {
+                if (StoryDetail.ASK.equals(storyDetail.getType())) {
                     storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
-                } else if ("job".equals(storyDetail.getType())) {
+                } else if (StoryDetail.JOB.equals(storyDetail.getType())) {
                     if (storyDetail.getUrl().contains("/item?id=")) {
                         storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
                     }
@@ -142,16 +142,16 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     }
 
     private void updateHeader() {
-        HeaderViewHolder mHeaderViewHolder = new HeaderViewHolder(mHeaderView);
+        HeaderViewHolder headerViewHolder = new HeaderViewHolder(mHeaderView);
         StoryDetail storyDetail = getViewModel().getStoryDetail();
-        mHeaderViewHolder.mStoryTitle.setText(storyDetail.getTitle());
-        mHeaderViewHolder.mStorySubmitter.setText(storyDetail.getUser());
-        if (!"job".equals(storyDetail.getType())) {
-            mHeaderViewHolder.mContent.setVisibility(View.GONE);
-            if ("link".equals(storyDetail.getType()) && !TextUtils.isEmpty(storyDetail.getDomain())) {
+        headerViewHolder.mStoryTitle.setText(storyDetail.getTitle());
+        headerViewHolder.mStorySubmitter.setText(storyDetail.getUser());
+        if (!StoryDetail.JOB.equals(storyDetail.getType())) {
+            headerViewHolder.mContent.setVisibility(View.GONE);
+            if (StoryDetail.LINK.equals(storyDetail.getType()) && !TextUtils.isEmpty(storyDetail.getDomain())) {
                 String domain = storyDetail.getDomain();
-                mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
-                mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
+                headerViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
+                headerViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
                 if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
                     openLinkInExternalBrowser();
                 }
@@ -165,30 +165,30 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                 }
             }
             else {
-                mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
+                headerViewHolder.mStoryDomain.setVisibility(View.GONE);
 
-                mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
+                headerViewHolder.mContent.setVisibility(View.VISIBLE);
                 Spanned jobContent = Html.fromHtml(storyDetail.getContent());
-                mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-                mHeaderViewHolder.mContent.setText(jobContent);
-                mHeaderViewHolder.mContent.setTextColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(getActivity()) ? android.R.color.white : android.R.color.black));
+                headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+                headerViewHolder.mContent.setText(jobContent);
+                headerViewHolder.mContent.setTextColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(getActivity()) ? android.R.color.white : android.R.color.black));
             }
-            mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
-            mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
-            mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
+            headerViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
+            headerViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
+            headerViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
         }
         else {
-            mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
+            headerViewHolder.mContent.setVisibility(View.VISIBLE);
             Spanned jobContent = Html.fromHtml(storyDetail.getContent());
-            mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-            mHeaderViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
-            mHeaderViewHolder.mContent.setText(jobContent);
-            mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
-            mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
-            mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
+            headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+            headerViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
+            headerViewHolder.mContent.setText(jobContent);
+            headerViewHolder.mStoryDomain.setVisibility(View.GONE);
+            headerViewHolder.mCommentsCount.setVisibility(View.GONE);
+            headerViewHolder.mStoryPoints.setVisibility(View.GONE);
         }
 
-        mAdapter.updateHeaderView(mHeaderViewHolder.mHeaderView);
+        mAdapter.updateHeaderView(headerViewHolder.mHeaderView);
     }
 
     private void openLinkInExternalBrowser() {
