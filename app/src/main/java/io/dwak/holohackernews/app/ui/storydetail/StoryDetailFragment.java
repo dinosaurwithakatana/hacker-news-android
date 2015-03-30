@@ -70,7 +70,6 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     private Bundle mWebViewBundle;
     private boolean mReadability;
     private boolean mWasLinkLayoutOpen;
-    private StoryDetail mStoryDetail;
     private CommentsRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager mLayoutManager;
     private View mHeaderView;
@@ -109,7 +108,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                     @Override
                     public void onNext(StoryDetail storyDetail) {
                         HNLog.d(TAG, storyDetail.toString());
-                        mStoryDetail = storyDetail;
+                        getViewModel().setStoryDetail(storyDetail);
                         updateWebView();
                         updateRecyclerView();
                     }
@@ -119,7 +118,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     private void updateRecyclerView() {
         mRecyclerAdapter.clear();
         updateHeader();
-        for (Comment comment : mStoryDetail.getCommentList()) {
+        for (Comment comment : getViewModel().getStoryDetail().getCommentList()) {
             mRecyclerAdapter.addComment(comment);
         }
     }
@@ -129,12 +128,13 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
         mOpenLinkDialogButton.setOnClickListener(view -> {
             if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
                 mLinkLayout.setOpen(!mLinkLayout.isOpen());
-                if ("ask".equals(mStoryDetail.getType())) {
-                    mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
+                StoryDetail storyDetail = getViewModel().getStoryDetail();
+                if ("ask".equals(storyDetail.getType())) {
+                    storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
                 }
-                else if ("job".equals(mStoryDetail.getType())) {
-                    if (mStoryDetail.getUrl().contains("/item?id=")) {
-                        mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
+                else if ("job".equals(storyDetail.getType())) {
+                    if (storyDetail.getUrl().contains("/item?id=")) {
+                        storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
                     }
                 }
             }
@@ -146,12 +146,13 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
 
     private void updateHeader() {
         HeaderViewHolder mHeaderViewHolder = new HeaderViewHolder(mHeaderView);
-        mHeaderViewHolder.mStoryTitle.setText(mStoryDetail.getTitle());
-        mHeaderViewHolder.mStorySubmitter.setText(mStoryDetail.getUser());
-        if (!"job".equals(mStoryDetail.getType())) {
+        StoryDetail storyDetail = getViewModel().getStoryDetail();
+        mHeaderViewHolder.mStoryTitle.setText(storyDetail.getTitle());
+        mHeaderViewHolder.mStorySubmitter.setText(storyDetail.getUser());
+        if (!"job".equals(storyDetail.getType())) {
             mHeaderViewHolder.mContent.setVisibility(View.GONE);
-            if ("link".equals(mStoryDetail.getType()) && !TextUtils.isEmpty(mStoryDetail.getDomain())) {
-                String domain = mStoryDetail.getDomain();
+            if ("link".equals(storyDetail.getType()) && !TextUtils.isEmpty(storyDetail.getDomain())) {
+                String domain = storyDetail.getDomain();
                 mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
                 mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
                 if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
@@ -159,7 +160,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                 }
                 else {
                     if (mWebViewBundle == null && !UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-                        mWebView.loadUrl(mStoryDetail.getUrl());
+                        mWebView.loadUrl(storyDetail.getUrl());
                     }
                     else {
                         mWebView.restoreState(mWebViewBundle);
@@ -170,18 +171,18 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                 mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
 
                 mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
-                Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
+                Spanned jobContent = Html.fromHtml(storyDetail.getContent());
                 mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
                 mHeaderViewHolder.mContent.setText(jobContent);
                 mHeaderViewHolder.mContent.setTextColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(getActivity()) ? android.R.color.white : android.R.color.black));
             }
-            mHeaderViewHolder.mStoryPoints.setText(String.valueOf(mStoryDetail.getPoints()));
-            mHeaderViewHolder.mStoryLongAgo.setText(" | " + mStoryDetail.getTimeAgo());
-            mHeaderViewHolder.mCommentsCount.setText(mStoryDetail.getCommentsCount() + " comments");
+            mHeaderViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
+            mHeaderViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
+            mHeaderViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
         }
         else {
             mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
-            Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
+            Spanned jobContent = Html.fromHtml(storyDetail.getContent());
             mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
             mHeaderViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
             mHeaderViewHolder.mContent.setText(jobContent);
@@ -196,7 +197,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
     private void openLinkInExternalBrowser() {
         Intent browserIntent = new Intent();
         browserIntent.setAction(Intent.ACTION_VIEW);
-        browserIntent.setData(Uri.parse(mStoryDetail.getUrl()));
+        browserIntent.setData(Uri.parse(getViewModel().getStoryDetail().getUrl()));
         startActivity(browserIntent);
     }
 
@@ -343,7 +344,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                     sendIntent.setAction(Intent.ACTION_SEND);
                     switch (i) {
                         case 0:
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, mStoryDetail.getUrl());
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, getViewModel().getStoryDetail().getUrl());
                             break;
                         case 1:
                             sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + mStoryId);
@@ -353,7 +354,8 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
                     startActivity(sendIntent);
                 });
 
-                builder.create().show();
+                builder.create();
+                builder.show();
                 break;
             case R.id.action_open_browser:
                 Intent browserIntent = new Intent();
@@ -440,7 +442,7 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
             }
         }
         else {
-            mWebView.loadUrl(mStoryDetail.getUrl());
+            mWebView.loadUrl(getViewModel().getStoryDetail().getUrl());
         }
     }
 
