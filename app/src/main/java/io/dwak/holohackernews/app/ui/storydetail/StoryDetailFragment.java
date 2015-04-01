@@ -3,6 +3,7 @@ package io.dwak.holohackernews.app.ui.storydetail;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -312,16 +313,28 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private void setupWebViewDrawer() {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateWebViewDrawerPosition();
+
+    }
+
+    private void updateWebViewDrawerPosition(){
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-
         mLinkLayout.setStashPixel(height);
         mLinkLayout.setRevealPixel(0);
+        mLinkLayout.updateListener();
+        mLinkLayout.setOpen(mLinkLayout.isOpen());
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void setupWebViewDrawer() {
+        updateWebViewDrawerPosition();
         mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
         if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
             mLinkLayout.setOpen(mWasLinkLayoutOpen || (UserPreferenceManager.showLinkFirst(getActivity())));

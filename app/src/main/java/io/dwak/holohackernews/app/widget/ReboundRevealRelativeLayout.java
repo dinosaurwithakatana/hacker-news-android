@@ -47,12 +47,15 @@ public class ReboundRevealRelativeLayout extends RelativeLayout {
         SpringSystem springSystem = SpringSystem.create();
         mSpring = springSystem.createSpring();
         mSpring.setSpringConfig(SPRING_CONFIG);
+        updateListener();
+    }
+
+    public void updateListener(){
         LinkSpringListener linkSpringListener = new LinkSpringListener();
         mSpring.setCurrentValue(0)
                 .setEndValue(1)
                 .addListener(linkSpringListener);
     }
-
     /**
      * Set whether the view visible or not
      *
