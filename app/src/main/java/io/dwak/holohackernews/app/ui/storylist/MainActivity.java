@@ -49,7 +49,9 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTheme(UserPreferenceManager.isNightModeEnabled(this) ? R.style.AppThemeNight : R.style.AppTheme);
+        setTheme(UserPreferenceManager.isNightModeEnabled(this)
+                ? R.style.AppThemeNight
+                : R.style.AppTheme);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
