@@ -22,6 +22,10 @@ public class BaseActivity extends ActionBarActivity{
                     ? R.color.colorPrimaryDarkNight
                     : R.color.colorPrimaryDark));
         }
+
+        setTheme(UserPreferenceManager.isNightModeEnabled(this)
+                ? R.style.AppThemeNight
+                : R.style.AppTheme);
     }
 
     public Toolbar getToolbar(){

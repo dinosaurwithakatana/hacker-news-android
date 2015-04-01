@@ -24,7 +24,6 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_detail);
-        setTheme(UserPreferenceManager.isNightModeEnabled(this) ? R.style.AppThemeNight : R.style.AppTheme);
         ButterKnife.inject(this);
         if (mToolbar != null) {
             mToolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);

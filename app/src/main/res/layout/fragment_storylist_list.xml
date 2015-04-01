@@ -19,7 +19,6 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/story_list"
-            android:background="@android:color/transparent"
             android:paddingTop="4dp"
             android:clipToPadding="false"
             android:layout_width="match_parent"

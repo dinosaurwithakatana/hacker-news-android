@@ -7,7 +7,7 @@
     <declare-styleable name="AppTheme">
         <attr name="commentHeader" format="reference" />
         <attr name="commentListItem" format="reference" />
-        <attr name="windowBackground" format="color|reference"/>
+        <attr name="containerBackground" format="reference"/>
         <attr name="textColor" format="reference" />
         <attr name="commentOverFlowIcon" format="reference" />
         <attr name="commentProfileIcon" format="reference" />
