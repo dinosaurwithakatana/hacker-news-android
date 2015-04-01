@@ -30,6 +30,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
@@ -94,8 +95,10 @@ public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel>
 
                     @Override
                     public void onError(Throwable e) {
-                        HNLog.d(TAG, e.getStackTrace()[0] + " : " + e.toString());
                         Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
+                        if(HoloHackerNewsApplication.isDebug()) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override

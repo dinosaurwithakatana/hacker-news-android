@@ -6,7 +6,8 @@ import android.util.Log;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 
 /**
- * Created by vishnu on 3/30/15.
+ * This class contains passthrough methods to {@link Log} that only print if debugging is enabled
+ * on the {@link HoloHackerNewsApplication} class
  */
 public class HNLog {
     public static void d(@NonNull String tag, @NonNull String message){

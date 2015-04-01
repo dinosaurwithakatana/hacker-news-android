@@ -3,6 +3,7 @@ package io.dwak.holohackernews.app.ui.storydetail;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
@@ -20,11 +21,7 @@ import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
-import io.dwak.holohackernews.app.util.UIUtils;
 
-/**
- * Created by vishnu on 2/2/15.
- */
 class CommentViewHolder extends RecyclerView.ViewHolder {
     @InjectView(R.id.comment_content) TextView mCommentContent;
     @InjectView(R.id.comment_submission_time) TextView mCommentSubmissionTime;
@@ -35,17 +32,22 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
     @InjectView(R.id.hidden_comment_count) TextView mHiddenCommentCount;
     private View mItemView;
 
-    private CommentViewHolder(View itemView) {
+    private CommentViewHolder(@NonNull View itemView) {
         super(itemView);
         mItemView = itemView;
         ButterKnife.inject(this, itemView);
     }
 
-    static CommentViewHolder create(LayoutInflater inflater, ViewGroup parent) {
+    static CommentViewHolder create(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
         return new CommentViewHolder(inflater.inflate(R.layout.comments_list_item, parent, false));
     }
 
-    static void bind(Context context, CommentViewHolder viewHolder, Comment comment, int hiddenChildrenCount, StoryDetailRecyclerAdapter.CommentsRecyclerListener listener, int position) {
+    static void bind(@NonNull Context context,
+                     @NonNull CommentViewHolder viewHolder,
+                     @NonNull Comment comment,
+                     int hiddenChildrenCount,
+                     @NonNull StoryDetailRecyclerAdapter.StoryDetailRecyclerListener listener,
+                     int position) {
         viewHolder.mItemView.setOnClickListener(v -> listener.onCommentClicked(position));
         viewHolder.mCommentContent.setOnClickListener(v -> listener.onCommentClicked(position));
 
@@ -79,8 +81,8 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
                     : context.getResources().getColor(android.R.color.black));
         }
 
-        int colorCodeLeftMargin = UIUtils.dpAsPixels(context, comment.getLevel() * 12);
-        int contentLeftMargin = UIUtils.dpAsPixels(context, 4);
+        int colorCodeLeftMargin = (int) (context.getResources().getDimension(R.dimen.color_code_left_margin) * comment.getLevel());
+        int contentLeftMargin = (int) context.getResources().getDimension(R.dimen.comment_content_left_margin);
 
         if (comment.getLevel() != 0) {
             FrameLayout.LayoutParams commentsContainerLayoutParams = new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());

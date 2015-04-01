@@ -7,4 +7,6 @@
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">300dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="color_code_left_margin">12dp</dimen>
+    <dimen name="comment_content_left_margin">4dp</dimen>
 </resources>

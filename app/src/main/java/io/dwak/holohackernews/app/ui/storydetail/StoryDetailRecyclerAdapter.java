@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -18,27 +17,21 @@ import io.dwak.holohackernews.app.util.HNLog;
 
 public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = StoryDetailRecyclerAdapter.class.getSimpleName();
-    ArrayList<StoryDetailRecyclerItem> mList;
+    private ArrayList<StoryDetailRecyclerItem> mList;
     @NonNull private Context mContext;
-    @NonNull private CommentsRecyclerListener mListener;
+    @NonNull private StoryDetailRecyclerListener mListener;
     private Map<Long, List<Comment>> mHiddenComments;
 
-    public StoryDetailRecyclerAdapter(@NonNull Context context, @NonNull CommentsRecyclerListener listener) {
+    public StoryDetailRecyclerAdapter(@NonNull Context context, @NonNull StoryDetailRecyclerListener listener) {
         mContext = context;
         mListener = listener;
         mList = new ArrayList<>();
         mHiddenComments = new HashMap<>();
     }
 
-    public void addHeaderView(@NonNull View headerView) {
-        StoryDetailRecyclerItem<View> item = new StoryDetailRecyclerItem<>(headerView, StoryDetailRecyclerItem.VIEW_TYPE_HEADER);
-        mList.add(0, item);
-        notifyItemInserted(0);
-    }
-
     public void updateHeader(@NonNull StoryDetail storyDetail){
         StoryDetailRecyclerItem<StoryDetail> item = new StoryDetailRecyclerItem<>(storyDetail, StoryDetailRecyclerItem.VIEW_TYPE_HEADER);
-        if(mList.get(0).getViewType() == StoryDetailRecyclerItem.VIEW_TYPE_HEADER) {
+        if(!mList.isEmpty() && mList.get(0).getViewType() == StoryDetailRecyclerItem.VIEW_TYPE_HEADER) {
             mList.set(0, item);
             notifyItemChanged(0);
         }
@@ -184,7 +177,7 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         return mHiddenComments.containsKey(comment.getId());
     }
 
-    public interface CommentsRecyclerListener {
+    public interface StoryDetailRecyclerListener {
         void onCommentClicked(int position);
     }
 }

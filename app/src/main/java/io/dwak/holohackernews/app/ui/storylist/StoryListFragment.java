@@ -71,8 +71,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
 
             @Override
             public void onNext(Story story) {
-                if (story.getStoryId() != null
-                        && mRecyclerAdapter.getPositionOfItem(story) == -1) {
+                if (story.getStoryId() != null && mRecyclerAdapter.getPositionOfItem(story) == -1) {
                     mRecyclerAdapter.addStory(story);
                 }
             }
