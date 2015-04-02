@@ -33,6 +33,6 @@ Roadmap
 
 Chat
 --
-[![Gitter chat](https://badges.gitter.im/dinosaurwithakatana/holo_hacker_news.png)](https://gitter.im/dinosaurwithakatana/holo_hacker_news)
+[![Gitter chat](https://badges.gitter.im/dinosaurwithakatana/holo_hacker_news.png)](https://gitter.im/dinosaurwithakatana/hacker-news-android)
 
 
