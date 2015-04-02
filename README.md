@@ -1,6 +1,8 @@
 Hacker News
 ================
 
+[![Join the chat at https://gitter.im/dinosaurwithakatana/hacker-news-android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dinosaurwithakatana/hacker-news-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Started as a project to play with Square's [Retrofit](https://square.github.io/retrofit/) library, ended up making a daily driver for reading hacker news.
 
 Uses [cheeaun's](http://cheeaun.com/) [node-hnapi](https://github.com/cheeaun/node-hnapi/) project for it's API backend.
