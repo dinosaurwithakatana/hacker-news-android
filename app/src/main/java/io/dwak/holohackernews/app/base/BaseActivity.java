@@ -17,7 +17,7 @@ public class BaseActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             getWindow().setStatusBarColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(this)
                     ? R.color.colorPrimaryDarkNight
                     : R.color.colorPrimaryDark));

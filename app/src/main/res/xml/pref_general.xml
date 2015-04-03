@@ -2,19 +2,16 @@
 
     <CheckBoxPreference
         android:key="pref_link_first"
-        android:textColor="?textColor"
         android:title="@string/pref_link_first_title"
         android:defaultValue="false" />
 
     <CheckBoxPreference
         android:key="pref_system_browser"
-        android:textColor="?textColor"
         android:title="@string/pref_system_browser_title"
         android:defaultValue="false" />
 
     <CheckBoxPreference
         android:key="pref_night_mode"
-        android:textColor="?textColor"
         android:title="@string/pref_night_mode_title"
         android:defaultValue="false" />
 </PreferenceScreen>

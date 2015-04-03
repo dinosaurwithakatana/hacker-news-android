@@ -19,6 +19,7 @@ package io.dwak.holohackernews.app.ui.settings;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,14 +39,15 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(UserPreferenceManager.isNightModeEnabled(this) ? R.style.AppTheme_Settings_Night : R.style.AppTheme_Settings);
         setContentView(R.layout.activity_settings);
 
         Toolbar toolbar = getToolbar();
         toolbar.setTitle(R.string.title_settings);
-        toolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(view -> finish());
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -88,7 +90,7 @@ public class SettingsActivity extends BaseActivity {
                             PendingIntent mPendingIntent = PendingIntent.getActivity(getActivity(), mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
                             AlarmManager mgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
                             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-                            getActivity().finish();
+                            ProgressDialog.show(getActivity(), null, "Restarting...", true, false);
                         })
                         .create()
                         .show();

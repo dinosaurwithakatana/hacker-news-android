@@ -96,8 +96,8 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
                         (CommentViewHolder) holder,
                         comment,
                         hiddenCommentCount,
-                        mListener,
-                        position);
+                        mListener
+                );
                 break;
         }
 

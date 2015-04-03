@@ -46,10 +46,9 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
                      @NonNull CommentViewHolder viewHolder,
                      @NonNull Comment comment,
                      int hiddenChildrenCount,
-                     @NonNull StoryDetailRecyclerAdapter.StoryDetailRecyclerListener listener,
-                     int position) {
-        viewHolder.mItemView.setOnClickListener(v -> listener.onCommentClicked(position));
-        viewHolder.mCommentContent.setOnClickListener(v -> listener.onCommentClicked(position));
+                     @NonNull StoryDetailRecyclerAdapter.StoryDetailRecyclerListener listener) {
+        viewHolder.mItemView.setOnClickListener(v -> listener.onCommentClicked(viewHolder.getLayoutPosition()));
+        viewHolder.mCommentContent.setOnClickListener(v -> listener.onCommentClicked(viewHolder.getLayoutPosition()));
 
         final Spanned commentContent = Html.fromHtml(comment.getContent());
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
