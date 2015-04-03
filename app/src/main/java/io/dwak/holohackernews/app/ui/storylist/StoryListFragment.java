@@ -19,12 +19,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Story;
-import io.dwak.holohackernews.app.ui.ViewModelFragment;
+import io.dwak.holohackernews.app.base.BaseViewModelFragment;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Subscriber;
 
-public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
+public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel> {
 
     public static final String FEED_TO_LOAD = "feed_to_load";
     private static final String TAG = StoryListFragment.class.getSimpleName();

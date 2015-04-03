@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.ui;
+package io.dwak.holohackernews.app.base;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import io.dwak.holohackernews.app.base.BaseViewModel;
 /**
  * Created by vishnu on 3/13/15.
  */
-public abstract class ViewModelFragment<T extends BaseViewModel> extends BaseFragment {
+public abstract class BaseViewModelFragment<T extends BaseViewModel> extends BaseFragment {
     private T mViewModel;
 
     protected T getViewModel(){

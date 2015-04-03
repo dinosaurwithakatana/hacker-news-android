@@ -36,7 +36,7 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
-import io.dwak.holohackernews.app.ui.ViewModelFragment;
+import io.dwak.holohackernews.app.base.BaseViewModelFragment;
 import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
@@ -46,7 +46,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class StoryDetailFragment extends ViewModelFragment<StoryDetailViewModel> implements ObservableWebView.OnScrollChangedCallback {
+public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewModel> implements ObservableWebView.OnScrollChangedCallback {
     public static final String HACKER_NEWS_ITEM_BASE_URL = "https://news.ycombinator.com/item?id=";
     public static final String HACKER_NEWS_BASE_URL = "https://news.ycombinator.com/";
     public static final String LINK_DRAWER_OPEN = "LINK_DRAWER_OPEN";
