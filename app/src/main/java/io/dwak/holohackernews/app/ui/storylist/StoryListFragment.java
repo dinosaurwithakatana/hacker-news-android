@@ -19,7 +19,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Story;
-import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.ViewModelFragment;
 import retrofit.RetrofitError;
 import rx.Observable;
@@ -120,7 +119,7 @@ public class StoryListFragment extends ViewModelFragment<StoryListViewModel>{
             // Set the adapter
             mRecyclerAdapter = new StoryRecyclerAdapter(getActivity(),
                     new ArrayList<>(),
-                    UserPreferenceManager.isNightModeEnabled(getActivity()) ? R.layout.comments_header_dark : R.layout.comments_header,
+                    R.layout.comments_header,
                     position -> mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position)));
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
