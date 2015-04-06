@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,22 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
         final Spanned commentContent = Html.fromHtml(comment.getContent());
         viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mCommentContent.setText(commentContent);
+
+        //set comment text size
+        String textSize = UserPreferenceManager.preferredTextSize(context);
+        if(textSize.equals(context.getString(R.string.pref_text_size_small))) {
+            viewHolder.mCommentContent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+            viewHolder.mCommentSubmitter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        }
+        else if(textSize.equals(context.getString(R.string.pref_text_size_medium))) {
+            viewHolder.mCommentContent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            viewHolder.mCommentSubmitter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        }
+        else {
+            viewHolder.mCommentContent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+            viewHolder.mCommentSubmitter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        }
+
         if (hiddenChildrenCount == 0) {
             viewHolder.mHiddenCommentCount.setVisibility(View.GONE);
         }
