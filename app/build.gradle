@@ -3,13 +3,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'retrolambda'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion '21.1.2'
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 21
-        versionCode 139
-        versionName '4.0-BETA'
+        targetSdkVersion 22
+        versionCode 39
+        versionName '4.0'
     }
     signingConfigs {
         release {

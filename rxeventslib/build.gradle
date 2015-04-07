@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'retrolambda'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.1'
+    compileSdkVersion 22
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
         minSdkVersion 1
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
