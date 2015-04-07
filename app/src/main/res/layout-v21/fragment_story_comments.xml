@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="@color/holo_light_bg"
+             style="?containerBackground"
              tools:context="io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment">
 
     <RelativeLayout
@@ -57,7 +57,7 @@
                     android:layout_toLeftOf="@id/next_top_level"
                     android:layout_width="wrap_content"
                     android:layout_height="42dp"
-                    android:background="@drawable/orange_button"
+                    android:background="?attr/colorPrimary"
                     android:text="@string/show_link"
                     android:visibility="visible"
                     tools:ignore="RtlHardcoded"/>

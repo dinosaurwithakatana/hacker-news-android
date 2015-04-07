@@ -1,11 +1,22 @@
 package io.dwak.holohackernews.app.models;
 
+import android.support.annotation.StringDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 /**
  * Created by vishnu on 5/3/14.
  */
 public class StoryDetail {
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef({JOB, LINK, ASK})
+    public @interface StoryType{}
+    public static final String JOB = "job";
+    public static final String LINK = "link";
+    public static final String ASK = "ask";
+
     private Long mId;
     private String mTitle;
     private String mUrl;
@@ -25,7 +36,7 @@ public class StoryDetail {
                        String domain, Integer points, String user,
                        String timeAgo, Integer commentsCount, String content,
                        Object poll, String link, List<Comment> commentList,
-                       Long moreCommentsId, String type) {
+                       Long moreCommentsId, @StoryType String type) {
         mId = id;
         mTitle = title;
         mUrl = url;
@@ -114,6 +125,7 @@ public class StoryDetail {
         return mMoreCommentsId;
     }
 
+    @StoryType
     public String getType() {
         return mType;
     }

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:background="@drawable/card_bg"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp"
-              android:longClickable="false"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:longClickable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?commentHeader">
 
     <RelativeLayout
         android:id="@+id/header_base"
@@ -17,7 +15,7 @@
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_points"
-            android:textColor="@android:color/black"
+            android:textColor="?textColor"
             tools:text="24"
             android:gravity="center"
             android:textSize="24sp"
@@ -32,7 +30,7 @@
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_title"
-            android:textColor="@android:color/black"
+            android:textColor="?textColor"
             tools:text="Hello Header"
             android:layout_toRightOf="@id/story_points"
             android:textSize="18sp"
@@ -56,7 +54,7 @@
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_domain"
-            android:textColor="@android:color/black"
+            android:textColor="?textColor"
             android:textSize="14sp"
             android:layout_marginTop="4dp"
             android:layout_below="@id/story_title"
@@ -71,7 +69,7 @@
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/story_long_ago"
             android:textSize="14sp"
-            android:textColor="@android:color/black"
+            android:textColor="?textColor"
             android:layout_marginTop="4dp"
             android:layout_below="@id/story_title"
             android:layout_toRightOf="@id/story_domain"
@@ -85,7 +83,7 @@
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/comment_count"
-            android:textColor="@android:color/black"
+            android:textColor="?textColor"
             app:typeface="roboto_light"
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@id/story_points"
@@ -98,6 +96,7 @@
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/job_content"
         android:textSize="14sp"
+        android:textColor="?textColor"
         app:typeface="roboto_regular"
         android:visibility="gone"
         android:layout_marginTop="8dp"

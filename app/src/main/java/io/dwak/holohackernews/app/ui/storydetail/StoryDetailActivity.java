@@ -26,13 +26,13 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
         setContentView(R.layout.activity_story_detail);
         ButterKnife.inject(this);
         if (mToolbar != null) {
-            mToolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
             mToolbar.setNavigationOnClickListener(v -> finish());
             mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
-        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+
+        getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         Intent intent = getIntent();
         long storyId = 0;
         if (intent != null) {

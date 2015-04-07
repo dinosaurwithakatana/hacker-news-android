@@ -13,8 +13,7 @@ import android.widget.Toast;
 
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.manager.hackernews.FeedType;
-import io.dwak.holohackernews.app.ui.BaseActivity;
+import io.dwak.holohackernews.app.base.BaseActivity;
 import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
@@ -27,34 +26,20 @@ public class MainActivity extends BaseActivity
 
     public static final String STORY_ID = "STORY_ID";
     public static final String DETAILS_CONTAINER_VISIBLE = "DETAILS_CONTAINER_VISIBLE";
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
     private boolean mIsDualPane;
     private StoryDetailFragment mStoryDetailFragment;
-    private Fragment mStoryListFragment;
     private View mDetailsContainer;
-    private Toolbar mToolbar;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-            setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(toolbar);
         }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -67,6 +52,7 @@ public class MainActivity extends BaseActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         mDetailsContainer = findViewById(R.id.details_container);
+        // The attributes you want retrieved
         mIsDualPane = mDetailsContainer != null;
 
         if(savedInstanceState != null){
@@ -94,32 +80,31 @@ public class MainActivity extends BaseActivity
     public void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem) {
         // update the main content by replacing fragments
         if(drawerItem != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
             switch (drawerItem.getId()) {
                 case 0:
                     mTitle = getString(R.string.title_section_top);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.TOP);
-                    loadFeedList(fragmentManager);
+                    Fragment storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_TOP);
+                    loadFeedList(storyListFragment);
                     break;
                 case 1:
                     mTitle = getString(R.string.title_section_best);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.BEST);
-                    loadFeedList(fragmentManager);
+                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_BEST);
+                    loadFeedList(storyListFragment);
                     break;
                 case 2:
                     mTitle = getString(R.string.title_section_newest);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.NEW);
-                    loadFeedList(fragmentManager);
+                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_NEW);
+                    loadFeedList(storyListFragment);
                     break;
                 case 3:
                     mTitle = getString(R.string.title_section_show);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW);
-                    loadFeedList(fragmentManager);
+                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW);
+                    loadFeedList(storyListFragment);
                     break;
                 case 4:
                     mTitle = getString(R.string.title_section_show_new);
-                    mStoryListFragment = StoryListFragment.newInstance(FeedType.SHOW_NEW);
-                    loadFeedList(fragmentManager);
+                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW_NEW);
+                    loadFeedList(storyListFragment);
                     break;
                 case 5:
                     Intent settingsIntent = new Intent(this, SettingsActivity.class);
@@ -133,10 +118,11 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void loadFeedList(FragmentManager fragmentManager) {
-        if(!(mStoryListFragment!=null && fragmentManager.findFragmentByTag(StoryListFragment.class.getSimpleName() + mTitle) !=null)){
+    private void loadFeedList(Fragment storyListFragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(!(storyListFragment!=null && fragmentManager.findFragmentByTag(StoryListFragment.class.getSimpleName() + mTitle) !=null)){
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, mStoryListFragment, StoryListFragment.class.getSimpleName() + mTitle)
+                    .replace(R.id.container, storyListFragment, StoryListFragment.class.getSimpleName() + mTitle)
                     .commit();
             setTitle(mTitle);
         }
@@ -163,7 +149,7 @@ public class MainActivity extends BaseActivity
 
     @SuppressLint("NewApi")
     @Override
-    public void onStoryListFragmentInteraction(long id, View view) {
+    public void onStoryListFragmentInteraction(long id) {
         if (HoloHackerNewsApplication.isDebug()) {
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
