@@ -57,7 +57,7 @@
     <string name="title_newest">Newest</string>
     <string name="title_best">Best</string>
     <string name="title_top">Top</string>
-    <string name="text_size">Text size</string>
+    <string name="pref_comment_text_size">Comment Text size</string>
     <string name="pref_text_size_small">small</string>
     <string name="pref_text_size_medium">medium</string>
     <string name="pref_text_size_large">large</string>

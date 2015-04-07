@@ -24,13 +24,13 @@ import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 
 class CommentViewHolder extends RecyclerView.ViewHolder {
-    @InjectView(R.id.comment_content) TextView mCommentContent;
-    @InjectView(R.id.comment_submission_time) TextView mCommentSubmissionTime;
-    @InjectView(R.id.comment_submitter) TextView mCommentSubmitter;
-    @InjectView(R.id.comment_overflow) ImageButton mOverflow;
-    @InjectView(R.id.comments_container) View mCommentsContainer;
-    @InjectView(R.id.color_code) View mColorCode;
-    @InjectView(R.id.hidden_comment_count) TextView mHiddenCommentCount;
+    @InjectView(R.id.comment_content) TextView commentContent;
+    @InjectView(R.id.comment_submission_time) TextView commentSubmissionTime;
+    @InjectView(R.id.comment_submitter) TextView commentSubmitter;
+    @InjectView(R.id.comment_overflow) ImageButton overflow;
+    @InjectView(R.id.comments_container) View commentsContainer;
+    @InjectView(R.id.color_code) View colorCode;
+    @InjectView(R.id.hidden_comment_count) TextView hiddenCommentCount;
     private View mItemView;
 
     private CommentViewHolder(@NonNull View itemView) {
@@ -49,51 +49,58 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
                      int hiddenChildrenCount,
                      @NonNull StoryDetailRecyclerAdapter.StoryDetailRecyclerListener listener) {
         viewHolder.mItemView.setOnClickListener(v -> listener.onCommentClicked(viewHolder.getLayoutPosition()));
-        viewHolder.mCommentContent.setOnClickListener(v -> listener.onCommentClicked(viewHolder.getLayoutPosition()));
+        viewHolder.commentContent.setOnClickListener(v -> listener.onCommentClicked(viewHolder.getLayoutPosition()));
 
         final Spanned commentContent = Html.fromHtml(comment.getContent());
-        viewHolder.mCommentContent.setMovementMethod(LinkMovementMethod.getInstance());
-        viewHolder.mCommentContent.setText(commentContent);
+        viewHolder.commentContent.setMovementMethod(LinkMovementMethod.getInstance());
+        viewHolder.commentContent.setText(commentContent);
 
         //set comment text size
-        String textSize = UserPreferenceManager.preferredTextSize(context);
-        if(textSize.equals(context.getString(R.string.pref_text_size_small))) {
-            viewHolder.mCommentContent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            viewHolder.mCommentSubmitter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        @UserPreferenceManager.TextSize String textSize = UserPreferenceManager.getPreferredTextSize(context);
+        int commentContentSize;
+        int commentSubmitterSize;
+        switch (textSize){
+            case UserPreferenceManager.MEDIUM:
+                commentContentSize = context.getResources().getInteger(R.integer.comment_content_text_size_medium);
+                commentSubmitterSize = context.getResources().getInteger(R.integer.comment_submitter_text_size_medium);
+                break;
+            case UserPreferenceManager.LARGE:
+                commentContentSize = context.getResources().getInteger(R.integer.comment_content_text_size_large);
+                commentSubmitterSize = context.getResources().getInteger(R.integer.comment_submitter_text_size_large);
+                break;
+            case UserPreferenceManager.SMALL:
+            default:
+                commentContentSize = context.getResources().getInteger(R.integer.comment_content_text_size_small);
+                commentSubmitterSize = context.getResources().getInteger(R.integer.comment_submitter_text_size_small);
         }
-        else if(textSize.equals(context.getString(R.string.pref_text_size_medium))) {
-            viewHolder.mCommentContent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            viewHolder.mCommentSubmitter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        }
-        else {
-            viewHolder.mCommentContent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-            viewHolder.mCommentSubmitter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-        }
+
+        viewHolder.commentContent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, commentContentSize);
+        viewHolder.commentSubmitter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, commentSubmitterSize);
 
         if (hiddenChildrenCount == 0) {
-            viewHolder.mHiddenCommentCount.setVisibility(View.GONE);
+            viewHolder.hiddenCommentCount.setVisibility(View.GONE);
         }
         else {
-            viewHolder.mHiddenCommentCount.setVisibility(View.VISIBLE);
-            viewHolder.mHiddenCommentCount.setText("+" + hiddenChildrenCount);
+            viewHolder.hiddenCommentCount.setVisibility(View.VISIBLE);
+            viewHolder.hiddenCommentCount.setText("+" + hiddenChildrenCount);
         }
 
-        viewHolder.mCommentSubmissionTime.setText(comment.getTimeAgo());
-        viewHolder.mOverflow.setOnClickListener(view -> commentAction(context, comment));
+        viewHolder.commentSubmissionTime.setText(comment.getTimeAgo());
+        viewHolder.overflow.setOnClickListener(view -> commentAction(context, comment));
 
         String submitter = comment.getUser();
         if (HoloHackerNewsApplication.isDebug()) {
-            viewHolder.mCommentSubmitter.setText(viewHolder.getPosition() + " " + submitter);
+            viewHolder.commentSubmitter.setText(viewHolder.getPosition() + " " + submitter);
         }
         else {
-            viewHolder.mCommentSubmitter.setText(submitter);
+            viewHolder.commentSubmitter.setText(submitter);
         }
         if (comment.isOriginalPoster()) {
-            viewHolder.mCommentSubmitter.setTextColor(context.getResources().getColor(android.R.color.holo_orange_light));
+            viewHolder.commentSubmitter.setTextColor(context.getResources().getColor(android.R.color.holo_orange_light));
         }
         else {
-            viewHolder.mCommentSubmitter.setTextColor(UserPreferenceManager.isNightModeEnabled(context)
-                    ?context.getResources().getColor(android.R.color.white)
+            viewHolder.commentSubmitter.setTextColor(UserPreferenceManager.isNightModeEnabled(context)
+                    ? context.getResources().getColor(android.R.color.white)
                     : context.getResources().getColor(android.R.color.black));
         }
 
@@ -101,60 +108,60 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
         int contentLeftMargin = (int) context.getResources().getDimension(R.dimen.comment_content_left_margin);
 
         if (comment.getLevel() != 0) {
-            FrameLayout.LayoutParams commentsContainerLayoutParams = new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+            FrameLayout.LayoutParams commentsContainerLayoutParams = new FrameLayout.LayoutParams(viewHolder.commentsContainer.getLayoutParams());
             commentsContainerLayoutParams.setMargins(contentLeftMargin,
                     commentsContainerLayoutParams.topMargin,
                     commentsContainerLayoutParams.rightMargin,
                     commentsContainerLayoutParams.bottomMargin);
-            viewHolder.mCommentsContainer.setLayoutParams(commentsContainerLayoutParams);
+            viewHolder.commentsContainer.setLayoutParams(commentsContainerLayoutParams);
 
-            FrameLayout.LayoutParams colorCodeLayoutParams = new FrameLayout.LayoutParams(viewHolder.mColorCode.getLayoutParams());
+            FrameLayout.LayoutParams colorCodeLayoutParams = new FrameLayout.LayoutParams(viewHolder.colorCode.getLayoutParams());
             colorCodeLayoutParams.setMargins(colorCodeLeftMargin,
                     colorCodeLayoutParams.topMargin,
                     colorCodeLayoutParams.rightMargin,
                     colorCodeLayoutParams.bottomMargin);
-            viewHolder.mColorCode.setLayoutParams(colorCodeLayoutParams);
+            viewHolder.colorCode.setLayoutParams(colorCodeLayoutParams);
 
         }
         else {
-            FrameLayout.LayoutParams commentsContainerLayoutParams = new FrameLayout.LayoutParams(viewHolder.mCommentsContainer.getLayoutParams());
+            FrameLayout.LayoutParams commentsContainerLayoutParams = new FrameLayout.LayoutParams(viewHolder.commentsContainer.getLayoutParams());
             commentsContainerLayoutParams.setMargins(0,
                     commentsContainerLayoutParams.topMargin,
                     commentsContainerLayoutParams.rightMargin,
                     commentsContainerLayoutParams.bottomMargin);
-            viewHolder.mCommentsContainer.setLayoutParams(commentsContainerLayoutParams);
+            viewHolder.commentsContainer.setLayoutParams(commentsContainerLayoutParams);
 
-            FrameLayout.LayoutParams colorCodeLayoutParams = new FrameLayout.LayoutParams(viewHolder.mColorCode.getLayoutParams());
+            FrameLayout.LayoutParams colorCodeLayoutParams = new FrameLayout.LayoutParams(viewHolder.colorCode.getLayoutParams());
             colorCodeLayoutParams.setMargins(0,
                     colorCodeLayoutParams.topMargin,
                     colorCodeLayoutParams.rightMargin,
                     colorCodeLayoutParams.bottomMargin);
-            viewHolder.mColorCode.setLayoutParams(colorCodeLayoutParams);
+            viewHolder.colorCode.setLayoutParams(colorCodeLayoutParams);
         }
         switch (comment.getLevel() % 8) {
             case 0:
-                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_blue_bright);
+                viewHolder.colorCode.setBackgroundResource(android.R.color.holo_blue_bright);
                 break;
             case 1:
-                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_green_light);
+                viewHolder.colorCode.setBackgroundResource(android.R.color.holo_green_light);
                 break;
             case 2:
-                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_red_light);
+                viewHolder.colorCode.setBackgroundResource(android.R.color.holo_red_light);
                 break;
             case 3:
-                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_orange_light);
+                viewHolder.colorCode.setBackgroundResource(android.R.color.holo_orange_light);
                 break;
             case 4:
-                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_purple);
+                viewHolder.colorCode.setBackgroundResource(android.R.color.holo_purple);
                 break;
             case 5:
-                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_green_dark);
+                viewHolder.colorCode.setBackgroundResource(android.R.color.holo_green_dark);
                 break;
             case 6:
-                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_red_dark);
+                viewHolder.colorCode.setBackgroundResource(android.R.color.holo_red_dark);
                 break;
             case 7:
-                viewHolder.mColorCode.setBackgroundResource(android.R.color.holo_orange_dark);
+                viewHolder.colorCode.setBackgroundResource(android.R.color.holo_orange_dark);
                 break;
         }
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="comment_content_text_size_small">14</integer>
+    <integer name="comment_submitter_text_size_small">14</integer>
+
+    <integer name="comment_content_text_size_medium">16</integer>
+    <integer name="comment_submitter_text_size_medium">14</integer>
+
+    <integer name="comment_content_text_size_large">18</integer>
+    <integer name="comment_submitter_text_size_large">16</integer>
+</resources>

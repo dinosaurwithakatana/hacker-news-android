@@ -31,7 +31,7 @@
         <item name="containerBackground">@color/backgroundNight</item>
         <item name="commentOverFlowIcon">@drawable/comment_overflow_dark</item>
         <item name="commentProfileIcon">@drawable/ic_person_white</item>
-        <item name="linkDrawerButtonBackground">@drawable/dark_button</item>
+        <item name="linkDrawerButtonBackground">@color/colorPrimaryNight</item>
     </style>
 
     <style name="AppTheme.Settings" parent="Theme.AppCompat.Light.NoActionBar">

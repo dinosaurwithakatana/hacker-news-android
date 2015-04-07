@@ -17,7 +17,7 @@
 
     <ListPreference
         android:key="pref_text_size"
-        android:title="@string/text_size"
+        android:title="@string/pref_comment_text_size"
         android:entries="@array/textSizeEntries"
         android:entryValues="@array/textSizeValues"
         android:defaultValue="@string/pref_text_size_small"/>
