@@ -270,6 +270,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public void onDestroy() {
         if (mSubscription != null) mSubscription.unsubscribe();
+        mWebView.destroy();
         super.onDestroy();
     }
 
