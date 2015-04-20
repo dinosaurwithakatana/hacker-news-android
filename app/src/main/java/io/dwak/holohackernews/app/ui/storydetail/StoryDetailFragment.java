@@ -1,9 +1,9 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,11 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,13 +25,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -45,55 +36,39 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
-import io.dwak.holohackernews.app.ui.BaseFragment;
+import io.dwak.holohackernews.app.base.BaseViewModelFragment;
+import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import rx.Subscriber;
-import rx.android.observables.ViewObservable;
+import rx.android.observables.AndroidObservable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
-public class StoryDetailFragment extends BaseFragment implements ObservableWebView.OnScrollChangedCallback {
+public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewModel> implements ObservableWebView.OnScrollChangedCallback {
     public static final String HACKER_NEWS_ITEM_BASE_URL = "https://news.ycombinator.com/item?id=";
     public static final String HACKER_NEWS_BASE_URL = "https://news.ycombinator.com/";
     public static final String LINK_DRAWER_OPEN = "LINK_DRAWER_OPEN";
     public static final String TOP_VISIBLE_COMMENT = "TOP_VISIBLE_COMMENT";
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryDetailFragment.class.getSimpleName();
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-    private final int DISTANCE_TO_HIDE_ACTIONBAR = 1;
     @InjectView(R.id.prev_top_level) Button mPrevTopLevel;
     @InjectView(R.id.next_top_level) Button mNextTopLevel;
     @InjectView(R.id.web_back) Button mWebBack;
     @InjectView(R.id.close_link) Button mCloseLink;
     @InjectView(R.id.web_forward) Button mWebForward;
     @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
-    //    @InjectView(R.id.comments_list) ListView mCommentsListView;
     @InjectView(R.id.comments_recycler) RecyclerView mCommentsRecyclerView;
     @InjectView(R.id.open_link) Button mOpenLinkDialogButton;
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
     @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
-    @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
-    private long mStoryId;
-    private int mPrevVisibleItem;
-    //    private HeaderViewHolder mHeaderViewHolder;
     private Bundle mWebViewBundle;
     private boolean mReadability;
     private boolean mWasLinkLayoutOpen;
-    private StoryDetailViewModel mViewModel;
-    private StoryDetail mStoryDetail;
-    private CommentsRecyclerAdapter mRecyclerAdapter;
-    private LinearLayoutManager mLayoutManager;
-    private View mHeaderView;
-    private View mRootView;
-    private ActionBar mActionBar;
+    private StoryDetailRecyclerAdapter mAdapter;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
-
-    public StoryDetailFragment() {
-        // Required empty public constructor
-    }
 
     public static StoryDetailFragment newInstance(long param1) {
         StoryDetailFragment fragment = new StoryDetailFragment();
@@ -105,12 +80,15 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
     private void refresh() {
         showProgress(true);
-        mSubscription = mViewModel.getStoryDetail()
+        mSubscription = AndroidObservable.bindFragment(this, getViewModel().getStoryDetailObservable())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<StoryDetail>() {
                     @Override
                     public void onCompleted() {
                         showProgress(false);
-                        if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+                        if (UserPreferenceManager.showLinkFirst(getActivity())
+                                && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
                             openLinkInExternalBrowser();
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
@@ -118,222 +96,139 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, e.getStackTrace()[0] + " : " + e.toString());
                         Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
+                        if(HoloHackerNewsApplication.isDebug()) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
                     public void onNext(StoryDetail storyDetail) {
-                        Log.d(TAG, storyDetail.toString());
-                        mStoryDetail = storyDetail;
-//                        mCommentsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//
-//                            @Override
-//                            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onScroll(AbsListView absListView, int firstVisibleItem, int i2, int i3) {
-//                                if (firstVisibleItem == 0) {
-//                                    mActionBar.setTitle("Hacker News");
-//                                }
-//                                else {
-//                                    mActionBar.setTitle(mStoryDetail.getTitle());
-//                                }
-//                            }
-//                        });
-
+                        HNLog.d(TAG, storyDetail.toString());
+                        getViewModel().setStoryDetail(storyDetail);
+                        updateHeader();
                         updateWebView();
                         updateRecyclerView();
+                        openLink();
                     }
                 });
     }
 
     private void updateRecyclerView() {
-        mRecyclerAdapter.clear();
-        updateHeader();
-        for (Comment comment : mStoryDetail.getCommentList()) {
-            mRecyclerAdapter.addComment(comment);
+        mAdapter.clear();
+        for (Comment comment : getViewModel().getStoryDetail().getCommentList()) {
+            mAdapter.addComment(comment);
         }
     }
 
     private void updateWebView() {
         mOpenLinkDialogButton.setVisibility(View.VISIBLE);
-        ViewObservable.clicks(mOpenLinkDialogButton, false)
-                .map(button -> UserPreferenceManager.isExternalBrowserEnabled(getActivity()))
-                .subscribe(externalBrowserEnabled -> {
-                    if (externalBrowserEnabled) {
-                        mLinkLayout.setOpen(!mLinkLayout.isOpen());
-                        if ("ask".equals(mStoryDetail.getType())) {
-                            mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
-                        }
-                        else if ("job".equals(mStoryDetail.getType())) {
-                            if (mStoryDetail.getUrl().contains("/item?id=")) {
-                                mStoryDetail.setUrl(HACKER_NEWS_BASE_URL + mStoryDetail.getUrl());
-                            }
-                        }
+        mOpenLinkDialogButton.setOnClickListener(view -> {
+            if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+                mLinkLayout.setOpen(!mLinkLayout.isOpen());
+                StoryDetail storyDetail = getViewModel().getStoryDetail();
+                if (StoryDetail.ASK.equals(storyDetail.getType())) {
+                    storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
+                } else if (StoryDetail.JOB.equals(storyDetail.getType())) {
+                    if (storyDetail.getUrl().contains("/item?id=")) {
+                        storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
                     }
-                    else {
-                        openLinkInExternalBrowser();
-                    }
-                });
+                }
+            } else {
+                openLinkInExternalBrowser();
+            }
+        });
     }
 
     private void updateHeader() {
-        HeaderViewHolder mHeaderViewHolder = new HeaderViewHolder(mHeaderView);
-        mHeaderViewHolder.mStoryTitle.setText(mStoryDetail.getTitle());
-        mHeaderViewHolder.mStorySubmitter.setText(mStoryDetail.getUser());
-        if (!"job".equals(mStoryDetail.getType())) {
-            mHeaderViewHolder.mContent.setVisibility(View.GONE);
-            if ("link".equals(mStoryDetail.getType()) && !TextUtils.isEmpty(mStoryDetail.getDomain())) {
-                String domain = mStoryDetail.getDomain();
-                mHeaderViewHolder.mStoryDomain.setVisibility(View.VISIBLE);
-                mHeaderViewHolder.mStoryDomain.setText(" | " + domain.substring(0, 20 > domain.length() ? domain.length() : 20));
-                if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-                    openLinkInExternalBrowser();
-                }
-                else {
-                    if (mWebViewBundle == null) {
-                        mWebView.loadUrl(mStoryDetail.getUrl());
-                        Intent browserIntent = new Intent();
-                    }
-                    else {
-                        mWebView.restoreState(mWebViewBundle);
-                    }
-                }
-            }
-            else {
-                mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
+        mAdapter.updateHeader(getViewModel().getStoryDetail());
+    }
 
-                mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
-                Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
-                mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-                mHeaderViewHolder.mContent.setText(jobContent);
-                mHeaderViewHolder.mContent.setTextColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(getActivity()) ? android.R.color.white : android.R.color.black));
-            }
-            mHeaderViewHolder.mStoryPoints.setText(String.valueOf(mStoryDetail.getPoints()));
-            mHeaderViewHolder.mStoryLongAgo.setText(" | " + mStoryDetail.getTimeAgo());
-            mHeaderViewHolder.mCommentsCount.setText(mStoryDetail.getCommentsCount() + " comments");
+    private void openLink() {
+        StoryDetail storyDetail = getViewModel().getStoryDetail();
+        if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+            openLinkInExternalBrowser();
         }
         else {
-            mHeaderViewHolder.mContent.setVisibility(View.VISIBLE);
-            Spanned jobContent = Html.fromHtml(mStoryDetail.getContent());
-            mHeaderViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-            mHeaderViewHolder.mContent.setTextColor(getResources().getColor(android.R.color.black));
-            mHeaderViewHolder.mContent.setText(jobContent);
-            mHeaderViewHolder.mStoryDomain.setVisibility(View.GONE);
-            mHeaderViewHolder.mCommentsCount.setVisibility(View.GONE);
-            mHeaderViewHolder.mStoryPoints.setVisibility(View.GONE);
+            if (mWebViewBundle == null && !UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+                mWebView.loadUrl(storyDetail.getUrl());
+            }
+            else {
+                mWebView.restoreState(mWebViewBundle);
+            }
         }
-
-        mRecyclerAdapter.updateHeaderView(mHeaderViewHolder.mHeaderView);
     }
 
     private void openLinkInExternalBrowser() {
         Intent browserIntent = new Intent();
         browserIntent.setAction(Intent.ACTION_VIEW);
-        browserIntent.setData(Uri.parse(mStoryDetail.getUrl()));
+        browserIntent.setData(Uri.parse(getViewModel().getStoryDetail().getUrl()));
         startActivity(browserIntent);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        if (getArguments() != null) {
-            mStoryId = getArguments().getLong(STORY_ID);
+        if (getArguments() != null && getArguments().containsKey(STORY_ID)) {
+            long storyId = getArguments().getLong(STORY_ID);
+            getViewModel().setStoryId(storyId);
         }
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = getRootView(inflater, container);
+        View rootView = getRootView(inflater, container);
         if (savedInstanceState != null) {
             mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
         }
-        ButterKnife.inject(this, mRootView);
-        mViewModel = new StoryDetailViewModel(mStoryId);
-        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.progress_bar);
-        mContainer = mRootView.findViewById(R.id.container);
-        ViewObservable.clicks(mFloatingActionButton, false)
-                .subscribe(floatingActionButton -> readability());
+        ButterKnife.inject(this, rootView);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        mContainer = rootView.findViewById(R.id.container);
+        mFloatingActionButton.setOnClickListener(view -> readability());
         setupWebViewDrawer();
 
-        mPrevVisibleItem = 1;
-
-        mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        if (mActionBar != null) {
-            mActionBar.show();
-            mActionBar.setTitle("Hacker News");
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
+            actionBar.setTitle("Hacker News");
         }
 
-        ViewObservable.clicks(mPrevTopLevel, false)
-                .map(button -> {
-                    for (int i = mCurrentFirstCompletelyVisibleItemIndex- 1; i >= 0; i--) {
-                        final Object item = mRecyclerAdapter.getItem(i);
-                        if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                            if (HoloHackerNewsApplication.isDebug()) {
-                                Log.d(TAG, String.valueOf(i));
-                            }
-                            return i;
-                        }
-                    }
-                    return null;
-                })
-                .filter(integer -> integer > 0)
-                .subscribe(integer -> {
-                    mCurrentFirstCompletelyVisibleItemIndex = integer;
-                    mCommentsRecyclerView.smoothScrollToPosition(integer);
-                });
-        ViewObservable.clicks(mNextTopLevel, false)
-                .map(button -> {
-                    for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mRecyclerAdapter.getItemCount(); i++) {
-                        final Object item = mRecyclerAdapter.getItem(i);
-                        if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                            if (HoloHackerNewsApplication.isDebug()) {
-                                Log.d(TAG, String.valueOf(i));
-                            }
-                            return i;
-                        }
-                    }
-                    return -1;
-                })
-                .filter(integer -> integer > 0)
-                .subscribe(visibleItemIndex -> {
-                    mCurrentFirstCompletelyVisibleItemIndex = visibleItemIndex;
-                    mCommentsRecyclerView.smoothScrollToPosition(visibleItemIndex);
-                });
-
-        mRecyclerAdapter = new CommentsRecyclerAdapter(getActivity(), position -> {
-            if (mRecyclerAdapter.areChildrenHidden(position)) {
-                mRecyclerAdapter.showChildComments(position);
-            }
-            else {
-                mRecyclerAdapter.hideChildComments(position);
+        mPrevTopLevel.setOnClickListener(view -> {
+            for (int i = mCurrentFirstCompletelyVisibleItemIndex- 1; i >= 0; i--) {
+                final Object item = mAdapter.getItem(i);
+                if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                    HNLog.d(TAG, String.valueOf(i));
+                    mCurrentFirstCompletelyVisibleItemIndex = i;
+                    mCommentsRecyclerView.smoothScrollToPosition(i);
+                    return;
+                }
             }
         });
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mCommentsRecyclerView.setLayoutManager(mLayoutManager);
-        mCommentsRecyclerView.setAdapter(mRecyclerAdapter);
-        mHeaderView = inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
-                ? R.layout.comments_header_dark
-                : R.layout.comments_header,
-                null);
-        mRecyclerAdapter.addHeaderView(mHeaderView);
+        mNextTopLevel.setOnClickListener(view -> {
+            for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mAdapter.getItemCount(); i++) {
+                final Object item = mAdapter.getItem(i);
+                if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                    HNLog.d(TAG, String.valueOf(i));
+                    mCurrentFirstCompletelyVisibleItemIndex = i;
+                    mCommentsRecyclerView.smoothScrollToPosition(i);
+                    return;
+                }
+            }
+        });
+        mAdapter = new StoryDetailRecyclerAdapter(getActivity(), position -> {
+            if (mAdapter.areChildrenHidden(position)) {
+                mAdapter.showChildComments(position);
+            }
+            else {
+                mAdapter.hideChildComments(position);
+            }
+        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mCommentsRecyclerView.setLayoutManager(layoutManager);
+        mCommentsRecyclerView.setAdapter(mAdapter);
 
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
                 android.R.color.holo_orange_light,
@@ -345,7 +240,7 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
         });
 
         refresh();
-        return mRootView;
+        return rootView;
     }
 
     @Override
@@ -373,9 +268,9 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     }
 
     @Override
-    public void onDetach() {
+    public void onDestroy() {
         if (mSubscription != null) mSubscription.unsubscribe();
-        super.onDetach();
+        super.onDestroy();
     }
 
     @Override
@@ -396,37 +291,50 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
                     sendIntent.setAction(Intent.ACTION_SEND);
                     switch (i) {
                         case 0:
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, mStoryDetail.getUrl());
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, getViewModel().getStoryDetail().getUrl());
                             break;
                         case 1:
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + mStoryId);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId());
                             break;
                     }
                     sendIntent.setType("text/plain");
                     startActivity(sendIntent);
-                });
-
-                builder.create().show();
+                })
+                .create()
+                .show();
                 break;
             case R.id.action_open_browser:
                 Intent browserIntent = new Intent();
                 browserIntent.setAction(Intent.ACTION_VIEW);
-                browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + mStoryId));
+                browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
                 startActivity(browserIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupWebViewDrawer() {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateWebViewDrawerPosition();
+
+    }
+
+    private void updateWebViewDrawerPosition(){
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-
         mLinkLayout.setStashPixel(height);
         mLinkLayout.setRevealPixel(0);
+        mLinkLayout.updateListener();
+        mLinkLayout.setOpen(mLinkLayout.isOpen());
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void setupWebViewDrawer() {
+        updateWebViewDrawerPosition();
         mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
         if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
             mLinkLayout.setOpen(mWasLinkLayoutOpen || (UserPreferenceManager.showLinkFirst(getActivity())));
@@ -465,13 +373,16 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
 
         mWebView.setOnScrollChangedCallback(this);
 
-        ViewObservable.clicks(mWebBack, false)
-                .filter(button -> mWebView.canGoBack())
-                .subscribe(canGoback -> mWebView.goBack());
-
-        ViewObservable.clicks(mWebForward, false)
-                .filter(button -> mWebView.canGoForward())
-                .subscribe(canGoForward -> mWebView.goForward());
+        mWebBack.setOnClickListener(view -> {
+            if (mWebView.canGoBack()) {
+                mWebView.goBack();
+            }
+        });
+        mWebForward.setOnClickListener(view -> {
+            if (mWebView.canGoForward()) {
+                mWebView.goForward();
+            }
+        });
     }
 
     public boolean isLinkViewVisible() {
@@ -485,15 +396,12 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     private void readability() {
         mReadability = !mReadability;
         if (mReadability) {
-            final String readabilityJS = "javascript:(%0A%28function%28%29%7Bwindow.baseUrl%3D%27//www.readability.com%27%3Bwindow.readabilityToken%3D%2798fX3vYgEcKF2uvS7HTuScqeDgegMF74HVHuLYwF%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/read.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)";
-            try {
-                mWebView.loadUrl(URLDecoder.decode(readabilityJS, "utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            if(getViewModel().getReadabilityUrl() != null) {
+                mWebView.loadUrl(getViewModel().getReadabilityUrl());
             }
         }
         else {
-            mWebView.loadUrl(mStoryDetail.getUrl());
+            mWebView.loadUrl(getViewModel().getStoryDetail().getUrl());
         }
     }
 
@@ -508,11 +416,12 @@ public class StoryDetailFragment extends BaseFragment implements ObservableWebVi
     }
 
     @Override
+    protected Class<StoryDetailViewModel> getViewModelClass() {
+        return StoryDetailViewModel.class;
+    }
+
+    @Override
     protected View getRootView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(UserPreferenceManager.isNightModeEnabled(getActivity())
-                ? R.layout.fragment_story_comments_dark
-                : R.layout.fragment_story_comments,
-                container,
-                false);
+        return inflater.inflate(R.layout.fragment_story_comments, container, false);
     }
 }

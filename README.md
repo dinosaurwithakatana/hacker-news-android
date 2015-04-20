@@ -10,7 +10,7 @@ Uses [cheeaun's](http://cheeaun.com/) [node-hnapi](https://github.com/cheeaun/no
 
 Building
 ---
-[![Build Status](https://travis-ci.org/dinosaurwithakatana/holo_hacker_news.svg?branch=master)](https://travis-ci.org/dinosaurwithakatana/holo_hacker_news) 
+[![Build Status](https://travis-ci.org/dinosaurwithakatana/hacker-news-android.svg?branch=master)](https://travis-ci.org/dinosaurwithakatana/hacker-news-android) 
 
 Copy each of the `*.properties.example` to their respective properties files and fill out as necessary.
 
@@ -18,14 +18,6 @@ Import into Android studio, should work out of the box.
 
 Roadmap
 -------
-
-*  Switch to Official API (using my wrapper api) [#16](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/16)
-
-*  User Settings
-  *  Font Size [#10](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/10)
-  
-  *  Night Mode [#12](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/12)
-  
 
 *  Offline Caching [#13](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/13)
 

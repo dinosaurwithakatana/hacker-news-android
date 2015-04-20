@@ -3,6 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 tools:context="io.dwak.holohackernews.app.ui.storylist.StoryListFragment">
 
     <ProgressBar
@@ -22,21 +23,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/story_list"
-                android:animateLayoutChanges="true"
-                android:background="@android:color/transparent"
                 android:paddingTop="4dp"
                 android:clipToPadding="false"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:dividerHeight="8dp"
-                android:divider="@android:color/transparent"
-                android:drawSelectorOnTop="true"
-                android:listSelector="@drawable/orange_card_selector"
-                tools:listitem="@layout/comments_header"/>
+                android:layout_height="match_parent"/>
         </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 

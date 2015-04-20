@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/holo_light_bg"
+    android:background="?containerBackground"
     tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity">
     <!-- Main layout -->
     <io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout
@@ -37,7 +37,6 @@
                 android:layout_weight=".35"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/holo_light_bg"
                 android:visibility="visible"
                 tools:background="@android:color/background_dark"/>
 
@@ -46,7 +45,6 @@
                 android:layout_weight=".65"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/holo_light_bg"
                 android:visibility="gone"/>
 
             </LinearLayout>

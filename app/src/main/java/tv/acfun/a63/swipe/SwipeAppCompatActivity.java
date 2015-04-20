@@ -19,7 +19,7 @@ package tv.acfun.a63.swipe;
 import android.os.Bundle;
 import android.view.View;
 
-import io.dwak.holohackernews.app.ui.BaseActivity;
+import io.dwak.holohackernews.app.base.BaseActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.SwipeBackLayout.SwipeListener;
 import me.imid.swipebacklayout.lib.Utils;

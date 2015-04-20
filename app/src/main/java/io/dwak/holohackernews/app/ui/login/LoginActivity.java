@@ -13,7 +13,6 @@ import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelActivity;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
-import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import rx.Observable;
 import rx.android.observables.ViewObservable;
 
@@ -29,7 +28,7 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(UserPreferenceManager.isNightModeEnabled(this) ? R.layout.activity_login_dark : R.layout.activity_login);
+        setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
 
         // Creates Observables from the EditTexts and enables the login button if they aren't empty

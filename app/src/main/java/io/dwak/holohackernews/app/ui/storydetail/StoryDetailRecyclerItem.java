@@ -8,11 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created by vishnu on 2/2/15.
  */
-public class CommentRecyclerItem<T> {
+public class StoryDetailRecyclerItem<T> {
     private T mObject;
     private int mViewType;
 
-    public CommentRecyclerItem(T object, @ViewType int viewType) {
+    public StoryDetailRecyclerItem(T object, @ViewType int viewType) {
         mObject = object;
         mViewType = viewType;
     }

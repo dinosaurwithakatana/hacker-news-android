@@ -1,13 +1,11 @@
-package io.dwak.holohackernews.app.ui;
+package io.dwak.holohackernews.app.base;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.os.Build;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import io.dwak.holohackernews.app.R;
@@ -73,5 +71,4 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    protected abstract View getRootView(LayoutInflater inflater, ViewGroup container);
 }

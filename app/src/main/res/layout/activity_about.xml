@@ -13,6 +13,7 @@
              android:layout_height="wrap_content"/>
 
     <FrameLayout
+        android:background="?containerBackground"
         android:id="@+id/container"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"

@@ -31,3 +31,4 @@ proguard/
 .idea/
 *.iml
 
+.gradletasknamecache

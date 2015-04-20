@@ -11,6 +11,7 @@
     <color name="colorPrimaryDarkNight">#212121</color>
     <color name="cardBackground">#ffffff</color>
     <color name="cardBackgroundNight">#ff373737</color>
-    <color name="backgroundNight">#ff121212</color>
-    <color name="background">#ffffff</color>
+    <color name="backgroundNight">#ff101010</color>
+    <color name="background">#fff3f3f3</color>
+    <color name="cardRippleNight">#ff919191</color>
 </resources>

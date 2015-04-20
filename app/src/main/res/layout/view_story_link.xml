@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@android:color/white"
+    android:background="?containerBackground"
     android:fitsSystemWindows="true">
 
     <ProgressBar
@@ -51,7 +51,7 @@
             android:layout_height="42dp"
             android:layout_toRightOf="@id/web_back"
             android:layout_toLeftOf="@id/web_forward"
-            android:background="@drawable/orange_button"
+            android:background="?linkDrawerButtonBackground"
             android:text="@string/show_comments"
             android:visibility="visible"
             tools:ignore="RtlHardcoded"/>

@@ -2,8 +2,6 @@ package io.dwak.holohackernews.app.base;
 
 import android.os.Bundle;
 
-import io.dwak.holohackernews.app.ui.BaseActivity;
-
 /**
  * Created by vishnu on 2/15/15.
  */
