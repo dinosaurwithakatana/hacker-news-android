@@ -15,9 +15,6 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by vishnu on 2/15/15.
- */
 public class LoginViewModel extends BaseViewModel{
     private final LoginService mLoginService;
 
