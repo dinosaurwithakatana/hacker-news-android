@@ -1,25 +1,22 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.Activity;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.base.BaseViewModelFragment;
+import io.dwak.holohackernews.app.databinding.StoryListFragmentBinder;
+import io.dwak.holohackernews.app.models.Story;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Subscriber;
@@ -30,12 +27,10 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     private static final String TAG = StoryListFragment.class.getSimpleName();
     public static final String TOP_OF_LIST = "TOP_OF_LIST";
 
-    @InjectView(R.id.story_list) RecyclerView mRecyclerView;
-    @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
-
     private OnStoryListFragmentInteractionListener mListener;
     private StoryRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager mLayoutManager;
+    private StoryListFragmentBinder mBinder;
 
     public static StoryListFragment newInstance(@StoryListViewModel.FeedType int feedType) {
         StoryListFragment fragment = new StoryListFragment();
@@ -55,7 +50,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             @Override
             public void onCompleted() {
                 showProgress(false);
-                mSwipeRefreshLayout.setRefreshing(false);
+                mBinder.swipeContainer.setRefreshing(false);
                 getViewModel().setPageTwoLoaded(pageTwo);
             }
 
@@ -101,13 +96,13 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = getRootView(inflater, container);
-        ButterKnife.inject(this, view);
+        mBinder = DataBindingUtil.inflate(inflater, R.layout.fragment_storylist_list, container, false);
+        View view = mBinder.getRoot();
 
         getViewModel().setPageTwoLoaded(false);
 
-        mContainer = view.findViewById(R.id.story_list);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        mContainer = mBinder.recycler;
+        mProgressBar = mBinder.progressBar;
 
         final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
@@ -119,11 +114,10 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             // Set the adapter
             mRecyclerAdapter = new StoryRecyclerAdapter(getActivity(),
                     new ArrayList<>(),
-                    R.layout.comments_header,
                     position -> mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position)));
             mLayoutManager = new LinearLayoutManager(getActivity());
-            mRecyclerView.setLayoutManager(mLayoutManager);
-            mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
+            mBinder.recycler.setLayoutManager(mLayoutManager);
+            mBinder.recycler.addItemDecoration(new SpacesItemDecoration(8));
 
             if (!getViewModel().isReturningUser()) {
                 getViewModel().getBetaAlert(getActivity())
@@ -138,7 +132,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
         }
 
         if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_TOP) {
-            mRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
+            mBinder.recycler.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
                 @Override
                 public void onLoadMore(int current_page) {
                     if (!getViewModel().isPageTwoLoaded()) {
@@ -148,12 +142,12 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             });
         }
 
-        mRecyclerView.setAdapter(mRecyclerAdapter);
+        mBinder.recycler.setAdapter(mRecyclerAdapter);
 
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
-                getResources().getColor(R.color.colorPrimaryDark));
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mSwipeRefreshLayout.setRefreshing(true);
+        mBinder.swipeContainer.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.colorPrimaryDark, getActivity().getTheme()));
+        mBinder.swipeContainer.setOnRefreshListener(() -> {
+            mBinder.swipeContainer.setRefreshing(true);
             refresh();
         });
 

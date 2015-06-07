@@ -343,7 +343,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         final ProgressBar webProgressBar = (ProgressBar) mLinkLayout.findViewById(R.id.web_progress_bar);
         mCloseLink.setOnClickListener(view -> mLinkLayout.setOpen(false));
 
-        mWebView.setVisibility(View.INVISIBLE);
         webProgressBar.setVisibility(View.VISIBLE);
 
         WebSettings webSettings = mWebView.getSettings();
@@ -357,7 +356,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                mWebView.setVisibility(View.VISIBLE);
                 webProgressBar.setVisibility(View.GONE);
             }
         });

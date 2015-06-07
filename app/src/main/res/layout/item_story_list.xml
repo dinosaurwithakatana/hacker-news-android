@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <data class="CommentsHeaderBinder">
-
+    <data class="StoryListItemBinder">
+        <variable name="story" type="io.dwak.holohackernews.app.models.Story"/>
     </data>
 
     <RelativeLayout
@@ -21,6 +21,7 @@
             <com.devspark.robototextview.widget.RobotoTextView
                 android:id="@+id/story_points"
                 android:textColor="?textColor"
+                android:text="@{String.valueOf(story.points)}"
                 tools:text="24"
                 android:gravity="center"
                 android:textSize="24sp"
@@ -37,6 +38,7 @@
                 android:id="@+id/story_title"
                 android:textColor="?textColor"
                 tools:text="Hello Header"
+                android:text="@{story.title}"
                 android:layout_toRightOf="@id/story_points"
                 android:textSize="18sp"
                 app:typeface="roboto_medium"
@@ -50,6 +52,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_toRightOf="@id/story_points"
                 android:layout_below="@id/story_title"
+                android:text="@{story.submitter}"
                 tools:text="iwhdwdh"
                 android:textColor="@android:color/holo_orange_light"
                 app:typeface="roboto_light"
@@ -78,6 +81,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_below="@id/story_title"
                 android:layout_toRightOf="@id/story_domain"
+                android:text="@{story.publishedTime}"
                 tools:text="14 hours ago"
                 app:typeface="roboto_light"
                 android:maxLines="1"
@@ -98,16 +102,6 @@
                 tools:ignore="RtlHardcoded"/>
         </RelativeLayout>
 
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/job_content"
-            android:textSize="14sp"
-            android:textColor="?textColor"
-            app:typeface="roboto_regular"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/header_base"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 </layout>
