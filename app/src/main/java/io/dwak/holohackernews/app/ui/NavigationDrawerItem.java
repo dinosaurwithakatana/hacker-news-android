@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+@Deprecated
 public class NavigationDrawerItem implements IDrawerItem{
     
     private int mId;

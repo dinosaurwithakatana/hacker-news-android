@@ -45,6 +45,7 @@ import rx.android.observables.ViewObservable;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
+@Deprecated
 public class NavigationDrawerFragment extends Fragment {
 
     public static final int NAVIGATION_ITEM_COUNT = 5;
@@ -353,7 +354,8 @@ public class NavigationDrawerFragment extends Fragment {
     /**
      * Callbacks interface that all activities using this fragment must implement.
      */
-    public static interface NavigationDrawerCallbacks {
+    @Deprecated
+    public interface NavigationDrawerCallbacks {
         /**
          * Called when an item in the navigation drawer is selected.
          *

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelActivity;
-import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
@@ -28,8 +26,7 @@ import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment;
 
 public class MainActivity extends BaseViewModelActivity<MainViewModel>
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        StoryListFragment.OnStoryListFragmentInteractionListener {
+    implements StoryListFragment.OnStoryListFragmentInteractionListener {
 
     public static final String STORY_ID = "STORY_ID";
     public static final String DETAILS_CONTAINER_VISIBLE = "DETAILS_CONTAINER_VISIBLE";
@@ -151,47 +148,6 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         super.onDestroy();
     }
 
-    @Override
-    public void onNavigationDrawerItemSelected(NavigationDrawerItem drawerItem) {
-        // update the main content by replacing fragments
-        if (drawerItem != null) {
-            switch (drawerItem.getId()) {
-                case 0:
-                    mTitle = getString(R.string.title_section_top);
-                    Fragment storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_TOP);
-                    loadFeedList(storyListFragment);
-                    break;
-                case 1:
-                    mTitle = getString(R.string.title_section_best);
-                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_BEST);
-                    loadFeedList(storyListFragment);
-                    break;
-                case 2:
-                    mTitle = getString(R.string.title_section_newest);
-                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_NEW);
-                    loadFeedList(storyListFragment);
-                    break;
-                case 3:
-                    mTitle = getString(R.string.title_section_show);
-                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW);
-                    loadFeedList(storyListFragment);
-                    break;
-                case 4:
-                    mTitle = getString(R.string.title_section_show_new);
-                    storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW_NEW);
-                    loadFeedList(storyListFragment);
-                    break;
-                case 5:
-                    Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                    startActivity(settingsIntent);
-                    break;
-                case 6:
-                    Intent aboutIntent = new Intent(this, AboutActivity.class);
-                    startActivity(aboutIntent);
-                    break;
-            }
-        }
-    }
 
     private void loadFeedList(Fragment storyListFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -201,25 +157,6 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                            .commit();
             setTitle(mTitle);
         }
-    }
-
-    public void restoreActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-//            // Only show items in the action bar relevant to this screen
-//            // if the drawer is not showing. Otherwise, let the drawer
-//            // decide what to show in the action bar.
-//            getMenuInflater().inflate(R.menu.main, menu);
-//            restoreActionBar();
-//            return true;
-//        }
-        return super.onCreateOptionsMenu(menu);
     }
 
     @SuppressLint("NewApi")

@@ -31,13 +31,3 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"/>
 </io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout>
-
-    <!--<fragment-->
-    <!--android:id="@+id/navigation_drawer"-->
-    <!--android:name="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment"-->
-    <!--android:layout_width="@dimen/navigation_drawer_width"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="start"-->
-    <!--tools:layout="@layout/fragment_navigation_drawer"/>-->
-
-

@@ -13,9 +13,7 @@ import java.util.List;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 
-/**
- * Created by vishnu on 9/2/14.
- */
+@Deprecated
 public class NavigationDrawerAdapter extends ArrayAdapter<NavigationDrawerItem> {
     private final Context mContext;
 
