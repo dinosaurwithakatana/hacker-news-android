@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
-import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.base.BaseViewModelFragment;
+import io.dwak.holohackernews.app.models.Story;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Subscriber;
@@ -109,7 +109,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
         mContainer = view.findViewById(R.id.story_list);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(getViewModel().getTitle());
         }
