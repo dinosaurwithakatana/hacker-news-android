@@ -16,15 +16,12 @@ public class MainViewModel extends BaseViewModel{
     private List<IDrawerItem> mDrawerItems;
 
     List<IDrawerItem> getDrawerItems(){
-        List<PrimaryDrawerItem> primaryDrawerItems = new ArrayList<>();
-        List<SecondaryDrawerItem> secondaryDrawerItems = new ArrayList<>();
-
-        if(mDrawerItems != null){
-            mDrawerItems.addAll(primaryDrawerItems);
-            mDrawerItems.addAll(secondaryDrawerItems);
+        if(mDrawerItems != null && !mDrawerItems.isEmpty()){
             return mDrawerItems;
         }
 
+        List<PrimaryDrawerItem> primaryDrawerItems = new ArrayList<>();
+        List<SecondaryDrawerItem> secondaryDrawerItems = new ArrayList<>();
         mDrawerItems = new ArrayList<>();
 
         primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(0).withName(R.string.title_section_top).withIcon(R.drawable.ic_trending_up));
