@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.ui.storylist;
+package io.dwak.holohackernews.app.ui.storylist.navigation;
 
 
 import android.app.Activity;
@@ -33,8 +33,6 @@ import java.util.List;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
-import io.dwak.holohackernews.app.ui.NavigationDrawerAdapter;
-import io.dwak.holohackernews.app.ui.NavigationDrawerItem;
 import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.rx.events.RxEvents;
 import rx.android.observables.AndroidObservable;

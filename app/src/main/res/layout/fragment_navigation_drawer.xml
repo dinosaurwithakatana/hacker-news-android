@@ -10,4 +10,4 @@
     android:drawSelectorOnTop="true"
     android:background="#ffffff"
     android:groupIndicator="@null"
-    tools:context="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment" />
+    tools:context="io.dwak.holohackernews.app.ui.storylist.navigation.NavigationDrawerFragment" />

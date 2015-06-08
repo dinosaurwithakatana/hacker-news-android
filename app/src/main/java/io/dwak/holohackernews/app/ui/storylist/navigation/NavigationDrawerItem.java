@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.ui;
+package io.dwak.holohackernews.app.ui.storylist.navigation;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;

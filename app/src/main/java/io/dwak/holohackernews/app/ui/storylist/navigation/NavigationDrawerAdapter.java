@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.ui;
+package io.dwak.holohackernews.app.ui.storylist.navigation;
 
 import android.app.Activity;
 import android.content.Context;
