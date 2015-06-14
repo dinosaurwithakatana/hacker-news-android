@@ -10,7 +10,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 141
-        versionName '4.1'
+        versionName '4.1.1'
     }
     signingConfigs {
         release {
