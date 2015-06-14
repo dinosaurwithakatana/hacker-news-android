@@ -10,8 +10,6 @@ Uses [cheeaun's](http://cheeaun.com/) [node-hnapi](https://github.com/cheeaun/no
 
 Building
 ---
-[![Build Status](https://travis-ci.org/dinosaurwithakatana/hacker-news-android.svg?branch=master)](https://travis-ci.org/dinosaurwithakatana/hacker-news-android) 
-
 Copy each of the `*.properties.example` to their respective properties files and fill out as necessary.
 
 Import into Android studio, should work out of the box.
@@ -27,4 +25,12 @@ Chat
 --
 [![Gitter chat](https://badges.gitter.im/dinosaurwithakatana/holo_hacker_news.png)](https://gitter.im/dinosaurwithakatana/holo_hacker_news)
 
+Donation
+--
 
+Donations are far from necessary, but if you want they're available below.
+
+* <a class="coinbase-button" data-code="50a2b842cc2fe69fa50699271c322f48" data-button-style="custom_large" href="https://www.coinbase.com/checkouts/50a2b842cc2fe69fa50699271c322f48">Donate Bitcoins</a><script src="https://www.coinbase.com/assets/button.js" type="text/javascript"></script>
+
+
+* [Square Cash](https://cash.me/$vishnurajeevan)
