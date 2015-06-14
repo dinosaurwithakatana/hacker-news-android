@@ -64,6 +64,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
     @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
+    @InjectView(R.id.web_progress_bar) ProgressBar mWebProgressBar;
     private Bundle mWebViewBundle;
     private boolean mReadability;
     private boolean mWasLinkLayoutOpen;
@@ -185,8 +186,8 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
         }
         ButterKnife.inject(this, rootView);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mContainer = rootView.findViewById(R.id.container);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mFloatingActionButton.setOnClickListener(view -> readability());
         setupWebViewDrawer();
 
@@ -270,6 +271,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public void onDestroy() {
         if (mSubscription != null) mSubscription.unsubscribe();
+        mWebView.destroy();
         super.onDestroy();
     }
 
@@ -340,11 +342,9 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             mLinkLayout.setOpen(mWasLinkLayoutOpen || (UserPreferenceManager.showLinkFirst(getActivity())));
         }
 
-        final ProgressBar webProgressBar = (ProgressBar) mLinkLayout.findViewById(R.id.web_progress_bar);
         mCloseLink.setOnClickListener(view -> mLinkLayout.setOpen(false));
 
-        mWebView.setVisibility(View.INVISIBLE);
-        webProgressBar.setVisibility(View.VISIBLE);
+        mWebProgressBar.setVisibility(View.VISIBLE);
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setLoadWithOverviewMode(true);
@@ -357,16 +357,15 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                mWebView.setVisibility(View.VISIBLE);
-                webProgressBar.setVisibility(View.GONE);
+                mWebProgressBar.setVisibility(View.GONE);
             }
         });
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                webProgressBar.setMax(100);
-                webProgressBar.setProgress(newProgress);
+                mWebProgressBar.setMax(100);
+                mWebProgressBar.setProgress(newProgress);
 
             }
         });
