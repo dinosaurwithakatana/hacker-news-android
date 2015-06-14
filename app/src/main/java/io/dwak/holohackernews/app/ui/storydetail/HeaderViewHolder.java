@@ -43,7 +43,13 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
     }
 
     static void bind(@NonNull Context context, @NonNull HeaderViewHolder headerViewHolder, @NonNull StoryDetail storyDetail){
-        headerViewHolder.mStoryTitle.setText(storyDetail.getTitle());
+        if(TextUtils.isEmpty(storyDetail.getTitle())){
+            headerViewHolder.mStoryTitle.setVisibility(View.GONE);
+        }
+        else {
+            headerViewHolder.mStoryTitle.setVisibility(View.VISIBLE);
+            headerViewHolder.mStoryTitle.setText(storyDetail.getTitle());
+        }
         headerViewHolder.mStorySubmitter.setText(storyDetail.getUser());
         if (!StoryDetail.JOB.equals(storyDetail.getType())) {
             headerViewHolder.mContent.setVisibility(View.GONE);
@@ -63,7 +69,15 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
                         ? android.R.color.white
                         : android.R.color.black));
             }
-            headerViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
+
+            if(storyDetail.getPoints() != null) {
+                headerViewHolder.mStoryPoints.setVisibility(View.VISIBLE);
+                headerViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
+            }
+            else {
+                headerViewHolder.mStoryPoints.setVisibility(View.GONE);
+            }
+
             headerViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
             headerViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
         }

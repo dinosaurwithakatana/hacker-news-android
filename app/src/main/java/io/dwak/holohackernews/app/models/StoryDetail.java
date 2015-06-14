@@ -89,7 +89,7 @@ public class StoryDetail {
         return mDomain;
     }
 
-    public int getPoints() {
+    public Integer getPoints() {
         return mPoints;
     }
 
