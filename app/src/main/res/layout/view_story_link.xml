@@ -61,10 +61,7 @@
         android:id="@+id/story_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/button_bar"
-        android:visibility="invisible">
-
-    </io.dwak.holohackernews.app.widget.ObservableWebView>
+        android:layout_below="@id/button_bar"/>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fabbutton"
