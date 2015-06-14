@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,6 +17,9 @@ import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.Optional;
 import io.dwak.holohackernews.app.HoloHackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelActivity;
@@ -30,21 +34,20 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
 
     public static final String STORY_ID = "STORY_ID";
     public static final String DETAILS_CONTAINER_VISIBLE = "DETAILS_CONTAINER_VISIBLE";
+
+    @InjectView(R.id.toolbar) Toolbar mToolbar;
+    @Optional @InjectView(R.id.details_container) View mDetailsContainer;
+
     private CharSequence mTitle;
     private boolean mIsDualPane;
     private StoryDetailFragment mStoryDetailFragment;
-    private View mDetailsContainer;
+    private Drawer mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-            setSupportActionBar(toolbar);
-        }
-
+        ButterKnife.inject(this);
         mTitle = getTitle();
 
         // Set up the drawer.
@@ -57,7 +60,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                                      .withIcon(getResources().getDrawable(R.drawable.ic_add)))
                 .withSavedInstance(savedInstanceState)
                 .withProfileImagesVisible(true)
-                .withHeaderBackground(R.drawable.account_header_bg)
+                .withHeaderBackground(getResources().getDrawable(R.drawable.orange_button))
                 .withOnAccountHeaderListener((view, iProfile, b) -> {
                     switch (iProfile.getIdentifier()) {
                         case 0:
@@ -69,10 +72,12 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                 })
                 .build();
 
-        Drawer drawer = new DrawerBuilder()
+        mDrawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
+                .withToolbar(mToolbar)
+                .withActionBarDrawerToggle(true)
                 .withAccountHeader(accountHeader)
+                .withAnimateDrawerItems(true)
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(getViewModel().getDrawerItems().toArray(new IDrawerItem[getViewModel().getDrawerItems().size()]))
                 .withOnDrawerItemClickListener((adapterView, view, i, l, iDrawerItem) -> {
@@ -116,9 +121,13 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                 })
                 .build();
 
-        drawer.setSelectionByIdentifier(0);
+        mDrawer.setSelectionByIdentifier(0);
 
-        mDetailsContainer = findViewById(R.id.details_container);
+        if (mToolbar != null) {
+            mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(mToolbar);
+        }
+
         // The attributes you want retrieved
         mIsDualPane = mDetailsContainer != null;
 
@@ -189,5 +198,10 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return mDrawer.getActionBarDrawerToggle().onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 }

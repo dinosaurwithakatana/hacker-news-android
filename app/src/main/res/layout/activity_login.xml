@@ -2,32 +2,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:gravity="center"
-    android:padding="52dp"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:gravity="center"
     android:orientation="vertical"
+    android:padding="52dp"
     >
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/username"
-        app:floatingLabel="highlight"
-        app:baseColor="@android:color/black"
-        android:padding="4dp"
-        android:hint="@string/username"
-        android:gravity="center_vertical"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:hint="@string/username"
+        android:padding="4dp"
+        app:met_baseColor="@android:color/black"
+        app:met_floatingLabel="highlight"/>
+
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/password"
-        android:inputType="textPassword"
-        app:floatingLabel="highlight"
-        app:baseColor="@android:color/black"
-        android:hint="@string/password"
-        android:padding="4dp"
-        android:gravity="center_vertical"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:padding="4dp"
+        app:met_baseColor="@android:color/black"
+        app:met_floatingLabel="highlight"/>
+
     <com.dd.CircularProgressButton
         android:id="@+id/login_button_with_progress"
         android:layout_width="200dp"
@@ -38,18 +40,8 @@
         app:cpb_selectorIdle="@drawable/login_button"
         app:cpb_textComplete="@string/complete"
         app:cpb_textError="@string/error"
-        app:cpb_textIdle="@string/login" />
+        app:cpb_textIdle="@string/login"/>
 
-    <!--<WebView-->
-        <!--android:id="@+id/login_webview"-->
-        <!--android:layout_width="320dp"-->
-        <!--android:layout_height="400dp"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-        <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-        <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-        <!--android:paddingTop="@dimen/activity_vertical_margin"-->
-        <!--tools:context="io.dwak.holohackernews.app.ui.login.LoginActivity"/>-->
 </LinearLayout>
 
 

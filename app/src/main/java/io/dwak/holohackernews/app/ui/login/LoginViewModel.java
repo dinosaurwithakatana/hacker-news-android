@@ -7,6 +7,7 @@ import com.squareup.okhttp.OkHttpClient;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
 import io.dwak.holohackernews.app.network.LoginService;
+import io.dwak.holohackernews.app.util.HNLog;
 import retrofit.RestAdapter;
 import retrofit.client.Header;
 import retrofit.client.OkClient;
@@ -15,7 +16,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class LoginViewModel extends BaseViewModel{
+public class LoginViewModel extends BaseViewModel {
     private final LoginService mLoginService;
 
     public LoginViewModel() {
@@ -24,7 +25,11 @@ public class LoginViewModel extends BaseViewModel{
         Gson gson = gsonBuilder.create();
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setClient(new OkClient(new OkHttpClient().setFollowSslRedirects(true)))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setConverter(new GsonConverter(gson))
+                .setRequestInterceptor(request -> {
+                    HNLog.d(request.);
+                })
                 .setEndpoint("https://news.ycombinator.com")
                 .build();
         mLoginService = restAdapter.create(LoginService.class);
@@ -32,16 +37,18 @@ public class LoginViewModel extends BaseViewModel{
 
     public Observable<String> login(String username, String password) {
         return mLoginService
-                .login("news", username, password)
+                .login("news", username, password, "")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(response -> {
                     String userCookie = null;
                     for (Header header : response.getHeaders()) {
-                        if ("set-cookie".equals(header.getName())) {
-                            if (header.getValue().contains("user")) {
-                                userCookie = header.getValue().substring(5);
-                                userCookie = userCookie.split(";")[0];
+                        if(header.getName() != null) {
+                            if ("set-cookie".equals(header.getName().toLowerCase())) {
+                                if (header.getValue().contains("user")) {
+                                    userCookie = header.getValue().substring(5);
+                                    userCookie = userCookie.split(";")[0];
+                                }
                             }
                         }
                     }
