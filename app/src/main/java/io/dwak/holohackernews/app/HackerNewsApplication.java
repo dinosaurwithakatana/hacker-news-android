@@ -3,6 +3,7 @@ package io.dwak.holohackernews.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.stetho.Stetho;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -14,12 +15,9 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
-/**
- * Created by vishnu on 5/3/14.
- */
-public class HoloHackerNewsApplication extends Application {
+public class HackerNewsApplication extends Application {
     private static boolean mDebug = BuildConfig.DEBUG;
-    private static HoloHackerNewsApplication sInstance;
+    private static HackerNewsApplication sInstance;
     private Context mContext;
     private HackerNewsService mHackerNewsService;
 
@@ -32,13 +30,20 @@ public class HoloHackerNewsApplication extends Application {
 
         mContext = getApplicationContext();
         LocalDataManager.initialize(mContext);
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                      .enableDumpapp(
+                              Stetho.defaultDumperPluginsProvider(this))
+                      .enableWebKitInspector(
+                              Stetho.defaultInspectorModulesProvider(this))
+                      .build());
     }
 
     public static boolean isDebug() {
         return mDebug;
     }
 
-    public static HoloHackerNewsApplication getInstance() {
+    public static HackerNewsApplication getInstance() {
         return sInstance;
     }
 
@@ -46,8 +51,8 @@ public class HoloHackerNewsApplication extends Application {
         return mContext;
     }
 
-    public HackerNewsService getHackerNewsServiceInstance(){
-        if(mHackerNewsService==null) {
+    public HackerNewsService getHackerNewsServiceInstance() {
+        if (mHackerNewsService == null) {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Long.class, new LongTypeAdapter());
             Gson gson = gsonBuilder.create();
@@ -62,5 +67,4 @@ public class HoloHackerNewsApplication extends Application {
 
         return mHackerNewsService;
     }
-
 }

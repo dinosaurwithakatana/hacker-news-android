@@ -8,7 +8,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
@@ -16,9 +16,6 @@ import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import rx.Observable;
 
-/**
- * Created by vishnu on 2/2/15.
- */
 public class StoryDetailViewModel extends BaseViewModel {
     private Observable<NodeHNAPIStoryDetail> mItemDetails;
     private long mStoryId;
@@ -80,7 +77,7 @@ public class StoryDetailViewModel extends BaseViewModel {
 
     void setStoryId(long storyId) {
         mStoryId = storyId;
-        mItemDetails = HoloHackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId);
+        mItemDetails = HackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId);
     }
 
     long getStoryId(){

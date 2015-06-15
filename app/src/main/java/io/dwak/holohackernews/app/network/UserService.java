@@ -6,8 +6,8 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 import rx.Observable;
 
-public interface LoginService {
+public interface UserService {
     @FormUrlEncoded
     @POST("/login")
-    Observable<Response> login(@Field("goto") String goTo, @Field("acct") String username, @Field("pw") String password, @Field("login") String login);
+    Observable<Response> login(@Field("go_to") String goTo, @Field("acct") String username, @Field("pw") String password);
 }

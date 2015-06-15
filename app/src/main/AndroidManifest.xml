@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".HoloHackerNewsApplication"
+        android:name=".HackerNewsApplication"
         android:allowBackup="true"
         android:icon="@drawable/hn_app_icon"
         android:label="@string/app_name"

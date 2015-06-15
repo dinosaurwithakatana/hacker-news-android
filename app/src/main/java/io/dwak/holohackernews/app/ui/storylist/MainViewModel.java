@@ -1,22 +1,71 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
+import io.dwak.holohackernews.app.models.User;
+import io.dwak.holohackernews.app.preferences.LocalDataManager;
 
-public class MainViewModel extends BaseViewModel{
+public class MainViewModel extends BaseViewModel {
+
+    public static final int LOG_OUT_PROFILE_ITEM = -1;
+    public static final int ADD_ACCOUNT_PROFILE_ITEM = 0;
+    public static final int LOGGED_IN_PROFILE_ITEM = 1;
 
     private List<IDrawerItem> mDrawerItems;
+    private IProfile[] mLoggedInProfiles;
+    private IProfile[] mLoggedOutProfileItems;
 
-    List<IDrawerItem> getDrawerItems(){
-        if(mDrawerItems != null && !mDrawerItems.isEmpty()){
+    IProfile[] getLoggedOutProfileItem() {
+        if (mLoggedOutProfileItems == null) {
+            mLoggedOutProfileItems = new IProfile[1];
+            ProfileSettingDrawerItem profileAddAccountItem = new ProfileSettingDrawerItem().withIdentifier(ADD_ACCOUNT_PROFILE_ITEM)
+                                                                                           .withName(getResources().getString(R.string.nav_drawer_login))
+                                                                                           .withDescription(getResources().getString(R.string.nav_drawer_add_an_account))
+                                                                                           .withIcon(getResources().getDrawable(R.drawable.ic_add));
+            mLoggedOutProfileItems[0] = profileAddAccountItem;
+        }
+        return mLoggedOutProfileItems;
+    }
+
+    IProfile[] getLoggedInProfileItem() {
+        if (mLoggedInProfiles == null) {
+            mLoggedInProfiles = new IProfile[2];
+            User currentUser = LocalDataManager.getInstance().getUser();
+            ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withIdentifier(LOGGED_IN_PROFILE_ITEM)
+                                                                         .withIcon(TextDrawable.builder()
+                                                                                               .buildRound(String.valueOf(currentUser.getUserName().charAt(0)),
+                                                                                                           getResources().getColor(R.color.colorPrimaryDark)))
+                                                                         .withName(currentUser.getUserName());
+            ProfileSettingDrawerItem logoutDrawerItem = new ProfileSettingDrawerItem().withIdentifier(LOG_OUT_PROFILE_ITEM)
+                                                                                      .withName("Logout")
+                                                                                      .withDescription("Logout of current account")
+                                                                                      .withIcon(getResources().getDrawable(R.drawable.ic_close));
+
+            mLoggedInProfiles[0] = profileDrawerItem;
+            mLoggedInProfiles[1] = logoutDrawerItem;
+        }
+
+        return mLoggedInProfiles;
+    }
+
+    void clearLoggedInProfileItem() {
+        mLoggedInProfiles = null;
+    }
+
+    List<IDrawerItem> getDrawerItems() {
+        if (mDrawerItems != null && !mDrawerItems.isEmpty()) {
             return mDrawerItems;
         }
 
@@ -39,5 +88,13 @@ public class MainViewModel extends BaseViewModel{
         mDrawerItems.addAll(secondaryDrawerItems);
 
         return mDrawerItems;
+    }
+
+    boolean isLoggedIn() {
+        return LocalDataManager.getInstance().getUser() != null;
+    }
+
+    public void logout() {
+        LocalDataManager.getInstance().logoutUser();
     }
 }

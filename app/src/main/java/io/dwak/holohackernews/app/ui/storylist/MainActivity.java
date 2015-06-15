@@ -1,7 +1,9 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,13 +16,13 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
-import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelActivity;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
@@ -28,20 +30,25 @@ import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment;
+import rx.android.observables.AndroidObservable;
 
 public class MainActivity extends BaseViewModelActivity<MainViewModel>
-    implements StoryListFragment.OnStoryListFragmentInteractionListener {
+        implements StoryListFragment.OnStoryListFragmentInteractionListener {
 
     public static final String STORY_ID = "STORY_ID";
     public static final String DETAILS_CONTAINER_VISIBLE = "DETAILS_CONTAINER_VISIBLE";
 
-    @InjectView(R.id.toolbar) Toolbar mToolbar;
-    @Optional @InjectView(R.id.details_container) View mDetailsContainer;
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
+    @Optional
+    @InjectView(R.id.details_container)
+    View mDetailsContainer;
 
     private CharSequence mTitle;
     private boolean mIsDualPane;
     private StoryDetailFragment mStoryDetailFragment;
     private Drawer mDrawer;
+    private AccountHeader mAccountHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +58,28 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         mTitle = getTitle();
 
         // Set up the drawer.
-        AccountHeader accountHeader = new AccountHeaderBuilder()
+        mAccountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .addProfiles(new ProfileSettingDrawerItem()
-                                     .withIdentifier(0)
-                                     .withName("Login")
-                                     .withDescription("Add an account")
-                                     .withIcon(getResources().getDrawable(R.drawable.ic_add)))
+                .addProfiles(getViewModel().isLoggedIn() ? getViewModel().getLoggedInProfileItem()
+                                                         : getViewModel().getLoggedOutProfileItem())
                 .withSavedInstance(savedInstanceState)
                 .withProfileImagesVisible(true)
                 .withHeaderBackground(getResources().getDrawable(R.drawable.orange_button))
                 .withOnAccountHeaderListener((view, iProfile, b) -> {
                     switch (iProfile.getIdentifier()) {
-                        case 0:
+                        case MainViewModel.ADD_ACCOUNT_PROFILE_ITEM:
                             MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));
                             return true;
+                        case MainViewModel.LOG_OUT_PROFILE_ITEM:
+                            new AlertDialog.Builder(this)
+                                    .setMessage("Are you sure you want to logout?")
+                                    .setPositiveButton("Logout", (dialog, which) -> {
+                                        getViewModel().logout();
+                                    })
+                                    .setNegativeButton("Cancel", null)
+                                    .create()
+                                    .show();
+                            break;
                     }
 
                     return false;
@@ -76,7 +90,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                 .withActivity(this)
                 .withToolbar(mToolbar)
                 .withActionBarDrawerToggle(true)
-                .withAccountHeader(accountHeader)
+                .withAccountHeader(mAccountHeader)
                 .withAnimateDrawerItems(true)
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(getViewModel().getDrawerItems().toArray(new IDrawerItem[getViewModel().getDrawerItems().size()]))
@@ -137,6 +151,30 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                 mDetailsContainer.setVisibility(View.VISIBLE);
             }
         }
+
+        AndroidObservable.fromLocalBroadcast(this, new IntentFilter(LoginActivity.LOGIN_SUCCESS))
+                         .subscribe(intent -> refreshNavigationDrawer(true));
+
+        AndroidObservable.fromLocalBroadcast(this, new IntentFilter(LoginActivity.LOGOUT))
+                         .subscribe(intent -> refreshNavigationDrawer(false));
+    }
+
+    private void refreshNavigationDrawer(boolean loggedIn) {
+        if (loggedIn) {
+            for (IProfile iProfile : getViewModel().getLoggedOutProfileItem()) {
+                mAccountHeader.removeProfile(iProfile);
+            }
+            mAccountHeader.addProfiles(getViewModel().getLoggedInProfileItem());
+        }
+        else {
+            for (IProfile iProfile : getViewModel().getLoggedInProfileItem()) {
+                mAccountHeader.removeProfile(iProfile);
+            }
+            mAccountHeader.addProfiles(getViewModel().getLoggedOutProfileItem());
+            getViewModel().clearLoggedInProfileItem();
+        }
+
+        mAccountHeader.toggleSelectionList(this);
     }
 
     @Override
@@ -171,7 +209,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
     @SuppressLint("NewApi")
     @Override
     public void onStoryListFragmentInteraction(long id) {
-        if (HoloHackerNewsApplication.isDebug()) {
+        if (HackerNewsApplication.isDebug()) {
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 

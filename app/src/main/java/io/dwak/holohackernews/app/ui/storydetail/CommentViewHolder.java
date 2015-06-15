@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.dwak.holohackernews.app.HoloHackerNewsApplication;
+import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
@@ -89,7 +89,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
         viewHolder.overflow.setOnClickListener(view -> commentAction(context, comment));
 
         String submitter = comment.getUser();
-        if (HoloHackerNewsApplication.isDebug()) {
+        if (HackerNewsApplication.isDebug()) {
             viewHolder.commentSubmitter.setText(viewHolder.getPosition() + " " + submitter);
         }
         else {

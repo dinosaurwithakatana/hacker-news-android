@@ -8,7 +8,7 @@ public abstract class BaseViewModelActivity<T extends BaseViewModel> extends Bas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getViewModel();
+        getViewModel().setResources(getResources());
     }
 
     public T getViewModel() {
