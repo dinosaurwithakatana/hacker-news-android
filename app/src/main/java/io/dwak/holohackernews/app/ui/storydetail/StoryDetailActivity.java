@@ -19,6 +19,7 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
 
     @InjectView(R.id.toolbar) Toolbar mToolbar;
     private StoryDetailFragment mStoryDetailFragment;
+    private boolean mSaved;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
             Bundle extras = intent.getExtras();
             if (extras != null) {
                 storyId = extras.getLong(MainActivity.STORY_ID);
+                mSaved = extras.getBoolean(StoryDetailFragment.LOADING_FROM_SAVED);
             }
 
             final Uri data = intent.getData();
@@ -47,7 +49,7 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
             }
         }
         if (savedInstanceState == null) {
-            mStoryDetailFragment = StoryDetailFragment.newInstance(storyId);
+            mStoryDetailFragment = StoryDetailFragment.newInstance(storyId, mSaved);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, mStoryDetailFragment)
                     .commit();

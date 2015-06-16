@@ -1,11 +1,11 @@
 package io.dwak.holohackernews.app;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.orm.SugarApp;
 import com.squareup.okhttp.OkHttpClient;
 
 import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
@@ -15,7 +15,7 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
-public class HackerNewsApplication extends Application {
+public class HackerNewsApplication extends SugarApp{
     private static boolean mDebug = BuildConfig.DEBUG;
     private static HackerNewsApplication sInstance;
     private Context mContext;
@@ -37,6 +37,7 @@ public class HackerNewsApplication extends Application {
                       .enableWebKitInspector(
                               Stetho.defaultInspectorModulesProvider(this))
                       .build());
+
     }
 
     public static boolean isDebug() {

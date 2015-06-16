@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_container"
+    android:paddingRight="16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/upvote"
+        android:drawableTop="@drawable/ic_action_thumb_up_black"
+        android:layout_marginLeft="16dp"
+        android:layout_gravity="center_vertical|right"
+        android:text="Upvote"
+        android:textColor="@android:color/black"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/save_story_button"
+        android:drawableTop="@drawable/ic_action_archive_black"
+        android:layout_marginLeft="16dp"
+        android:layout_gravity="center_vertical|right"
+        android:text="Save"
+        android:textColor="@android:color/black"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

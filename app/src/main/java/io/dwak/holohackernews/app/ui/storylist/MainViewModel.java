@@ -22,6 +22,14 @@ public class MainViewModel extends BaseViewModel {
     public static final int LOG_OUT_PROFILE_ITEM = -1;
     public static final int ADD_ACCOUNT_PROFILE_ITEM = 0;
     public static final int LOGGED_IN_PROFILE_ITEM = 1;
+    public static final int SECTION_ABOUT = 8;
+    public static final int SECTION_SETTINGS = 7;
+    public static final int SECTION_SAVED = 6;
+    public static final int SECTION_SHOW_HN_NEW = 4;
+    public static final int SECTION_SHOW_HN = 3;
+    public static final int SECTION_NEWEST = 2;
+    public static final int SECTION_BEST = 1;
+    public static final int SECTION_TOP = 0;
 
     private List<IDrawerItem> mDrawerItems;
     private IProfile[] mLoggedInProfiles;
@@ -73,17 +81,18 @@ public class MainViewModel extends BaseViewModel {
         List<SecondaryDrawerItem> secondaryDrawerItems = new ArrayList<>();
         mDrawerItems = new ArrayList<>();
 
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(0).withName(R.string.title_section_top).withIcon(R.drawable.ic_trending_up));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(1).withName(R.string.title_section_best).withIcon(R.drawable.ic_best));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(2).withName(R.string.title_section_newest).withIcon(R.drawable.ic_new_releases));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(3).withName(R.string.title_section_show).withIcon(R.drawable.ic_show));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(4).withName(R.string.title_section_show_new).withIcon(R.drawable.ic_show));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_TOP).withName(R.string.title_section_top).withIcon(R.drawable.ic_trending_up));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_BEST).withName(R.string.title_section_best).withIcon(R.drawable.ic_best));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_NEWEST).withName(R.string.title_section_newest).withIcon(R.drawable.ic_new_releases));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN).withName(R.string.title_section_show).withIcon(R.drawable.ic_show));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN_NEW).withName(R.string.title_section_show_new).withIcon(R.drawable.ic_show));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SAVED).withName("Saved").withIcon(R.drawable.ic_action_archive_black));
         mDrawerItems.addAll(primaryDrawerItems);
 
         mDrawerItems.add(new DividerDrawerItem());
 
-        secondaryDrawerItems.add(new SecondaryDrawerItem().withIdentifier(5).withName(R.string.title_section_settings).withCheckable(false));
-        secondaryDrawerItems.add(new SecondaryDrawerItem().withIdentifier(6).withName(R.string.title_section_about).withCheckable(false));
+        secondaryDrawerItems.add(new SecondaryDrawerItem().withIdentifier(SECTION_SETTINGS).withName(R.string.title_section_settings).withCheckable(false));
+        secondaryDrawerItems.add(new SecondaryDrawerItem().withIdentifier(SECTION_ABOUT).withName(R.string.title_section_about).withCheckable(false));
 
         mDrawerItems.addAll(secondaryDrawerItems);
 

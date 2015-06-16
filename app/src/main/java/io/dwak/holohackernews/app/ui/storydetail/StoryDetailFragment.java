@@ -53,6 +53,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public static final String TOP_VISIBLE_COMMENT = "TOP_VISIBLE_COMMENT";
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryDetailFragment.class.getSimpleName();
+    public static final String LOADING_FROM_SAVED = "LOADING_FROM_SAVED";
     @InjectView(R.id.prev_top_level) Button mPrevTopLevel;
     @InjectView(R.id.next_top_level) Button mNextTopLevel;
     @InjectView(R.id.web_back) Button mWebBack;
@@ -74,6 +75,14 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         StoryDetailFragment fragment = new StoryDetailFragment();
         Bundle args = new Bundle();
         args.putLong(STORY_ID, param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static StoryDetailFragment newInstance(long id, boolean saved) {
+        StoryDetailFragment fragment = StoryDetailFragment.newInstance(id);
+        Bundle args = fragment.getArguments();
+        args.putBoolean(LOADING_FROM_SAVED, saved);
         fragment.setArguments(args);
         return fragment;
     }

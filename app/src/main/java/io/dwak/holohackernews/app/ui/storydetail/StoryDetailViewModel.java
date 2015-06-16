@@ -34,7 +34,7 @@ public class StoryDetailViewModel extends BaseViewModel {
         return mStoryDetail;
     }
 
-    Observable<StoryDetail> getStoryDetailObservable() {
+    public Observable<StoryDetail> getStoryDetailObservable() {
         return mItemDetails.map(nodeHNAPIStoryDetail -> {
             List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.getNodeHNAPICommentList();
             List<NodeHNAPIComment> expandedComments = new ArrayList<NodeHNAPIComment>();
@@ -75,7 +75,7 @@ public class StoryDetailViewModel extends BaseViewModel {
         }
     }
 
-    void setStoryId(long storyId) {
+    public void setStoryId(long storyId) {
         mStoryId = storyId;
         mItemDetails = HackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId);
     }

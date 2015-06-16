@@ -97,36 +97,41 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                 .withOnDrawerItemClickListener((adapterView, view, i, l, iDrawerItem) -> {
                     Fragment storyListFragment;
                     switch (iDrawerItem.getIdentifier()) {
-                        case 0:
+                        case MainViewModel.SECTION_TOP:
                             mTitle = getString(R.string.title_section_top);
                             storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_TOP);
                             loadFeedList(storyListFragment);
                             break;
-                        case 1:
+                        case MainViewModel.SECTION_BEST:
                             mTitle = getString(R.string.title_section_best);
                             storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_BEST);
                             loadFeedList(storyListFragment);
                             break;
-                        case 2:
+                        case MainViewModel.SECTION_NEWEST:
                             mTitle = getString(R.string.title_section_newest);
                             storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_NEW);
                             loadFeedList(storyListFragment);
                             break;
-                        case 3:
+                        case MainViewModel.SECTION_SHOW_HN:
                             mTitle = getString(R.string.title_section_show);
                             storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW);
                             loadFeedList(storyListFragment);
                             break;
-                        case 4:
+                        case MainViewModel.SECTION_SHOW_HN_NEW:
                             mTitle = getString(R.string.title_section_show_new);
                             storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW_NEW);
                             loadFeedList(storyListFragment);
                             break;
-                        case 5:
+                        case MainViewModel.SECTION_SAVED:
+                            mTitle = "Saved";
+                            storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SAVED);
+                            loadFeedList(storyListFragment);
+                            break;
+                        case MainViewModel.SECTION_SETTINGS:
                             Intent settingsIntent = new Intent(this, SettingsActivity.class);
                             startActivity(settingsIntent);
                             break;
-                        case 6:
+                        case MainViewModel.SECTION_ABOUT:
                             Intent aboutIntent = new Intent(this, AboutActivity.class);
                             startActivity(aboutIntent);
                             break;
@@ -208,13 +213,13 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
 
     @SuppressLint("NewApi")
     @Override
-    public void onStoryListFragmentInteraction(long id) {
+    public void onStoryListFragmentInteraction(long id, boolean saved) {
         if (HackerNewsApplication.isDebug()) {
             Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
         if (mIsDualPane && mDetailsContainer != null) {
-            mStoryDetailFragment = StoryDetailFragment.newInstance(id);
+            mStoryDetailFragment = StoryDetailFragment.newInstance(id, saved);
             mDetailsContainer.setVisibility(View.VISIBLE);
             getSupportFragmentManager().beginTransaction()
                                        .replace(R.id.details_container, mStoryDetailFragment)
@@ -223,6 +228,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         else {
             Intent detailIntent = new Intent(this, StoryDetailActivity.class);
             detailIntent.putExtra(STORY_ID, id);
+            detailIntent.putExtra(StoryDetailFragment.LOADING_FROM_SAVED, saved);
             startActivity(detailIntent);
             overridePendingTransition(R.anim.offscreen_left_to_view, R.anim.fadeout);
         }

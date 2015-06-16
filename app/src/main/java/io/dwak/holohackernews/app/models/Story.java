@@ -1,10 +1,8 @@
 package io.dwak.holohackernews.app.models;
 
-/**
- * Data model for a hackernews story
- * Created by vishnu on 4/21/14.
- */
-public class Story {
+import com.orm.SugarRecord;
+
+public class Story extends SugarRecord<Story>{
     private Long mStoryId;
     private String mTitle;
     private String mUrl;
@@ -14,6 +12,7 @@ public class Story {
     private String mPublishedTime;
     private int mNumComments;
     private String mType;
+    private boolean isSaved;
 
     public Story() {
     }
@@ -100,6 +99,14 @@ public class Story {
 
     public void setType(String type) {
         mType = type;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setIsSaved(boolean isSaved) {
+        this.isSaved = isSaved;
     }
 
     @Override

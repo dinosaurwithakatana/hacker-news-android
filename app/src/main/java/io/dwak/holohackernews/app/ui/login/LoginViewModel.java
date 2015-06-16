@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.login;
 
 import com.facebook.stetho.okhttp.StethoInterceptor;
 import com.google.gson.GsonBuilder;
+import com.orm.SugarRecord;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
 
@@ -51,6 +52,7 @@ public class LoginViewModel extends BaseViewModel {
         return mUserService
                 .login("news", username, password)
                 .map(response -> new User(username, mUserCookie, true))
+                .doOnNext(SugarRecord::save)
                 .doOnNext(user -> LocalDataManager.getInstance().saveUser(user));
     }
 }

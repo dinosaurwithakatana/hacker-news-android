@@ -1,9 +1,14 @@
 package io.dwak.holohackernews.app.models;
 
-public class User {
+import com.orm.SugarRecord;
+
+public class User extends SugarRecord<User>{
     private String userName;
     private String userCookie;
     private boolean isCurrentUser;
+
+    public User() {
+    }
 
     public User(String userName, String userCookie, boolean isCurrentUser) {
         this.userName = userName;

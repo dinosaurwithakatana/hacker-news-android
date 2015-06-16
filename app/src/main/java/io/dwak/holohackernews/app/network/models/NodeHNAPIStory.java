@@ -17,6 +17,21 @@ public class NodeHNAPIStory {
     @SerializedName("comments_count") private int mNumComments;
     @SerializedName("type") private String mType;
 
+    public NodeHNAPIStory() {
+    }
+
+    public NodeHNAPIStory(Long storyId, String title, String url, String domain, int points, String submitter, String publishedTime, int numComments, String type) {
+        mStoryId = storyId;
+        mTitle = title;
+        mUrl = url;
+        mDomain = domain;
+        mPoints = points;
+        mSubmitter = submitter;
+        mPublishedTime = publishedTime;
+        mNumComments = numComments;
+        mType = type;
+    }
+
     public Long getStoryId() {
         return mStoryId;
     }

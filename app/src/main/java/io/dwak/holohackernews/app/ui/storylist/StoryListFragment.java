@@ -20,6 +20,7 @@ import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelFragment;
 import io.dwak.holohackernews.app.models.Story;
+import io.dwak.holohackernews.app.util.UIUtils;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Subscriber;
@@ -118,10 +119,33 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
         if (savedInstanceState == null || mRecyclerAdapter == null) {
             // Set the adapter
             mRecyclerAdapter = new StoryRecyclerAdapter(getActivity(),
-                    new ArrayList<>(),
-                    R.layout.comments_header,
-                    position -> mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position)));
-            mLayoutManager = new LinearLayoutManager(getActivity());
+                                                        new ArrayList<>(),
+                                                        R.layout.comments_header,
+                                                        new StoryRecyclerAdapter.StoryListAdapterListener() {
+                                                            @Override
+                                                            public void onStoryClick(int position) {
+                                                                 mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position),
+                                                                                                          getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED);
+                                                            }
+
+                                                            @Override
+                                                            public void onStorySave(int position, boolean save) {
+                                                                if(save){
+                                                                    getViewModel().saveStory(mRecyclerAdapter.getItem(position));
+                                                                    UIUtils.showToast(getActivity(), "Saved!");
+                                                                }
+                                                                else {
+                                                                    getViewModel().deleteStory(mRecyclerAdapter.getItem(position));
+                                                                    if(getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED){
+                                                                        mRecyclerAdapter.notifyItemRemoved(position);
+                                                                        return;
+                                                                    }
+                                                                }
+
+                                                                mRecyclerAdapter.notifyItemChanged(position);
+                                                            }
+                                                        });
+                                                        mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
 
@@ -187,6 +211,6 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     }
 
     public interface OnStoryListFragmentInteractionListener {
-        void onStoryListFragmentInteraction(long id);
+        void onStoryListFragmentInteraction(long id, boolean saved);
     }
 }

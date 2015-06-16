@@ -2,14 +2,13 @@ package io.dwak.holohackernews.app.models;
 
 import android.support.annotation.StringDef;
 
+import com.orm.SugarRecord;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-/**
- * Created by vishnu on 5/3/14.
- */
-public class StoryDetail {
+public class StoryDetail extends SugarRecord<StoryDetail>{
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({JOB, LINK, ASK})
     public @interface StoryType{}
@@ -73,7 +72,7 @@ public class StoryDetail {
                 '}';
     }
 
-    public long getId() {
+    public Long getId() {
         return mId;
     }
 
