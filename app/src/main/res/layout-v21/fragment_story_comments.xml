@@ -63,10 +63,21 @@
                     tools:ignore="RtlHardcoded"/>
             </RelativeLayout>
 
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:id="@+id/saved_banner"
+                android:visibility="gone"
+                android:padding="4dp"
+                android:gravity="center"
+                android:text="SAVED"
+                android:background="?attr/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@id/saved_banner"
                 android:layout_above="@id/button_bar">
 
                 <android.support.v7.widget.RecyclerView

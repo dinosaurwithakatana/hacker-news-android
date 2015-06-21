@@ -3,6 +3,7 @@ package io.dwak.holohackernews.app.models;
 import android.support.annotation.StringDef;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,8 +16,9 @@ public class StoryDetail extends SugarRecord<StoryDetail>{
     public static final String JOB = "job";
     public static final String LINK = "link";
     public static final String ASK = "ask";
+    public static final String STORY_DETAIL_ID = "mStoryDetailId";
 
-    private Long mId;
+    private Long mStoryDetailId;
     private String mTitle;
     private String mUrl;
     private String mDomain;
@@ -25,18 +27,21 @@ public class StoryDetail extends SugarRecord<StoryDetail>{
     private String mTimeAgo;
     private Integer mCommentsCount;
     private String mContent;
-    private Object mPoll;
+    @Ignore private Object mPoll;
     private String mLink;
-    private List<Comment> mCommentList;
+    @Ignore private List<Comment> mCommentList;
     private Long mMoreCommentsId;
     private String mType;
 
-    public StoryDetail(Long id, String title, String url,
+    public StoryDetail() {
+    }
+
+    public StoryDetail(Long storyDetailId, String title, String url,
                        String domain, Integer points, String user,
                        String timeAgo, Integer commentsCount, String content,
                        Object poll, String link, List<Comment> commentList,
                        Long moreCommentsId, @StoryType String type) {
-        mId = id;
+        mStoryDetailId = storyDetailId;
         mTitle = title;
         mUrl = url;
         mDomain = domain;
@@ -52,28 +57,8 @@ public class StoryDetail extends SugarRecord<StoryDetail>{
         mType = type;
     }
 
-    @Override
-    public String toString() {
-        return "StoryDetail{" +
-                "mId=" + mId +
-                ", mTitle='" + mTitle + '\'' +
-                ", mUrl='" + mUrl + '\'' +
-                ", mDomain='" + mDomain + '\'' +
-                ", mPoints=" + mPoints +
-                ", mUser='" + mUser + '\'' +
-                ", mTimeAgo='" + mTimeAgo + '\'' +
-                ", mCommentsCount=" + mCommentsCount +
-                ", mContent='" + mContent + '\'' +
-                ", mPoll=" + mPoll +
-                ", mLink='" + mLink + '\'' +
-                ", mCommentList=" + mCommentList +
-                ", mMoreCommentsId=" + mMoreCommentsId +
-                ", mType='" + mType + '\'' +
-                '}';
-    }
-
-    public Long getId() {
-        return mId;
+    public Long getStoryDetailId() {
+        return mStoryDetailId;
     }
 
     public String getTitle() {
@@ -118,6 +103,10 @@ public class StoryDetail extends SugarRecord<StoryDetail>{
 
     public List<Comment> getCommentList() {
         return mCommentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        mCommentList = commentList;
     }
 
     public Long getMoreCommentsId() {

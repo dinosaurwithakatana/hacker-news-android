@@ -89,8 +89,8 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
             case StoryDetailRecyclerItem.VIEW_TYPE_COMMENT:
                 final Comment comment = (Comment) mList.get(position).getObject();
                 int hiddenCommentCount = 0;
-                if(mHiddenComments.containsKey(comment.getId())){
-                    hiddenCommentCount = mHiddenComments.get(comment.getId()).size();
+                if(mHiddenComments.containsKey(comment.getCommentId())){
+                    hiddenCommentCount = mHiddenComments.get(comment.getCommentId()).size();
                 }
                 CommentViewHolder.bind(mContext,
                         (CommentViewHolder) holder,
@@ -111,7 +111,7 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public long getItemId(int position) {
         if (position > 0) {
-            return ((Comment) mList.get(position).getObject()).getId();
+            return ((Comment) mList.get(position).getObject()).getCommentId();
         }
         else {
             return 0;
@@ -152,7 +152,7 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
         if (!childrenCommentPositions.isEmpty()) {
             notifyItemRangeRemoved(childrenCommentPositions.get(0), childrenCommentPositions.size());
-            mHiddenComments.put(parentComment.getId(), childrenComments);
+            mHiddenComments.put(parentComment.getCommentId(), childrenComments);
             notifyItemChanged(position);
         }
     }
@@ -160,7 +160,7 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     public void showChildComments(int position) {
         StoryDetailRecyclerItem parentCommentItem = mList.get(position);
         final Comment parentComment = (Comment) parentCommentItem.getObject();
-        List<Comment> hiddenCommentsForParent = mHiddenComments.get(parentComment.getId());
+        List<Comment> hiddenCommentsForParent = mHiddenComments.get(parentComment.getCommentId());
         int insertIndex = mList.indexOf(parentCommentItem) + 1;
         for (Comment comment : hiddenCommentsForParent) {
             addComment(insertIndex, comment);
@@ -168,13 +168,13 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
         notifyItemRangeInserted(mList.indexOf(parentCommentItem) + 1, hiddenCommentsForParent.size() - 1);
-        mHiddenComments.remove(parentComment.getId());
+        mHiddenComments.remove(parentComment.getCommentId());
         notifyItemChanged(position);
     }
 
     public boolean areChildrenHidden(int position) {
         Comment comment = (Comment) mList.get(position).getObject();
-        return mHiddenComments.containsKey(comment.getId());
+        return mHiddenComments.containsKey(comment.getCommentId());
     }
 
     public interface StoryDetailRecyclerListener {

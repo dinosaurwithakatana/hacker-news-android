@@ -15,7 +15,7 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
-public class HackerNewsApplication extends SugarApp{
+public class HackerNewsApplication extends SugarApp {
     private static boolean mDebug = BuildConfig.DEBUG;
     private static HackerNewsApplication sInstance;
     private Context mContext;

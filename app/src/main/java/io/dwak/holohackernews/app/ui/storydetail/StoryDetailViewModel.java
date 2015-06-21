@@ -3,6 +3,10 @@ package io.dwak.holohackernews.app.ui.storydetail;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.orm.StringUtil;
+import com.orm.query.Condition;
+import com.orm.query.Select;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -15,15 +19,21 @@ import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import rx.Observable;
+import rx.Subscriber;
 
 public class StoryDetailViewModel extends BaseViewModel {
     private Observable<NodeHNAPIStoryDetail> mItemDetails;
     private long mStoryId;
     private StoryDetail mStoryDetail;
+    private boolean mSaved;
 
     public StoryDetailViewModel() {
         mStoryId = 0;
         mItemDetails = null;
+    }
+
+    boolean isSaved(){
+        return mSaved;
     }
 
     void setStoryDetail(@NonNull StoryDetail storyDetail) {
@@ -35,33 +45,56 @@ public class StoryDetailViewModel extends BaseViewModel {
     }
 
     public Observable<StoryDetail> getStoryDetailObservable() {
-        return mItemDetails.map(nodeHNAPIStoryDetail -> {
-            List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.getNodeHNAPICommentList();
-            List<NodeHNAPIComment> expandedComments = new ArrayList<NodeHNAPIComment>();
-            for (NodeHNAPIComment nodeHNAPIComment : nodeHNAPIComments) {
-                expandComments(expandedComments, nodeHNAPIComment);
-            }
-
-            List<Comment> commentList = new ArrayList<Comment>();
-
-            for (NodeHNAPIComment expandedComment : expandedComments) {
-                if (expandedComment.getUser() != null) {
-                    Comment comment = new Comment(expandedComment.getId(), expandedComment.getLevel(),
-                            expandedComment.getUser().toLowerCase().equals(nodeHNAPIStoryDetail.getUser().toLowerCase()),
-                            expandedComment.getUser(), expandedComment.getTimeAgo(), expandedComment.getContent());
-                    commentList.add(comment);
+        if(mSaved){
+            return Observable.create(new Observable.OnSubscribe<StoryDetail>() {
+                @Override
+                public void call(Subscriber<? super StoryDetail> subscriber) {
+                    StoryDetail storyDetailFromDB = Select.from(StoryDetail.class)
+                                                          .where(new Condition(StringUtil.toSQLName(StoryDetail.STORY_DETAIL_ID)).eq(mStoryId))
+                                                          .first();
+                    List<Comment> comments = Select.from(Comment.class)
+                                                   .where(new Condition(StringUtil.toSQLName("mStoryDetail"))
+                                                                  .eq(storyDetailFromDB.getId()))
+                                                   .list();
+                    storyDetailFromDB.setCommentList(comments);
+                    subscriber.onNext(storyDetailFromDB);
+                    subscriber.onCompleted();
                 }
-            }
+            });
+        }
+        else {
+            return mItemDetails.map(nodeHNAPIStoryDetail -> {
+                List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.getNodeHNAPICommentList();
+                List<NodeHNAPIComment> expandedComments = new ArrayList<NodeHNAPIComment>();
+                for (NodeHNAPIComment nodeHNAPIComment : nodeHNAPIComments) {
+                    expandComments(expandedComments, nodeHNAPIComment);
+                }
 
-            //noinspection ResourceType
-            return new StoryDetail(nodeHNAPIStoryDetail.getId(), nodeHNAPIStoryDetail.getTitle(),
-                    nodeHNAPIStoryDetail.getUrl(), nodeHNAPIStoryDetail.getDomain(),
-                    nodeHNAPIStoryDetail.getPoints(), nodeHNAPIStoryDetail.getUser(),
-                    nodeHNAPIStoryDetail.getTimeAgo(), nodeHNAPIStoryDetail.getCommentsCount(),
-                    nodeHNAPIStoryDetail.getContent(), nodeHNAPIStoryDetail.getPoll(),
-                    nodeHNAPIStoryDetail.getLink(), commentList, nodeHNAPIStoryDetail.getMoreCommentsId(),
-                    nodeHNAPIStoryDetail.getType());
-        });
+                List<Comment> commentList = new ArrayList<Comment>();
+
+
+                //noinspection ResourceType
+                StoryDetail storyDetail = new StoryDetail(nodeHNAPIStoryDetail.getId(), nodeHNAPIStoryDetail.getTitle(),
+                                                          nodeHNAPIStoryDetail.getUrl(), nodeHNAPIStoryDetail.getDomain(),
+                                                          nodeHNAPIStoryDetail.getPoints(), nodeHNAPIStoryDetail.getUser(),
+                                                          nodeHNAPIStoryDetail.getTimeAgo(), nodeHNAPIStoryDetail.getCommentsCount(),
+                                                          nodeHNAPIStoryDetail.getContent(), nodeHNAPIStoryDetail.getPoll(),
+                                                          nodeHNAPIStoryDetail.getLink(), null, nodeHNAPIStoryDetail.getMoreCommentsId(),
+                                                          nodeHNAPIStoryDetail.getType());
+
+                for (NodeHNAPIComment expandedComment : expandedComments) {
+                    if (expandedComment.getUser() != null) {
+                        Comment comment = new Comment(expandedComment.getId(), expandedComment.getLevel(),
+                                                      expandedComment.getUser().toLowerCase().equals(nodeHNAPIStoryDetail.getUser().toLowerCase()),
+                                                      expandedComment.getUser(), expandedComment.getTimeAgo(), expandedComment.getContent(), storyDetail);
+                        commentList.add(comment);
+                    }
+                }
+
+                storyDetail.setCommentList(commentList);
+                return storyDetail;
+            });
+        }
     }
 
     private void expandComments(List<NodeHNAPIComment> expandedComments, NodeHNAPIComment nodeHNAPIComment) {
@@ -82,6 +115,10 @@ public class StoryDetailViewModel extends BaseViewModel {
 
     long getStoryId(){
         return mStoryId;
+    }
+
+    void setLoadFromSaved(boolean saved){
+        mSaved = saved;
     }
 
     @Nullable

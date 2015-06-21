@@ -24,6 +24,9 @@ import io.dwak.holohackernews.app.util.UIUtils;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel> {
 
@@ -131,15 +134,21 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                                             @Override
                                                             public void onStorySave(int position, boolean save) {
                                                                 if(save){
-                                                                    getViewModel().saveStory(mRecyclerAdapter.getItem(position));
-                                                                    UIUtils.showToast(getActivity(), "Saved!");
+                                                                    //noinspection unchecked
+                                                                    getViewModel().saveStory(mRecyclerAdapter.getItem(position))
+                                                                                  .subscribeOn(Schedulers.io())
+                                                                                  .observeOn(AndroidSchedulers.mainThread())
+                                                                                  .subscribe((Action1) o -> UIUtils.showToast(getActivity(), "Saved!"));
                                                                 }
                                                                 else {
-                                                                    getViewModel().deleteStory(mRecyclerAdapter.getItem(position));
-                                                                    if(getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED){
-                                                                        mRecyclerAdapter.notifyItemRemoved(position);
-                                                                        return;
-                                                                    }
+                                                                    getViewModel().deleteStory(mRecyclerAdapter.getItem(position))
+                                                                                  .subscribeOn(Schedulers.io())
+                                                                                  .observeOn(AndroidSchedulers.mainThread())
+                                                                                  .subscribe(o -> {
+                                                                                      if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
+                                                                                          mRecyclerAdapter.notifyItemRemoved(position);
+                                                                                      }
+                                                                                  });
                                                                 }
 
                                                                 mRecyclerAdapter.notifyItemChanged(position);

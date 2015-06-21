@@ -8,6 +8,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import com.orm.StringUtil;
+import com.orm.SugarTransactionHelper;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
+import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
@@ -199,29 +201,32 @@ public class StoryListViewModel extends BaseViewModel {
                 .create();
     }
 
-    public void saveStory(Story item) {
+    public Observable saveStory(Story item) {
         StoryDetailViewModel storyDetailViewModel = new StoryDetailViewModel();
         storyDetailViewModel.setStoryId(item.getStoryId());
-        storyDetailViewModel.getStoryDetailObservable()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(storyDetail -> {
+        return storyDetailViewModel.getStoryDetailObservable()
+                            .doOnNext(storyDetail -> SugarTransactionHelper.doInTansaction(() -> {
                                 item.setIsSaved(true);
                                 item.save();
 
                                 storyDetail.save();
-                            });
+                                for (Comment comment : storyDetail.getCommentList()) {
+                                    comment.save();
+                                }
+                            }));
     }
 
-    public void deleteStory(Story item) {
-        item.setIsSaved(false);
-        item.delete();
+    public Observable<Object> deleteStory(Story item) {
+        return Observable.create(subscriber -> {
+            item.setIsSaved(false);
+            item.delete();
 
-        Select.from(StoryDetail.class)
-              .where(Condition.prop(StringUtil.toSQLName("mId"))
-                              .eq(item.getStoryId()))
-              .first()
-              .delete();
+            Select.from(StoryDetail.class)
+                  .where(Condition.prop(StringUtil.toSQLName("mStoryId"))
+                                  .eq(item.getStoryId()))
+                  .first()
+                  .delete();
+        });
     }
 
 

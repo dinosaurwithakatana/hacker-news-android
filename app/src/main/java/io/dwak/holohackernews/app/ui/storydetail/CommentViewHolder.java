@@ -176,7 +176,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
             switch (j) {
                 case 0:
                     sendIntent.putExtra(Intent.EXTRA_TEXT,
-                            "https://news.ycombinator.com/item?id=" + comment.getId());
+                            "https://news.ycombinator.com/item?id=" + comment.getCommentId());
                     break;
                 case 1:
                     sendIntent.putExtra(Intent.EXTRA_TEXT,

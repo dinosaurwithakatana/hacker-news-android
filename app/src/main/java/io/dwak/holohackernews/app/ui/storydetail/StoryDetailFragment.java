@@ -25,6 +25,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -65,6 +66,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
     @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
+    @InjectView(R.id.saved_banner) TextView mSavedBanner;
     private Bundle mWebViewBundle;
     private boolean mReadability;
     private boolean mWasLinkLayoutOpen;
@@ -113,7 +115,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
                     @Override
                     public void onNext(StoryDetail storyDetail) {
-                        HNLog.d(TAG, storyDetail.toString());
                         getViewModel().setStoryDetail(storyDetail);
                         updateHeader();
                         updateWebView();
@@ -178,9 +179,15 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null && getArguments().containsKey(STORY_ID)) {
-            long storyId = getArguments().getLong(STORY_ID);
-            getViewModel().setStoryId(storyId);
+        if (getArguments() != null) {
+            if (getArguments().containsKey(STORY_ID)) {
+                long storyId = getArguments().getLong(STORY_ID);
+                getViewModel().setStoryId(storyId);
+            }
+
+            if(getArguments().containsKey(LOADING_FROM_SAVED)){
+                getViewModel().setLoadFromSaved(getArguments().getBoolean(LOADING_FROM_SAVED));
+            }
         }
         setHasOptionsMenu(true);
     }
@@ -197,6 +204,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mContainer = rootView.findViewById(R.id.container);
         mFloatingActionButton.setOnClickListener(view -> readability());
+        mSavedBanner.setVisibility(getViewModel().isSaved() ? View.VISIBLE : View.GONE);
         setupWebViewDrawer();
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
