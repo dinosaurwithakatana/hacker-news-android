@@ -144,9 +144,22 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                                                     getViewModel().deleteStory(mRecyclerAdapter.getItem(position))
                                                                                   .subscribeOn(Schedulers.io())
                                                                                   .observeOn(AndroidSchedulers.mainThread())
-                                                                                  .subscribe(o -> {
-                                                                                      if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
-                                                                                          mRecyclerAdapter.notifyItemRemoved(position);
+                                                                                  .subscribe(new Subscriber<Object>() {
+                                                                                      @Override
+                                                                                      public void onCompleted() {
+                                                                                          if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
+                                                                                              mRecyclerAdapter.removeItem(position);
+                                                                                          }
+                                                                                      }
+
+                                                                                      @Override
+                                                                                      public void onError(Throwable e) {
+
+                                                                                      }
+
+                                                                                      @Override
+                                                                                      public void onNext(Object o) {
+
                                                                                       }
                                                                                   });
                                                                 }

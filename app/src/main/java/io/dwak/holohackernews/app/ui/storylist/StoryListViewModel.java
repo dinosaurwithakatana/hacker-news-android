@@ -218,14 +218,25 @@ public class StoryListViewModel extends BaseViewModel {
 
     public Observable<Object> deleteStory(Story item) {
         return Observable.create(subscriber -> {
-            item.setIsSaved(false);
-            item.delete();
+            SugarTransactionHelper.doInTansaction(() -> {
+                Select.from(Story.class)
+                      .where(Condition.prop(StringUtil.toSQLName("mStoryId"))
+                                      .eq(item.getStoryId()))
+                      .first()
+                      .delete();
 
-            Select.from(StoryDetail.class)
-                  .where(Condition.prop(StringUtil.toSQLName("mStoryId"))
-                                  .eq(item.getStoryId()))
-                  .first()
-                  .delete();
+                StoryDetail storyDetail = Select.from(StoryDetail.class)
+                                                .where(Condition.prop(StringUtil.toSQLName(StoryDetail.STORY_DETAIL_ID))
+                                                                .eq(item.getStoryId()))
+                                                .first();
+                Select.from(Comment.class)
+                      .where(Condition.prop(StringUtil.toSQLName("mStoryDetail"))
+                                      .eq(storyDetail.getId()))
+                      .first()
+                      .delete();
+                storyDetail.delete();
+                subscriber.onCompleted();
+            });
         });
     }
 

@@ -142,6 +142,11 @@ public class StoryRecyclerAdapter extends RecyclerView.Adapter<StoryListViewHold
         notifyItemInserted(mStoryList.size());
     }
 
+    public void removeItem(int position){
+        mStoryList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public interface StoryListAdapterListener {
         void onStoryClick(int position);
         void onStorySave(int position, boolean save);
