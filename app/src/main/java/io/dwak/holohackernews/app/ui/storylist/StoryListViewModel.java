@@ -34,7 +34,13 @@ import rx.schedulers.Schedulers;
 public class StoryListViewModel extends BaseViewModel {
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({FEED_TYPE_TOP, FEED_TYPE_BEST, FEED_TYPE_NEW, FEED_TYPE_SHOW, FEED_TYPE_SHOW_NEW, FEED_TYPE_SAVED})
+    @IntDef({FEED_TYPE_TOP,
+            FEED_TYPE_BEST,
+            FEED_TYPE_NEW,
+            FEED_TYPE_SHOW,
+            FEED_TYPE_SHOW_NEW,
+            FEED_TYPE_SAVED,
+            FEED_TYPE_ASK})
     public @interface FeedType {
     }
 
@@ -44,10 +50,9 @@ public class StoryListViewModel extends BaseViewModel {
     public static final int FEED_TYPE_SHOW = 3;
     public static final int FEED_TYPE_SHOW_NEW = 4;
     public static final int FEED_TYPE_SAVED = 5;
+    public static final int FEED_TYPE_ASK = 6;
 
-    private
-    @FeedType
-    int mFeedType;
+    private @FeedType int mFeedType;
 
     private boolean mPageTwoLoaded;
 
@@ -76,6 +81,9 @@ public class StoryListViewModel extends BaseViewModel {
             case FEED_TYPE_SAVED:
                 title = "Saved";
                 break;
+            case FEED_TYPE_ASK:
+                title = getResources().getString(R.string.title_section_ask);
+                break;
             default:
                 title = getResources().getString(R.string.app_name);
         }
@@ -100,6 +108,9 @@ public class StoryListViewModel extends BaseViewModel {
                 break;
             case FEED_TYPE_SHOW_NEW:
                 observable = getHackerNewsService().getShowNewStories();
+                break;
+            case FEED_TYPE_ASK:
+                observable = getHackerNewsService().getAskStories();
                 break;
             case FEED_TYPE_SAVED:
                 observable = Observable
@@ -206,15 +217,15 @@ public class StoryListViewModel extends BaseViewModel {
         StoryDetailViewModel storyDetailViewModel = new StoryDetailViewModel();
         storyDetailViewModel.setStoryId(item.getStoryId());
         return storyDetailViewModel.getStoryDetailObservable()
-                            .doOnNext(storyDetail -> SugarTransactionHelper.doInTansaction(() -> {
-                                item.setIsSaved(true);
-                                item.save();
+                                   .doOnNext(storyDetail -> SugarTransactionHelper.doInTansaction(() -> {
+                                       item.setIsSaved(true);
+                                       item.save();
 
-                                storyDetail.save();
-                                for (Comment comment : storyDetail.getCommentList()) {
-                                    comment.save();
-                                }
-                            }));
+                                       storyDetail.save();
+                                       for (Comment comment : storyDetail.getCommentList()) {
+                                           comment.save();
+                                       }
+                                   }));
     }
 
     public Observable<Object> deleteStory(Story item) {
@@ -241,7 +252,7 @@ public class StoryListViewModel extends BaseViewModel {
         });
     }
 
-    boolean isNightMode(Context context){
+    boolean isNightMode(Context context) {
         return UserPreferenceManager.isNightModeEnabled(context);
     }
 }

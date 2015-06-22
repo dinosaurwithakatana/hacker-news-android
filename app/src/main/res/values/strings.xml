@@ -65,4 +65,5 @@
     <string name="nav_drawer_login">Login</string>
     <string name="story_action_upvote">Upvote</string>
     <string name="story_action_save">Save</string>
+    <string name="title_section_ask">Ask</string>
 </resources>

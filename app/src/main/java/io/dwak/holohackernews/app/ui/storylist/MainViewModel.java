@@ -25,6 +25,7 @@ public class MainViewModel extends BaseViewModel {
     public static final int SECTION_ABOUT = 8;
     public static final int SECTION_SETTINGS = 7;
     public static final int SECTION_SAVED = 6;
+    public static final int SECTION_ASK = 9;
     public static final int SECTION_SHOW_HN_NEW = 4;
     public static final int SECTION_SHOW_HN = 3;
     public static final int SECTION_NEWEST = 2;
@@ -90,6 +91,7 @@ public class MainViewModel extends BaseViewModel {
         primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_NEWEST).withName(R.string.title_section_newest).withIcon(R.drawable.ic_action_note_add));
         primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN).withName(R.string.title_section_show).withIcon(R.drawable.ic_action_visibility));
         primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN_NEW).withName(R.string.title_section_show_new).withIcon(R.drawable.ic_action_visibility));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_ASK).withName(R.string.title_section_ask).withIcon(R.drawable.ic_action_live_help));
         primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SAVED).withName("Saved").withIcon(R.drawable.ic_action_archive));
         mDrawerItems.addAll(primaryDrawerItems);
 

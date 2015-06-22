@@ -44,6 +44,9 @@ public interface HackerNewsService {
     @GET("/shownew")
     Observable<List<NodeHNAPIStory>> getShowNewStories();
 
+    @GET("/ask")
+    Observable<List<NodeHNAPIStory>> getAskStories();
+
     @GET("/item/{itemId}")
     void getItemDetails(@Path("itemId") long itemId, Callback<NodeHNAPIStoryDetail> callback);
 

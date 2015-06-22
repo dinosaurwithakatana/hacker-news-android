@@ -121,6 +121,11 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                             storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SHOW_NEW);
                             loadFeedList(storyListFragment);
                             break;
+                        case MainViewModel.SECTION_ASK:
+                            mTitle = getString(R.string.title_section_ask);
+                            storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_ASK);
+                            loadFeedList(storyListFragment);
+                            break;
                         case MainViewModel.SECTION_SAVED:
                             mTitle = "Saved";
                             storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SAVED);
