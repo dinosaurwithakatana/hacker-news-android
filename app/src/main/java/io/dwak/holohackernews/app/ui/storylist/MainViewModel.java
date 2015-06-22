@@ -35,6 +35,10 @@ public class MainViewModel extends BaseViewModel {
     private IProfile[] mLoggedInProfiles;
     private IProfile[] mLoggedOutProfileItems;
 
+    IProfile[] getProfileItems(){
+        return isLoggedIn() ? getLoggedInProfileItem() : getLoggedOutProfileItem();
+    }
+
     IProfile[] getLoggedOutProfileItem() {
         if (mLoggedOutProfileItems == null) {
             mLoggedOutProfileItems = new IProfile[1];
@@ -81,12 +85,12 @@ public class MainViewModel extends BaseViewModel {
         List<SecondaryDrawerItem> secondaryDrawerItems = new ArrayList<>();
         mDrawerItems = new ArrayList<>();
 
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_TOP).withName(R.string.title_section_top).withIcon(R.drawable.ic_trending_up));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_BEST).withName(R.string.title_section_best).withIcon(R.drawable.ic_best));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_NEWEST).withName(R.string.title_section_newest).withIcon(R.drawable.ic_new_releases));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN).withName(R.string.title_section_show).withIcon(R.drawable.ic_show));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN_NEW).withName(R.string.title_section_show_new).withIcon(R.drawable.ic_show));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SAVED).withName("Saved").withIcon(R.drawable.ic_action_archive_black));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_TOP).withName(R.string.title_section_top).withIcon(R.drawable.ic_action_whatshot));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_BEST).withName(R.string.title_section_best).withIcon(R.drawable.ic_action_grade));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_NEWEST).withName(R.string.title_section_newest).withIcon(R.drawable.ic_action_note_add));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN).withName(R.string.title_section_show).withIcon(R.drawable.ic_action_visibility));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN_NEW).withName(R.string.title_section_show_new).withIcon(R.drawable.ic_action_visibility));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SAVED).withName("Saved").withIcon(R.drawable.ic_action_archive));
         mDrawerItems.addAll(primaryDrawerItems);
 
         mDrawerItems.add(new DividerDrawerItem());

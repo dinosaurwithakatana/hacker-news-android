@@ -24,6 +24,7 @@ import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailViewModel;
 import rx.Observable;
 import rx.Subscriber;
@@ -240,5 +241,7 @@ public class StoryListViewModel extends BaseViewModel {
         });
     }
 
-
+    boolean isNightMode(Context context){
+        return UserPreferenceManager.isNightModeEnabled(context);
+    }
 }

@@ -63,4 +63,6 @@
     <string name="pref_text_size_large">large</string>
     <string name="nav_drawer_add_an_account">Add an account</string>
     <string name="nav_drawer_login">Login</string>
+    <string name="story_action_upvote">Upvote</string>
+    <string name="story_action_save">Save</string>
 </resources>

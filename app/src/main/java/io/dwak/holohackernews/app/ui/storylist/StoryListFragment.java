@@ -38,7 +38,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private OnStoryListFragmentInteractionListener mListener;
-    private StoryRecyclerAdapter mRecyclerAdapter;
+    private StoryListAdapter mRecyclerAdapter;
     private LinearLayoutManager mLayoutManager;
 
     public static StoryListFragment newInstance(@StoryListViewModel.FeedType int feedType) {
@@ -67,7 +67,8 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             public void onError(Throwable e) {
                 if (e instanceof RetrofitError) {
                     Toast.makeText(getActivity(), "Unable to connect to API!", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     throw new RuntimeException(e);
                 }
             }
@@ -88,7 +89,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             mListener = (OnStoryListFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnStoryListFragmentInteractionListener");
+                                                 + " must implement OnStoryListFragmentInteractionListener");
         }
 
     }
@@ -113,7 +114,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
         mContainer = view.findViewById(R.id.story_list);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
-        final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(getViewModel().getTitle());
         }
@@ -121,59 +122,59 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
 
         if (savedInstanceState == null || mRecyclerAdapter == null) {
             // Set the adapter
-            mRecyclerAdapter = new StoryRecyclerAdapter(getActivity(),
-                                                        new ArrayList<>(),
-                                                        R.layout.comments_header,
-                                                        new StoryRecyclerAdapter.StoryListAdapterListener() {
-                                                            @Override
-                                                            public void onStoryClick(int position) {
-                                                                 mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position),
-                                                                                                          getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED);
+            mRecyclerAdapter = new StoryListAdapter(getActivity(),
+                                                    new ArrayList<>(),
+                                                    new StoryListAdapter.StoryListAdapterListener() {
+                                                        @Override
+                                                        public void onStoryClick(int position) {
+                                                            mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position),
+                                                                                                     getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED);
+                                                        }
+
+                                                        @Override
+                                                        public void onStorySave(int position, boolean save) {
+                                                            if (save) {
+                                                                //noinspection unchecked
+                                                                getViewModel().saveStory(mRecyclerAdapter.getItem(position))
+                                                                              .subscribeOn(Schedulers.io())
+                                                                              .observeOn(AndroidSchedulers.mainThread())
+                                                                              .subscribe((Action1) o -> UIUtils.showToast(getActivity(), "Saved!"));
+                                                            }
+                                                            else {
+                                                                getViewModel().deleteStory(mRecyclerAdapter.getItem(position))
+                                                                              .subscribeOn(Schedulers.io())
+                                                                              .observeOn(AndroidSchedulers.mainThread())
+                                                                              .subscribe(new Subscriber<Object>() {
+                                                                                  @Override
+                                                                                  public void onCompleted() {
+                                                                                      if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
+                                                                                          mRecyclerAdapter.removeItem(position);
+                                                                                      }
+                                                                                  }
+
+                                                                                  @Override
+                                                                                  public void onError(Throwable e) {
+
+                                                                                  }
+
+                                                                                  @Override
+                                                                                  public void onNext(Object o) {
+
+                                                                                  }
+                                                                              });
                                                             }
 
-                                                            @Override
-                                                            public void onStorySave(int position, boolean save) {
-                                                                if(save){
-                                                                    //noinspection unchecked
-                                                                    getViewModel().saveStory(mRecyclerAdapter.getItem(position))
-                                                                                  .subscribeOn(Schedulers.io())
-                                                                                  .observeOn(AndroidSchedulers.mainThread())
-                                                                                  .subscribe((Action1) o -> UIUtils.showToast(getActivity(), "Saved!"));
-                                                                }
-                                                                else {
-                                                                    getViewModel().deleteStory(mRecyclerAdapter.getItem(position))
-                                                                                  .subscribeOn(Schedulers.io())
-                                                                                  .observeOn(AndroidSchedulers.mainThread())
-                                                                                  .subscribe(new Subscriber<Object>() {
-                                                                                      @Override
-                                                                                      public void onCompleted() {
-                                                                                          if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
-                                                                                              mRecyclerAdapter.removeItem(position);
-                                                                                          }
-                                                                                      }
-
-                                                                                      @Override
-                                                                                      public void onError(Throwable e) {
-
-                                                                                      }
-
-                                                                                      @Override
-                                                                                      public void onNext(Object o) {
-
-                                                                                      }
-                                                                                  });
-                                                                }
-
-                                                                mRecyclerAdapter.notifyItemChanged(position);
-                                                            }
-                                                        });
-                                                        mLayoutManager = new LinearLayoutManager(getActivity());
+                                                            mRecyclerAdapter.notifyItemChanged(position);
+                                                        }
+                                                    },
+                                                    getViewModel().isNightMode(getActivity()));
+            mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
 
             if (!getViewModel().isReturningUser()) {
                 getViewModel().getBetaAlert(getActivity())
-                        .show();
+                              .show();
                 getViewModel().setReturningUser(true);
             }
 
@@ -197,13 +198,13 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
-                getResources().getColor(R.color.colorPrimaryDark));
+                                                 getResources().getColor(R.color.colorPrimaryDark));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(true);
             refresh();
         });
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mLayoutManager.scrollToPosition(savedInstanceState.getInt(TOP_OF_LIST));
         }
 

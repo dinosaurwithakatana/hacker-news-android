@@ -60,8 +60,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         // Set up the drawer.
         mAccountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .addProfiles(getViewModel().isLoggedIn() ? getViewModel().getLoggedInProfileItem()
-                                                         : getViewModel().getLoggedOutProfileItem())
+                .addProfiles(getViewModel().getProfileItems())
                 .withSavedInstance(savedInstanceState)
                 .withProfileImagesVisible(true)
                 .withHeaderBackground(getResources().getDrawable(R.drawable.orange_button))
