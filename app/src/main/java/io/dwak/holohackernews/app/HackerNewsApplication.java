@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder;
 import com.orm.SugarApp;
 import com.squareup.okhttp.OkHttpClient;
 
+import io.dwak.holohackernews.app.dagger.AppComponent;
+import io.dwak.holohackernews.app.dagger.DaggerAppComponent;
 import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
 import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
@@ -20,6 +22,7 @@ public class HackerNewsApplication extends SugarApp {
     private static HackerNewsApplication sInstance;
     private Context mContext;
     private HackerNewsService mHackerNewsService;
+    private static AppComponent sAppComponent;
 
     @Override
     public void onCreate() {
@@ -38,6 +41,8 @@ public class HackerNewsApplication extends SugarApp {
                               Stetho.defaultInspectorModulesProvider(this))
                       .build());
 
+        sAppComponent = DaggerAppComponent.create();
+        sAppComponent.inject(this);
     }
 
     public static boolean isDebug() {
@@ -54,9 +59,8 @@ public class HackerNewsApplication extends SugarApp {
 
     public HackerNewsService getHackerNewsServiceInstance() {
         if (mHackerNewsService == null) {
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Long.class, new LongTypeAdapter());
-            Gson gson = gsonBuilder.create();
+            Gson gson = new GsonBuilder().registerTypeAdapter(Long.class, new LongTypeAdapter())
+                                         .create();
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setConverter(new GsonConverter(gson))
                     .setClient(new OkClient(new OkHttpClient()))
@@ -67,5 +71,9 @@ public class HackerNewsApplication extends SugarApp {
         }
 
         return mHackerNewsService;
+    }
+
+    public static AppComponent getAppComponent() {
+        return sAppComponent;
     }
 }

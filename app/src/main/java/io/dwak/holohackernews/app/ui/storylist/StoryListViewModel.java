@@ -17,11 +17,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
+import io.dwak.holohackernews.app.dagger.DaggerHackerNewsServiceComponent;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.models.StoryDetail;
+import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
@@ -55,6 +59,11 @@ public class StoryListViewModel extends BaseViewModel {
     private @FeedType int mFeedType;
 
     private boolean mPageTwoLoaded;
+    @Inject HackerNewsService mService;
+
+    public StoryListViewModel() {
+        DaggerHackerNewsServiceComponent.builder().build().inject(this);
+    }
 
     @FeedType
     int getFeedType() {
@@ -95,22 +104,22 @@ public class StoryListViewModel extends BaseViewModel {
         Observable<List<NodeHNAPIStory>> observable = null;
         switch (mFeedType) {
             case FEED_TYPE_TOP:
-                observable = getHackerNewsService().getTopStories();
+                observable = mService.getTopStories();
                 break;
             case FEED_TYPE_BEST:
-                observable = getHackerNewsService().getBestStories();
+                observable = mService.getBestStories();
                 break;
             case FEED_TYPE_NEW:
-                observable = getHackerNewsService().getNewestStories();
+                observable = mService.getNewestStories();
                 break;
             case FEED_TYPE_SHOW:
-                observable = getHackerNewsService().getShowStories();
+                observable = mService.getShowStories();
                 break;
             case FEED_TYPE_SHOW_NEW:
-                observable = getHackerNewsService().getShowNewStories();
+                observable = mService.getShowNewStories();
                 break;
             case FEED_TYPE_ASK:
-                observable = getHackerNewsService().getAskStories();
+                observable = mService.getAskStories();
                 break;
             case FEED_TYPE_SAVED:
                 observable = Observable
@@ -178,7 +187,7 @@ public class StoryListViewModel extends BaseViewModel {
     }
 
     Observable<Story> getTopStoriesPageTwo() {
-        return getStories(getHackerNewsService().getTopStoriesPageTwo());
+        return getStories(mService.getTopStoriesPageTwo());
     }
 
     boolean isPageTwoLoaded() {

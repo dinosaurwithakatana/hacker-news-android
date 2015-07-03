@@ -224,6 +224,12 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
+    @Override
     protected View getRootView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_storylist_list, container, false);
     }

@@ -12,10 +12,13 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.dwak.holohackernews.app.HackerNewsApplication;
+import javax.inject.Inject;
+
 import io.dwak.holohackernews.app.base.BaseViewModel;
+import io.dwak.holohackernews.app.dagger.DaggerHackerNewsServiceComponent;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
+import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import rx.Observable;
@@ -26,10 +29,12 @@ public class StoryDetailViewModel extends BaseViewModel {
     private long mStoryId;
     private StoryDetail mStoryDetail;
     private boolean mSaved;
+    @Inject HackerNewsService mService;
 
     public StoryDetailViewModel() {
         mStoryId = 0;
         mItemDetails = null;
+        DaggerHackerNewsServiceComponent.create().inject(this);
     }
 
     boolean isSaved(){
@@ -110,7 +115,7 @@ public class StoryDetailViewModel extends BaseViewModel {
 
     public void setStoryId(long storyId) {
         mStoryId = storyId;
-        mItemDetails = HackerNewsApplication.getInstance().getHackerNewsServiceInstance().getItemDetails(mStoryId);
+        mItemDetails = mService.getItemDetails(mStoryId);
     }
 
     long getStoryId(){

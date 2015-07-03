@@ -1,26 +1,25 @@
 package io.dwak.holohackernews.app.ui.login;
 
 import com.facebook.stetho.okhttp.StethoInterceptor;
-import com.google.gson.GsonBuilder;
 import com.orm.SugarRecord;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.dwak.holohackernews.app.base.BaseViewModel;
-import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
+import io.dwak.holohackernews.app.dagger.DaggerUserServiceComponent;
+import io.dwak.holohackernews.app.dagger.UserServiceModule;
 import io.dwak.holohackernews.app.models.User;
 import io.dwak.holohackernews.app.network.UserService;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-import retrofit.converter.GsonConverter;
 import rx.Observable;
 
 public class LoginViewModel extends BaseViewModel {
-    private final UserService mUserService;
-    private String mUserCookie;
+    @Inject UserService mUserService;
+    String mUserCookie;
 
     public LoginViewModel() {
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -38,14 +37,10 @@ public class LoginViewModel extends BaseViewModel {
             }
             return response;
         });
-
-        mUserService = new RestAdapter.Builder()
-                .setClient(new OkClient(okHttpClient))
-                .setConverter(new GsonConverter(new GsonBuilder().registerTypeAdapter(Long.class, new LongTypeAdapter())
-                                                                 .create()))
-                .setEndpoint("https://news.ycombinator.com")
-                .build()
-                .create(UserService.class);
+        DaggerUserServiceComponent.builder()
+                                  .userServiceModule(new UserServiceModule(okHttpClient))
+                                  .build()
+                                  .inject(this);
     }
 
     public Observable<User> login(String username, String password) {

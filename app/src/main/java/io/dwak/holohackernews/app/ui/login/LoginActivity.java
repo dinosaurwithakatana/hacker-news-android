@@ -24,12 +24,9 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
     public static final String LOGIN_SUCCESS = "login-success";
     public static final String LOGOUT = "logout";
     private static final String TAG = LoginActivity.class.getSimpleName();
-    @InjectView(R.id.username)
-    EditText mUsername;
-    @InjectView(R.id.password)
-    EditText mPassword;
-    @InjectView(R.id.login_button_with_progress)
-    CircularProgressButton mLoginButton;
+    @InjectView(R.id.username) EditText mUsername;
+    @InjectView(R.id.password) EditText mPassword;
+    @InjectView(R.id.login_button_with_progress) CircularProgressButton mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
