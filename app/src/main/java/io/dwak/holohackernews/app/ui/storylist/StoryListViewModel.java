@@ -19,9 +19,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
-import io.dwak.holohackernews.app.dagger.DaggerHackerNewsServiceComponent;
+import io.dwak.holohackernews.app.dagger.component.DaggerHackerNewsServiceComponent;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.models.StoryDetail;
@@ -62,7 +63,10 @@ public class StoryListViewModel extends BaseViewModel {
     @Inject HackerNewsService mService;
 
     public StoryListViewModel() {
-        DaggerHackerNewsServiceComponent.builder().build().inject(this);
+        DaggerHackerNewsServiceComponent.builder()
+                                        .appComponent(HackerNewsApplication.getAppComponent())
+                                        .build()
+                                        .inject(this);
     }
 
     @FeedType

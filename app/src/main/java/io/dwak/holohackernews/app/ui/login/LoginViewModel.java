@@ -9,9 +9,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.base.BaseViewModel;
-import io.dwak.holohackernews.app.dagger.DaggerUserServiceComponent;
-import io.dwak.holohackernews.app.dagger.UserServiceModule;
+import io.dwak.holohackernews.app.dagger.component.DaggerUserServiceComponent;
+import io.dwak.holohackernews.app.dagger.module.UserServiceModule;
 import io.dwak.holohackernews.app.models.User;
 import io.dwak.holohackernews.app.network.UserService;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
@@ -38,6 +39,7 @@ public class LoginViewModel extends BaseViewModel {
             return response;
         });
         DaggerUserServiceComponent.builder()
+                                  .appComponent(HackerNewsApplication.getAppComponent())
                                   .userServiceModule(new UserServiceModule(okHttpClient))
                                   .build()
                                   .inject(this);

@@ -1,17 +1,19 @@
-package io.dwak.holohackernews.app.dagger;
+package io.dwak.holohackernews.app.dagger.module;
 
-import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
+
+import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
+import io.dwak.holohackernews.app.dagger.module.AppModule;
 import io.dwak.holohackernews.app.network.UserService;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
-@Module
+@Module(includes = AppModule.class)
 public class UserServiceModule {
     private OkHttpClient mOkHttpClient;
 
@@ -20,11 +22,10 @@ public class UserServiceModule {
     }
 
     @Provides
-    UserService providesUserService() {
+    UserService providesUserService(@Named("gson") Gson gson) {
         return new RestAdapter.Builder()
                 .setClient(new OkClient(mOkHttpClient))
-                .setConverter(new GsonConverter(new GsonBuilder().registerTypeAdapter(Long.class, new LongTypeAdapter())
-                                                                 .create()))
+                .setConverter(new GsonConverter(gson))
                 .setEndpoint("https://news.ycombinator.com")
                 .build()
                 .create(UserService.class);

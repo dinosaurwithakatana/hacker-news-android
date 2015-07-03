@@ -1,0 +1,19 @@
+package io.dwak.holohackernews.app.dagger.module;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import javax.inject.Named;
+
+import dagger.Module;
+import dagger.Provides;
+import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
+
+@Module
+public class AppModule {
+    @Provides @Named("gson")
+    Gson providesGson() {
+        return new GsonBuilder().registerTypeAdapter(Long.class, new LongTypeAdapter())
+                                .create();
+    }
+}

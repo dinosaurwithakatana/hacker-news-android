@@ -14,8 +14,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.base.BaseViewModel;
-import io.dwak.holohackernews.app.dagger.DaggerHackerNewsServiceComponent;
+import io.dwak.holohackernews.app.dagger.component.DaggerHackerNewsServiceComponent;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.HackerNewsService;
@@ -34,7 +35,8 @@ public class StoryDetailViewModel extends BaseViewModel {
     public StoryDetailViewModel() {
         mStoryId = 0;
         mItemDetails = null;
-        DaggerHackerNewsServiceComponent.create().inject(this);
+        DaggerHackerNewsServiceComponent.builder().appComponent(HackerNewsApplication.getAppComponent())
+                .build().inject(this);
     }
 
     boolean isSaved(){
