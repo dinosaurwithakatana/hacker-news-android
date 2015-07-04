@@ -11,9 +11,6 @@ import android.widget.ProgressBar;
 import io.dwak.holohackernews.app.R;
 import rx.Subscription;
 
-/**
- * Created by vishnu on 5/3/14.
- */
 public abstract class BaseFragment extends Fragment {
     protected View mContainer;
     protected ProgressBar mProgressBar;

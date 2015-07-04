@@ -7,6 +7,7 @@ import com.orm.SugarApp;
 
 import io.dwak.holohackernews.app.dagger.component.AppComponent;
 import io.dwak.holohackernews.app.dagger.component.DaggerAppComponent;
+import io.dwak.holohackernews.app.dagger.module.AppModule;
 import io.dwak.holohackernews.app.preferences.LocalDataManager;
 
 public class HackerNewsApplication extends SugarApp {
@@ -14,6 +15,8 @@ public class HackerNewsApplication extends SugarApp {
     private static HackerNewsApplication sInstance;
     private Context mContext;
     private static AppComponent sAppComponent;
+
+    private static AppModule sAppModule;
 
     @Override
     public void onCreate() {
@@ -32,7 +35,10 @@ public class HackerNewsApplication extends SugarApp {
                               Stetho.defaultInspectorModulesProvider(this))
                       .build());
 
-        sAppComponent = DaggerAppComponent.create();
+        sAppModule = new AppModule(this);
+        sAppComponent = DaggerAppComponent.builder()
+                                          .appModule(sAppModule)
+                                          .build();
         sAppComponent.inject(this);
     }
 
@@ -50,5 +56,9 @@ public class HackerNewsApplication extends SugarApp {
 
     public static AppComponent getAppComponent() {
         return sAppComponent;
+    }
+
+    public static AppModule getAppModule(){
+        return sAppModule;
     }
 }

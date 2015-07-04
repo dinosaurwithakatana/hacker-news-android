@@ -35,8 +35,11 @@ public class StoryDetailViewModel extends BaseViewModel {
     public StoryDetailViewModel() {
         mStoryId = 0;
         mItemDetails = null;
-        DaggerHackerNewsServiceComponent.builder().appComponent(HackerNewsApplication.getAppComponent())
-                .build().inject(this);
+        DaggerHackerNewsServiceComponent.builder()
+                                        .appModule(HackerNewsApplication.getAppModule())
+                                        .appComponent(HackerNewsApplication.getAppComponent())
+                                        .build()
+                                        .inject(this);
     }
 
     boolean isSaved(){
@@ -99,6 +102,7 @@ public class StoryDetailViewModel extends BaseViewModel {
                 }
 
                 storyDetail.setCommentList(commentList);
+                setStoryDetail(storyDetail);
                 return storyDetail;
             });
         }

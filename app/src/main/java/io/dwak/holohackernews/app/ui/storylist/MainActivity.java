@@ -19,12 +19,15 @@ import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
 import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelActivity;
+import io.dwak.holohackernews.app.dagger.component.DaggerViewModelComponent;
 import io.dwak.holohackernews.app.ui.about.AboutActivity;
 import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
@@ -38,11 +41,10 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
     public static final String STORY_ID = "STORY_ID";
     public static final String DETAILS_CONTAINER_VISIBLE = "DETAILS_CONTAINER_VISIBLE";
 
-    @InjectView(R.id.toolbar)
-    Toolbar mToolbar;
-    @Optional
-    @InjectView(R.id.details_container)
-    View mDetailsContainer;
+    @InjectView(R.id.toolbar) Toolbar mToolbar;
+    @Optional @InjectView(R.id.details_container) View mDetailsContainer;
+
+    @Inject MainViewModel mViewModel;
 
     private CharSequence mTitle;
     private boolean mIsDualPane;
@@ -55,12 +57,17 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        DaggerViewModelComponent.builder()
+                                .appModule(HackerNewsApplication.getAppModule())
+                                .appComponent(HackerNewsApplication.getAppComponent())
+                                .build()
+                                .inject(this);
         mTitle = getTitle();
 
         // Set up the drawer.
         mAccountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .addProfiles(getViewModel().getProfileItems())
+                .addProfiles(mViewModel.getProfileItems())
                 .withSavedInstance(savedInstanceState)
                 .withProfileImagesVisible(true)
                 .withHeaderBackground(getResources().getDrawable(R.drawable.orange_button))
@@ -73,7 +80,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                             new AlertDialog.Builder(this)
                                     .setMessage("Are you sure you want to logout?")
                                     .setPositiveButton("Logout", (dialog, which) -> {
-                                        getViewModel().logout();
+                                        mViewModel.logout();
                                     })
                                     .setNegativeButton("Cancel", null)
                                     .create()
@@ -92,7 +99,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                 .withAccountHeader(mAccountHeader)
                 .withAnimateDrawerItems(true)
                 .withSavedInstance(savedInstanceState)
-                .addDrawerItems(getViewModel().getDrawerItems().toArray(new IDrawerItem[getViewModel().getDrawerItems().size()]))
+                .addDrawerItems(mViewModel.getDrawerItems().toArray(new IDrawerItem[mViewModel.getDrawerItems().size()]))
                 .withOnDrawerItemClickListener((adapterView, view, i, l, iDrawerItem) -> {
                     Fragment storyListFragment;
                     switch (iDrawerItem.getIdentifier()) {
@@ -170,25 +177,20 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
 
     private void refreshNavigationDrawer(boolean loggedIn) {
         if (loggedIn) {
-            for (IProfile iProfile : getViewModel().getLoggedOutProfileItem()) {
+            for (IProfile iProfile : mViewModel.getLoggedOutProfileItem()) {
                 mAccountHeader.removeProfile(iProfile);
             }
-            mAccountHeader.addProfiles(getViewModel().getLoggedInProfileItem());
+            mAccountHeader.addProfiles(mViewModel.getLoggedInProfileItem());
         }
         else {
-            for (IProfile iProfile : getViewModel().getLoggedInProfileItem()) {
+            for (IProfile iProfile : mViewModel.getLoggedInProfileItem()) {
                 mAccountHeader.removeProfile(iProfile);
             }
-            mAccountHeader.addProfiles(getViewModel().getLoggedOutProfileItem());
-            getViewModel().clearLoggedInProfileItem();
+            mAccountHeader.addProfiles(mViewModel.getLoggedOutProfileItem());
+            mViewModel.clearLoggedInProfileItem();
         }
 
         mAccountHeader.toggleSelectionList(this);
-    }
-
-    @Override
-    public Class<MainViewModel> getViewModelClass() {
-        return MainViewModel.class;
     }
 
     @Override
@@ -251,5 +253,10 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return mDrawer.getActionBarDrawerToggle().onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public MainViewModel getViewModel() {
+        return mViewModel;
     }
 }

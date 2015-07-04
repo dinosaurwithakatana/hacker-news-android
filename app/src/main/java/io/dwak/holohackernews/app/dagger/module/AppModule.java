@@ -1,5 +1,8 @@
 package io.dwak.holohackernews.app.dagger.module;
 
+import android.app.Application;
+import android.content.res.Resources;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -11,6 +14,17 @@ import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
 
 @Module
 public class AppModule {
+    Application mApplication;
+
+    public AppModule(Application application) {
+        mApplication = application;
+    }
+
+    @Provides @Named("resources")
+    Resources providesResources(){
+        return mApplication.getResources();
+    }
+
     @Provides @Named("gson")
     Gson providesGson() {
         return new GsonBuilder().registerTypeAdapter(Long.class, new LongTypeAdapter())

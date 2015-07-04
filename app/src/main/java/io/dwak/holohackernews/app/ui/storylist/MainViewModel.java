@@ -1,5 +1,7 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
+import android.content.res.Resources;
+
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -35,6 +37,12 @@ public class MainViewModel extends BaseViewModel {
     private List<IDrawerItem> mDrawerItems;
     private IProfile[] mLoggedInProfiles;
     private IProfile[] mLoggedOutProfileItems;
+    
+    Resources mResources;
+
+    public MainViewModel(Resources resources) {
+        mResources = resources;
+    }
 
     IProfile[] getProfileItems(){
         return isLoggedIn() ? getLoggedInProfileItem() : getLoggedOutProfileItem();
@@ -44,9 +52,9 @@ public class MainViewModel extends BaseViewModel {
         if (mLoggedOutProfileItems == null) {
             mLoggedOutProfileItems = new IProfile[1];
             ProfileSettingDrawerItem profileAddAccountItem = new ProfileSettingDrawerItem().withIdentifier(ADD_ACCOUNT_PROFILE_ITEM)
-                                                                                           .withName(getResources().getString(R.string.nav_drawer_login))
-                                                                                           .withDescription(getResources().getString(R.string.nav_drawer_add_an_account))
-                                                                                           .withIcon(getResources().getDrawable(R.drawable.ic_add));
+                                                                                           .withName(mResources.getString(R.string.nav_drawer_login))
+                                                                                           .withDescription(mResources.getString(R.string.nav_drawer_add_an_account))
+                                                                                           .withIcon(mResources.getDrawable(R.drawable.ic_add));
             mLoggedOutProfileItems[0] = profileAddAccountItem;
         }
         return mLoggedOutProfileItems;
@@ -59,12 +67,12 @@ public class MainViewModel extends BaseViewModel {
             ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withIdentifier(LOGGED_IN_PROFILE_ITEM)
                                                                          .withIcon(TextDrawable.builder()
                                                                                                .buildRound(String.valueOf(currentUser.getUserName().charAt(0)),
-                                                                                                           getResources().getColor(R.color.colorPrimaryDark)))
+                                                                                                           mResources.getColor(R.color.colorPrimaryDark)))
                                                                          .withName(currentUser.getUserName());
             ProfileSettingDrawerItem logoutDrawerItem = new ProfileSettingDrawerItem().withIdentifier(LOG_OUT_PROFILE_ITEM)
                                                                                       .withName("Logout")
                                                                                       .withDescription("Logout of current account")
-                                                                                      .withIcon(getResources().getDrawable(R.drawable.ic_close));
+                                                                                      .withIcon(mResources.getDrawable(R.drawable.ic_close));
 
             mLoggedInProfiles[0] = profileDrawerItem;
             mLoggedInProfiles[1] = logoutDrawerItem;

@@ -30,11 +30,14 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelFragment;
+import io.dwak.holohackernews.app.dagger.component.DaggerViewModelComponent;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
@@ -72,6 +75,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     private boolean mWasLinkLayoutOpen;
     private StoryDetailRecyclerAdapter mAdapter;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
+    @Inject StoryDetailViewModel mViewModel;
 
     public static StoryDetailFragment newInstance(long param1) {
         StoryDetailFragment fragment = new StoryDetailFragment();
@@ -115,7 +119,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
                     @Override
                     public void onNext(StoryDetail storyDetail) {
-                        getViewModel().setStoryDetail(storyDetail);
                         updateHeader();
                         updateWebView();
                         updateRecyclerView();
@@ -179,6 +182,12 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerViewModelComponent.builder()
+                .appModule(HackerNewsApplication.getAppModule())
+                .appComponent(HackerNewsApplication.getAppComponent())
+                .build()
+                .inject(this);
+
         if (getArguments() != null) {
             if (getArguments().containsKey(STORY_ID)) {
                 long storyId = getArguments().getLong(STORY_ID);
@@ -196,7 +205,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = getRootView(inflater, container);
+        View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
         if (savedInstanceState != null) {
             mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
         }
@@ -439,12 +448,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     }
 
     @Override
-    protected Class<StoryDetailViewModel> getViewModelClass() {
-        return StoryDetailViewModel.class;
-    }
-
-    @Override
-    protected View getRootView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_story_comments, container, false);
+    protected StoryDetailViewModel getViewModel() {
+        return mViewModel;
     }
 }

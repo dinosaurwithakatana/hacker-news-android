@@ -8,10 +8,14 @@ import android.widget.EditText;
 
 import com.dd.CircularProgressButton;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelActivity;
+import io.dwak.holohackernews.app.dagger.component.DaggerViewModelComponent;
 import io.dwak.holohackernews.app.models.User;
 import rx.Observable;
 import rx.Subscriber;
@@ -28,10 +32,17 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
     @InjectView(R.id.password) EditText mPassword;
     @InjectView(R.id.login_button_with_progress) CircularProgressButton mLoginButton;
 
+    @Inject LoginViewModel mViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        DaggerViewModelComponent.builder()
+                .appComponent(HackerNewsApplication.getAppComponent())
+                .appModule(HackerNewsApplication.getAppModule())
+                .build()
+                .inject(this);
         ButterKnife.inject(this);
 
         // Creates Observables from the EditTexts and enables the login button if they aren't empty
@@ -80,8 +91,8 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
     }
 
     @Override
-    public Class<LoginViewModel> getViewModelClass() {
-        return LoginViewModel.class;
+    protected LoginViewModel getViewModel() {
+        return mViewModel;
     }
 
     @Override

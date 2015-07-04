@@ -3,6 +3,7 @@ package io.dwak.holohackernews.app.ui.storylist;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -38,6 +39,8 @@ import rx.schedulers.Schedulers;
 
 public class StoryListViewModel extends BaseViewModel {
 
+    private Resources mResources;
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FEED_TYPE_TOP,
             FEED_TYPE_BEST,
@@ -62,8 +65,11 @@ public class StoryListViewModel extends BaseViewModel {
     private boolean mPageTwoLoaded;
     @Inject HackerNewsService mService;
 
-    public StoryListViewModel() {
+    @Inject
+    public StoryListViewModel(Resources resources) {
+        mResources = resources;
         DaggerHackerNewsServiceComponent.builder()
+                                        .appModule(HackerNewsApplication.getAppModule())
                                         .appComponent(HackerNewsApplication.getAppComponent())
                                         .build()
                                         .inject(this);
@@ -83,22 +89,22 @@ public class StoryListViewModel extends BaseViewModel {
         String title;
         switch (mFeedType) {
             case FEED_TYPE_TOP:
-                title = getResources().getString(R.string.title_top);
+                title = mResources.getString(R.string.title_top);
                 break;
             case FEED_TYPE_BEST:
-                title = getResources().getString(R.string.title_best);
+                title = mResources.getString(R.string.title_best);
                 break;
             case FEED_TYPE_NEW:
-                title = getResources().getString(R.string.title_newest);
+                title = mResources.getString(R.string.title_newest);
                 break;
             case FEED_TYPE_SAVED:
                 title = "Saved";
                 break;
             case FEED_TYPE_ASK:
-                title = getResources().getString(R.string.title_section_ask);
+                title = mResources.getString(R.string.title_section_ask);
                 break;
             default:
-                title = getResources().getString(R.string.app_name);
+                title = mResources.getString(R.string.app_name);
         }
 
         return title;

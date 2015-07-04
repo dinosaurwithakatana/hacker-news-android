@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.dwak.holohackernews.app.dagger.module.AppModule;
 import io.dwak.holohackernews.app.network.UserService;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -22,6 +22,7 @@ public class UserServiceModule {
     }
 
     @Provides
+    @Singleton
     UserService providesUserService(@Named("gson") Gson gson) {
         return new RestAdapter.Builder()
                 .setClient(new OkClient(mOkHttpClient))

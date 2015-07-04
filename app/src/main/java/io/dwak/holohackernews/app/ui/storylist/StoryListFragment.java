@@ -15,10 +15,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelFragment;
+import io.dwak.holohackernews.app.dagger.component.DaggerViewModelComponent;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.util.UIUtils;
 import retrofit.RetrofitError;
@@ -40,6 +44,8 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     private OnStoryListFragmentInteractionListener mListener;
     private StoryListAdapter mRecyclerAdapter;
     private LinearLayoutManager mLayoutManager;
+
+    @Inject StoryListViewModel mViewModel;
 
     public static StoryListFragment newInstance(@StoryListViewModel.FeedType int feedType) {
         StoryListFragment fragment = new StoryListFragment();
@@ -97,16 +103,22 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerViewModelComponent.builder()
+                                .appModule(HackerNewsApplication.getAppModule())
+                                .appComponent(HackerNewsApplication.getAppComponent())
+                                .build()
+                                .inject(this);
         if (getArguments() != null) {
             @StoryListViewModel.FeedType final int feedType = getArguments().getInt(FEED_TO_LOAD);
             getViewModel().setFeedType(feedType);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = getRootView(inflater, container);
+        View view = inflater.inflate(R.layout.fragment_storylist_list, container, false);
         ButterKnife.inject(this, view);
 
         getViewModel().setPageTwoLoaded(false);
@@ -230,13 +242,8 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     }
 
     @Override
-    protected View getRootView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_storylist_list, container, false);
-    }
-
-    @Override
-    protected Class<StoryListViewModel> getViewModelClass() {
-        return StoryListViewModel.class;
+    public StoryListViewModel getViewModel() {
+        return mViewModel;
     }
 
     public interface OnStoryListFragmentInteractionListener {
