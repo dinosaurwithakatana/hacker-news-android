@@ -69,6 +69,7 @@ public class StoryDetailViewModel extends BaseViewModel {
                                                                   .eq(storyDetailFromDB.getId()))
                                                    .list();
                     storyDetailFromDB.setCommentList(comments);
+                    setStoryDetail(storyDetailFromDB);
                     subscriber.onNext(storyDetailFromDB);
                     subscriber.onCompleted();
                 }

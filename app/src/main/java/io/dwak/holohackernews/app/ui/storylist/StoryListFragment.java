@@ -1,6 +1,8 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -8,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -27,6 +32,7 @@ import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.util.UIUtils;
 import retrofit.RetrofitError;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -112,6 +118,8 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             @StoryListViewModel.FeedType final int feedType = getArguments().getInt(FEED_TO_LOAD);
             getViewModel().setFeedType(feedType);
         }
+
+        setHasOptionsMenu(true);
 
     }
 
@@ -239,6 +247,89 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        if (getViewModel().getFeedType() != StoryListViewModel.FEED_TYPE_SAVED) {
+            inflater.inflate(R.menu.story_list_save, menu);
+        }
+        else {
+            inflater.inflate(R.menu.story_list_saved, menu);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("Delete all saved stories?")
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setMessage("Deleting");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
+                            getViewModel().deleteAllSavedStories()
+                            .observeOn(Schedulers.io())
+                            .subscribeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Observer<Object>() {
+                                        @Override
+                                        public void onCompleted() {
+                                            progressDialog.dismiss();
+                                            mRecyclerAdapter.removeAllItems();
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+
+                                        }
+
+                                        @Override
+                                        public void onNext(Object o) {
+
+                                        }
+                                    });
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+                return true;
+            case R.id.action_save:
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("Save all loaded stories?")
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setMessage(String.format("Saving %d stories...", getViewModel().getNumberOfStories()));
+                            progressDialog.setCancelable(false);
+                            progressDialog.setMax(getViewModel().getNumberOfStories());
+                            progressDialog.show();
+                            getViewModel().saveAllStories()
+                                          .subscribeOn(Schedulers.io())
+                                          .observeOn(AndroidSchedulers.mainThread())
+                                          .subscribe(new Observer<Object>() {
+                                              @Override
+                                              public void onCompleted() {
+                                                  progressDialog.dismiss();
+                                              }
+
+                                              @Override
+                                              public void onError(Throwable e) {
+
+                                              }
+
+                                              @Override
+                                              public void onNext(Object o) {
+                                                  progressDialog.incrementProgressBy(1);
+                                              }
+                                          });
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .create()
+                        .show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

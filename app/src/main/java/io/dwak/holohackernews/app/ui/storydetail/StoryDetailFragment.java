@@ -116,25 +116,24 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
                                              @Override
                                              public void onNext(StoryDetail storyDetail) {
-                                                 updateHeader();
-                                                 updateWebView();
-                                                 updateRecyclerView();
+                                                 updateHeader(storyDetail);
+                                                 updateWebView(storyDetail);
+                                                 updateRecyclerView(storyDetail);
                                                  openLink();
                                              }
                                          });
     }
 
-    private void updateRecyclerView() {
+    private void updateRecyclerView(StoryDetail storyDetail) {
         mAdapter.clear();
-        for (Comment comment : getViewModel().getStoryDetail().getCommentList()) {
+        for (Comment comment : storyDetail.getCommentList()) {
             mAdapter.addComment(comment);
         }
     }
 
-    private void updateWebView() {
+    private void updateWebView(StoryDetail storyDetail) {
         mButtonBarMainAction.setOnClickListener(view -> {
             if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-                StoryDetail storyDetail = getViewModel().getStoryDetail();
                 if (StoryDetail.ASK.equals(storyDetail.getType())) {
                     storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
                 }
@@ -151,8 +150,8 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         });
     }
 
-    private void updateHeader() {
-        mAdapter.updateHeader(getViewModel().getStoryDetail());
+    private void updateHeader(StoryDetail storyDetail) {
+        mAdapter.updateHeader(storyDetail);
     }
 
     private void openLink() {

@@ -78,6 +78,11 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListViewHolder> 
         notifyItemRemoved(position);
     }
 
+    public void removeAllItems() {
+        mStoryList.clear();
+        notifyDataSetChanged();
+    }
+
     public interface StoryListAdapterListener {
         void onStoryClick(int position);
         void onStorySave(int position, boolean save);

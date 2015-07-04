@@ -2,7 +2,6 @@
     android:id="@+id/link_panel"
     style="?containerBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -62,8 +61,9 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <include android:id="@+id/link_layout"
-             layout="@layout/view_story_link"/>
+    <include
+        android:id="@+id/link_layout"
+        layout="@layout/view_story_link"/>
 
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

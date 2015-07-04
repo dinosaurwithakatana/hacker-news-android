@@ -40,15 +40,16 @@ import rx.schedulers.Schedulers;
 public class StoryListViewModel extends BaseViewModel {
 
     private Resources mResources;
+    private ArrayList<Story> mStories;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FEED_TYPE_TOP,
-            FEED_TYPE_BEST,
-            FEED_TYPE_NEW,
-            FEED_TYPE_SHOW,
-            FEED_TYPE_SHOW_NEW,
-            FEED_TYPE_SAVED,
-            FEED_TYPE_ASK})
+                    FEED_TYPE_BEST,
+                    FEED_TYPE_NEW,
+                    FEED_TYPE_SHOW,
+                    FEED_TYPE_SHOW_NEW,
+                    FEED_TYPE_SAVED,
+                    FEED_TYPE_ASK})
     public @interface FeedType {
     }
 
@@ -193,6 +194,12 @@ public class StoryListViewModel extends BaseViewModel {
                                              }
 
                                              return story;
+                                         })
+                                         .doOnNext(story -> {
+                                             if (mStories == null) {
+                                                 mStories = new ArrayList<>(30);
+                                             }
+                                             mStories.add(story);
                                          });
     }
 
@@ -266,9 +273,33 @@ public class StoryListViewModel extends BaseViewModel {
                       .first()
                       .delete();
                 storyDetail.delete();
-                subscriber.onCompleted();
+                if(!subscriber.isUnsubscribed()) {
+                    subscriber.onCompleted();
+                }
             });
         });
+    }
+
+    public Observable<Object> saveAllStories() {
+        return Observable.from(mStories)
+                .flatMap(story -> saveStory(story));
+    }
+
+    public Observable<Object> deleteAllSavedStories() {
+        return Observable.create(subscriber -> {
+            SugarTransactionHelper.doInTansaction(() -> {
+                Story.deleteAll(Story.class);
+                StoryDetail.deleteAll(StoryDetail.class);
+                Comment.deleteAll(Comment.class);
+                if(!subscriber.isUnsubscribed()){
+                    subscriber.onCompleted();
+                }
+            });
+        });
+    }
+
+    public int getNumberOfStories(){
+        return mStories.size();
     }
 
     boolean isNightMode(Context context) {

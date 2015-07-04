@@ -66,4 +66,5 @@
     <string name="story_action_upvote">Upvote</string>
     <string name="story_action_save">Save</string>
     <string name="title_section_ask">Ask</string>
+    <string name="delete_all">Delete All</string>
 </resources>
