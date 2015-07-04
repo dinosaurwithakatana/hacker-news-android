@@ -9,9 +9,6 @@ import android.support.annotation.StringDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/**
- * Created by vishnu on 11/2/14.
- */
 public class UserPreferenceManager {
 
     public static final String SHOULD_USE_EXTERNAL_BROWSER = "pref_system_browser";

@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 import android.content.res.Resources;
+import android.support.annotation.IntDef;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -11,6 +12,8 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,10 @@ public class MainViewModel extends BaseViewModel {
     public static final int LOG_OUT_PROFILE_ITEM = -1;
     public static final int ADD_ACCOUNT_PROFILE_ITEM = 0;
     public static final int LOGGED_IN_PROFILE_ITEM = 1;
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({SECTION_TOP, SECTION_BEST, SECTION_NEWEST, SECTION_SHOW_HN,
+            SECTION_SHOW_HN_NEW, SECTION_ASK, SECTION_SAVED, SECTION_SETTINGS, SECTION_ABOUT})
+    public @interface NavigationSection{};
     public static final int SECTION_ABOUT = 8;
     public static final int SECTION_SETTINGS = 7;
     public static final int SECTION_SAVED = 6;

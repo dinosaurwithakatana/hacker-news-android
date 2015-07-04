@@ -31,6 +31,8 @@ public class StoryDetailViewModel extends BaseViewModel {
     private StoryDetail mStoryDetail;
     private boolean mSaved;
     @Inject HackerNewsService mService;
+    private boolean mViewingReadability;
+    private boolean mIsViewingReadability;
 
     public StoryDetailViewModel() {
         mStoryId = 0;
@@ -139,5 +141,13 @@ public class StoryDetailViewModel extends BaseViewModel {
         } catch (UnsupportedEncodingException e) {
             return null;
         }
+    }
+
+    public boolean isViewingReadability() {
+        return mViewingReadability;
+    }
+
+    public void setIsViewingReadability(boolean isViewingReadability) {
+        mIsViewingReadability = isViewingReadability;
     }
 }

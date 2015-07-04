@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.manager.hackernews;
+package io.dwak.holohackernews.app.network;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -7,9 +7,6 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
-/**
-* Created by vishnu on 10/1/14.
-*/
 public class LongTypeAdapter implements JsonDeserializer<Long> {
 
     @Override

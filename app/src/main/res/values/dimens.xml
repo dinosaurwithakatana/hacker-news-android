@@ -9,4 +9,5 @@
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="color_code_left_margin">12dp</dimen>
     <dimen name="comment_content_left_margin">4dp</dimen>
+    <dimen name="button_bar_height">42dp</dimen>
 </resources>

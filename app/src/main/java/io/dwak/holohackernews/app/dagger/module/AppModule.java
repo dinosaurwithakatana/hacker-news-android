@@ -10,7 +10,7 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import io.dwak.holohackernews.app.manager.hackernews.LongTypeAdapter;
+import io.dwak.holohackernews.app.network.LongTypeAdapter;
 
 @Module
 public class AppModule {

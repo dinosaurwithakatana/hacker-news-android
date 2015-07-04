@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,10 +23,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import javax.inject.Inject;
 
@@ -43,7 +43,6 @@ import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
-import io.dwak.holohackernews.app.widget.ReboundRevealRelativeLayout;
 import rx.Subscriber;
 import rx.android.observables.AndroidObservable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -58,21 +57,19 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryDetailFragment.class.getSimpleName();
     public static final String LOADING_FROM_SAVED = "LOADING_FROM_SAVED";
-    @InjectView(R.id.prev_top_level) Button mPrevTopLevel;
-    @InjectView(R.id.next_top_level) Button mNextTopLevel;
-    @InjectView(R.id.web_back) Button mWebBack;
-    @InjectView(R.id.close_link) Button mCloseLink;
-    @InjectView(R.id.web_forward) Button mWebForward;
+    @InjectView(R.id.action_1) Button mButtonBarAction1;
+    @InjectView(R.id.action_main) Button mButtonBarMainAction;
+    @InjectView(R.id.action_2) Button mButtonBarAction2;
     @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.comments_recycler) RecyclerView mCommentsRecyclerView;
-    @InjectView(R.id.open_link) Button mOpenLinkDialogButton;
     @InjectView(R.id.story_web_view) ObservableWebView mWebView;
-    @InjectView(R.id.link_layout) ReboundRevealRelativeLayout mLinkLayout;
+    @InjectView(R.id.link_layout) RelativeLayout mLinkLayout;
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
     @InjectView(R.id.saved_banner) TextView mSavedBanner;
+    @InjectView(R.id.link_panel) SlidingUpPanelLayout mSlidingUpPanelLayout;
+    @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
     private Bundle mWebViewBundle;
-    private boolean mReadability;
-    private boolean mWasLinkLayoutOpen;
+    private SlidingUpPanelLayout.PanelState mOldPanelState;
     private StoryDetailRecyclerAdapter mAdapter;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
     @Inject StoryDetailViewModel mViewModel;
@@ -96,35 +93,35 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     private void refresh() {
         showProgress(true);
         mSubscription = AndroidObservable.bindFragment(this, getViewModel().getStoryDetailObservable())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<StoryDetail>() {
-                    @Override
-                    public void onCompleted() {
-                        showProgress(false);
-                        if (UserPreferenceManager.showLinkFirst(getActivity())
-                                && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-                            openLinkInExternalBrowser();
-                        }
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
+                                         .subscribeOn(Schedulers.io())
+                                         .observeOn(AndroidSchedulers.mainThread())
+                                         .subscribe(new Subscriber<StoryDetail>() {
+                                             @Override
+                                             public void onCompleted() {
+                                                 showProgress(false);
+                                                 if (UserPreferenceManager.showLinkFirst(getActivity())
+                                                         && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+                                                     openLinkInExternalBrowser();
+                                                 }
+                                                 mSwipeRefreshLayout.setRefreshing(false);
+                                             }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
-                        if(HackerNewsApplication.isDebug()) {
-                            e.printStackTrace();
-                        }
-                    }
+                                             @Override
+                                             public void onError(Throwable e) {
+                                                 Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
+                                                 if (HackerNewsApplication.isDebug()) {
+                                                     e.printStackTrace();
+                                                 }
+                                             }
 
-                    @Override
-                    public void onNext(StoryDetail storyDetail) {
-                        updateHeader();
-                        updateWebView();
-                        updateRecyclerView();
-                        openLink();
-                    }
-                });
+                                             @Override
+                                             public void onNext(StoryDetail storyDetail) {
+                                                 updateHeader();
+                                                 updateWebView();
+                                                 updateRecyclerView();
+                                                 openLink();
+                                             }
+                                         });
     }
 
     private void updateRecyclerView() {
@@ -135,19 +132,20 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     }
 
     private void updateWebView() {
-        mOpenLinkDialogButton.setVisibility(View.VISIBLE);
-        mOpenLinkDialogButton.setOnClickListener(view -> {
+        mButtonBarMainAction.setOnClickListener(view -> {
             if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-                mLinkLayout.setOpen(!mLinkLayout.isOpen());
                 StoryDetail storyDetail = getViewModel().getStoryDetail();
                 if (StoryDetail.ASK.equals(storyDetail.getType())) {
                     storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
-                } else if (StoryDetail.JOB.equals(storyDetail.getType())) {
+                }
+                else if (StoryDetail.JOB.equals(storyDetail.getType())) {
                     if (storyDetail.getUrl().contains("/item?id=")) {
                         storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
                     }
                 }
-            } else {
+            }
+            else {
+                mSlidingUpPanelLayout.setTouchEnabled(false);
                 openLinkInExternalBrowser();
             }
         });
@@ -183,10 +181,10 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerViewModelComponent.builder()
-                .appModule(HackerNewsApplication.getAppModule())
-                .appComponent(HackerNewsApplication.getAppComponent())
-                .build()
-                .inject(this);
+                                .appModule(HackerNewsApplication.getAppModule())
+                                .appComponent(HackerNewsApplication.getAppComponent())
+                                .build()
+                                .inject(this);
 
         if (getArguments() != null) {
             if (getArguments().containsKey(STORY_ID)) {
@@ -194,7 +192,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                 getViewModel().setStoryId(storyId);
             }
 
-            if(getArguments().containsKey(LOADING_FROM_SAVED)){
+            if (getArguments().containsKey(LOADING_FROM_SAVED)) {
                 getViewModel().setLoadFromSaved(getArguments().getBoolean(LOADING_FROM_SAVED));
             }
         }
@@ -207,7 +205,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_story_comments, container, false);
         if (savedInstanceState != null) {
-            mWasLinkLayoutOpen = savedInstanceState.getBoolean(LINK_DRAWER_OPEN, false);
+            mOldPanelState = (SlidingUpPanelLayout.PanelState) savedInstanceState.getSerializable(LINK_DRAWER_OPEN);
         }
         ButterKnife.inject(this, rootView);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
@@ -222,28 +220,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             actionBar.setTitle("Hacker News");
         }
 
-        mPrevTopLevel.setOnClickListener(view -> {
-            for (int i = mCurrentFirstCompletelyVisibleItemIndex- 1; i >= 0; i--) {
-                final Object item = mAdapter.getItem(i);
-                if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                    HNLog.d(TAG, String.valueOf(i));
-                    mCurrentFirstCompletelyVisibleItemIndex = i;
-                    mCommentsRecyclerView.smoothScrollToPosition(i);
-                    return;
-                }
-            }
-        });
-        mNextTopLevel.setOnClickListener(view -> {
-            for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mAdapter.getItemCount(); i++) {
-                final Object item = mAdapter.getItem(i);
-                if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                    HNLog.d(TAG, String.valueOf(i));
-                    mCurrentFirstCompletelyVisibleItemIndex = i;
-                    mCommentsRecyclerView.smoothScrollToPosition(i);
-                    return;
-                }
-            }
-        });
+
         mAdapter = new StoryDetailRecyclerAdapter(getActivity(), position -> {
             if (mAdapter.areChildrenHidden(position)) {
                 mAdapter.showChildComments(position);
@@ -257,9 +234,9 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         mCommentsRecyclerView.setAdapter(mAdapter);
 
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_orange_dark,
-                android.R.color.holo_orange_light);
+                                                    android.R.color.holo_orange_light,
+                                                    android.R.color.holo_orange_dark,
+                                                    android.R.color.holo_orange_light);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(true);
             refresh();
@@ -267,6 +244,53 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
         refresh();
         return rootView;
+    }
+
+    private void updateSlidingPanel(boolean expanded) {
+        if(expanded) {
+            mButtonBarMainAction.setText(getString(R.string.show_comments));
+            mButtonBarMainAction.setOnClickListener(v -> mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED));
+            mButtonBarAction1.setBackgroundResource(R.drawable.web_back);
+            mButtonBarAction1.setOnClickListener(view -> {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                }
+            });
+            mButtonBarAction2.setBackgroundResource(R.drawable.web_forward);
+            mButtonBarAction2.setOnClickListener(view -> {
+                if (mWebView.canGoForward()) {
+                    mWebView.goForward();
+                }
+            });
+        }
+        else {
+            mButtonBarMainAction.setText(getString(R.string.show_link));
+            mButtonBarMainAction.setOnClickListener(v -> mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED));
+            mButtonBarAction1.setBackgroundResource(R.drawable.navigation_up);
+            mButtonBarAction1.setOnClickListener(view -> {
+                for (int i = mCurrentFirstCompletelyVisibleItemIndex - 1; i >= 0; i--) {
+                    final Object item = mAdapter.getItem(i);
+                    if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                        HNLog.d(TAG, String.valueOf(i));
+                        mCurrentFirstCompletelyVisibleItemIndex = i;
+                        mCommentsRecyclerView.smoothScrollToPosition(i);
+                        return;
+                    }
+                }
+            });
+            mButtonBarAction2.setBackgroundResource(R.drawable.navigation_down);
+            mButtonBarAction2.setOnClickListener(view -> {
+                for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mAdapter.getItemCount(); i++) {
+                    final Object item = mAdapter.getItem(i);
+                    if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                        HNLog.d(TAG, String.valueOf(i));
+                        mCurrentFirstCompletelyVisibleItemIndex = i;
+                        mCommentsRecyclerView.smoothScrollToPosition(i);
+                        return;
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -282,8 +306,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mWebView.saveState(outState);
-        outState.putBoolean(LINK_DRAWER_OPEN, mLinkLayout.isOpen());
-//        outState.putInt(TOP_VISIBLE_COMMENT, mCommentsListView.getFirstVisiblePosition());
+        outState.putSerializable(LINK_DRAWER_OPEN, mSlidingUpPanelLayout.getPanelState());
     }
 
     @Override
@@ -332,8 +355,8 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                     sendIntent.setType("text/plain");
                     startActivity(sendIntent);
                 })
-                .create()
-                .show();
+                       .create()
+                       .show();
                 break;
             case R.id.action_open_browser:
                 Intent browserIntent = new Intent();
@@ -348,32 +371,49 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        updateWebViewDrawerPosition();
-
-    }
-
-    private void updateWebViewDrawerPosition(){
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        mLinkLayout.setStashPixel(height);
-        mLinkLayout.setRevealPixel(0);
-        mLinkLayout.updateListener();
-        mLinkLayout.setOpen(mLinkLayout.isOpen());
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void setupWebViewDrawer() {
-        updateWebViewDrawerPosition();
-        mLinkLayout.setTranslateDirection(ReboundRevealRelativeLayout.TRANSLATE_DIRECTION_VERTICAL);
+        mSlidingUpPanelLayout.setDragView(mButtonBar);
+        mSlidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View view, float v) {
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View panelView) {
+                updateSlidingPanel(false);
+            }
+
+            @Override
+            public void onPanelExpanded(View panelView) {
+                updateSlidingPanel(true);
+            }
+
+            @Override
+            public void onPanelAnchored(View view) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View view) {
+
+            }
+        });
         if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-            mLinkLayout.setOpen(mWasLinkLayoutOpen || (UserPreferenceManager.showLinkFirst(getActivity())));
+            if(mOldPanelState == SlidingUpPanelLayout.PanelState.EXPANDED || (UserPreferenceManager.showLinkFirst(getActivity()))){
+                mButtonBarMainAction.setText(getResources().getString(R.string.show_comments));
+                mSlidingUpPanelLayout.postDelayed(() -> mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED), getResources().getInteger(R.integer.fragment_animation_times));
+            }
+            else {
+                mButtonBarMainAction.setText(getResources().getString(R.string.show_link));
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
         }
 
         final ProgressBar webProgressBar = (ProgressBar) mLinkLayout.findViewById(R.id.web_progress_bar);
-        mCloseLink.setOnClickListener(view -> mLinkLayout.setOpen(false));
 
         mWebView.setVisibility(View.INVISIBLE);
         webProgressBar.setVisibility(View.VISIBLE);
@@ -404,31 +444,20 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         });
 
         mWebView.setOnScrollChangedCallback(this);
-
-        mWebBack.setOnClickListener(view -> {
-            if (mWebView.canGoBack()) {
-                mWebView.goBack();
-            }
-        });
-        mWebForward.setOnClickListener(view -> {
-            if (mWebView.canGoForward()) {
-                mWebView.goForward();
-            }
-        });
     }
 
     public boolean isLinkViewVisible() {
-        return mLinkLayout.isOpen();
+        return mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED;
     }
 
     public void hideLinkView() {
-        mLinkLayout.setOpen(false);
+        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
     private void readability() {
-        mReadability = !mReadability;
-        if (mReadability) {
-            if(getViewModel().getReadabilityUrl() != null) {
+        getViewModel().setIsViewingReadability(!getViewModel().isViewingReadability());
+        if (getViewModel().isViewingReadability()) {
+            if (getViewModel().getReadabilityUrl() != null) {
                 mWebView.loadUrl(getViewModel().getReadabilityUrl());
             }
         }

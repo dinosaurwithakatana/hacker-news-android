@@ -25,17 +25,14 @@ public class AboutActivity extends BaseActivity{
         }
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new AboutFragment())
                     .commit();
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+    public static class AboutFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        public AboutFragment() {
         }
 
         @Override
