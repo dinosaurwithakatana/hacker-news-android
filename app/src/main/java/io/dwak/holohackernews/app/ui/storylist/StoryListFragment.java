@@ -63,7 +63,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
 
     private void refresh() {
         mRecyclerAdapter.clear();
-        react(getViewModel().getStories(), false);
+            react(getViewModel().getStories(), false);
     }
 
     private void react(Observable<Story> stories, boolean pageTwo) {
@@ -221,7 +221,41 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                                  getResources().getColor(R.color.colorPrimaryDark));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(true);
-            refresh();
+            if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("This will refresh all saved stories")
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setMessage("Refreshing all stories...");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
+                            getViewModel().saveAllStories()
+                                          .observeOn(Schedulers.io())
+                                          .subscribeOn(AndroidSchedulers.mainThread())
+                                          .subscribe(new Observer<Object>() {
+                                              @Override
+                                              public void onCompleted() {
+                                                  progressDialog.dismiss();
+                                                  mSwipeRefreshLayout.setRefreshing(false);
+                                              }
+
+                                              @Override
+                                              public void onError(Throwable e) {
+
+                                              }
+
+                                              @Override
+                                              public void onNext(Object o) {
+
+                                              }
+                                          });
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+            }
+            else {
+                refresh();
+            }
         });
 
         if (savedInstanceState != null) {
@@ -272,25 +306,25 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                             progressDialog.setCancelable(false);
                             progressDialog.show();
                             getViewModel().deleteAllSavedStories()
-                            .observeOn(Schedulers.io())
-                            .subscribeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Observer<Object>() {
-                                        @Override
-                                        public void onCompleted() {
-                                            progressDialog.dismiss();
-                                            mRecyclerAdapter.removeAllItems();
-                                        }
+                                          .observeOn(Schedulers.io())
+                                          .subscribeOn(AndroidSchedulers.mainThread())
+                                          .subscribe(new Observer<Object>() {
+                                              @Override
+                                              public void onCompleted() {
+                                                  progressDialog.dismiss();
+                                                  mRecyclerAdapter.removeAllItems();
+                                              }
 
-                                        @Override
-                                        public void onError(Throwable e) {
+                                              @Override
+                                              public void onError(Throwable e) {
 
-                                        }
+                                              }
 
-                                        @Override
-                                        public void onNext(Object o) {
+                                              @Override
+                                              public void onNext(Object o) {
 
-                                        }
-                                    });
+                                              }
+                                          });
                         })
                         .setNegativeButton(android.R.string.cancel, null)
                         .show();
