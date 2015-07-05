@@ -179,5 +179,6 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public interface StoryDetailRecyclerListener {
         void onCommentClicked(int position);
+        void onCommentActionClicked(Comment comment);
     }
 }

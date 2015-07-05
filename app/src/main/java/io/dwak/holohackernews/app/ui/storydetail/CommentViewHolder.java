@@ -1,8 +1,6 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -86,7 +84,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
         }
 
         viewHolder.commentSubmissionTime.setText(comment.getTimeAgo());
-        viewHolder.overflow.setOnClickListener(view -> commentAction(context, comment));
+        viewHolder.overflow.setOnClickListener(view -> listener.onCommentActionClicked(comment));
 
         String submitter = comment.getUser();
         if (HackerNewsApplication.isDebug()) {
@@ -167,26 +165,4 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    static void commentAction(Context context, Comment comment) {
-        final CharSequence[] commentActions = {"Share Comment", "Share Comment Content"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setItems(commentActions, (dialogInterface, j) -> {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            switch (j) {
-                case 0:
-                    sendIntent.putExtra(Intent.EXTRA_TEXT,
-                            "https://news.ycombinator.com/item?id=" + comment.getCommentId());
-                    break;
-                case 1:
-                    sendIntent.putExtra(Intent.EXTRA_TEXT,
-                            comment.getUser() + ": " + Html.fromHtml(comment.getContent()));
-                    break;
-            }
-            sendIntent.setType("text/plain");
-            context.startActivity(sendIntent);
-        });
-
-        builder.create().show();
-    }
 }

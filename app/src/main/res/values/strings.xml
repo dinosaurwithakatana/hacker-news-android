@@ -67,4 +67,20 @@
     <string name="story_action_save">Save</string>
     <string name="title_section_ask">Ask</string>
     <string name="delete_all">Delete All</string>
+    <string name="comment_action_share_comment">Share Comment</string>
+    <string name="comment_action_share_comment_content">Share Comment Content</string>
+    <string name="action_share_link">Link</string>
+    <string name="action_share_comments">Comments</string>
+    <string name="story_details_error_toast_message">Problem loading page</string>
+    <string name="story_list_error_toast_message">Unable to connect to API!</string>
+    <string name="action_refresh_saved_stories">This will refresh all saved stories</string>
+    <string name="action_refresh_save_in_progress">Refreshing all stories...</string>
+    <string name="action_share_delete_all_stories">Delete all saved stories?</string>
+    <string name="action_delete_in_progress_message">Deleting...</string>
+    <string name="action_save_all_stories">Save all loaded stories?</string>
+    <string name="action_save_all_stories_in_progress">Saving %d stories...</string>
+    <string name="title_section_saved">Saved</string>
+    <string name="logout_dialog_message">Are you sure you want to logout?</string>
+    <string name="logout_confirm_button">Logout</string>
+    <string name="story_detail_saved_banner">SAVED</string>
 </resources>

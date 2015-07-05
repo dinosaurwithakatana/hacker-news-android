@@ -1,11 +1,11 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -78,7 +78,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             @Override
             public void onError(Throwable e) {
                 if (e instanceof RetrofitError) {
-                    Toast.makeText(getActivity(), "Unable to connect to API!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.story_list_error_toast_message, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     throw new RuntimeException(e);
@@ -223,10 +223,10 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             mSwipeRefreshLayout.setRefreshing(true);
             if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
                 new AlertDialog.Builder(getActivity())
-                        .setMessage("This will refresh all saved stories")
+                        .setMessage(getString(R.string.action_refresh_saved_stories))
                         .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                             ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                            progressDialog.setMessage("Refreshing all stories...");
+                            progressDialog.setMessage(getString(R.string.action_refresh_save_in_progress));
                             progressDialog.setCancelable(false);
                             progressDialog.show();
                             getViewModel().saveAllStories()
@@ -299,10 +299,10 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
         switch (item.getItemId()) {
             case R.id.action_delete:
                 new AlertDialog.Builder(getActivity())
-                        .setMessage("Delete all saved stories?")
+                        .setMessage(getString(R.string.action_share_delete_all_stories))
                         .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                             ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                            progressDialog.setMessage("Deleting");
+                            progressDialog.setMessage(getString(R.string.action_delete_in_progress_message));
                             progressDialog.setCancelable(false);
                             progressDialog.show();
                             getViewModel().deleteAllSavedStories()
@@ -331,10 +331,10 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                 return true;
             case R.id.action_save:
                 new AlertDialog.Builder(getActivity())
-                        .setMessage("Save all loaded stories?")
+                        .setMessage(getString(R.string.action_save_all_stories))
                         .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                             ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                            progressDialog.setMessage(String.format("Saving %d stories...", getViewModel().getNumberOfStories()));
+                            progressDialog.setMessage(String.format(getString(R.string.action_save_all_stories_in_progress), getViewModel().getNumberOfStories()));
                             progressDialog.setCancelable(false);
                             progressDialog.setMax(getViewModel().getNumberOfStories());
                             progressDialog.show();

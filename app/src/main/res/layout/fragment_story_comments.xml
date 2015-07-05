@@ -38,7 +38,7 @@
                 android:background="?attr/colorPrimary"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="SAVED"
+                android:text="@string/story_detail_saved_banner"
                 android:visibility="gone"/>
 
             <android.support.v4.widget.SwipeRefreshLayout

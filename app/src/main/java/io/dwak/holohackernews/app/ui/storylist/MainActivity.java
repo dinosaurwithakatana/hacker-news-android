@@ -78,11 +78,11 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                             return true;
                         case MainViewModel.LOG_OUT_PROFILE_ITEM:
                             new AlertDialog.Builder(this)
-                                    .setMessage("Are you sure you want to logout?")
-                                    .setPositiveButton("Logout", (dialog, which) -> {
+                                    .setMessage(R.string.logout_dialog_message)
+                                    .setPositiveButton(R.string.logout_confirm_button, (dialog, which) -> {
                                         mViewModel.logout();
                                     })
-                                    .setNegativeButton("Cancel", null)
+                                    .setNegativeButton(android.R.string.cancel, null)
                                     .create()
                                     .show();
                             break;
@@ -134,7 +134,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                             loadFeedList(storyListFragment);
                             break;
                         case MainViewModel.SECTION_SAVED:
-                            mTitle = "Saved";
+                            mTitle = getString(R.string.title_section_saved);
                             storyListFragment = StoryListFragment.newInstance(StoryListViewModel.FEED_TYPE_SAVED);
                             loadFeedList(storyListFragment);
                             break;

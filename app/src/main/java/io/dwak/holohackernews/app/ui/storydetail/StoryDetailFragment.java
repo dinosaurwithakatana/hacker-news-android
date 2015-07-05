@@ -1,16 +1,17 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -108,7 +109,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
                                              @Override
                                              public void onError(Throwable e) {
-                                                 Toast.makeText(getActivity(), "Problem loading page", Toast.LENGTH_SHORT).show();
+                                                 Toast.makeText(getActivity(), R.string.story_details_error_toast_message, Toast.LENGTH_SHORT).show();
                                                  if (HackerNewsApplication.isDebug()) {
                                                      e.printStackTrace();
                                                  }
@@ -220,12 +221,40 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         }
 
 
-        mAdapter = new StoryDetailRecyclerAdapter(getActivity(), position -> {
-            if (mAdapter.areChildrenHidden(position)) {
-                mAdapter.showChildComments(position);
+        mAdapter = new StoryDetailRecyclerAdapter(getActivity(), new StoryDetailRecyclerAdapter.StoryDetailRecyclerListener() {
+            @Override
+            public void onCommentClicked(int position) {
+                if (mAdapter.areChildrenHidden(position)) {
+                    mAdapter.showChildComments(position);
+                }
+                else {
+                    mAdapter.hideChildComments(position);
+                }
             }
-            else {
-                mAdapter.hideChildComments(position);
+
+            @Override
+            public void onCommentActionClicked(Comment comment) {
+                final CharSequence[] commentActions = {getString(R.string.comment_action_share_comment),
+                        getString(R.string.comment_action_share_comment_content)};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setItems(commentActions, (dialogInterface, j) -> {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    switch (j) {
+                        case 0:
+                            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                                                "https://news.ycombinator.com/item?id=" + comment.getCommentId());
+                            break;
+                        case 1:
+                            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                                                comment.getUser() + ": " + Html.fromHtml(comment.getContent()));
+                            break;
+                    }
+                    sendIntent.setType("text/plain");
+                    getActivity().startActivity(sendIntent);
+                });
+
+                builder.create().show();
             }
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -338,7 +367,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                final CharSequence[] shareItems = {"Link", "Comments"};
+                final CharSequence[] shareItems = {getString(R.string.action_share_link), getString(R.string.action_share_comments)};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setItems(shareItems, (dialogInterface, i) -> {
                     Intent sendIntent = new Intent();
