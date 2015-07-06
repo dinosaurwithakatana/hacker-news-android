@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.dagger.component.DaggerHackerNewsServiceComponent;
-import io.dwak.holohackernews.app.dagger.module.OkClientModule;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.HackerNewsService;
@@ -38,7 +37,6 @@ public class StoryDetailViewModel extends BaseViewModel {
         mStoryId = 0;
         mItemDetails = null;
         DaggerHackerNewsServiceComponent.builder()
-                                        .okClientModule(new OkClientModule())
                                         .appModule(HackerNewsApplication.getAppModule())
                                         .appComponent(HackerNewsApplication.getAppComponent())
                                         .build()

@@ -34,6 +34,8 @@ import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment;
 import rx.android.observables.AndroidObservable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseViewModelActivity<MainViewModel>
         implements StoryListFragment.OnStoryListFragmentInteractionListener {
@@ -80,7 +82,12 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                             new AlertDialog.Builder(this)
                                     .setMessage(R.string.logout_dialog_message)
                                     .setPositiveButton(R.string.logout_confirm_button, (dialog, which) -> {
-                                        mViewModel.logout();
+                                        mViewModel.logout()
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(o -> {
+                                            refreshNavigationDrawer(false);
+                                        });
                                     })
                                     .setNegativeButton(android.R.string.cancel, null)
                                     .create()
@@ -170,9 +177,6 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
 
         AndroidObservable.fromLocalBroadcast(this, new IntentFilter(LoginActivity.LOGIN_SUCCESS))
                          .subscribe(intent -> refreshNavigationDrawer(true));
-
-        AndroidObservable.fromLocalBroadcast(this, new IntentFilter(LoginActivity.LOGOUT))
-                         .subscribe(intent -> refreshNavigationDrawer(false));
     }
 
     private void refreshNavigationDrawer(boolean loggedIn) {

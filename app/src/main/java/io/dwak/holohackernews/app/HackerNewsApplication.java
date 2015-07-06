@@ -26,7 +26,6 @@ public class HackerNewsApplication extends SugarApp {
         }
 
         mContext = getApplicationContext();
-        LocalDataManager.initialize(mContext);
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                       .enableDumpapp(
@@ -40,6 +39,8 @@ public class HackerNewsApplication extends SugarApp {
                                           .appModule(sAppModule)
                                           .build();
         sAppComponent.inject(this);
+
+        LocalDataManager.initialize(mContext);
     }
 
     public static boolean isDebug() {

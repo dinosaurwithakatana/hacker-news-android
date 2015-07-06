@@ -11,6 +11,7 @@ import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.orm.query.Select;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -20,7 +21,7 @@ import java.util.List;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.models.User;
-import io.dwak.holohackernews.app.preferences.LocalDataManager;
+import rx.Observable;
 
 public class MainViewModel extends BaseViewModel {
 
@@ -70,7 +71,7 @@ public class MainViewModel extends BaseViewModel {
     IProfile[] getLoggedInProfileItem() {
         if (mLoggedInProfiles == null) {
             mLoggedInProfiles = new IProfile[2];
-            User currentUser = LocalDataManager.getInstance().getUser();
+            User currentUser = Select.from(User.class).first();
             ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withIdentifier(LOGGED_IN_PROFILE_ITEM)
                                                                          .withIcon(TextDrawable.builder()
                                                                                                .buildRound(String.valueOf(currentUser.getUserName().charAt(0)),
@@ -107,7 +108,7 @@ public class MainViewModel extends BaseViewModel {
         primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN).withName(R.string.title_section_show).withIcon(R.drawable.ic_action_visibility));
         primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SHOW_HN_NEW).withName(R.string.title_section_show_new).withIcon(R.drawable.ic_action_visibility));
         primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_ASK).withName(R.string.title_section_ask).withIcon(R.drawable.ic_action_live_help));
-        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SAVED).withName("Saved").withIcon(R.drawable.ic_action_archive));
+        primaryDrawerItems.add(new PrimaryDrawerItem().withIdentifier(SECTION_SAVED).withName(R.string.title_section_saved).withIcon(R.drawable.ic_action_archive));
         mDrawerItems.addAll(primaryDrawerItems);
 
         mDrawerItems.add(new DividerDrawerItem());
@@ -121,10 +122,15 @@ public class MainViewModel extends BaseViewModel {
     }
 
     boolean isLoggedIn() {
-        return LocalDataManager.getInstance().getUser() != null;
+        return User.count(User.class, null, null) > 0;
     }
 
-    public void logout() {
-        LocalDataManager.getInstance().logoutUser();
+    public Observable<Object> logout() {
+        return Observable.create(subscriber -> {
+            User.deleteAll(User.class);
+            if(!subscriber.isUnsubscribed()){
+                subscriber.onCompleted();
+            }
+        });
     }
 }

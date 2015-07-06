@@ -69,6 +69,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @InjectView(R.id.saved_banner) TextView mSavedBanner;
     @InjectView(R.id.link_panel) SlidingUpPanelLayout mSlidingUpPanelLayout;
     @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
+    @InjectView(R.id.web_progress_bar) ProgressBar mWebProgressBar;
     private Bundle mWebViewBundle;
     private SlidingUpPanelLayout.PanelState mOldPanelState;
     private StoryDetailRecyclerAdapter mAdapter;
@@ -359,7 +360,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
+//        menu.clear();
         inflater.inflate(R.menu.menu_story_detail, menu);
     }
 
@@ -441,10 +442,9 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             }
         }
 
-        final ProgressBar webProgressBar = (ProgressBar) mLinkLayout.findViewById(R.id.web_progress_bar);
 
         mWebView.setVisibility(View.INVISIBLE);
-        webProgressBar.setVisibility(View.VISIBLE);
+        mWebProgressBar.setVisibility(View.VISIBLE);
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setLoadWithOverviewMode(true);
@@ -458,15 +458,15 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 mWebView.setVisibility(View.VISIBLE);
-                webProgressBar.setVisibility(View.GONE);
+                mWebProgressBar.setVisibility(View.GONE);
             }
         });
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                webProgressBar.setMax(100);
-                webProgressBar.setProgress(newProgress);
+                mWebProgressBar.setMax(100);
+                mWebProgressBar.setProgress(newProgress);
 
             }
         });

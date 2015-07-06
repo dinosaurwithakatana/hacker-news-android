@@ -19,7 +19,6 @@ import io.dwak.holohackernews.app.dagger.module.OkClientModule;
 import io.dwak.holohackernews.app.dagger.module.UserServiceModule;
 import io.dwak.holohackernews.app.models.User;
 import io.dwak.holohackernews.app.network.UserService;
-import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import rx.Observable;
 
 public class LoginViewModel extends BaseViewModel {
@@ -59,7 +58,6 @@ public class LoginViewModel extends BaseViewModel {
                     }
                     return new User(username, mUserCookie, true);
                 })
-                .doOnNext(SugarRecord::save)
-                .doOnNext(user -> LocalDataManager.getInstance().saveUser(user));
+                .doOnNext(SugarRecord::save);
     }
 }
