@@ -108,18 +108,22 @@ public class StoryListViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        viewHolder.saveStory.setText(story.isSaved() ? "Delete" : "Save");
+        viewHolder.saveStory.setText(viewHolder.itemView
+                                             .getContext()
+                                             .getResources()
+                                             .getString(story.isSaved() ? R.string.story_action_delete
+                                                                        : R.string.story_action_save));
         if (nightMode) {
             viewHolder.saveStory.setCompoundDrawablesRelativeWithIntrinsicBounds(0,
-                                                                                 story.isSaved() ? R.drawable.ic_action_delete_white
-                                                                                                 : R.drawable.ic_action_archive_white,
+                                                                                 story.isSaved() ? R.drawable.ic_delete_white
+                                                                                                 : R.drawable.ic_archive_white,
                                                                                  0,
                                                                                  0);
         }
         else {
             viewHolder.saveStory.setCompoundDrawablesRelativeWithIntrinsicBounds(0,
-                                                                                 story.isSaved() ? R.drawable.ic_action_delete_black
-                                                                                                 : R.drawable.ic_action_archive_black,
+                                                                                 story.isSaved() ? R.drawable.ic_delete_black
+                                                                                                 : R.drawable.ic_archive_black,
                                                                                  0,
                                                                                  0);
         }

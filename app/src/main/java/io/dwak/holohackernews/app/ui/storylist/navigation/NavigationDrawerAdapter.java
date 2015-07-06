@@ -26,7 +26,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavigationDrawerItem> 
     public View getView(int position, View view, ViewGroup viewGroup) {
         if (getItem(position).shouldDisplayIcon()) {
             view = ((Activity) mContext).getLayoutInflater()
-                    .inflate(UserPreferenceManager.isNightModeEnabled(mContext)
+                    .inflate(UserPreferenceManager.getInstance().isNightModeEnabled()
                                     ? R.layout.secondary_navigation_item_dark
                                     : R.layout.secondary_navigation_item,
                             null);
@@ -37,7 +37,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavigationDrawerItem> 
         }
         else {
             view = ((Activity) mContext).getLayoutInflater()
-                    .inflate(UserPreferenceManager.isNightModeEnabled(mContext)
+                    .inflate(UserPreferenceManager.getInstance().isNightModeEnabled()
                                     ? R.layout.navigation_item_dark
                                     : R.layout.navigation_item,
                             null);

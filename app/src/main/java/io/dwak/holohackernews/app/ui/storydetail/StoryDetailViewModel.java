@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.dagger.component.DaggerHackerNewsServiceComponent;
+import io.dwak.holohackernews.app.dagger.module.OkClientModule;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.network.HackerNewsService;
@@ -31,13 +32,13 @@ public class StoryDetailViewModel extends BaseViewModel {
     private StoryDetail mStoryDetail;
     private boolean mSaved;
     @Inject HackerNewsService mService;
-    private boolean mViewingReadability;
     private boolean mIsViewingReadability;
 
     public StoryDetailViewModel() {
         mStoryId = 0;
         mItemDetails = null;
         DaggerHackerNewsServiceComponent.builder()
+                                        .okClientModule(new OkClientModule())
                                         .appModule(HackerNewsApplication.getAppModule())
                                         .appComponent(HackerNewsApplication.getAppComponent())
                                         .build()
@@ -145,7 +146,7 @@ public class StoryDetailViewModel extends BaseViewModel {
     }
 
     public boolean isViewingReadability() {
-        return mViewingReadability;
+        return mIsViewingReadability;
     }
 
     public void setIsViewingReadability(boolean isViewingReadability) {

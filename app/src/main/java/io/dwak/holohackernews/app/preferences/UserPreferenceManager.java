@@ -1,13 +1,15 @@
 package io.dwak.holohackernews.app.preferences;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Inject;
+
+import io.dwak.holohackernews.app.HackerNewsApplication;
+import io.dwak.holohackernews.app.dagger.component.DaggerSharedPreferencesComponent;
 
 public class UserPreferenceManager {
 
@@ -24,41 +26,51 @@ public class UserPreferenceManager {
     public static final String MEDIUM = "medium";
     public static final String LARGE = "large";
 
-    public static void useExternalBrowser(@NonNull final Context context, final boolean shouldUseSystemBrowser){
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(SHOULD_USE_EXTERNAL_BROWSER, shouldUseSystemBrowser).apply();
+    public static UserPreferenceManager sInstance;
+    @Inject SharedPreferences mSharedPreferences;
+
+    public static UserPreferenceManager getInstance(){
+        if(sInstance == null){
+            sInstance = new UserPreferenceManager();
+        }
+        return sInstance;
     }
 
-    public static boolean showLinkFirst(@NonNull final Context context){
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(PREF_LINK_FIRST, false);
+    public UserPreferenceManager() {
+        DaggerSharedPreferencesComponent.builder()
+                .appModule(HackerNewsApplication.getAppModule())
+                .appComponent(HackerNewsApplication.getAppComponent())
+                .build()
+                .inject(this);
+        sInstance = this;
     }
 
-    public static @TextSize String getPreferredTextSize(@NonNull final Context context){
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+    public void useExternalBrowser(final boolean shouldUseSystemBrowser){
+        mSharedPreferences.edit().putBoolean(SHOULD_USE_EXTERNAL_BROWSER, shouldUseSystemBrowser).apply();
+    }
+
+    public boolean showLinkFirst(){
+        return mSharedPreferences.getBoolean(PREF_LINK_FIRST, false);
+    }
+
+    public @TextSize String getPreferredTextSize(){
         //noinspection ResourceType
-        return sp.getString(PREF_TEXT_SIZE, SMALL);
+        return mSharedPreferences.getString(PREF_TEXT_SIZE, SMALL);
     }
 
-    public static boolean isExternalBrowserEnabled(@NonNull final Context context){
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(SHOULD_USE_EXTERNAL_BROWSER, false);
+    public boolean isExternalBrowserEnabled(){
+        return mSharedPreferences.getBoolean(SHOULD_USE_EXTERNAL_BROWSER, false);
     }
 
-    public static void registerOnSharedPreferenceChangeListener(final Context context,
-                                                                SharedPreferences.OnSharedPreferenceChangeListener listener) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.registerOnSharedPreferenceChangeListener(listener);
+    public void registerOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        mSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
-    public static void unregisterOnSharedPreferenceChangeListener(final Context context,
-                                                                  SharedPreferences.OnSharedPreferenceChangeListener listener) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.unregisterOnSharedPreferenceChangeListener(listener);
+    public void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    public static boolean isNightModeEnabled(@NonNull final Context context){
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(PREF_NIGHT_MODE, false);
+    public boolean isNightModeEnabled(){
+        return mSharedPreferences.getBoolean(PREF_NIGHT_MODE, false);
     }
 }

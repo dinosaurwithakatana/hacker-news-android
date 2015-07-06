@@ -59,7 +59,7 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
                 Spanned jobContent = Html.fromHtml(storyDetail.getContent());
                 headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
                 headerViewHolder.mContent.setText(jobContent);
-                headerViewHolder.mContent.setTextColor(context.getResources().getColor(UserPreferenceManager.isNightModeEnabled(context)
+                headerViewHolder.mContent.setTextColor(context.getResources().getColor(UserPreferenceManager.getInstance().isNightModeEnabled()
                         ? android.R.color.white
                         : android.R.color.black));
             }

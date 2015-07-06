@@ -185,7 +185,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final boolean nightModeEnabled = UserPreferenceManager.isNightModeEnabled(getActivity());
+        final boolean nightModeEnabled = UserPreferenceManager.getInstance().isNightModeEnabled();
         View rootView = inflater.inflate(
                 nightModeEnabled
                         ? R.layout.fragment_navigation_drawer_dark
@@ -320,11 +320,11 @@ public class NavigationDrawerFragment extends Fragment {
 
         if (userLoginCookie != null) {
             mLoginButton.setText("Logout");
-            mLoginIcon.setImageResource(UserPreferenceManager.isNightModeEnabled(getActivity()) ? R.drawable.ic_close_white : R.drawable.ic_close);
+            mLoginIcon.setImageResource(UserPreferenceManager.getInstance().isNightModeEnabled() ? R.drawable.ic_close_white : R.drawable.ic_close);
         }
         else {
             mLoginButton.setText("Login");
-            mLoginIcon.setImageResource(UserPreferenceManager.isNightModeEnabled(getActivity()) ? R.drawable.ic_add_white : R.drawable.ic_add);
+            mLoginIcon.setImageResource(UserPreferenceManager.getInstance().isNightModeEnabled() ? R.drawable.ic_add_white : R.drawable.ic_add);
         }
 
         mHeaderDropDown.setVisibility(View.GONE);

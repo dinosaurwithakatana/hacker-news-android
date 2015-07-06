@@ -187,7 +187,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                                             mRecyclerAdapter.notifyItemChanged(position);
                                                         }
                                                     },
-                                                    getViewModel().isNightMode(getActivity()));
+                                                    getViewModel().isNightMode());
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
@@ -287,10 +287,10 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         if (getViewModel().getFeedType() != StoryListViewModel.FEED_TYPE_SAVED) {
-            inflater.inflate(R.menu.story_list_save, menu);
+            inflater.inflate(R.menu.menu_story_list_save, menu);
         }
         else {
-            inflater.inflate(R.menu.story_list_saved, menu);
+            inflater.inflate(R.menu.menu_story_list_saved, menu);
         }
     }
 

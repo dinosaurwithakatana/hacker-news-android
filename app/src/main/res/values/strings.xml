@@ -83,4 +83,5 @@
     <string name="logout_dialog_message">Are you sure you want to logout?</string>
     <string name="logout_confirm_button">Logout</string>
     <string name="story_detail_saved_banner">SAVED</string>
+    <string name="story_action_delete">Delete</string>
 </resources>

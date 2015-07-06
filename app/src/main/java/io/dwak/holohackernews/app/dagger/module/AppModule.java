@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app.dagger.module;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.google.gson.Gson;
@@ -20,12 +21,21 @@ public class AppModule {
         mApplication = application;
     }
 
-    @Provides @Named("resources")
-    Resources providesResources(){
+    @Provides
+    @Named("context")
+    Context providesApplication() {
+        return mApplication;
+    }
+
+
+    @Provides
+    @Named("resources")
+    Resources providesResources() {
         return mApplication.getResources();
     }
 
-    @Provides @Named("gson")
+    @Provides
+    @Named("gson")
     Gson providesGson() {
         return new GsonBuilder().registerTypeAdapter(Long.class, new LongTypeAdapter())
                                 .create();

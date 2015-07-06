@@ -54,7 +54,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
         viewHolder.commentContent.setText(commentContent);
 
         //set comment text size
-        @UserPreferenceManager.TextSize String textSize = UserPreferenceManager.getPreferredTextSize(context);
+        @UserPreferenceManager.TextSize String textSize = UserPreferenceManager.getInstance().getPreferredTextSize();
         int commentContentSize;
         int commentSubmitterSize;
         switch (textSize){
@@ -97,7 +97,7 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
             viewHolder.commentSubmitter.setTextColor(context.getResources().getColor(android.R.color.holo_orange_light));
         }
         else {
-            viewHolder.commentSubmitter.setTextColor(UserPreferenceManager.isNightModeEnabled(context)
+            viewHolder.commentSubmitter.setTextColor(UserPreferenceManager.getInstance().isNightModeEnabled()
                     ? context.getResources().getColor(android.R.color.white)
                     : context.getResources().getColor(android.R.color.black));
         }

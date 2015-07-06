@@ -24,6 +24,7 @@ import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.dagger.component.DaggerHackerNewsServiceComponent;
+import io.dwak.holohackernews.app.dagger.module.OkClientModule;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.models.StoryDetail;
@@ -70,6 +71,7 @@ public class StoryListViewModel extends BaseViewModel {
     public StoryListViewModel(Resources resources) {
         mResources = resources;
         DaggerHackerNewsServiceComponent.builder()
+                                        .okClientModule(new OkClientModule())
                                         .appModule(HackerNewsApplication.getAppModule())
                                         .appComponent(HackerNewsApplication.getAppComponent())
                                         .build()
@@ -302,7 +304,7 @@ public class StoryListViewModel extends BaseViewModel {
         return mStories.size();
     }
 
-    boolean isNightMode(Context context) {
-        return UserPreferenceManager.isNightModeEnabled(context);
+    boolean isNightMode() {
+        return UserPreferenceManager.getInstance().isNightModeEnabled();
     }
 }

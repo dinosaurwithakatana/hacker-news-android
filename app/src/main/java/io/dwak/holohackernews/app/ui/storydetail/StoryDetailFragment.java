@@ -100,8 +100,8 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                                              @Override
                                              public void onCompleted() {
                                                  showProgress(false);
-                                                 if (UserPreferenceManager.showLinkFirst(getActivity())
-                                                         && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+                                                 if (UserPreferenceManager.getInstance().showLinkFirst()
+                                                         && UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
                                                      openLinkInExternalBrowser();
                                                  }
                                                  mSwipeRefreshLayout.setRefreshing(false);
@@ -134,7 +134,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
     private void updateWebView(StoryDetail storyDetail) {
         mButtonBarMainAction.setOnClickListener(view -> {
-            if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+            if (!UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
                 if (StoryDetail.ASK.equals(storyDetail.getType())) {
                     storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
                 }
@@ -157,11 +157,11 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
     private void openLink() {
         StoryDetail storyDetail = getViewModel().getStoryDetail();
-        if (UserPreferenceManager.showLinkFirst(getActivity()) && UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+        if (UserPreferenceManager.getInstance().showLinkFirst() && UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
             openLinkInExternalBrowser();
         }
         else {
-            if (mWebViewBundle == null && !UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
+            if (mWebViewBundle == null && !UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
                 mWebView.loadUrl(storyDetail.getUrl());
             }
             else {
@@ -360,7 +360,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.story_detail, menu);
+        inflater.inflate(R.menu.menu_story_detail, menu);
     }
 
     @Override
@@ -430,8 +430,8 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
             }
         });
-        if (!UserPreferenceManager.isExternalBrowserEnabled(getActivity())) {
-            if(mOldPanelState == SlidingUpPanelLayout.PanelState.EXPANDED || (UserPreferenceManager.showLinkFirst(getActivity()))){
+        if (!UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
+            if(mOldPanelState == SlidingUpPanelLayout.PanelState.EXPANDED || (UserPreferenceManager.getInstance().showLinkFirst())){
                 mButtonBarMainAction.setText(getResources().getString(R.string.show_comments));
                 mSlidingUpPanelLayout.postDelayed(() -> mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED), getResources().getInteger(R.integer.fragment_animation_times));
             }

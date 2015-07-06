@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_save"
-          android:icon="?saveIcon"
-          android:title="@string/story_action_save"
+    <item android:id="@+id/action_delete"
+          android:icon="?actionDeleteIcon"
+          android:title="@string/delete_all"
           android:orderInCategory="100"
           app:showAsAction="always" />
 </menu>

@@ -15,12 +15,12 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            getWindow().setStatusBarColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(this)
+            getWindow().setStatusBarColor(getResources().getColor(UserPreferenceManager.getInstance().isNightModeEnabled()
                     ? R.color.colorPrimaryDarkNight
                     : R.color.colorPrimaryDark));
         }
 
-        setTheme(UserPreferenceManager.isNightModeEnabled(this)
+        setTheme(UserPreferenceManager.getInstance().isNightModeEnabled()
                 ? R.style.AppThemeNight
                 : R.style.AppTheme);
     }
@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (getToolbar() != null)
-            if (UserPreferenceManager.isNightModeEnabled(this)) {
+            if (UserPreferenceManager.getInstance().isNightModeEnabled()) {
                 getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkNight));
             }
             else {

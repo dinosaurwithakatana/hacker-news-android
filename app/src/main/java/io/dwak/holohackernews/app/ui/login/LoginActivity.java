@@ -12,11 +12,13 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.dwak.holohackernews.app.BuildConfig;
 import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelActivity;
 import io.dwak.holohackernews.app.dagger.component.DaggerViewModelComponent;
 import io.dwak.holohackernews.app.models.User;
+import io.dwak.holohackernews.app.util.UIUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.observables.ViewObservable;
@@ -39,10 +41,10 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         DaggerViewModelComponent.builder()
-                .appComponent(HackerNewsApplication.getAppComponent())
-                .appModule(HackerNewsApplication.getAppModule())
-                .build()
-                .inject(this);
+                                .appComponent(HackerNewsApplication.getAppComponent())
+                                .appModule(HackerNewsApplication.getAppModule())
+                                .build()
+                                .inject(this);
         ButterKnife.inject(this);
 
         // Creates Observables from the EditTexts and enables the login button if they aren't empty
@@ -74,7 +76,8 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
 
                                             @Override
                                             public void onError(Throwable e) {
-
+                                                UIUtils.showToast(LoginActivity.this, "Something went wrong!");
+                                                mLoginButton.setProgress(-1);
                                             }
 
                                             @Override
@@ -88,6 +91,9 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
                                             }
                                         });
                       });
+        if (BuildConfig.DEBUG) {
+            mUsername.setText("testerCookie");
+        }
     }
 
     @Override

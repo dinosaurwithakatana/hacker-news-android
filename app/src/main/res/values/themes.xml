@@ -17,9 +17,11 @@
         <item name="commentOverFlowIcon">@drawable/comment_overflow</item>
         <item name="commentProfileIcon">@drawable/ic_person</item>
         <item name="linkDrawerButtonBackground">@drawable/orange_button</item>
-        <item name="saveIcon">@drawable/ic_action_archive_black</item>
-        <item name="deleteIcon">@drawable/ic_action_delete_black</item>
-        <item name="upvoteIcon">@drawable/ic_action_thumb_up_black</item>
+        <item name="saveIcon">@drawable/ic_archive_black</item>
+        <item name="deleteIcon">@drawable/ic_delete_black</item>
+        <item name="upvoteIcon">@drawable/ic_thumbs_up_black</item>
+        <item name="actionSaveIcon">@drawable/ic_action_archive_white</item>
+        <item name="actionDeleteIcon">@drawable/ic_action_delete_white</item>
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/background</item>
@@ -47,9 +49,11 @@
         <item name="commentOverFlowIcon">@drawable/comment_overflow_dark</item>
         <item name="commentProfileIcon">@drawable/ic_person_white</item>
         <item name="linkDrawerButtonBackground">@color/colorPrimaryNight</item>
-        <item name="saveIcon">@drawable/ic_action_archive_white</item>
-        <item name="deleteIcon">@drawable/ic_action_delete_white</item>
-        <item name="upvoteIcon">@drawable/ic_action_thumb_up_white</item>
+        <item name="saveIcon">@drawable/ic_archive_white</item>
+        <item name="deleteIcon">@drawable/ic_delete_white</item>
+        <item name="upvoteIcon">@drawable/ic_thumbs_up_white</item>
+        <item name="actionSaveIcon">@drawable/ic_action_archive_white</item>
+        <item name="actionDeleteIcon">@drawable/ic_action_delete_white</item>
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/backgroundNight</item>
