@@ -16,34 +16,46 @@ import javax.inject.Inject;
 
 import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.base.BaseViewModel;
-import io.dwak.holohackernews.app.dagger.component.DaggerHackerNewsServiceComponent;
+import io.dwak.holohackernews.app.dagger.component.DaggerNetworkServiceComponent;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
+import io.dwak.holohackernews.app.models.User;
 import io.dwak.holohackernews.app.network.HackerNewsService;
+import io.dwak.holohackernews.app.network.UserService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
 import rx.Observable;
 import rx.Subscriber;
 
 public class StoryDetailViewModel extends BaseViewModel {
+    private final String ITEM_PREFIX = "item?id=";
     private Observable<NodeHNAPIStoryDetail> mItemDetails;
     private long mStoryId;
     private StoryDetail mStoryDetail;
     private boolean mSaved;
     @Inject HackerNewsService mService;
+    @Inject UserService mUserService;
     private boolean mIsViewingReadability;
+    private Observable<String> mUserTokenObservable = Observable.<String>create(subscriber -> {
+        User user = Select.from(User.class)
+                          .first();
+        if (!subscriber.isUnsubscribed()) {
+            subscriber.onNext(user.getUserCookie());
+            subscriber.onCompleted();
+        }
+    });
 
     public StoryDetailViewModel() {
         mStoryId = 0;
         mItemDetails = null;
-        DaggerHackerNewsServiceComponent.builder()
-                                        .appModule(HackerNewsApplication.getAppModule())
-                                        .appComponent(HackerNewsApplication.getAppComponent())
-                                        .build()
-                                        .inject(this);
+        DaggerNetworkServiceComponent.builder()
+                                     .appModule(HackerNewsApplication.getAppModule())
+                                     .appComponent(HackerNewsApplication.getAppComponent())
+                                     .build()
+                                     .inject(this);
     }
 
-    boolean isSaved(){
+    boolean isSaved() {
         return mSaved;
     }
 
@@ -56,7 +68,7 @@ public class StoryDetailViewModel extends BaseViewModel {
     }
 
     public Observable<StoryDetail> getStoryDetailObservable() {
-        if(mSaved){
+        if (mSaved) {
             return Observable.create(new Observable.OnSubscribe<StoryDetail>() {
                 @Override
                 public void call(Subscriber<? super StoryDetail> subscriber) {
@@ -126,11 +138,11 @@ public class StoryDetailViewModel extends BaseViewModel {
         mItemDetails = mService.getItemDetails(mStoryId);
     }
 
-    long getStoryId(){
+    long getStoryId() {
         return mStoryId;
     }
 
-    void setLoadFromSaved(boolean saved){
+    void setLoadFromSaved(boolean saved) {
         mSaved = saved;
     }
 
@@ -149,5 +161,21 @@ public class StoryDetailViewModel extends BaseViewModel {
 
     public void setIsViewingReadability(boolean isViewingReadability) {
         mIsViewingReadability = isViewingReadability;
+    }
+
+    public Observable<Object> reply(Comment comment, String commentContent) {
+        return mUserTokenObservable.flatMap(s -> mUserService.postComment(s,
+                                                                          ITEM_PREFIX + comment.getCommentId(),
+                                                                          "",
+                                                                          comment.getCommentId(),
+                                                                          commentContent));
+    }
+
+    public Observable<Object> upvote(Comment comment) {
+        return mUserTokenObservable.flatMap(s -> mUserService.vote(s,
+                                                                   comment.getCommentId(),
+                                                                   "up",
+                                                                   "",
+                                                                   ITEM_PREFIX + comment.getCommentId()));
     }
 }

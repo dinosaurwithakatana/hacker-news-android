@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
-import io.dwak.holohackernews.app.dagger.component.DaggerHackerNewsServiceComponent;
+import io.dwak.holohackernews.app.dagger.component.DaggerNetworkServiceComponent;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.Story;
 import io.dwak.holohackernews.app.models.StoryDetail;
@@ -69,11 +69,11 @@ public class StoryListViewModel extends BaseViewModel {
     @Inject
     public StoryListViewModel(Resources resources) {
         mResources = resources;
-        DaggerHackerNewsServiceComponent.builder()
-                                        .appModule(HackerNewsApplication.getAppModule())
-                                        .appComponent(HackerNewsApplication.getAppComponent())
-                                        .build()
-                                        .inject(this);
+        DaggerNetworkServiceComponent.builder()
+                                     .appModule(HackerNewsApplication.getAppModule())
+                                     .appComponent(HackerNewsApplication.getAppComponent())
+                                     .build()
+                                     .inject(this);
     }
 
     @FeedType
@@ -273,7 +273,7 @@ public class StoryListViewModel extends BaseViewModel {
                       .first()
                       .delete();
                 storyDetail.delete();
-                if(!subscriber.isUnsubscribed()) {
+                if (!subscriber.isUnsubscribed()) {
                     subscriber.onCompleted();
                 }
             });
@@ -282,7 +282,7 @@ public class StoryListViewModel extends BaseViewModel {
 
     public Observable<Object> saveAllStories() {
         return Observable.from(mStories)
-                .flatMap(story -> saveStory(story));
+                         .flatMap(story -> saveStory(story));
     }
 
     public Observable<Object> deleteAllSavedStories() {
@@ -291,14 +291,14 @@ public class StoryListViewModel extends BaseViewModel {
                 Story.deleteAll(Story.class);
                 StoryDetail.deleteAll(StoryDetail.class);
                 Comment.deleteAll(Comment.class);
-                if(!subscriber.isUnsubscribed()){
+                if (!subscriber.isUnsubscribed()) {
                     subscriber.onCompleted();
                 }
             });
         });
     }
 
-    public int getNumberOfStories(){
+    public int getNumberOfStories() {
         return mStories.size();
     }
 

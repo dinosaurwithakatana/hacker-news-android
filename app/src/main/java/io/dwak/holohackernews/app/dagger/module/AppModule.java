@@ -12,6 +12,7 @@ import javax.inject.Named;
 import dagger.Module;
 import dagger.Provides;
 import io.dwak.holohackernews.app.network.LongTypeAdapter;
+import retrofit.RestAdapter;
 
 @Module
 public class AppModule {
@@ -39,5 +40,11 @@ public class AppModule {
     Gson providesGson() {
         return new GsonBuilder().registerTypeAdapter(Long.class, new LongTypeAdapter())
                                 .create();
+    }
+
+    @Provides
+    @Named("retrofit-loglevel")
+    RestAdapter.LogLevel providesLogLevel(){
+        return RestAdapter.LogLevel.FULL;
     }
 }

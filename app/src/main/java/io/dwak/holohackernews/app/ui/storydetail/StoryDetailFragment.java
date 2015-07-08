@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -235,8 +237,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
             @Override
             public void onCommentActionClicked(Comment comment) {
-                final CharSequence[] commentActions = {getString(R.string.comment_action_share_comment),
-                        getString(R.string.comment_action_share_comment_content)};
+                final CharSequence[] commentActions = getResources().getStringArray(R.array.commentActions);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setItems(commentActions, (dialogInterface, j) -> {
                     Intent sendIntent = new Intent();
@@ -250,6 +251,62 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                             sendIntent.putExtra(Intent.EXTRA_TEXT,
                                                 comment.getUser() + ": " + Html.fromHtml(comment.getContent()));
                             break;
+                        case 2:
+                            AlertDialog.Builder replyDialog = new AlertDialog.Builder(getActivity())
+                                    .setTitle("Reply");
+                            AppCompatEditText editText = new AppCompatEditText(getActivity());
+                            replyDialog.setView(editText)
+                                       .setPositiveButton("Submit", (dialog, which) -> {
+                                           ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                                           progressDialog.setMessage("Submitting...");
+                                           progressDialog.setCancelable(false);
+                                           progressDialog.show();
+                                           getViewModel().reply(comment, editText.getText().toString())
+                                                   .subscribeOn(Schedulers.io())
+                                                   .observeOn(AndroidSchedulers.mainThread())
+                                                   .subscribe(new Subscriber<Object>() {
+                                                       @Override
+                                                       public void onCompleted() {
+                                                           progressDialog.dismiss();
+                                                       }
+
+                                                       @Override
+                                                       public void onError(Throwable e) {
+                                                           progressDialog.dismiss();
+                                                       }
+
+                                                       @Override
+                                                       public void onNext(Object o) {
+
+                                                       }
+                                                   });
+                                           dialog.dismiss();
+                                       })
+                                       .setNegativeButton(android.R.string.cancel, null)
+                                       .show();
+                            dialogInterface.dismiss();
+                            return;
+                        case 3:
+                            getViewModel().upvote(comment)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<Object>() {
+                                        @Override
+                                        public void onCompleted() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+
+                                        }
+
+                                        @Override
+                                        public void onNext(Object o) {
+
+                                        }
+                                    });
+                            return;
                     }
                     sendIntent.setType("text/plain");
                     getActivity().startActivity(sendIntent);
@@ -276,7 +333,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     }
 
     private void updateSlidingPanel(boolean expanded) {
-        if(expanded) {
+        if (expanded) {
             mButtonBarMainAction.setText(getString(R.string.show_comments));
             mButtonBarMainAction.setOnClickListener(v -> mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED));
             mButtonBarAction1.setBackgroundResource(R.drawable.web_back);
@@ -369,23 +426,23 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         switch (item.getItemId()) {
             case R.id.action_share:
                 final CharSequence[] shareItems = {getString(R.string.action_share_link), getString(R.string.action_share_comments)};
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setItems(shareItems, (dialogInterface, i) -> {
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    switch (i) {
-                        case 0:
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, getViewModel().getStoryDetail().getUrl());
-                            break;
-                        case 1:
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId());
-                            break;
-                    }
-                    sendIntent.setType("text/plain");
-                    startActivity(sendIntent);
-                })
-                       .create()
-                       .show();
+                new AlertDialog.Builder(getActivity())
+                        .setItems(shareItems, (dialogInterface, i) -> {
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            switch (i) {
+                                case 0:
+                                    sendIntent.putExtra(Intent.EXTRA_TEXT, getViewModel().getStoryDetail().getUrl());
+                                    break;
+                                case 1:
+                                    sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId());
+                                    break;
+                            }
+                            sendIntent.setType("text/plain");
+                            startActivity(sendIntent);
+                        })
+                        .create()
+                        .show();
                 break;
             case R.id.action_open_browser:
                 Intent browserIntent = new Intent();
@@ -432,7 +489,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             }
         });
         if (!UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
-            if(mOldPanelState == SlidingUpPanelLayout.PanelState.EXPANDED || (UserPreferenceManager.getInstance().showLinkFirst())){
+            if (mOldPanelState == SlidingUpPanelLayout.PanelState.EXPANDED || (UserPreferenceManager.getInstance().showLinkFirst())) {
                 mButtonBarMainAction.setText(getResources().getString(R.string.show_comments));
                 mSlidingUpPanelLayout.postDelayed(() -> mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED), getResources().getInteger(R.integer.fragment_animation_times));
             }

@@ -14,15 +14,15 @@ import javax.inject.Inject;
 
 import io.dwak.holohackernews.app.HackerNewsApplication;
 import io.dwak.holohackernews.app.base.BaseViewModel;
-import io.dwak.holohackernews.app.dagger.component.DaggerUserServiceComponent;
+import io.dwak.holohackernews.app.dagger.component.DaggerNetworkServiceComponent;
 import io.dwak.holohackernews.app.dagger.module.OkClientModule;
-import io.dwak.holohackernews.app.dagger.module.UserServiceModule;
 import io.dwak.holohackernews.app.models.User;
-import io.dwak.holohackernews.app.network.UserService;
+import io.dwak.holohackernews.app.network.LoginService;
 import rx.Observable;
 
 public class LoginViewModel extends BaseViewModel {
-    @Inject UserService mUserService;
+    String mCfduid;
+    @Inject LoginService mLoginService;
     String mUserCookie;
 
     public LoginViewModel() {
@@ -34,29 +34,30 @@ public class LoginViewModel extends BaseViewModel {
             List<String> cookieHeaders = response.headers("set-cookie");
             for (String header : cookieHeaders) {
                 if (header.contains("user")) {
-                    mUserCookie = header.substring(5);
-                    mUserCookie = mUserCookie.split(";")[0];
+                    mUserCookie = header.split(";")[0];
+                }
+                else if(header.contains("__cfduid")){
+                    mCfduid = header.split(";")[0];
                 }
             }
             return response;
         });
-        DaggerUserServiceComponent.builder()
-                                  .okClientModule(new OkClientModule(interceptors))
-                                  .appModule(HackerNewsApplication.getAppModule())
-                                  .appComponent(HackerNewsApplication.getAppComponent())
-                                  .userServiceModule(new UserServiceModule())
-                                  .build()
-                                  .inject(this);
+        DaggerNetworkServiceComponent.builder()
+                                     .okClientModule(new OkClientModule(interceptors))
+                                     .appModule(HackerNewsApplication.getAppModule())
+                                     .appComponent(HackerNewsApplication.getAppComponent())
+                                     .build()
+                                     .inject(this);
     }
 
     public Observable<User> login(String username, String password) {
-        return mUserService
+        return mLoginService
                 .login("news", username, password)
                 .map(response -> {
-                    if(TextUtils.isEmpty(mUserCookie)){
+                    if (TextUtils.isEmpty(mUserCookie)) {
                         throw new IllegalStateException("No User Cookie Found!");
                     }
-                    return new User(username, mUserCookie, true);
+                    return new User(username, mCfduid + ";" + mUserCookie, true);
                 })
                 .doOnNext(SugarRecord::save);
     }

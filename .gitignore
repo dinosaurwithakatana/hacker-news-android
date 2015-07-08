@@ -32,3 +32,5 @@ proguard/
 *.iml
 
 .gradletasknamecache
+
+captures/
