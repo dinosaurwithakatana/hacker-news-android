@@ -245,20 +245,20 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                     switch (j) {
                         case 0:
                             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                                "https://news.ycombinator.com/item?id=" + comment.getCommentId());
+                                                String.format("https://news.ycombinator.com/item?id=%d", comment.getCommentId()));
                             break;
                         case 1:
                             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                                comment.getUser() + ": " + Html.fromHtml(comment.getContent()));
+                                                String.format("%s: %s", comment.getUser(), Html.fromHtml(comment.getContent())));
                             break;
                         case 2:
                             AlertDialog.Builder replyDialog = new AlertDialog.Builder(getActivity())
-                                    .setTitle("Reply");
+                                    .setTitle(getString(R.string.action_reply));
                             AppCompatEditText editText = new AppCompatEditText(getActivity());
                             replyDialog.setView(editText)
-                                       .setPositiveButton("Submit", (dialog, which) -> {
+                                       .setPositiveButton(getString(R.string.action_submit), (dialog, which) -> {
                                            ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                                           progressDialog.setMessage("Submitting...");
+                                           progressDialog.setMessage(getString(R.string.submitting_progress));
                                            progressDialog.setCancelable(false);
                                            progressDialog.show();
                                            getViewModel().reply(comment, editText.getText().toString())
