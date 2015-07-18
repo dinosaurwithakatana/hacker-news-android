@@ -237,7 +237,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
             @Override
             public void onCommentActionClicked(Comment comment) {
-                final CharSequence[] commentActions = getResources().getStringArray(R.array.commentActions);
+                final CharSequence[] commentActions = getResources().getStringArray(getViewModel().getCommentActions());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setItems(commentActions, (dialogInterface, j) -> {
                     Intent sendIntent = new Intent();
@@ -262,24 +262,24 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                                            progressDialog.setCancelable(false);
                                            progressDialog.show();
                                            getViewModel().reply(comment, editText.getText().toString())
-                                                   .subscribeOn(Schedulers.io())
-                                                   .observeOn(AndroidSchedulers.mainThread())
-                                                   .subscribe(new Subscriber<Object>() {
-                                                       @Override
-                                                       public void onCompleted() {
-                                                           progressDialog.dismiss();
-                                                       }
+                                                         .subscribeOn(Schedulers.io())
+                                                         .observeOn(AndroidSchedulers.mainThread())
+                                                         .subscribe(new Subscriber<Object>() {
+                                                             @Override
+                                                             public void onCompleted() {
+                                                                 progressDialog.dismiss();
+                                                             }
 
-                                                       @Override
-                                                       public void onError(Throwable e) {
-                                                           progressDialog.dismiss();
-                                                       }
+                                                             @Override
+                                                             public void onError(Throwable e) {
+                                                                 progressDialog.dismiss();
+                                                             }
 
-                                                       @Override
-                                                       public void onNext(Object o) {
+                                                             @Override
+                                                             public void onNext(Object o) {
 
-                                                       }
-                                                   });
+                                                             }
+                                                         });
                                            dialog.dismiss();
                                        })
                                        .setNegativeButton(android.R.string.cancel, null)
@@ -288,24 +288,24 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                             return;
                         case 3:
                             getViewModel().upvote(comment)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber<Object>() {
-                                        @Override
-                                        public void onCompleted() {
+                                          .subscribeOn(Schedulers.io())
+                                          .observeOn(AndroidSchedulers.mainThread())
+                                          .subscribe(new Subscriber<Object>() {
+                                              @Override
+                                              public void onCompleted() {
 
-                                        }
+                                              }
 
-                                        @Override
-                                        public void onError(Throwable e) {
+                                              @Override
+                                              public void onError(Throwable e) {
 
-                                        }
+                                              }
 
-                                        @Override
-                                        public void onNext(Object o) {
+                                              @Override
+                                              public void onNext(Object o) {
 
-                                        }
-                                    });
+                                              }
+                                          });
                             return;
                     }
                     sendIntent.setType("text/plain");

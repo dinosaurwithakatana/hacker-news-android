@@ -1,5 +1,6 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
+import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.dwak.holohackernews.app.HackerNewsApplication;
+import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.dagger.component.DaggerNetworkServiceComponent;
 import io.dwak.holohackernews.app.models.Comment;
@@ -177,5 +179,13 @@ public class StoryDetailViewModel extends BaseViewModel {
                                                                    "up",
                                                                    "",
                                                                    ITEM_PREFIX + comment.getCommentId()));
+    }
+
+    boolean isLoggedIn() {
+        return User.isLoggedIn();
+    }
+
+    @ArrayRes int getCommentActions(){
+        return isLoggedIn() ? R.array.authCommentActions : R.array.unAuthCommentActions;
     }
 }

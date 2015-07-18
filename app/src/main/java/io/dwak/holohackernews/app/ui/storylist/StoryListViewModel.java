@@ -34,9 +34,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class StoryListViewModel extends BaseViewModel {
-
-    private ArrayList<Story> mStories;
-
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FEED_TYPE_TOP,
                     FEED_TYPE_BEST,
@@ -47,7 +44,6 @@ public class StoryListViewModel extends BaseViewModel {
                     FEED_TYPE_ASK})
     public @interface FeedType {
     }
-
     public static final int FEED_TYPE_TOP = 0;
     public static final int FEED_TYPE_BEST = 1;
     public static final int FEED_TYPE_NEW = 2;
@@ -55,13 +51,12 @@ public class StoryListViewModel extends BaseViewModel {
     public static final int FEED_TYPE_SHOW_NEW = 4;
     public static final int FEED_TYPE_SAVED = 5;
     public static final int FEED_TYPE_ASK = 6;
-
     private @FeedType int mFeedType;
 
     private boolean mPageTwoLoaded;
     @Inject HackerNewsService mService;
+    private ArrayList<Story> mStories;
 
-    @Inject
     public StoryListViewModel() {
         DaggerNetworkServiceComponent.builder()
                                      .appModule(HackerNewsApplication.getAppModule())

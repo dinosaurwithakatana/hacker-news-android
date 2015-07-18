@@ -122,7 +122,7 @@ public class MainViewModel extends BaseViewModel {
     }
 
     boolean isLoggedIn() {
-        return User.count(User.class, null, null) > 0;
+        return User.isLoggedIn();
     }
 
     public Observable<Object> logout() {

@@ -40,4 +40,8 @@ public class User extends SugarRecord<User>{
         this.isCurrentUser = isCurrentUser;
     }
 
+    public static boolean isLoggedIn() {
+        return count(User.class, null, null) > 0;
+    }
+
 }
