@@ -84,4 +84,6 @@
     <string name="logout_confirm_button">Logout</string>
     <string name="story_detail_saved_banner">SAVED</string>
     <string name="story_action_delete">Delete</string>
+    <string name="beta_prompt_message">There is a G+ community for the beta of this application! Wanna check it out?</string>
+    <string name="beta_prompt_negative">Nah</string>
 </resources>

@@ -2,6 +2,8 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -63,7 +65,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
 
     private void refresh() {
         mRecyclerAdapter.clear();
-            react(getViewModel().getStories(), false);
+        react(getViewModel().getStories(), false);
     }
 
     private void react(Observable<Story> stories, boolean pageTwo) {
@@ -193,8 +195,19 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
             mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
 
             if (!getViewModel().isReturningUser()) {
-                getViewModel().getBetaAlert(getActivity())
-                              .show();
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(R.string.beta_prompt_message)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            Intent gPlusIntent = new Intent();
+                            gPlusIntent.setAction(Intent.ACTION_VIEW);
+                            gPlusIntent.setData(Uri.parse("https://plus.google.com/communities/112347719824323216860"));
+                            getActivity().startActivity(gPlusIntent);
+                        })
+                        .setNegativeButton(R.string.beta_prompt_negative, (dialog, which) -> {
+
+                        })
+                        .create()
+                        .show();
                 getViewModel().setReturningUser(true);
             }
 
