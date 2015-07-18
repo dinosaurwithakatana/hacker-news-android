@@ -18,9 +18,10 @@ public class NetworkServiceModule {
     @Provides
     @Singleton
     HackerNewsService provideService(@Named("retrofit-loglevel") RestAdapter.LogLevel logLevel,
+                                     @Named("loganSquare") LoganSquareConvertor loganSquareConvertor,
                                      @Named("okclient") OkClient okClient) {
         return new RestAdapter.Builder()
-                .setConverter(new LoganSquareConvertor())
+                .setConverter(loganSquareConvertor)
                 .setLogLevel(logLevel)
                 .setClient(okClient)
                 .setEndpoint("https://whispering-fortress-7282.herokuapp.com/")
@@ -31,11 +32,12 @@ public class NetworkServiceModule {
     @Provides
     @Singleton
     LoginService providesLoginService(@Named("retrofit-loglevel") RestAdapter.LogLevel logLevel,
+                                      @Named("loganSquare") LoganSquareConvertor loganSquareConvertor,
                                       @Named("okclient") OkClient okClient) {
         return new RestAdapter.Builder()
                 .setClient(okClient)
                 .setLogLevel(logLevel)
-                .setConverter(new LoganSquareConvertor())
+                .setConverter(loganSquareConvertor)
                 .setEndpoint("https://news.ycombinator.com")
                 .build()
                 .create(LoginService.class);
@@ -44,11 +46,12 @@ public class NetworkServiceModule {
     @Provides
     @Singleton
     UserService providesUserService(@Named("retrofit-loglevel") RestAdapter.LogLevel logLevel,
+                                    @Named("loganSquare") LoganSquareConvertor loganSquareConvertor,
                                     @Named("okclient") OkClient okClient) {
         return new RestAdapter.Builder()
                 .setClient(okClient)
                 .setLogLevel(logLevel)
-                .setConverter(new LoganSquareConvertor())
+                .setConverter(loganSquareConvertor)
                 .setEndpoint("https://news.ycombinator.com")
                 .build()
                 .create(UserService.class);
