@@ -2,7 +2,9 @@ package io.dwak.holohackernews.app.models;
 
 import com.orm.SugarRecord;
 
-public class Story extends SugarRecord<Story>{
+import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
+
+public class Story extends SugarRecord<Story> {
     private Long mStoryId;
     private String mTitle;
     private String mUrl;
@@ -17,7 +19,7 @@ public class Story extends SugarRecord<Story>{
     public Story() {
     }
 
-    public Story(Long storyId, String title, String url, String domain, int points, String submitter, String publishedTime, int numComments, String type) {
+    private Story(Long storyId, String title, String url, String domain, int points, String submitter, String publishedTime, int numComments, String type) {
         mStoryId = storyId;
         mTitle = title;
         mUrl = url;
@@ -27,6 +29,18 @@ public class Story extends SugarRecord<Story>{
         mPublishedTime = publishedTime;
         mNumComments = numComments;
         mType = type;
+    }
+
+    public static Story fromNodeHNAPIStory(NodeHNAPIStory nodeHNAPIStory) {
+        return new Story(nodeHNAPIStory.id,
+                         nodeHNAPIStory.title,
+                         nodeHNAPIStory.url,
+                         nodeHNAPIStory.domain,
+                         nodeHNAPIStory.points,
+                         nodeHNAPIStory.user,
+                         nodeHNAPIStory.timeAgo,
+                         nodeHNAPIStory.commentsCount,
+                         nodeHNAPIStory.type);
     }
 
     public Long getStoryId() {
@@ -109,20 +123,6 @@ public class Story extends SugarRecord<Story>{
         this.isSaved = isSaved;
     }
 
-    @Override
-    public String toString() {
-        return "Story{" +
-                "mStoryId='" + mStoryId + '\'' +
-                ", mTitle='" + mTitle + '\'' +
-                ", mUrl='" + mUrl + '\'' +
-                ", mDomain='" + mDomain + '\'' +
-                ", mPoints=" + mPoints +
-                ", mSubmitter='" + mSubmitter + '\'' +
-                ", mPublishedTime='" + mPublishedTime + '\'' +
-                ", mNumComments=" + mNumComments +
-                ", mType='" + mType + '\'' +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -73,12 +73,14 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.1.1'
     compile 'com.facebook.stetho:stetho-okhttp:1.1.1'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.github.satyan:sugar:1.3'
+    compile 'com.github.satyan:sugar:1.3.1'
     compile 'com.github.Groxx:AndroidSwipeLayout:c8a42d8'
     compile 'com.google.dagger:dagger:2.0.1'
     apt 'com.google.dagger:dagger-compiler:2.0.1'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'com.android.support:design:22.2.0'
+    apt 'com.bluelinelabs:logansquare-compiler:1.1.0'
+    compile 'com.bluelinelabs:logansquare:1.1.0'
 }
 
 

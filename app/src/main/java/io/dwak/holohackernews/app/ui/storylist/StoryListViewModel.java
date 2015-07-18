@@ -3,10 +3,10 @@ package io.dwak.holohackernews.app.ui.storylist;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 
 import com.orm.StringUtil;
 import com.orm.SugarTransactionHelper;
@@ -39,7 +39,6 @@ import rx.schedulers.Schedulers;
 
 public class StoryListViewModel extends BaseViewModel {
 
-    private Resources mResources;
     private ArrayList<Story> mStories;
 
     @Retention(RetentionPolicy.SOURCE)
@@ -67,8 +66,7 @@ public class StoryListViewModel extends BaseViewModel {
     @Inject HackerNewsService mService;
 
     @Inject
-    public StoryListViewModel(Resources resources) {
-        mResources = resources;
+    public StoryListViewModel() {
         DaggerNetworkServiceComponent.builder()
                                      .appModule(HackerNewsApplication.getAppModule())
                                      .appComponent(HackerNewsApplication.getAppComponent())
@@ -86,26 +84,26 @@ public class StoryListViewModel extends BaseViewModel {
     }
 
     @NonNull
-    String getTitle() {
-        String title;
+    @StringRes int getTitle() {
+        @StringRes int title;
         switch (mFeedType) {
             case FEED_TYPE_TOP:
-                title = mResources.getString(R.string.title_top);
+                title = R.string.title_top;
                 break;
             case FEED_TYPE_BEST:
-                title = mResources.getString(R.string.title_best);
+                title = R.string.title_best;
                 break;
             case FEED_TYPE_NEW:
-                title = mResources.getString(R.string.title_newest);
+                title = R.string.title_newest;
                 break;
             case FEED_TYPE_SAVED:
-                title = "Saved";
+                title = R.string.title_section_saved;
                 break;
             case FEED_TYPE_ASK:
-                title = mResources.getString(R.string.title_section_ask);
+                title = R.string.title_section_ask;
                 break;
             default:
-                title = mResources.getString(R.string.app_name);
+                title = R.string.app_name;
         }
 
         return title;
@@ -149,15 +147,7 @@ public class StoryListViewModel extends BaseViewModel {
                         .map(stories -> {
                             List<NodeHNAPIStory> nodeHNAPIStories = new ArrayList<>();
                             for (Story story : stories) {
-                                nodeHNAPIStories.add(new NodeHNAPIStory(story.getStoryId(),
-                                                                        story.getTitle(),
-                                                                        story.getUrl(),
-                                                                        story.getDomain(),
-                                                                        story.getPoints(),
-                                                                        story.getSubmitter(),
-                                                                        story.getPublishedTime(),
-                                                                        story.getNumComments(),
-                                                                        story.getType()));
+                                nodeHNAPIStories.add(NodeHNAPIStory.fromStory(story));
                             }
                             return nodeHNAPIStories;
                         });
@@ -175,15 +165,7 @@ public class StoryListViewModel extends BaseViewModel {
         return nodeHNAPIStoriesObservable.observeOn(AndroidSchedulers.mainThread())
                                          .subscribeOn(Schedulers.io())
                                          .flatMap(Observable::from)
-                                         .map(nodeHNAPIStory -> new Story(nodeHNAPIStory.getStoryId(),
-                                                                          nodeHNAPIStory.getTitle(),
-                                                                          nodeHNAPIStory.getUrl(),
-                                                                          nodeHNAPIStory.getDomain(),
-                                                                          nodeHNAPIStory.getPoints(),
-                                                                          nodeHNAPIStory.getSubmitter(),
-                                                                          nodeHNAPIStory.getPublishedTime(),
-                                                                          nodeHNAPIStory.getNumComments(),
-                                                                          nodeHNAPIStory.getType()))
+                                         .map(Story::fromNodeHNAPIStory)
                                          .map(story -> {
                                              Story mStoryId = Select.from(Story.class)
                                                                     .where(Condition.prop(StringUtil.toSQLName("mStoryId")).eq(story.getStoryId()))

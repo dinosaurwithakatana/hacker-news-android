@@ -18,9 +18,6 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 
-/**
-* Created by vishnu on 2/2/15.
-*/
 class HeaderViewHolder extends RecyclerView.ViewHolder{
     @InjectView(R.id.story_title) TextView mStoryTitle;
     @InjectView(R.id.story_domain) TextView mStoryDomain;
@@ -29,11 +26,9 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
     @InjectView(R.id.story_long_ago) TextView mStoryLongAgo;
     @InjectView(R.id.comment_count) TextView mCommentsCount;
     @InjectView(R.id.job_content) TextView mContent;
-    View mHeaderView;
 
     private HeaderViewHolder(View headerView) {
         super(headerView);
-        mHeaderView = headerView;
         ButterKnife.inject(this, headerView);
     }
 

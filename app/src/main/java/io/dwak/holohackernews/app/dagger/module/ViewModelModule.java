@@ -14,8 +14,8 @@ import io.dwak.holohackernews.app.ui.storylist.StoryListViewModel;
 @Module(includes = AppModule.class)
 public class ViewModelModule {
     @Provides
-    StoryListViewModel providesStoryListViewModel(@Named("resources") Resources resources) {
-        return new StoryListViewModel(resources);
+    StoryListViewModel providesStoryListViewModel() {
+        return new StoryListViewModel();
     }
 
     @Provides

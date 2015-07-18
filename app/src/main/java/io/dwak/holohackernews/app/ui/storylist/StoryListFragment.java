@@ -222,21 +222,17 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(true);
             if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 new AlertDialog.Builder(getActivity())
                         .setMessage(getString(R.string.action_refresh_saved_stories))
                         .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                            ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                            progressDialog.setMessage(getString(R.string.action_refresh_save_in_progress));
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
                             getViewModel().saveAllStories()
                                           .observeOn(Schedulers.io())
                                           .subscribeOn(AndroidSchedulers.mainThread())
                                           .subscribe(new Observer<Object>() {
                                               @Override
                                               public void onCompleted() {
-                                                  progressDialog.dismiss();
-                                                  mSwipeRefreshLayout.setRefreshing(false);
+                                                  UIUtils.showToast(getActivity(), "Saved!");
                                               }
 
                                               @Override
@@ -250,7 +246,9 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                               }
                                           });
                         })
-                        .setNegativeButton(android.R.string.cancel, null)
+                        .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                        })
                         .show();
             }
             else {
@@ -333,18 +331,14 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                 new AlertDialog.Builder(getActivity())
                         .setMessage(getString(R.string.action_save_all_stories))
                         .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                            ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                            progressDialog.setMessage(String.format(getString(R.string.action_save_all_stories_in_progress), getViewModel().getNumberOfStories()));
-                            progressDialog.setCancelable(false);
-                            progressDialog.setMax(getViewModel().getNumberOfStories());
-                            progressDialog.show();
                             getViewModel().saveAllStories()
                                           .subscribeOn(Schedulers.io())
                                           .observeOn(AndroidSchedulers.mainThread())
                                           .subscribe(new Observer<Object>() {
                                               @Override
                                               public void onCompleted() {
-                                                  progressDialog.dismiss();
+//                                                  progressDialog.dismiss();
+                                                  UIUtils.showToast(getActivity(), "Saved!");
                                               }
 
                                               @Override
@@ -354,7 +348,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
 
                                               @Override
                                               public void onNext(Object o) {
-                                                  progressDialog.incrementProgressBy(1);
+//                                                  progressDialog.incrementProgressBy(1);
                                               }
                                           });
                         })

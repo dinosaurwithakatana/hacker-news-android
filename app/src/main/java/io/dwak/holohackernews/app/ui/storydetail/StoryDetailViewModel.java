@@ -88,7 +88,7 @@ public class StoryDetailViewModel extends BaseViewModel {
         }
         else {
             return mItemDetails.map(nodeHNAPIStoryDetail -> {
-                List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.getNodeHNAPICommentList();
+                List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.commentList;
                 List<NodeHNAPIComment> expandedComments = new ArrayList<NodeHNAPIComment>();
                 for (NodeHNAPIComment nodeHNAPIComment : nodeHNAPIComments) {
                     expandComments(expandedComments, nodeHNAPIComment);
@@ -98,19 +98,19 @@ public class StoryDetailViewModel extends BaseViewModel {
 
 
                 //noinspection ResourceType
-                StoryDetail storyDetail = new StoryDetail(nodeHNAPIStoryDetail.getId(), nodeHNAPIStoryDetail.getTitle(),
-                                                          nodeHNAPIStoryDetail.getUrl(), nodeHNAPIStoryDetail.getDomain(),
-                                                          nodeHNAPIStoryDetail.getPoints(), nodeHNAPIStoryDetail.getUser(),
-                                                          nodeHNAPIStoryDetail.getTimeAgo(), nodeHNAPIStoryDetail.getCommentsCount(),
-                                                          nodeHNAPIStoryDetail.getContent(), nodeHNAPIStoryDetail.getPoll(),
-                                                          nodeHNAPIStoryDetail.getLink(), null, nodeHNAPIStoryDetail.getMoreCommentsId(),
-                                                          nodeHNAPIStoryDetail.getType());
+                StoryDetail storyDetail = new StoryDetail(nodeHNAPIStoryDetail.id, nodeHNAPIStoryDetail.title,
+                                                          nodeHNAPIStoryDetail.url, nodeHNAPIStoryDetail.domain,
+                                                          nodeHNAPIStoryDetail.points, nodeHNAPIStoryDetail.user,
+                                                          nodeHNAPIStoryDetail.timeAgo, nodeHNAPIStoryDetail.commentsCount,
+                                                          nodeHNAPIStoryDetail.content, nodeHNAPIStoryDetail.poll,
+                                                          nodeHNAPIStoryDetail.link, null, nodeHNAPIStoryDetail.moreCommentsId,
+                                                          nodeHNAPIStoryDetail.type);
 
                 for (NodeHNAPIComment expandedComment : expandedComments) {
-                    if (expandedComment.getUser() != null) {
-                        Comment comment = new Comment(expandedComment.getId(), expandedComment.getLevel(),
-                                                      expandedComment.getUser().toLowerCase().equals(nodeHNAPIStoryDetail.getUser().toLowerCase()),
-                                                      expandedComment.getUser(), expandedComment.getTimeAgo(), expandedComment.getContent(), storyDetail);
+                    if (expandedComment.user != null) {
+                        Comment comment = new Comment(expandedComment.id, expandedComment.level,
+                                                      expandedComment.user.toLowerCase().equals(nodeHNAPIStoryDetail.user.toLowerCase()),
+                                                      expandedComment.user, expandedComment.timeAgo, expandedComment.content, storyDetail);
                         commentList.add(comment);
                     }
                 }
@@ -124,11 +124,11 @@ public class StoryDetailViewModel extends BaseViewModel {
 
     private void expandComments(List<NodeHNAPIComment> expandedComments, NodeHNAPIComment nodeHNAPIComment) {
         expandedComments.add(nodeHNAPIComment);
-        if (nodeHNAPIComment.getChildNodeHNAPIComments().size() == 0) {
+        if (nodeHNAPIComment.comments.size() == 0) {
             return;
         }
 
-        for (NodeHNAPIComment childNodeHNAPIComment : nodeHNAPIComment.getChildNodeHNAPIComments()) {
+        for (NodeHNAPIComment childNodeHNAPIComment : nodeHNAPIComment.comments) {
             expandComments(expandedComments, childNodeHNAPIComment);
         }
     }
