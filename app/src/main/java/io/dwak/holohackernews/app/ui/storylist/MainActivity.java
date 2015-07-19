@@ -8,14 +8,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
@@ -99,11 +103,27 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                 })
                 .build();
 
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.account_header_bg)
+                .addProfiles(
+                        new ProfileDrawerItem().withName(getResources().getString(R.string.app_name))
+                                               .withIcon(TextDrawable.builder()
+                                                                     .buildRound(String.valueOf("HN"),
+                                                                                 getResources().getColor(R.color.colorPrimaryDark)))
+                )
+                .build();
+        View headerView = LayoutInflater.from(this).inflate(R.layout.drawer_header, null);
+        ImageView headerIcon = (ImageView) headerView.findViewById(R.id.image_view);
+        TextDrawable textDrawable = TextDrawable.builder()
+                                      .buildRound(String.valueOf("HN"),
+                                                  getResources().getColor(R.color.colorPrimaryDark));
+        headerIcon.setImageDrawable(textDrawable);
         mDrawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(mToolbar)
+                .withHeader(headerView)
                 .withActionBarDrawerToggle(true)
-                .withAccountHeader(mAccountHeader)
                 .withAnimateDrawerItems(true)
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(mViewModel.getDrawerItems().toArray(new IDrawerItem[mViewModel.getDrawerItems().size()]))
