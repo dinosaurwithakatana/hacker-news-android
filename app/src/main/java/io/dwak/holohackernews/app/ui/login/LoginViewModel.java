@@ -55,7 +55,7 @@ public class LoginViewModel extends BaseViewModel {
                 .login("news", username, password)
                 .map(response -> {
                     if (TextUtils.isEmpty(mUserCookie)) {
-                        throw new IllegalStateException("No User Cookie Found!");
+                        throw new RuntimeException("No User Cookie Found!");
                     }
                     return new User(username, mCfduid + ";" + mUserCookie, true);
                 })
