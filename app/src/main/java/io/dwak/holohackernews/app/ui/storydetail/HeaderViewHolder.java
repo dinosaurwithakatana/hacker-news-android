@@ -50,13 +50,15 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
             else {
                 headerViewHolder.mStoryDomain.setVisibility(View.GONE);
 
-                headerViewHolder.mContent.setVisibility(View.VISIBLE);
-                Spanned jobContent = Html.fromHtml(storyDetail.getContent());
-                headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-                headerViewHolder.mContent.setText(jobContent);
-                headerViewHolder.mContent.setTextColor(context.getResources().getColor(UserPreferenceManager.getInstance().isNightModeEnabled()
-                        ? android.R.color.white
-                        : android.R.color.black));
+                if(!TextUtils.isEmpty(storyDetail.getContent())) {
+                    headerViewHolder.mContent.setVisibility(View.VISIBLE);
+                    Spanned jobContent = Html.fromHtml(storyDetail.getContent());
+                    headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+                    headerViewHolder.mContent.setText(jobContent);
+                    headerViewHolder.mContent.setTextColor(context.getResources().getColor(UserPreferenceManager.getInstance().isNightModeEnabled()
+                                                                                           ? android.R.color.white
+                                                                                           : android.R.color.black));
+                }
             }
             headerViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
             headerViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
