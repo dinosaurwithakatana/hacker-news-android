@@ -153,6 +153,8 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                   .subscribe(new Subscriber<Story>() {
                                       @Override
                                       public void onCompleted() {
+                                          mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position),
+                                                                                   getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED);
                                       }
 
                                       @Override
@@ -163,8 +165,6 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                       @Override
                                       public void onNext(Story story) {
                                           mRecyclerAdapter.markStoryAsRead(position, story);
-                                          mListener.onStoryListFragmentInteraction(story.getStoryId(),
-                                                                                   getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED);
                                       }
                                   });
                 }
