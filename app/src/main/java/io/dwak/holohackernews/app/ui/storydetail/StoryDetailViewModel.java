@@ -26,10 +26,12 @@ import io.dwak.holohackernews.app.network.HackerNewsService;
 import io.dwak.holohackernews.app.network.UserService;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIComment;
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStoryDetail;
+import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import rx.Observable;
 import rx.Subscriber;
 
 public class StoryDetailViewModel extends BaseViewModel {
+    public static final String HACKER_NEWS_BASE_URL = "https://news.ycombinator.com/";
     private final String ITEM_PREFIX = "item?id=";
     private Observable<NodeHNAPIStoryDetail> mItemDetails;
     private long mStoryId;
@@ -89,38 +91,50 @@ public class StoryDetailViewModel extends BaseViewModel {
             });
         }
         else {
-            return mItemDetails.map(nodeHNAPIStoryDetail -> {
-                List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.commentList;
-                List<NodeHNAPIComment> expandedComments = new ArrayList<NodeHNAPIComment>();
-                for (NodeHNAPIComment nodeHNAPIComment : nodeHNAPIComments) {
-                    expandComments(expandedComments, nodeHNAPIComment);
-                }
+            return mItemDetails
+                    .map(nodeHNAPIStoryDetail -> {
+                        List<NodeHNAPIComment> nodeHNAPIComments = nodeHNAPIStoryDetail.commentList;
+                        List<NodeHNAPIComment> expandedComments = new ArrayList<NodeHNAPIComment>();
+                        for (NodeHNAPIComment nodeHNAPIComment : nodeHNAPIComments) {
+                            expandComments(expandedComments, nodeHNAPIComment);
+                        }
 
-                List<Comment> commentList = new ArrayList<Comment>();
+                        List<Comment> commentList = new ArrayList<Comment>();
 
 
-                //noinspection ResourceType
-                StoryDetail storyDetail = new StoryDetail(nodeHNAPIStoryDetail.id, nodeHNAPIStoryDetail.title,
-                                                          nodeHNAPIStoryDetail.url, nodeHNAPIStoryDetail.domain,
-                                                          nodeHNAPIStoryDetail.points, nodeHNAPIStoryDetail.user,
-                                                          nodeHNAPIStoryDetail.timeAgo, nodeHNAPIStoryDetail.commentsCount,
-                                                          nodeHNAPIStoryDetail.content, nodeHNAPIStoryDetail.poll,
-                                                          nodeHNAPIStoryDetail.link, null, nodeHNAPIStoryDetail.moreCommentsId,
-                                                          nodeHNAPIStoryDetail.type);
+                        //noinspection ResourceType
+                        StoryDetail storyDetail = new StoryDetail(nodeHNAPIStoryDetail.id, nodeHNAPIStoryDetail.title,
+                                                                  nodeHNAPIStoryDetail.url, nodeHNAPIStoryDetail.domain,
+                                                                  nodeHNAPIStoryDetail.points, nodeHNAPIStoryDetail.user,
+                                                                  nodeHNAPIStoryDetail.timeAgo, nodeHNAPIStoryDetail.commentsCount,
+                                                                  nodeHNAPIStoryDetail.content, nodeHNAPIStoryDetail.poll,
+                                                                  nodeHNAPIStoryDetail.link, null, nodeHNAPIStoryDetail.moreCommentsId,
+                                                                  nodeHNAPIStoryDetail.type);
 
-                for (NodeHNAPIComment expandedComment : expandedComments) {
-                    if (expandedComment.user != null) {
-                        Comment comment = new Comment(expandedComment.id, expandedComment.level,
-                                                      expandedComment.user.toLowerCase().equals(nodeHNAPIStoryDetail.user.toLowerCase()),
-                                                      expandedComment.user, expandedComment.timeAgo, expandedComment.content, storyDetail);
-                        commentList.add(comment);
-                    }
-                }
+                        for (NodeHNAPIComment expandedComment : expandedComments) {
+                            if (expandedComment.user != null) {
+                                Comment comment = new Comment(expandedComment.id, expandedComment.level,
+                                                              expandedComment.user.toLowerCase().equals(nodeHNAPIStoryDetail.user.toLowerCase()),
+                                                              expandedComment.user, expandedComment.timeAgo, expandedComment.content, storyDetail);
+                                commentList.add(comment);
+                            }
+                        }
 
-                storyDetail.setCommentList(commentList);
-                setStoryDetail(storyDetail);
-                return storyDetail;
-            });
+                        storyDetail.setCommentList(commentList);
+                        setStoryDetail(storyDetail);
+                        return storyDetail;
+                    })
+                    .map(storyDetail -> {
+                        if (StoryDetail.ASK.equals(storyDetail.getType())) {
+                            storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
+                        }
+                        else if (StoryDetail.JOB.equals(storyDetail.getType()) || StoryDetail.ASK.equals(storyDetail.getType())) {
+                            if (storyDetail.getUrl().contains("item?id=")) {
+                                storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
+                            }
+                        }
+                        return storyDetail;
+                    });
         }
     }
 
@@ -185,7 +199,28 @@ public class StoryDetailViewModel extends BaseViewModel {
         return User.isLoggedIn();
     }
 
-    @ArrayRes int getCommentActions(){
+    @ArrayRes
+    int getCommentActions() {
         return isLoggedIn() ? R.array.authCommentActions : R.array.unAuthCommentActions;
+    }
+
+    public boolean showLinkFirst() {
+        return UserPreferenceManager.getInstance().showLinkFirst();
+    }
+
+    public boolean startDrawerExpanded(){
+        if(UserPreferenceManager.getInstance().isExternalBrowserEnabled()){
+            return false;
+        }
+        else if(UserPreferenceManager.getInstance().showLinkFirst()){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean useExternalBrowser(){
+        return UserPreferenceManager.getInstance().isExternalBrowserEnabled();
     }
 }

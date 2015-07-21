@@ -36,6 +36,7 @@ import rx.schedulers.Schedulers;
 
 public class StoryListViewModel extends BaseViewModel {
 
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FEED_TYPE_TOP,
                     FEED_TYPE_BEST,
@@ -153,11 +154,12 @@ public class StoryListViewModel extends BaseViewModel {
         return observable;
     }
 
-    ArrayList<Story> getStoryList(){
+    ArrayList<Story> getStoryList() {
         return mStories;
     }
+
     Observable<Story> getStories() {
-        if(mIsRestoring){
+        if (mIsRestoring) {
             return Observable.from(mStories);
         }
         else {

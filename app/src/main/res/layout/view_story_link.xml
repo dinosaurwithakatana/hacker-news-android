@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,15 +10,6 @@
     android:clickable="true"
     android:fitsSystemWindows="true"
     tools:showIn="@layout/fragment_story_comments">
-
-    <ProgressBar
-        android:id="@+id/web_progress_bar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:background="@android:color/holo_orange_light"/>
 
     <RelativeLayout
         android:id="@+id/button_bar"
@@ -35,8 +25,7 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/web_back"
-            android:visibility="visible"
+            android:visibility="invisible"
             tools:ignore="RtlHardcoded"/>
 
         <Button
@@ -44,8 +33,7 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/web_forward"
-            android:visibility="visible"
+            android:visibility="invisible"
             tools:ignore="RtlHardcoded"/>
 
         <Button
@@ -55,16 +43,24 @@
             android:layout_toLeftOf="@id/action_2"
             android:layout_toRightOf="@id/action_1"
             android:background="?linkDrawerButtonBackground"
-            android:text="@string/show_comments"
             android:visibility="visible"
             tools:ignore="RtlHardcoded"/>
     </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/web_progress_bar"
+        android:layout_below="@id/button_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_centerInParent="true"
+        android:background="?attr/colorAccent"/>
+
 
     <io.dwak.holohackernews.app.widget.ObservableWebView
         android:id="@+id/story_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/button_bar">
+        android:layout_below="@id/web_progress_bar">
 
     </io.dwak.holohackernews.app.widget.ObservableWebView>
 

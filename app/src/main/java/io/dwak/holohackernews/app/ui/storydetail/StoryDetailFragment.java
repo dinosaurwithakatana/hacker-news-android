@@ -57,9 +57,10 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public static final String HACKER_NEWS_BASE_URL = "https://news.ycombinator.com/";
     public static final String LINK_DRAWER_OPEN = "LINK_DRAWER_OPEN";
     public static final String TOP_VISIBLE_COMMENT = "TOP_VISIBLE_COMMENT";
+    public static final String LOADING_FROM_SAVED = "LOADING_FROM_SAVED";
     private static final String STORY_ID = "story_id";
     private static final String TAG = StoryDetailFragment.class.getSimpleName();
-    public static final String LOADING_FROM_SAVED = "LOADING_FROM_SAVED";
+    @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
     @InjectView(R.id.action_1) Button mButtonBarAction1;
     @InjectView(R.id.action_main) Button mButtonBarMainAction;
     @InjectView(R.id.action_2) Button mButtonBarAction2;
@@ -70,26 +71,25 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @InjectView(R.id.fabbutton) FloatingActionButton mFloatingActionButton;
     @InjectView(R.id.saved_banner) TextView mSavedBanner;
     @InjectView(R.id.link_panel) SlidingUpPanelLayout mSlidingUpPanelLayout;
-    @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
     @InjectView(R.id.web_progress_bar) ProgressBar mWebProgressBar;
+    @Inject StoryDetailViewModel mViewModel;
     private Bundle mWebViewBundle;
     private SlidingUpPanelLayout.PanelState mOldPanelState;
     private StoryDetailRecyclerAdapter mAdapter;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
-    @Inject StoryDetailViewModel mViewModel;
-
-    public static StoryDetailFragment newInstance(long param1) {
-        StoryDetailFragment fragment = new StoryDetailFragment();
-        Bundle args = new Bundle();
-        args.putLong(STORY_ID, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public static StoryDetailFragment newInstance(long id, boolean saved) {
         StoryDetailFragment fragment = StoryDetailFragment.newInstance(id);
         Bundle args = fragment.getArguments();
         args.putBoolean(LOADING_FROM_SAVED, saved);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static StoryDetailFragment newInstance(long param1) {
+        StoryDetailFragment fragment = new StoryDetailFragment();
+        Bundle args = new Bundle();
+        args.putLong(STORY_ID, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -103,10 +103,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                                              @Override
                                              public void onCompleted() {
                                                  showProgress(false);
-                                                 if (UserPreferenceManager.getInstance().showLinkFirst()
-                                                         && UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
-                                                     openLinkInExternalBrowser();
-                                                 }
                                                  mSwipeRefreshLayout.setRefreshing(false);
                                              }
 
@@ -121,9 +117,9 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                                              @Override
                                              public void onNext(StoryDetail storyDetail) {
                                                  updateHeader(storyDetail);
-                                                 updateWebView(storyDetail);
+                                                 updateSlidingPanel(getViewModel().startDrawerExpanded());
                                                  updateRecyclerView(storyDetail);
-                                                 openLink();
+                                                 openLink(storyDetail);
                                              }
                                          });
     }
@@ -135,31 +131,11 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         }
     }
 
-    private void updateWebView(StoryDetail storyDetail) {
-        mButtonBarMainAction.setOnClickListener(view -> {
-            if (!UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
-                if (StoryDetail.ASK.equals(storyDetail.getType())) {
-                    storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
-                }
-                else if (StoryDetail.JOB.equals(storyDetail.getType())) {
-                    if (storyDetail.getUrl().contains("/item?id=")) {
-                        storyDetail.setUrl(HACKER_NEWS_BASE_URL + storyDetail.getUrl());
-                    }
-                }
-            }
-            else {
-                mSlidingUpPanelLayout.setTouchEnabled(false);
-                openLinkInExternalBrowser();
-            }
-        });
-    }
-
     private void updateHeader(StoryDetail storyDetail) {
         mAdapter.updateHeader(storyDetail);
     }
 
-    private void openLink() {
-        StoryDetail storyDetail = getViewModel().getStoryDetail();
+    private void openLink(StoryDetail storyDetail) {
         if (UserPreferenceManager.getInstance().showLinkFirst() && UserPreferenceManager.getInstance().isExternalBrowserEnabled()) {
             openLinkInExternalBrowser();
         }
@@ -220,7 +196,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.show();
-            actionBar.setTitle("Hacker News");
+            actionBar.setTitle(getString(R.string.app_name));
         }
 
 
@@ -318,6 +294,13 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mCommentsRecyclerView.setLayoutManager(layoutManager);
         mCommentsRecyclerView.setAdapter(mAdapter);
+        mCommentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mCurrentFirstCompletelyVisibleItemIndex = layoutManager.findFirstVisibleItemPosition();
+            }
+        });
 
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
                                                     android.R.color.holo_orange_light,
@@ -330,53 +313,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
         refresh();
         return rootView;
-    }
-
-    private void updateSlidingPanel(boolean expanded) {
-        if (expanded) {
-            mButtonBarMainAction.setText(getString(R.string.show_comments));
-            mButtonBarMainAction.setOnClickListener(v -> mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED));
-            mButtonBarAction1.setBackgroundResource(R.drawable.web_back);
-            mButtonBarAction1.setOnClickListener(view -> {
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                }
-            });
-            mButtonBarAction2.setBackgroundResource(R.drawable.web_forward);
-            mButtonBarAction2.setOnClickListener(view -> {
-                if (mWebView.canGoForward()) {
-                    mWebView.goForward();
-                }
-            });
-        }
-        else {
-            mButtonBarMainAction.setText(getString(R.string.show_link));
-            mButtonBarMainAction.setOnClickListener(v -> mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED));
-            mButtonBarAction1.setBackgroundResource(R.drawable.navigation_up);
-            mButtonBarAction1.setOnClickListener(view -> {
-                for (int i = mCurrentFirstCompletelyVisibleItemIndex - 1; i >= 0; i--) {
-                    final Object item = mAdapter.getItem(i);
-                    if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                        HNLog.d(TAG, String.valueOf(i));
-                        mCurrentFirstCompletelyVisibleItemIndex = i;
-                        mCommentsRecyclerView.smoothScrollToPosition(i);
-                        return;
-                    }
-                }
-            });
-            mButtonBarAction2.setBackgroundResource(R.drawable.navigation_down);
-            mButtonBarAction2.setOnClickListener(view -> {
-                for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mAdapter.getItemCount(); i++) {
-                    final Object item = mAdapter.getItem(i);
-                    if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                        HNLog.d(TAG, String.valueOf(i));
-                        mCurrentFirstCompletelyVisibleItemIndex = i;
-                        mCommentsRecyclerView.smoothScrollToPosition(i);
-                        return;
-                    }
-                }
-            });
-        }
     }
 
     @Override
@@ -396,22 +332,20 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        mWebViewBundle = new Bundle();
-        mWebView.saveState(mWebViewBundle);
-    }
-
-    @Override
-    public void onDestroy() {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        super.onDestroy();
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mSubscription != null) mSubscription.unsubscribe();
+        super.onDestroy();
     }
 
     @Override
@@ -455,8 +389,84 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+    protected StoryDetailViewModel getViewModel() {
+        return mViewModel;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mWebViewBundle = new Bundle();
+        mWebView.saveState(mWebViewBundle);
+    }
+
+    private void updateSlidingPanel(boolean expanded) {
+        mButtonBarAction1.setVisibility(View.VISIBLE);
+        mButtonBarAction2.setVisibility(View.VISIBLE);
+        if(getViewModel().useExternalBrowser()){
+            mSlidingUpPanelLayout.setTouchEnabled(false);
+        }
+        mButtonBarMainAction.setOnClickListener(v -> {
+            if (getViewModel().useExternalBrowser()) {
+                openLinkInExternalBrowser();
+            }
+            else {
+                mSlidingUpPanelLayout.setPanelState(mSlidingUpPanelLayout.getPanelState()
+                                                                         .equals(SlidingUpPanelLayout.PanelState.COLLAPSED) ? SlidingUpPanelLayout.PanelState.EXPANDED
+                                                                                                                            : SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+        mSlidingUpPanelLayout.post(() -> {
+
+            if (expanded) {
+                mButtonBarMainAction.setText(getString(R.string.show_comments));
+                mButtonBarAction1.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_arrow_back));
+                mButtonBarAction1.setOnClickListener(view -> {
+                    if (mWebView.canGoBack()) {
+                        mWebView.goBack();
+                    }
+                });
+                mButtonBarAction2.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_arrow_forward));
+                mButtonBarAction2.setOnClickListener(view -> {
+                    if (mWebView.canGoForward()) {
+                        mWebView.goForward();
+                    }
+                });
+            }
+            else {
+                mButtonBarMainAction.setText(getString(R.string.show_link));
+                mButtonBarAction1.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up));
+                mButtonBarAction1.setOnClickListener(view -> {
+                    if (!mCommentsRecyclerView.getLayoutManager().isSmoothScrolling()) {
+                        for (int i = mCurrentFirstCompletelyVisibleItemIndex - 1; i >= 0; i--) {
+                            final Object item = mAdapter.getItem(i);
+                            if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                                HNLog.d(TAG, String.valueOf(i));
+                                mCurrentFirstCompletelyVisibleItemIndex = i;
+                                mCommentsRecyclerView.smoothScrollToPosition(i);
+                                return;
+                            }
+                        }
+                    }
+                });
+                mButtonBarAction2.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down));
+                mButtonBarAction2.setOnClickListener(view -> {
+                    if (!mCommentsRecyclerView.getLayoutManager().isSmoothScrolling()) {
+                        for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mAdapter.getItemCount(); i++) {
+                            final Object item = mAdapter.getItem(i);
+                            if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                                HNLog.d(TAG, String.valueOf(i));
+                                mCurrentFirstCompletelyVisibleItemIndex = i;
+                                mCommentsRecyclerView.smoothScrollToPosition(i);
+                                return;
+                            }
+                        }
+                    }
+                });
+            }
+
+        });
+
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -501,6 +511,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
 
         mWebProgressBar.setVisibility(View.VISIBLE);
+        mWebProgressBar.setMax(100);
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setLoadWithOverviewMode(true);
@@ -513,7 +524,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if(mWebProgressBar != null) {
+                if (mWebProgressBar != null) {
                     mWebProgressBar.setVisibility(View.GONE);
                 }
             }
@@ -522,8 +533,10 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                if(mWebProgressBar != null) {
-                    mWebProgressBar.setMax(100);
+                if (mWebProgressBar != null) {
+                    if (mWebProgressBar.getVisibility() == View.GONE) {
+                        mWebProgressBar.setVisibility(View.VISIBLE);
+                    }
                     mWebProgressBar.setProgress(newProgress);
                 }
 
@@ -561,10 +574,5 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         else {
             mFloatingActionButton.show();
         }
-    }
-
-    @Override
-    protected StoryDetailViewModel getViewModel() {
-        return mViewModel;
     }
 }

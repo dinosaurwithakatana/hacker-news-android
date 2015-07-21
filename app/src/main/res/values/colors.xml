@@ -4,10 +4,10 @@
     <color name="showcase_bg">#ccffbb33</color>
     <color name="holo_light_bg">#fff3f3f3</color>
     <color name="system_bar_tint">#FF8800</color>
-    <color name="colorAccent">#ff8a65</color>
+    <color name="colorAccent">#E53935</color>
     <color name="colorPrimary">#ff5722</color>
     <color name="colorPrimaryDark">#e64a19</color>
-    <color name="colorAccentDark">#b0ff541a</color>
+    <color name="colorAccentDark">#B71C1C</color>
     <color name="colorPrimaryNight">#ff272727</color>
     <color name="colorPrimaryDarkNight">#212121</color>
     <color name="cardBackground">#ffffff</color>
