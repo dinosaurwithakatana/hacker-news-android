@@ -7,7 +7,7 @@
     <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@android:color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="commentHeader">@style/CommentHeaderLight</item>
@@ -22,6 +22,8 @@
         <item name="upvoteIcon">@drawable/ic_thumbs_up_black</item>
         <item name="actionSaveIcon">@drawable/ic_action_archive_white</item>
         <item name="actionDeleteIcon">@drawable/ic_action_delete_white</item>
+        <item name="windowActionModeOverlay">true</item>
+
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/background</item>
@@ -39,7 +41,7 @@
     <style name="AppTheme.Base.Night" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryNight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
-        <item name="colorAccent">@android:color/white</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/backgroundNight</item>
         <item name="commentHeader">@style/CommentHeaderDark</item>
@@ -54,6 +56,7 @@
         <item name="upvoteIcon">@drawable/ic_thumbs_up_white</item>
         <item name="actionSaveIcon">@drawable/ic_action_archive_white</item>
         <item name="actionDeleteIcon">@drawable/ic_action_delete_white</item>
+        <item name="windowActionModeOverlay">true</item>
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/backgroundNight</item>
