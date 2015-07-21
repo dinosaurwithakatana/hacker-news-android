@@ -10,17 +10,9 @@ Uses [cheeaun's](http://cheeaun.com/) [node-hnapi](https://github.com/cheeaun/no
 
 Building
 ---
-[![Build Status](https://travis-ci.org/dinosaurwithakatana/hacker-news-android.svg?branch=master)](https://travis-ci.org/dinosaurwithakatana/hacker-news-android) 
-
 Copy each of the `*.properties.example` to their respective properties files and fill out as necessary.
 
 Import into Android studio, should work out of the box.
-
-Roadmap
--------
-
-*  Offline Caching [#13](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/13)
-
 
 
 Chat
