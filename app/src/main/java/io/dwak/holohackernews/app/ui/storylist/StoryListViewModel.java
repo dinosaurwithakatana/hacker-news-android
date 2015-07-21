@@ -35,6 +35,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class StoryListViewModel extends BaseViewModel {
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FEED_TYPE_TOP,
                     FEED_TYPE_BEST,
@@ -55,6 +56,7 @@ public class StoryListViewModel extends BaseViewModel {
     public static final int FEED_TYPE_ASK = 6;
     private @FeedType int mFeedType;
 
+    private boolean mIsRestoring;
     private boolean mPageTwoLoaded;
     @Inject HackerNewsService mService;
     private ArrayList<Story> mStories;
@@ -151,8 +153,16 @@ public class StoryListViewModel extends BaseViewModel {
         return observable;
     }
 
+    ArrayList<Story> getStoryList(){
+        return mStories;
+    }
     Observable<Story> getStories() {
-        return getStories(getObservable());
+        if(mIsRestoring){
+            return Observable.from(mStories);
+        }
+        else {
+            return getStories(getObservable());
+        }
     }
 
     private Observable<Story> getStories(Observable<List<NodeHNAPIStory>> nodeHNAPIStoriesObservable) {
@@ -280,8 +290,8 @@ public class StoryListViewModel extends BaseViewModel {
 
     Observable<Story> markStoryAsRead(Story story) {
         return Observable.create(subscriber -> {
-            if(story.isRead()){
-                if(!subscriber.isUnsubscribed()){
+            if (story.isRead()) {
+                if (!subscriber.isUnsubscribed()) {
                     subscriber.onCompleted();
                     return;
                 }
@@ -302,5 +312,14 @@ public class StoryListViewModel extends BaseViewModel {
                 }
             }
         });
+    }
+
+
+    public void isRestoring(boolean isRestoring) {
+        mIsRestoring = isRestoring;
+    }
+
+    public void setStoryList(ArrayList<Story> storyList) {
+        mStories = storyList;
     }
 }

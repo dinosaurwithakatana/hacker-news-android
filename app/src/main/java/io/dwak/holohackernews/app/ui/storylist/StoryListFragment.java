@@ -45,6 +45,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     public static final String FEED_TO_LOAD = "feed_to_load";
     private static final String TAG = StoryListFragment.class.getSimpleName();
     public static final String TOP_OF_LIST = "TOP_OF_LIST";
+    public static final String STORY_LIST = "STORY_LIST";
 
     @InjectView(R.id.story_list) RecyclerView mRecyclerView;
     @InjectView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
@@ -116,6 +117,10 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                 .appComponent(HackerNewsApplication.getAppComponent())
                                 .build()
                                 .inject(this);
+        if(savedInstanceState != null){
+            getViewModel().setStoryList(savedInstanceState.getParcelableArrayList(STORY_LIST));
+            getViewModel().isRestoring(true);
+        }
         if (getArguments() != null) {
             @StoryListViewModel.FeedType final int feedType = getArguments().getInt(FEED_TO_LOAD);
             getViewModel().setFeedType(feedType);
@@ -299,6 +304,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(TOP_OF_LIST, mLayoutManager.findFirstVisibleItemPosition());
+        outState.putParcelableArrayList(STORY_LIST, getViewModel().getStoryList());
     }
 
     @Override

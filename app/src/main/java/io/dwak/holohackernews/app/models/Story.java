@@ -1,10 +1,13 @@
 package io.dwak.holohackernews.app.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.orm.SugarRecord;
 
 import io.dwak.holohackernews.app.network.models.NodeHNAPIStory;
 
-public class Story extends SugarRecord<Story> {
+public class Story extends SugarRecord<Story> implements Parcelable {
     private Long mStoryId;
     private String mTitle;
     private String mUrl;
@@ -150,5 +153,49 @@ public class Story extends SugarRecord<Story> {
     public void setIsRead(boolean isRead) {
         this.mIsRead = isRead;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.mStoryId);
+        dest.writeString(this.mTitle);
+        dest.writeString(this.mUrl);
+        dest.writeString(this.mDomain);
+        dest.writeInt(this.mPoints);
+        dest.writeString(this.mSubmitter);
+        dest.writeString(this.mPublishedTime);
+        dest.writeInt(this.mNumComments);
+        dest.writeString(this.mType);
+        dest.writeByte(isSaved ? (byte) 1 : (byte) 0);
+        dest.writeByte(mIsRead ? (byte) 1 : (byte) 0);
+    }
+
+    protected Story(Parcel in) {
+        this.mStoryId = (Long) in.readValue(Long.class.getClassLoader());
+        this.mTitle = in.readString();
+        this.mUrl = in.readString();
+        this.mDomain = in.readString();
+        this.mPoints = in.readInt();
+        this.mSubmitter = in.readString();
+        this.mPublishedTime = in.readString();
+        this.mNumComments = in.readInt();
+        this.mType = in.readString();
+        this.isSaved = in.readByte() != 0;
+        this.mIsRead = in.readByte() != 0;
+    }
+
+    public static final Creator<Story> CREATOR = new Creator<Story>() {
+        public Story createFromParcel(Parcel source) {
+            return new Story(source);
+        }
+
+        public Story[] newArray(int size) {
+            return new Story[size];
+        }
+    };
 }
 
