@@ -16,7 +16,7 @@ import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.Story;
 
-public class StoryListViewHolder extends RecyclerView.ViewHolder {
+public class StoryViewHolder extends RecyclerView.ViewHolder {
     @InjectView(R.id.story_title) TextView title;
     @InjectView(R.id.story_submitter) TextView submittedBy;
     @InjectView(R.id.story_long_ago) TextView submissionTime;
@@ -31,20 +31,21 @@ public class StoryListViewHolder extends RecyclerView.ViewHolder {
     public boolean isReleased;
     public boolean hasBeenDragged;
 
-    public StoryListViewHolder(View itemView) {
+    public StoryViewHolder(View itemView) {
         super(itemView);
         swipeLayout = (SwipeLayout) itemView;
         ButterKnife.inject(this, itemView);
     }
 
-    public static StoryListViewHolder create(@NonNull Context context, @NonNull ViewGroup parent) {
-        return new StoryListViewHolder(LayoutInflater.from(context).inflate(R.layout.comments_header, parent, false));
+    public static StoryViewHolder create(@NonNull Context context, @NonNull ViewGroup parent) {
+        return new StoryViewHolder(LayoutInflater.from(context).inflate(R.layout.comments_header, parent, false));
     }
 
-    public static void bind(@NonNull StoryListViewHolder viewHolder,
+    public static void bind(@NonNull StoryViewHolder viewHolder,
                             int position,
                             @NonNull Story story,
-                            @NonNull StoryListAdapter.StoryListAdapterListener listener, boolean nightMode) {
+                            @NonNull StoryListAdapter.StoryListAdapterListener listener,
+                            boolean nightMode) {
         viewHolder.topContainer.setOnClickListener(v -> {
             if (!viewHolder.isOpening && viewHolder.isReleased) {
                 if (viewHolder.hasBeenDragged) {
@@ -54,10 +55,25 @@ public class StoryListViewHolder extends RecyclerView.ViewHolder {
                 listener.onStoryClick(position);
             }
         });
+        if(story.isRead()) {
+            viewHolder.title
+                    .setTextColor(viewHolder.itemView
+                                          .getContext()
+                                          .getResources()
+                                          .getColor(R.color.readTextColor));
+        }
+        else {
+            viewHolder.title
+                    .setTextColor(viewHolder.itemView
+                                          .getContext()
+                                          .getResources()
+                                          .getColor(nightMode ? android.R.color.white
+                                                              : android.R.color.black));
+        }
         viewHolder.title.setText(story.getTitle());
         viewHolder.submittedBy.setText(story.getSubmitter());
         viewHolder.submissionTime.setText(story.getPublishedTime());
-        if (story.getType().equals("link")) {
+        if ("link".equals(story.getType())) {
             String domain = story.getDomain();
             if (!TextUtils.isEmpty(domain)) {
                 viewHolder.domain.setVisibility(View.VISIBLE);

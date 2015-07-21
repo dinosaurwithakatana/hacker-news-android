@@ -15,6 +15,7 @@ public class Story extends SugarRecord<Story> {
     private int mNumComments;
     private String mType;
     private boolean isSaved;
+    private boolean mIsRead;
 
     public Story() {
     }
@@ -140,6 +141,14 @@ public class Story extends SugarRecord<Story> {
     @Override
     public int hashCode() {
         return mStoryId != null ? mStoryId.hashCode() : 0;
+    }
+
+    public boolean isRead() {
+        return mIsRead;
+    }
+
+    public void setIsRead(boolean isRead) {
+        this.mIsRead = isRead;
     }
 }
 

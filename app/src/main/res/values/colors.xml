@@ -14,6 +14,7 @@
     <color name="backgroundNight">#ff101010</color>
     <color name="background">#fff3f3f3</color>
     <color name="cardRippleNight">#ff919191</color>
+    <color name="readTextColor">#808080</color>
 
     <!-- OVERWRITE THESE COLORS FOR A LIGHT THEME -->
     <!-- MaterialDrawer DEFAULT colors -->

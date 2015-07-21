@@ -9,6 +9,7 @@ import com.orm.SugarTransactionHelper;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class StoryListViewModel extends BaseViewModel {
                     FEED_TYPE_ASK})
     public @interface FeedType {
     }
+
     public static final int FEED_TYPE_TOP = 0;
     public static final int FEED_TYPE_BEST = 1;
     public static final int FEED_TYPE_NEW = 2;
@@ -75,7 +77,8 @@ public class StoryListViewModel extends BaseViewModel {
     }
 
     @NonNull
-    @StringRes int getTitle() {
+    @StringRes
+    int getTitle() {
         @StringRes int title;
         switch (mFeedType) {
             case FEED_TYPE_TOP:
@@ -164,6 +167,18 @@ public class StoryListViewModel extends BaseViewModel {
 
                                              if (mStoryId != null) {
                                                  story.setIsSaved(true);
+                                             }
+
+                                             return story;
+                                         })
+                                         .map(story -> {
+                                             try {
+                                                 if (HackerNewsApplication.getAppComponent().getCacheManager().get(String.valueOf(story.getStoryId()), Story.class) != null) {
+                                                     story.setIsRead(true);
+                                                 }
+                                                 return story;
+                                             } catch (IOException e) {
+
                                              }
 
                                              return story;
@@ -261,5 +276,31 @@ public class StoryListViewModel extends BaseViewModel {
 
     boolean isNightMode() {
         return UserPreferenceManager.getInstance().isNightModeEnabled();
+    }
+
+    Observable<Story> markStoryAsRead(Story story) {
+        return Observable.create(subscriber -> {
+            if(story.isRead()){
+                if(!subscriber.isUnsubscribed()){
+                    subscriber.onCompleted();
+                    return;
+                }
+            }
+            try {
+                HackerNewsApplication.getAppComponent()
+                                     .getCacheManager()
+                                     .put(String.valueOf(story.getStoryId()),
+                                          story);
+                story.setIsRead(true);
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(story);
+                    subscriber.onCompleted();
+                }
+            } catch (IOException e) {
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onError(e);
+                }
+            }
+        });
     }
 }

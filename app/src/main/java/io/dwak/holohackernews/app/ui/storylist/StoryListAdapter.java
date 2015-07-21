@@ -9,7 +9,7 @@ import java.util.List;
 
 import io.dwak.holohackernews.app.models.Story;
 
-public class StoryListAdapter extends RecyclerView.Adapter<StoryListViewHolder> {
+public class StoryListAdapter extends RecyclerView.Adapter<StoryViewHolder> {
     @NonNull
     private final Context mContext;
     private final List<Story> mStoryList;
@@ -27,17 +27,17 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListViewHolder> 
     }
 
     @Override
-    public StoryListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return StoryListViewHolder.create(mContext, parent);
+    public StoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return StoryViewHolder.create(mContext, parent);
     }
 
     @Override
-    public void onBindViewHolder(StoryListViewHolder viewHolder, int position) {
-        StoryListViewHolder.bind(viewHolder,
-                                 position,
-                                 getItem(position),
-                                 mListener,
-                                 mNightMode);
+    public void onBindViewHolder(StoryViewHolder viewHolder, int position) {
+        StoryViewHolder.bind(viewHolder,
+                             position,
+                             getItem(position),
+                             mListener,
+                             mNightMode);
     }
 
     @Override
@@ -81,6 +81,12 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListViewHolder> 
     public void removeAllItems() {
         mStoryList.clear();
         notifyDataSetChanged();
+    }
+
+    public void markStoryAsRead(int position, Story story) {
+        mStoryList.remove(position);
+        mStoryList.add(position, story);
+        notifyItemChanged(position);
     }
 
     public interface StoryListAdapterListener {

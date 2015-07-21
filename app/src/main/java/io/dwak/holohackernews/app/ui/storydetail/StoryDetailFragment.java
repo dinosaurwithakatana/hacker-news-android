@@ -500,7 +500,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         }
 
 
-        mWebView.setVisibility(View.INVISIBLE);
         mWebProgressBar.setVisibility(View.VISIBLE);
 
         WebSettings webSettings = mWebView.getSettings();
@@ -514,16 +513,19 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                mWebView.setVisibility(View.VISIBLE);
-                mWebProgressBar.setVisibility(View.GONE);
+                if(mWebProgressBar != null) {
+                    mWebProgressBar.setVisibility(View.GONE);
+                }
             }
         });
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                mWebProgressBar.setMax(100);
-                mWebProgressBar.setProgress(newProgress);
+                if(mWebProgressBar != null) {
+                    mWebProgressBar.setMax(100);
+                    mWebProgressBar.setProgress(newProgress);
+                }
 
             }
         });

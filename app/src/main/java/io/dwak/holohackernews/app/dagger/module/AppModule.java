@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.dwak.holohackernews.app.cache.CacheManager;
 import io.dwak.holohackernews.app.network.LoganSquareConvertor;
 import io.dwak.holohackernews.app.network.LongTypeAdapter;
 import retrofit.RestAdapter;
@@ -55,5 +56,12 @@ public class AppModule {
     @Named("retrofit-loglevel")
     RestAdapter.LogLevel providesLogLevel(){
         return RestAdapter.LogLevel.FULL;
+    }
+
+    @Provides
+    @Named("cacheManager")
+    CacheManager providesCacheManager(@Named("context")Context context,
+                                      @Named("gson") Gson gson){
+        return CacheManager.getInstance(context, gson);
     }
 }
