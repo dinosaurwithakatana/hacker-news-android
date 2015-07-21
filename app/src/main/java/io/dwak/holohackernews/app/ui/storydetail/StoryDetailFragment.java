@@ -401,8 +401,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     }
 
     private void updateSlidingPanel(boolean expanded) {
-        mButtonBarAction1.setVisibility(View.VISIBLE);
-        mButtonBarAction2.setVisibility(View.VISIBLE);
         if(getViewModel().useExternalBrowser()){
             mSlidingUpPanelLayout.setTouchEnabled(false);
         }
@@ -463,8 +461,10 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                         }
                     }
                 });
+                
+                mButtonBarAction1.setVisibility(View.VISIBLE);
+                mButtonBarAction2.setVisibility(View.VISIBLE);
             }
-
         });
 
     }
