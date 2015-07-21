@@ -6,6 +6,7 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
+import io.dwak.holohackernews.app.ui.about.AboutViewModel;
 import io.dwak.holohackernews.app.ui.login.LoginViewModel;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailViewModel;
 import io.dwak.holohackernews.app.ui.storylist.MainViewModel;
@@ -31,5 +32,10 @@ public class ViewModelModule {
     @Provides
     MainViewModel providesMainViewModel(@Named("resources") Resources resources) {
         return new MainViewModel(resources);
+    }
+
+    @Provides
+    AboutViewModel providesAboutViewModel(@Named("resources") Resources resources){
+        return new AboutViewModel(resources);
     }
 }
