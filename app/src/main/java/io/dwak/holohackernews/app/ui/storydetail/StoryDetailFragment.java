@@ -45,6 +45,7 @@ import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.util.HNLog;
+import io.dwak.holohackernews.app.util.UIUtils;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import rx.Subscriber;
 import rx.android.observables.AndroidObservable;
@@ -77,6 +78,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     private SlidingUpPanelLayout.PanelState mOldPanelState;
     private StoryDetailRecyclerAdapter mAdapter;
     private int mCurrentFirstCompletelyVisibleItemIndex = 0;
+    private LinearLayoutManager mLayoutManager;
 
     public static StoryDetailFragment newInstance(long id, boolean saved) {
         StoryDetailFragment fragment = StoryDetailFragment.newInstance(id);
@@ -291,14 +293,14 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                 builder.create().show();
             }
         });
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mCommentsRecyclerView.setLayoutManager(layoutManager);
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mCommentsRecyclerView.setLayoutManager(mLayoutManager);
         mCommentsRecyclerView.setAdapter(mAdapter);
         mCommentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                mCurrentFirstCompletelyVisibleItemIndex = layoutManager.findFirstVisibleItemPosition();
+                mCurrentFirstCompletelyVisibleItemIndex = mLayoutManager.findFirstVisibleItemPosition();
             }
         });
 
@@ -401,7 +403,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     }
 
     private void updateSlidingPanel(boolean expanded) {
-        if(getViewModel().useExternalBrowser()){
+        if (getViewModel().useExternalBrowser()) {
             mSlidingUpPanelLayout.setTouchEnabled(false);
         }
         mButtonBarMainAction.setOnClickListener(v -> {
@@ -435,33 +437,31 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                 mButtonBarMainAction.setText(getString(R.string.show_link));
                 mButtonBarAction1.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up));
                 mButtonBarAction1.setOnClickListener(view -> {
-                    if (!mCommentsRecyclerView.getLayoutManager().isSmoothScrolling()) {
-                        for (int i = mCurrentFirstCompletelyVisibleItemIndex - 1; i >= 0; i--) {
-                            final Object item = mAdapter.getItem(i);
-                            if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                                HNLog.d(TAG, String.valueOf(i));
-                                mCurrentFirstCompletelyVisibleItemIndex = i;
-                                mCommentsRecyclerView.smoothScrollToPosition(i);
-                                return;
-                            }
+                    for (int i = mCurrentFirstCompletelyVisibleItemIndex - 1; i >= 0; i--) {
+                        final Object item = mAdapter.getItem(i);
+                        if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                            HNLog.d(TAG, String.valueOf(i));
+                            mCurrentFirstCompletelyVisibleItemIndex = i;
+                            mLayoutManager.scrollToPositionWithOffset(i, 0);
+                            if(HackerNewsApplication.isDebug()) UIUtils.showToast(getActivity(), String.valueOf(i));
+                            return;
                         }
                     }
                 });
                 mButtonBarAction2.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down));
                 mButtonBarAction2.setOnClickListener(view -> {
-                    if (!mCommentsRecyclerView.getLayoutManager().isSmoothScrolling()) {
-                        for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mAdapter.getItemCount(); i++) {
-                            final Object item = mAdapter.getItem(i);
-                            if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
-                                HNLog.d(TAG, String.valueOf(i));
-                                mCurrentFirstCompletelyVisibleItemIndex = i;
-                                mCommentsRecyclerView.smoothScrollToPosition(i);
-                                return;
-                            }
+                    for (int i = mCurrentFirstCompletelyVisibleItemIndex + 1; i < mAdapter.getItemCount(); i++) {
+                        final Object item = mAdapter.getItem(i);
+                        if (item instanceof Comment && ((Comment) item).getLevel() == 0) {
+                            HNLog.d(TAG, String.valueOf(i));
+                            mCurrentFirstCompletelyVisibleItemIndex = i;
+                            mLayoutManager.scrollToPositionWithOffset(i, 0);
+                            if(HackerNewsApplication.isDebug()) UIUtils.showToast(getActivity(), String.valueOf(i));
+                            return;
                         }
                     }
                 });
-                
+
                 mButtonBarAction1.setVisibility(View.VISIBLE);
                 mButtonBarAction2.setVisibility(View.VISIBLE);
             }
