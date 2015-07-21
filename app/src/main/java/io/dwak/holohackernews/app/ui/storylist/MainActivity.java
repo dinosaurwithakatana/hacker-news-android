@@ -86,11 +86,11 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                                     .setMessage(R.string.logout_dialog_message)
                                     .setPositiveButton(R.string.logout_confirm_button, (dialog, which) -> {
                                         mViewModel.logout()
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(o -> {
-                                            refreshNavigationDrawer(false);
-                                        });
+                                                  .subscribeOn(Schedulers.io())
+                                                  .observeOn(AndroidSchedulers.mainThread())
+                                                  .subscribe(o -> {
+                                                      refreshNavigationDrawer(false);
+                                                  });
                                     })
                                     .setNegativeButton(android.R.string.cancel, null)
                                     .create()
@@ -105,8 +105,8 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         View headerView = LayoutInflater.from(this).inflate(R.layout.drawer_header, null);
         ImageView headerIcon = (ImageView) headerView.findViewById(R.id.image_view);
         TextDrawable textDrawable = TextDrawable.builder()
-                                      .buildRound(String.valueOf("HN"),
-                                                  getResources().getColor(R.color.colorPrimaryDark));
+                                                .buildRound(String.valueOf("HN"),
+                                                            getResources().getColor(R.color.colorPrimaryDark));
         headerIcon.setImageDrawable(textDrawable);
         mDrawer = new DrawerBuilder()
                 .withActivity(this)
@@ -239,10 +239,12 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
 
         if (mIsDualPane && mDetailsContainer != null) {
             mStoryDetailFragment = StoryDetailFragment.newInstance(id, saved);
-            mDetailsContainer.setVisibility(View.VISIBLE);
-            getSupportFragmentManager().beginTransaction()
-                                       .replace(R.id.details_container, mStoryDetailFragment)
-                                       .commit();
+            mDetailsContainer.postDelayed(() -> {
+                mDetailsContainer.setVisibility(View.VISIBLE);
+                getSupportFragmentManager().beginTransaction()
+                                           .replace(R.id.details_container, mStoryDetailFragment)
+                                           .commit();
+            }, 200);
         }
         else {
             Intent detailIntent = new Intent(this, StoryDetailActivity.class);

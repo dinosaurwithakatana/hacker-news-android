@@ -24,7 +24,6 @@
         android:layout_marginTop="@dimen/toolbar_height"
         android:animateLayoutChanges="true"
         android:baselineAligned="false"
-        android:layoutAnimation="@anim/detail_pane_animation"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -33,11 +32,13 @@
             android:layout_height="match_parent"
             android:layout_weight=".35"
             android:visibility="visible"
+            android:animateLayoutChanges="true"
             tools:background="@android:color/background_dark"/>
 
         <FrameLayout
             android:id="@+id/details_container"
             android:layout_width="0dp"
+            android:animateLayoutChanges="true"
             android:layout_height="match_parent"
             android:layout_weight=".65"
             android:visibility="gone"/>
