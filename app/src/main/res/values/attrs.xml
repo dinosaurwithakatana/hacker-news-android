@@ -23,5 +23,6 @@
         <attr name="upvoteIcon" format="reference"/>
         <attr name="actionSaveIcon" format="reference"/>
         <attr name="actionDeleteIcon" format="reference"/>
+        <attr name="headerBackground" format="reference"/>
     </declare-styleable>
 </resources>

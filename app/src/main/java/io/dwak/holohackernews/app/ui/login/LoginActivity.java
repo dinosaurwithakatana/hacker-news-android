@@ -42,7 +42,6 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
         setContentView(R.layout.activity_login);
         DaggerViewModelComponent.builder()
                                 .appComponent(HackerNewsApplication.getAppComponent())
-                                .appModule(HackerNewsApplication.getAppModule())
                                 .build()
                                 .inject(this);
         ButterKnife.inject(this);

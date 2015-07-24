@@ -23,6 +23,7 @@
         <item name="actionSaveIcon">@drawable/ic_action_archive_white</item>
         <item name="actionDeleteIcon">@drawable/ic_action_delete_white</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="headerBackground">@drawable/account_header_bg</item>
 
 
 
@@ -59,6 +60,7 @@
         <item name="actionSaveIcon">@drawable/ic_action_archive_white</item>
         <item name="actionDeleteIcon">@drawable/ic_action_delete_white</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="headerBackground">@drawable/account_header_bg_dark</item>
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/backgroundNight</item>

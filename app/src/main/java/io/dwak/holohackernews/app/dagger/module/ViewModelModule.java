@@ -12,7 +12,7 @@ import io.dwak.holohackernews.app.ui.storydetail.StoryDetailViewModel;
 import io.dwak.holohackernews.app.ui.storylist.MainViewModel;
 import io.dwak.holohackernews.app.ui.storylist.StoryListViewModel;
 
-@Module(includes = AppModule.class)
+@Module
 public class ViewModelModule {
     @Provides
     StoryListViewModel providesStoryListViewModel() {
@@ -35,7 +35,7 @@ public class ViewModelModule {
     }
 
     @Provides
-    AboutViewModel providesAboutViewModel(@Named("resources") Resources resources){
-        return new AboutViewModel(resources);
+    AboutViewModel providesAboutViewModel(){
+        return new AboutViewModel();
     }
 }

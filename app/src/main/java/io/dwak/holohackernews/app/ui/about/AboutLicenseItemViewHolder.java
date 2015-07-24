@@ -25,7 +25,7 @@ public class AboutLicenseItemViewHolder extends RecyclerView.ViewHolder{
     }
 
     public static void bind(AboutLicenseItemViewHolder holder, AboutLicense license){
-        holder.name.setText(license.name);
-        holder.license.setText(license.license);
+        holder.name.setText(holder.itemView.getContext().getResources().getString(license.nameResId));
+        holder.license.setText(holder.itemView.getContext().getResources().getString(license.licenseResId));
     }
 }

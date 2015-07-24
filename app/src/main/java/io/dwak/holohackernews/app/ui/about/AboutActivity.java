@@ -54,7 +54,6 @@ public class AboutActivity extends BaseActivity{
             View view = inflater.inflate(R.layout.fragment_about, container, false);
             ButterKnife.inject(this, view);
             DaggerViewModelComponent.builder()
-                                    .appModule(HackerNewsApplication.getAppModule())
                                     .appComponent(HackerNewsApplication.getAppComponent())
                                     .build()
                                     .inject(this);

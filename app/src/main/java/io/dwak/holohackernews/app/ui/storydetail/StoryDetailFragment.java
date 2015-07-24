@@ -162,7 +162,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerViewModelComponent.builder()
-                                .appModule(HackerNewsApplication.getAppModule())
                                 .appComponent(HackerNewsApplication.getAppComponent())
                                 .build()
                                 .inject(this);

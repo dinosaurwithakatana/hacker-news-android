@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app.dagger.component;
 
 import android.app.Application;
+import android.content.res.Resources;
 
 import javax.inject.Named;
 
@@ -11,6 +12,10 @@ import io.dwak.holohackernews.app.dagger.module.AppModule;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
     void inject(Application application);
-    @Named("cacheManager")
+
+    @Named(AppModule.CACHE_MANAGER)
     CacheManager getCacheManager();
+
+    @Named(AppModule.RESOURCES)
+    Resources getResources();
 }

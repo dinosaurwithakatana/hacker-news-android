@@ -5,7 +5,7 @@
              android:layout_height="wrap_content"
              android:paddingTop="25dp"
              android:paddingBottom="8dp"
-             android:background="@drawable/account_header_bg"
+             android:background="?headerBackground"
              android:orientation="vertical">
 
     <RelativeLayout

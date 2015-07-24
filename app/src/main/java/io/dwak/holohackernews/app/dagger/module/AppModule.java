@@ -19,6 +19,8 @@ import retrofit.RestAdapter;
 
 @Module
 public class AppModule {
+    public static final String CACHE_MANAGER = "cacheManager";
+    public static final String RESOURCES = "resources";
     Application mApplication;
 
     public AppModule(Application application) {
@@ -33,7 +35,7 @@ public class AppModule {
 
 
     @Provides
-    @Named("resources")
+    @Named(RESOURCES)
     Resources providesResources() {
         return mApplication.getResources();
     }
@@ -59,7 +61,7 @@ public class AppModule {
     }
 
     @Provides
-    @Named("cacheManager")
+    @Named(CACHE_MANAGER)
     CacheManager providesCacheManager(@Named("context")Context context,
                                       @Named("gson") Gson gson){
         return CacheManager.getInstance(context, gson);

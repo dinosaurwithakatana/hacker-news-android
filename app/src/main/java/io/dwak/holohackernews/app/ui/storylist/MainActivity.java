@@ -63,7 +63,6 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         DaggerViewModelComponent.builder()
-                                .appModule(HackerNewsApplication.getAppModule())
                                 .appComponent(HackerNewsApplication.getAppComponent())
                                 .build()
                                 .inject(this);
