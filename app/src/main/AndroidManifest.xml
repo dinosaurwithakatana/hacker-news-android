@@ -21,7 +21,7 @@
             android:value="2"/>
         <meta-data
             android:name="QUERY_LOG"
-            android:value="true"/>
+            android:value="${ormLog}"/>
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="io.dwak"/>
@@ -43,7 +43,6 @@
             android:name=".ui.storydetail.StoryDetailActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_story_detail"
-            android:parentActivityName=".ui.storylist.MainActivity"
             android:theme="@style/AppTheme.Detail">
             <intent-filter>
                 <data
@@ -72,6 +71,10 @@
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.Transparent">
         </activity>
+
+        <meta-data
+            android:name="com.bugsnag.android.API_KEY"
+            android:value="${bugsnagApiKey}"/>
     </application>
 
 </manifest>

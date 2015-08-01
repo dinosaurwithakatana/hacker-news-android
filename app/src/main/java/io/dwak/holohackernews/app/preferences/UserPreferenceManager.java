@@ -18,6 +18,7 @@ public class UserPreferenceManager {
     public static final String PREF_LIST_ANIMATIONS = "pref_list_animations";
     public static final String PREF_NIGHT_MODE = "pref_night_mode";
     public static final String PREF_TEXT_SIZE = "pref_text_size";
+    public static final String PREF_SWIPE_BACK = "pref_swipe_back";
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({SMALL, MEDIUM, LARGE})
@@ -45,10 +46,6 @@ public class UserPreferenceManager {
         sInstance = this;
     }
 
-    public void useExternalBrowser(final boolean shouldUseSystemBrowser){
-        mSharedPreferences.edit().putBoolean(SHOULD_USE_EXTERNAL_BROWSER, shouldUseSystemBrowser).apply();
-    }
-
     public boolean showLinkFirst(){
         return mSharedPreferences.getBoolean(PREF_LINK_FIRST, false);
     }
@@ -72,5 +69,9 @@ public class UserPreferenceManager {
 
     public boolean isNightModeEnabled(){
         return mSharedPreferences.getBoolean(PREF_NIGHT_MODE, false);
+    }
+
+    public boolean isSwipeBackEnabled(){
+        return mSharedPreferences.getBoolean(PREF_SWIPE_BACK, true);
     }
 }

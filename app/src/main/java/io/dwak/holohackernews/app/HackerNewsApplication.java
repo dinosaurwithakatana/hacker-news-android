@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app;
 
 import android.content.Context;
 
+import com.bugsnag.android.Bugsnag;
 import com.facebook.stetho.Stetho;
 import com.orm.SugarApp;
 
@@ -23,6 +24,10 @@ public class HackerNewsApplication extends SugarApp {
         super.onCreate();
         if (sInstance == null) {
             sInstance = this;
+        }
+
+        if("release".equals(BuildConfig.BUILD_TYPE)){
+            Bugsnag.init(this);
         }
 
         mContext = getApplicationContext();

@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.dwak.holohackernews.app.BuildConfig;
 import io.dwak.holohackernews.app.cache.CacheManager;
 import io.dwak.holohackernews.app.network.LoganSquareConvertor;
 import io.dwak.holohackernews.app.network.LongTypeAdapter;
@@ -57,7 +58,12 @@ public class AppModule {
     @Provides
     @Named("retrofit-loglevel")
     RestAdapter.LogLevel providesLogLevel(){
-        return RestAdapter.LogLevel.FULL;
+        if(BuildConfig.DEBUG) {
+            return RestAdapter.LogLevel.FULL;
+        }
+        else {
+            return RestAdapter.LogLevel.NONE;
+        }
     }
 
     @Provides

@@ -31,12 +31,16 @@ android {
             versionNameSuffix '-dev'
             def Properties localProps = new Properties()
             localProps.load(new FileInputStream(file('../local.properties')))
+            manifestPlaceholders = [bugsnagApiKey: "", ormLog: false]
         }
         release {
+            debuggable true
             minifyEnabled false
-            def Properties localProps = new Properties()
-            localProps.load(new FileInputStream(file('../local.properties')))
             signingConfig signingConfigs.release
+
+            def Properties bugsnagProps = new Properties()
+            bugsnagProps.load(new FileInputStream(file('../bugsnag.properties')))
+            manifestPlaceholders = [bugsnagApiKey: bugsnagProps["api-key"], ormLog: false]
         }
     }
     productFlavors {
@@ -52,18 +56,18 @@ android {
 
 dependencies {
     compile project(':rxeventslib')
-    compile 'com.android.support:support-v4:22.2.0'
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.jakewharton:butterknife:6.1.0'
-    compile 'com.android.support:support-annotations:22.2.0'
+    compile 'com.android.support:support-annotations:22.2.1'
     compile 'com.loopeer.android.thirdparty:swipe-back-layout:1.0'
     compile 'com.netflix.rxjava:rxjava-android:0.20.7'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
     compile('com.mikepenz:materialdrawer:3.0.6@aar') {
         transitive = true
     }
@@ -77,10 +81,11 @@ dependencies {
     compile 'com.google.dagger:dagger:2.0.1'
     apt 'com.google.dagger:dagger-compiler:2.0.1'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:design:22.2.1'
     apt 'com.bluelinelabs:logansquare-compiler:1.1.0'
     compile 'com.bluelinelabs:logansquare:1.1.0'
     compile 'com.jakewharton:disklrucache:2.0.2'
+    compile 'com.bugsnag:bugsnag-android:3.2.6'
 }
 
 

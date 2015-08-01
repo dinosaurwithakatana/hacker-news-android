@@ -38,12 +38,13 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (getToolbar() != null)
+        if (getToolbar() != null) {
             if (UserPreferenceManager.getInstance().isNightModeEnabled()) {
                 getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkNight));
             }
             else {
                 getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
+        }
     }
 }

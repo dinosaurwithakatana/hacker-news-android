@@ -1,11 +1,11 @@
 package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -20,22 +20,24 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
     @InjectView(R.id.toolbar) Toolbar mToolbar;
     private StoryDetailFragment mStoryDetailFragment;
     private boolean mSaved;
+    private boolean mFromExternal;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_detail);
         ButterKnife.inject(this);
-        if (mToolbar != null) {
-            mToolbar.setNavigationOnClickListener(v -> finish());
-            mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-            setSupportActionBar(mToolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         Intent intent = getIntent();
         long storyId = 0;
+        mFromExternal = false;
         if (intent != null) {
             Bundle extras = intent.getExtras();
             if (extras != null) {
@@ -44,22 +46,29 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
             }
 
             final Uri data = intent.getData();
-            if(data != null){
+            if (data != null) {
                 storyId = Long.parseLong(data.getQueryParameter("id"));
+                mFromExternal = true;
             }
+        }
+        if (mToolbar != null) {
+            mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        if(UserPreferenceManager.getInstance().isSwipeBackEnabled()) {
+            getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        }
+        else{
+            getSwipeBackLayout().setEnableGesture(false);
         }
         if (savedInstanceState == null) {
             mStoryDetailFragment = StoryDetailFragment.newInstance(storyId, mSaved);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, mStoryDetailFragment)
-                    .commit();
+                                       .add(R.id.container, mStoryDetailFragment)
+                                       .commit();
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
     }
 
     @Override
@@ -69,7 +78,7 @@ public class StoryDetailActivity extends SwipeAppCompatActivity {
         }
         else {
             super.onBackPressed();
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAfterTransition();
             }
             else {
