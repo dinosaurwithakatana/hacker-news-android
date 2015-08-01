@@ -380,10 +380,24 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                         .show();
                 break;
             case R.id.action_open_browser:
-                Intent browserIntent = new Intent();
-                browserIntent.setAction(Intent.ACTION_VIEW);
-                browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
-                startActivity(browserIntent);
+                final CharSequence[] openInBrowserItems = {getString(R.string.action_open_in_browser_link),
+                        getString(R.string.action_open_in_browser_comments)};
+                new AlertDialog.Builder(getActivity())
+                        .setItems(openInBrowserItems, (dialogInterface, i) -> {
+                            Intent browserIntent = new Intent();
+                            browserIntent.setAction(Intent.ACTION_VIEW);
+                            switch (i){
+                                case 0:
+                                    browserIntent.setData(Uri.parse(getViewModel().getStoryDetail().getUrl()));
+                                    break;
+                                case 1:
+                                    browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
+                                    break;
+                            }
+                            startActivity(browserIntent);
+                        })
+                        .create()
+                        .show();
                 break;
         }
         return super.onOptionsItemSelected(item);

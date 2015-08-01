@@ -1,7 +1,6 @@
 package io.dwak.holohackernews.app.ui.storylist;
 
 import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 import com.orm.StringUtil;
@@ -35,7 +34,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class StoryListViewModel extends BaseViewModel {
-
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FEED_TYPE_TOP,
@@ -79,7 +77,6 @@ public class StoryListViewModel extends BaseViewModel {
         mFeedType = feedType;
     }
 
-    @NonNull
     @StringRes
     int getTitle() {
         @StringRes int title;
@@ -317,7 +314,7 @@ public class StoryListViewModel extends BaseViewModel {
     }
 
 
-    public void isRestoring(boolean isRestoring) {
+    public void setIsRestoring(boolean isRestoring) {
         mIsRestoring = isRestoring;
     }
 

@@ -66,6 +66,8 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
 
     private void refresh() {
         mRecyclerAdapter.clear();
+        getViewModel().setIsRestoring(false);
+        getViewModel().setStoryList(null);
         react(getViewModel().getStories(), false);
     }
 
@@ -118,7 +120,7 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                                 .inject(this);
         if(savedInstanceState != null){
             getViewModel().setStoryList(savedInstanceState.getParcelableArrayList(STORY_LIST));
-            getViewModel().isRestoring(true);
+            getViewModel().setIsRestoring(true);
         }
         if (getArguments() != null) {
             @StoryListViewModel.FeedType final int feedType = getArguments().getInt(FEED_TO_LOAD);

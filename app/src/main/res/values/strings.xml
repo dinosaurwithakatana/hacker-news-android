@@ -69,6 +69,8 @@
     <string name="delete_all">Delete All</string>
     <string name="comment_action_share_comment">Share Comment</string>
     <string name="comment_action_share_comment_content">Share Comment Content</string>
+    <string name="action_open_in_browser_link">Link</string>
+    <string name="action_open_in_browser_comments">Comments</string>
     <string name="action_share_link">Link</string>
     <string name="action_share_comments">Comments</string>
     <string name="story_details_error_toast_message">Problem loading page</string>
