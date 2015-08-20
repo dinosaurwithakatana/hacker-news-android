@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 142
+        versionCode 143
         versionName '5.0-BETA'
     }
     signingConfigs {
@@ -34,7 +34,6 @@ android {
             manifestPlaceholders = [bugsnagApiKey: "", ormLog: false]
         }
         release {
-            debuggable true
             minifyEnabled false
             signingConfig signingConfigs.release
 
