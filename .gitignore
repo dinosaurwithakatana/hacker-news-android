@@ -36,3 +36,5 @@ proguard/
 .gradletasknamecache
 
 captures/
+
+*.log

@@ -20,7 +20,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bluelinelabs.logansquare.LoganSquare;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,6 +35,7 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModelFragment;
 import io.dwak.holohackernews.app.dagger.component.DaggerViewModelComponent;
 import io.dwak.holohackernews.app.models.Story;
+import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.util.UIUtils;
 import retrofit.RetrofitError;
 import rx.Observable;
@@ -149,93 +154,8 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
         showProgress(true);
 
         if (savedInstanceState == null || mRecyclerAdapter == null) {
-            // Set the adapter
-            StoryListAdapter.StoryListAdapterListener listener = new StoryListAdapter.StoryListAdapterListener() {
-                @Override
-                public void onStoryClick(int position) {
-                    getViewModel().markStoryAsRead(mRecyclerAdapter.getItem(position))
-                                  .subscribeOn(Schedulers.io())
-                                  .observeOn(AndroidSchedulers.mainThread())
-                                  .subscribe(new Subscriber<Story>() {
-                                      @Override
-                                      public void onCompleted() {
-                                          mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position),
-                                                                                   getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED);
-                                      }
-
-                                      @Override
-                                      public void onError(Throwable e) {
-
-                                      }
-
-                                      @Override
-                                      public void onNext(Story story) {
-                                          mRecyclerAdapter.markStoryAsRead(position, story);
-                                      }
-                                  });
-                }
-
-                @Override
-                public void onStorySave(int position, boolean save) {
-                    if (save) {
-                        //noinspection unchecked
-                        getViewModel().saveStory(mRecyclerAdapter.getItem(position))
-                                      .subscribeOn(Schedulers.io())
-                                      .observeOn(AndroidSchedulers.mainThread())
-                                      .subscribe((Action1) o -> UIUtils.showToast(getActivity(), "Saved!"));
-                    }
-                    else {
-                        getViewModel().deleteStory(mRecyclerAdapter.getItem(position))
-                                      .subscribeOn(Schedulers.io())
-                                      .observeOn(AndroidSchedulers.mainThread())
-                                      .subscribe(new Subscriber<Object>() {
-                                          @Override
-                                          public void onCompleted() {
-                                              if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
-                                                  mRecyclerAdapter.removeItem(position);
-                                              }
-                                          }
-
-                                          @Override
-                                          public void onError(Throwable e) {
-
-                                          }
-
-                                          @Override
-                                          public void onNext(Object o) {
-
-                                          }
-                                      });
-                    }
-
-                    mRecyclerAdapter.notifyItemChanged(position);
-                }
-            };
-            mRecyclerAdapter = new StoryListAdapter(getActivity(),
-                                                    new ArrayList<>(),
-                                                    listener,
-                                                    getViewModel().isNightMode());
-            mLayoutManager = new LinearLayoutManager(getActivity());
-            mRecyclerView.setLayoutManager(mLayoutManager);
-            mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
-
-            if (!getViewModel().isReturningUser()) {
-                new AlertDialog.Builder(getActivity())
-                        .setMessage(R.string.beta_prompt_message)
-                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                            Intent gPlusIntent = new Intent();
-                            gPlusIntent.setAction(Intent.ACTION_VIEW);
-                            gPlusIntent.setData(Uri.parse("https://plus.google.com/communities/112347719824323216860"));
-                            getActivity().startActivity(gPlusIntent);
-                        })
-                        .setNegativeButton(R.string.beta_prompt_negative, (dialog, which) -> {
-
-                        })
-                        .create()
-                        .show();
-                getViewModel().setReturningUser(true);
-            }
-
+            setupRecyclerView();
+            showBetaPopup();
             refresh();
         }
         else {
@@ -255,6 +175,106 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
 
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
+        setupSwipeToRefresh();
+
+        if (savedInstanceState != null) {
+            mLayoutManager.scrollToPosition(savedInstanceState.getInt(TOP_OF_LIST));
+        }
+
+        return view;
+    }
+
+    private void showBetaPopup() {
+        if (!getViewModel().isReturningUser()) {
+            new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.beta_prompt_message)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                        Intent gPlusIntent = new Intent();
+                        gPlusIntent.setAction(Intent.ACTION_VIEW);
+                        gPlusIntent.setData(Uri.parse("https://plus.google.com/communities/112347719824323216860"));
+                        getActivity().startActivity(gPlusIntent);
+                    })
+                    .setNegativeButton(R.string.beta_prompt_negative, (dialog, which) -> {
+
+                    })
+                    .create()
+                    .show();
+            getViewModel().setReturningUser(true);
+        }
+    }
+
+    private void setupRecyclerView() {
+        StoryListAdapter.StoryListAdapterListener listener = new StoryListAdapter.StoryListAdapterListener() {
+            @Override
+            public void onStoryClick(int position) {
+                getViewModel().markStoryAsRead(mRecyclerAdapter.getItem(position))
+                              .subscribeOn(Schedulers.io())
+                              .observeOn(AndroidSchedulers.mainThread())
+                              .subscribe(new Subscriber<Story>() {
+                                  @Override
+                                  public void onCompleted() {
+                                      mListener.onStoryListFragmentInteraction(mRecyclerAdapter.getItemId(position),
+                                                                               getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED);
+                                  }
+
+                                  @Override
+                                  public void onError(Throwable e) {
+
+                                  }
+
+                                  @Override
+                                  public void onNext(Story story) {
+                                      mRecyclerAdapter.markStoryAsRead(position, story);
+                                  }
+                              });
+            }
+
+            @Override
+            public void onStorySave(int position, boolean save) {
+                if (save) {
+                    //noinspection unchecked
+                    getViewModel().saveStory(mRecyclerAdapter.getItem(position))
+                                  .subscribeOn(Schedulers.io())
+                                  .observeOn(AndroidSchedulers.mainThread())
+                                  .subscribe((Action1) o -> UIUtils.showToast(getActivity(), "Saved!"));
+                }
+                else {
+                    getViewModel().deleteStory(mRecyclerAdapter.getItem(position))
+                                  .subscribeOn(Schedulers.io())
+                                  .observeOn(AndroidSchedulers.mainThread())
+                                  .subscribe(new Subscriber<Object>() {
+                                      @Override
+                                      public void onCompleted() {
+                                          if (getViewModel().getFeedType() == StoryListViewModel.FEED_TYPE_SAVED) {
+                                              mRecyclerAdapter.removeItem(position);
+                                          }
+                                      }
+
+                                      @Override
+                                      public void onError(Throwable e) {
+
+                                      }
+
+                                      @Override
+                                      public void onNext(Object o) {
+
+                                      }
+                                  });
+                }
+
+                mRecyclerAdapter.notifyItemChanged(position);
+            }
+        };
+        mRecyclerAdapter = new StoryListAdapter(getActivity(),
+                                                new ArrayList<>(),
+                                                listener,
+                                                getViewModel().isNightMode());
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
+    }
+
+    private void setupSwipeToRefresh() {
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
                                                  getResources().getColor(R.color.colorPrimaryDark));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
@@ -293,12 +313,6 @@ public class StoryListFragment extends BaseViewModelFragment<StoryListViewModel>
                 refresh();
             }
         });
-
-        if (savedInstanceState != null) {
-            mLayoutManager.scrollToPosition(savedInstanceState.getInt(TOP_OF_LIST));
-        }
-
-        return view;
     }
 
     @Override

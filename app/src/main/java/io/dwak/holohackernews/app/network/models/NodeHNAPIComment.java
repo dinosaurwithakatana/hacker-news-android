@@ -5,12 +5,12 @@ import com.bluelinelabs.logansquare.annotation.JsonObject;
 
 import java.util.List;
 
-@JsonObject
+@JsonObject(fieldNamingPolicy = JsonObject.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 public class NodeHNAPIComment {
-    @JsonField(name = "id") public Long id;
-    @JsonField(name = "level") public int level;
-    @JsonField(name = "user") public String user;
-    @JsonField(name = "time_ago") public String timeAgo;
-    @JsonField(name = "content") public String content;
-    @JsonField(name = "comments") public List<NodeHNAPIComment> comments;
+    @JsonField public Long id;
+    @JsonField public int level;
+    @JsonField public String user;
+    @JsonField public String timeAgo;
+    @JsonField public String content;
+    @JsonField public List<NodeHNAPIComment> comments;
 }
