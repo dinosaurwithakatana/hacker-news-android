@@ -48,7 +48,6 @@ import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.util.UIUtils;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import rx.Subscriber;
-import rx.android.observables.AndroidObservable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -98,7 +97,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
     private void refresh() {
         showProgress(true);
-        mSubscription = AndroidObservable.bindFragment(this, getViewModel().getStoryDetailObservable())
+        mSubscription = getViewModel().getStoryDetailObservable()
                                          .subscribeOn(Schedulers.io())
                                          .observeOn(AndroidSchedulers.mainThread())
                                          .subscribe(new Subscriber<StoryDetail>() {

@@ -33,5 +33,7 @@ ext {
     daggerVersion = '2.0.1'
     loganSquareVersion = '1.1.0'
     robotoTextViewVersion = '2.4.0'
+    rxBindingVersion = '0.2.0'
+    rxLifecycleVersion = '0.2.0'
 }
 

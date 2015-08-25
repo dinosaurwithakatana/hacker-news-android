@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends RxAppCompatActivity{
     Toolbar mToolbar;
 
     @Override

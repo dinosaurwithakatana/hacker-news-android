@@ -56,7 +56,6 @@ android {
 }
 
 dependencies {
-    compile project(':rxeventslib')
     compile "com.android.support:support-v4:$rootProject.ext.supportVersion"
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
@@ -65,7 +64,12 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.loopeer.android.thirdparty:swipe-back-layout:1.0'
-    compile 'com.netflix.rxjava:rxjava-android:0.20.7'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile "com.jakewharton.rxbinding:rxbinding:$rootProject.ext.rxBindingVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-support-v4:$rootProject.ext.rxBindingVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-design:$rootProject.ext.rxBindingVersion"
+    compile "com.trello:rxlifecycle:$rootProject.ext.rxLifecycleVersion"
+    compile "com.trello:rxlifecycle-components:$rootProject.ext.rxLifecycleVersion"
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'

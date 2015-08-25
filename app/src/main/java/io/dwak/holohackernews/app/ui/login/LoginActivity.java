@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.dd.CircularProgressButton;
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 
 import javax.inject.Inject;
 
@@ -21,7 +23,6 @@ import io.dwak.holohackernews.app.models.User;
 import io.dwak.holohackernews.app.util.UIUtils;
 import rx.Observable;
 import rx.Subscriber;
-import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -47,10 +48,10 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
         ButterKnife.inject(this);
 
         // Creates Observables from the EditTexts and enables the login button if they aren't empty
-        final Observable<Boolean> userNameObservable = ViewObservable.text(mUsername, true)
-                                                                     .map(editText -> !TextUtils.isEmpty(editText.getText()));
-        final Observable<Boolean> passwordObservable = ViewObservable.text(mPassword, true)
-                                                                     .map(editText -> !TextUtils.isEmpty(editText.getText()));
+        final Observable<Boolean> userNameObservable = RxTextView.textChanges(mUsername)
+                                                                     .map(charSequence -> !TextUtils.isEmpty(charSequence));
+        final Observable<Boolean> passwordObservable = RxTextView.textChanges(mPassword)
+                                                                     .map(charSequence-> !TextUtils.isEmpty(charSequence));
         Observable.combineLatest(userNameObservable, passwordObservable,
                                  (usernameFilled, passwordFilled) -> usernameFilled && passwordFilled)
                   .subscribe(fieldsFilled -> {
@@ -58,7 +59,7 @@ public class LoginActivity extends BaseViewModelActivity<LoginViewModel> {
                       mLoginButton.setEnabled(fieldsFilled);
                   });
 
-        ViewObservable.clicks(mLoginButton, false)
+        RxView.clicks(mLoginButton)
                       .subscribe(button -> {
                           mLoginButton.setIndeterminateProgressMode(true);
                           mLoginButton.setProgress(50);

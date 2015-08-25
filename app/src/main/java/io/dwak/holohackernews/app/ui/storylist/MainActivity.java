@@ -2,11 +2,14 @@ package io.dwak.holohackernews.app.ui.storylist;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,7 +39,6 @@ import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment;
-import rx.android.observables.AndroidObservable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -183,8 +185,12 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
             }
         }
 
-        AndroidObservable.fromLocalBroadcast(this, new IntentFilter(LoginActivity.LOGIN_SUCCESS))
-                         .subscribe(intent -> refreshNavigationDrawer(true));
+        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                refreshNavigationDrawer(true);
+            }
+        }, new IntentFilter(LoginActivity.LOGIN_SUCCESS));
     }
 
     private void refreshNavigationDrawer(boolean loggedIn) {

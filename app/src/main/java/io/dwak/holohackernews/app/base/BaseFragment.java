@@ -4,14 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.os.Build;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import io.dwak.holohackernews.app.R;
 import rx.Subscription;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends RxFragment{
     protected View mContainer;
     protected ProgressBar mProgressBar;
     protected Subscription mSubscription;
