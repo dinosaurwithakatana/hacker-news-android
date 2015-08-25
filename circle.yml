@@ -3,7 +3,6 @@ machine:
       version: oraclejdk8
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
-    GRADLE_OPTS: -Xmx512m
 
 dependencies:
   pre:
