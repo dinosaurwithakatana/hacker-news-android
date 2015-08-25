@@ -1,0 +1,13 @@
+machine:
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    GRADLE_OPTS: -Xmx512m
+
+dependencies:
+  pre:
+    - cp keystore.properties.example keystore.properties
+    - cp local.properties.example local.properties
+    - cp bugsnag.properties.example bugsnag.properties
+  post:
+      override:
+          - ./gradlew assembleDebug
