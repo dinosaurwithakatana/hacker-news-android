@@ -29,8 +29,6 @@ android {
         debug {
             applicationIdSuffix '.dev'
             versionNameSuffix '-dev'
-            def Properties localProps = new Properties()
-            localProps.load(new FileInputStream(file('../local.properties')))
             manifestPlaceholders = [bugsnagApiKey: "", ormLog: false]
         }
         release {
