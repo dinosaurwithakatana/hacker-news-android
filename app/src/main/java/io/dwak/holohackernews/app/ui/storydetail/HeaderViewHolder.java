@@ -60,7 +60,8 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
                                                                                            : android.R.color.black));
                 }
             }
-            headerViewHolder.mStoryPoints.setText(String.valueOf(storyDetail.getPoints()));
+            headerViewHolder.mStoryPoints.setText(storyDetail.getPoints() != null ? String.valueOf(storyDetail.getPoints())
+                                                                                  : "");
             headerViewHolder.mStoryLongAgo.setText(" | " + storyDetail.getTimeAgo());
             headerViewHolder.mCommentsCount.setText(storyDetail.getCommentsCount() + " comments");
         }

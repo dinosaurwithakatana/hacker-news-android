@@ -73,7 +73,7 @@ public class StoryDetail extends SugarRecord<StoryDetail>{
         return mDomain;
     }
 
-    public int getPoints() {
+    public Integer getPoints() {
         return mPoints;
     }
 
