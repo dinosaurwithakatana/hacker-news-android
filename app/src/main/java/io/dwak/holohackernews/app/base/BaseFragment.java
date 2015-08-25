@@ -17,6 +17,10 @@ public abstract class BaseFragment extends Fragment {
     protected Subscription mSubscription;
 
     protected void showProgress(boolean showProgress){
+        if(getActivity() == null){
+            return;
+        }
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ObjectAnimator fadeIn = (ObjectAnimator) AnimatorInflater.loadAnimator(getActivity(), R.animator.fadein);
             ObjectAnimator fadeOut = (ObjectAnimator) AnimatorInflater.loadAnimator(getActivity(), R.animator.fadeout);
