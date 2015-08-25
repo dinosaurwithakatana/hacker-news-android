@@ -21,6 +21,7 @@ import java.util.List;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseViewModel;
 import io.dwak.holohackernews.app.models.User;
+import io.dwak.holohackernews.app.preferences.LocalDataManager;
 import rx.Observable;
 
 public class MainViewModel extends BaseViewModel {
@@ -128,9 +129,17 @@ public class MainViewModel extends BaseViewModel {
     public Observable<Object> logout() {
         return Observable.create(subscriber -> {
             User.deleteAll(User.class);
-            if(!subscriber.isUnsubscribed()){
+            if (!subscriber.isUnsubscribed()) {
                 subscriber.onCompleted();
             }
         });
+    }
+
+    public boolean shouldShowRateSnackbar(){
+        boolean shouldShow = LocalDataManager.getInstance().getOpenCount() == 10;
+
+        LocalDataManager.getInstance().addOpenCount();
+
+        return shouldShow;
     }
 }

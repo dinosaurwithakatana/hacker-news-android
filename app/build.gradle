@@ -102,10 +102,6 @@ android.applicationVariants.all { variant ->
                     println("delete " + file.getName() + " font")
                     file.delete()
                 };
-                if (file.getName().contains("Roboto-Black")) {
-                    println("delete " + file.getName() + " font")
-                    file.delete()
-                };
                 if (file.getName().contains("RobotoCondensed")) {
                     println("delete " + file.getName() + " font")
                     file.delete()

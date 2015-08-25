@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -39,6 +40,7 @@ import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment;
+import io.dwak.holohackernews.app.util.UIUtils;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -191,6 +193,19 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
                 refreshNavigationDrawer(true);
             }
         }, new IntentFilter(LoginActivity.LOGIN_SUCCESS));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(getViewModel().shouldShowRateSnackbar()){
+            Snackbar.make(getWindow().getDecorView(), "Like the app?", Snackbar.LENGTH_LONG)
+                    .setAction("RATE", view -> {
+                        UIUtils.openInBrowser(MainActivity.this, "https://play.google.com/store/apps/details?id=io.dwak.holohackernews.app");
+                    })
+                    .show();
+
+        }
     }
 
     private void refreshNavigationDrawer(boolean loggedIn) {

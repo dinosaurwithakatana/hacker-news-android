@@ -12,6 +12,7 @@ import io.dwak.holohackernews.app.dagger.component.DaggerSharedPreferencesCompon
 
 public class LocalDataManager {
     public static final String PREF_RETURNING_USER = "PREF_RETURNING_USER";
+    public static final String OPEN_COUNT = "OPEN_COUNT";
     private static LocalDataManager sInstance;
     @Inject SharedPreferences mPreferences;
 
@@ -45,6 +46,24 @@ public class LocalDataManager {
         set(PREF_RETURNING_USER, isFirstRun);
     }
 
+    public int getOpenCount(){
+        return getInt(OPEN_COUNT);
+    }
+
+    public void addOpenCount(){
+        int openCount = getOpenCount();
+        set(OPEN_COUNT, ++openCount);
+    }
+
+    private void set(String key, int i) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(key, i);
+        editor.apply();
+    }
+
+    private int getInt(String key){
+        return mPreferences.getInt(key, 0);
+    }
     private boolean getBoolean(String key) {
         return mPreferences.getBoolean(key, false);
     }
