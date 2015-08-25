@@ -67,11 +67,10 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
         else {
             headerViewHolder.mContent.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(storyDetail.getContent())) {
-                Spanned jobContent = Html.fromHtml(storyDetail.getContent());
+                headerViewHolder.mContent.setText(Html.fromHtml(storyDetail.getContent()));
             }
             headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
             headerViewHolder.mContent.setTextColor(context.getResources().getColor(android.R.color.black));
-            headerViewHolder.mContent.setText(jobContent);
             headerViewHolder.mStoryDomain.setVisibility(View.GONE);
             headerViewHolder.mCommentsCount.setVisibility(View.GONE);
             headerViewHolder.mStoryPoints.setVisibility(View.GONE);
