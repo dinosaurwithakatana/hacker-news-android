@@ -49,6 +49,11 @@ android {
     lintOptions{
         abortOnError false
     }
+
+    dexOptions{
+        preDex = !'true'.equals(System.getenv('CI'))
+
+    }
 }
 
 dependencies {
