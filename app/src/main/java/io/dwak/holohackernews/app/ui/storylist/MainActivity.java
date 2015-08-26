@@ -199,7 +199,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
     protected void onResume() {
         super.onResume();
         if(getViewModel().shouldShowRateSnackbar()){
-            Snackbar.make(getWindow().getDecorView(), "Like the app?", Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(android.R.id.content), "Like the app?", Snackbar.LENGTH_LONG)
                     .setAction("RATE", view -> {
                         UIUtils.openInBrowser(MainActivity.this, "https://play.google.com/store/apps/details?id=io.dwak.holohackernews.app");
                     })

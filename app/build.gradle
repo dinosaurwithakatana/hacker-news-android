@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 144
+        versionCode 145
         versionName '5.0-BETA'
     }
     signingConfigs {
