@@ -15,11 +15,4 @@ public class UIUtils {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static void openInBrowser(Context context, String uri){
-        Intent browserIntent = new Intent();
-        browserIntent.setAction(Intent.ACTION_VIEW);
-        browserIntent.setData(Uri.parse(uri));
-        context.startActivity(browserIntent);
-    }
-
 }

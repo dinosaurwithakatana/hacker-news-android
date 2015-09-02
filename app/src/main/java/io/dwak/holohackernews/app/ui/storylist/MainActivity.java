@@ -40,7 +40,7 @@ import io.dwak.holohackernews.app.ui.login.LoginActivity;
 import io.dwak.holohackernews.app.ui.settings.SettingsActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailActivity;
 import io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment;
-import io.dwak.holohackernews.app.util.UIUtils;
+import io.dwak.holohackernews.app.util.IntentUtils;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -201,7 +201,7 @@ public class MainActivity extends BaseViewModelActivity<MainViewModel>
         if(getViewModel().shouldShowRateSnackbar()){
             Snackbar.make(findViewById(android.R.id.content), "Like the app?", Snackbar.LENGTH_LONG)
                     .setAction("RATE", view -> {
-                        UIUtils.openInBrowser(MainActivity.this, "https://play.google.com/store/apps/details?id=io.dwak.holohackernews.app");
+                        IntentUtils.openInBrowser(MainActivity.this, "https://play.google.com/store/apps/details?id=io.dwak.holohackernews.app");
                     })
                     .show();
 
