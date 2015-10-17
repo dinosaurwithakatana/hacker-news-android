@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="pref_link_first"
+        android:title="@string/pref_link_first_title"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="pref_system_browser"
+        android:title="@string/pref_system_browser_title"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="pref_night_mode"
+        android:title="@string/pref_night_mode_title"
+        android:defaultValue="false" />
+
+    <ListPreference
+        android:key="pref_text_size"
+        android:title="@string/pref_comment_text_size"
+        android:entries="@array/textSizeEntries"
+        android:entryValues="@array/textSizeValues"
+        android:defaultValue="@string/pref_text_size_small"/>
+
+</PreferenceScreen>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    style="?commentListItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:padding="8dp"
+    tools:showIn="@layout/fragment_about">
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?textColor"
+        android:textSize="18sp"
+        app:typeface="roboto_medium"/>
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/license"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginTop="4dp"
+        android:textColor="?textColor"
+        android:textSize="14sp"
+        app:typeface="roboto_light"/>
+
+</RelativeLayout>

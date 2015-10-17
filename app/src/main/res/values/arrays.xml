@@ -10,4 +10,15 @@
         <item>@string/pref_text_size_medium</item>
         <item>@string/pref_text_size_large</item>
     </string-array>
+    <string-array name="authCommentActions">
+        <item>Share Comment</item>
+        <item>Share Comment Content</item>
+        <item>Reply</item>
+        <item>Upvote</item>
+    </string-array>
+
+    <string-array name="unAuthCommentActions">
+        <item>Share Comment</item>
+        <item>Share Comment Content</item>
+    </string-array>
 </resources>

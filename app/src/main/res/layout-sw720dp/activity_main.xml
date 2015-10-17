@@ -1,66 +1,51 @@
-<android.support.v4.widget.DrawerLayout
+<io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout
+    android:id="@+id/main_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
     android:background="?containerBackground"
-    tools:context="io.dwak.holohackernews.app.ui.storylist.MainActivity">
-    <!-- Main layout -->
-    <io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout
-        android:id="@+id/main_content"
-        android:animateLayoutChanges="true"
+    android:clipChildren="false"
+    android:fitsSystemWindows="true"
+    app:shadowDrawable="@drawable/header_shadow">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="false"
-        app:shadowDrawable="@drawable/header_shadow">
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:animateLayoutChanges="true"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_gravity="center"
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".35"
+            android:visibility="visible"
+            android:animateLayoutChanges="true"
+            tools:background="@android:color/background_dark"/>
+
+        <FrameLayout
+            android:id="@+id/details_container"
+            android:layout_width="0dp"
+            android:animateLayoutChanges="true"
+            android:layout_height="match_parent"
+            android:layout_weight=".65"
             android:visibility="gone"/>
 
-        <LinearLayout
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:animateLayoutChanges="true"
-            android:layoutAnimation="@anim/detail_pane_animation"
-            android:layout_marginTop="@dimen/toolbar_height"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_weight=".35"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                tools:background="@android:color/background_dark"/>
+    </LinearLayout>
 
-            <FrameLayout
-                android:id="@+id/details_container"
-                android:layout_weight=".65"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
-
-            </LinearLayout>
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
-    </io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout>
-
-    <fragment
-        android:id="@+id/navigation_drawer"
-        android:name="io.dwak.holohackernews.app.ui.storylist.NavigationDrawerFragment"
-        android:layout_width="@dimen/navigation_drawer_width"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        tools:layout="@layout/fragment_navigation_drawer"/>
-
-
-</android.support.v4.widget.DrawerLayout>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+</io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout>

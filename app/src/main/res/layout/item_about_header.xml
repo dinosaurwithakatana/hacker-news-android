@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:padding="8dp"
+    style="?commentListItem"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/fragment_about">
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        app:typeface="roboto_black"
+        android:textColor="?textColor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        app:typeface="roboto_light"
+        android:textColor="?textColor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/dwak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:src="@drawable/dwakthreetone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:text="@string/website"
+        android:textColor="?textColor"
+        android:autoLink="web"
+        app:typeface="roboto_light"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

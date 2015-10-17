@@ -1,0 +1,12 @@
+machine:
+  java:
+      version: oraclejdk8
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    GRADLE_OPTS: -Xmx256m
+
+dependencies:
+  pre:
+    - cp keystore.properties.example keystore.properties
+    - cp local.properties.example local.properties
+    - cp bugsnag.properties.example bugsnag.properties

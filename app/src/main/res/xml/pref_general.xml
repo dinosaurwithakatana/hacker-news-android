@@ -15,6 +15,11 @@
         android:title="@string/pref_night_mode_title"
         android:defaultValue="false" />
 
+    <CheckBoxPreference
+        android:key="pref_swipe_back"
+        android:title="@string/pref_swipe_back_title"
+        android:defaultValue="true" />
+
     <ListPreference
         android:key="pref_text_size"
         android:title="@string/pref_comment_text_size"

@@ -51,7 +51,6 @@
                 tools:ignore="RtlHardcoded"/>
 
             <ImageView
-                android:visibility="invisible"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="right|center_vertical"

@@ -1,71 +1,48 @@
 package io.dwak.holohackernews.app.network.models;
 
-import com.google.gson.annotations.SerializedName;
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 
-/**
- * Data model for a hackernews story
- * Created by vishnu on 4/21/14.
- */
+import io.dwak.holohackernews.app.models.Story;
+
+@JsonObject
 public class NodeHNAPIStory {
-    @SerializedName("id") private Long mStoryId;
-    @SerializedName("title") private String mTitle;
-    @SerializedName("url") private String mUrl;
-    @SerializedName("domain") private String mDomain;
-    @SerializedName("points") private int mPoints;
-    @SerializedName("user") private String mSubmitter;
-    @SerializedName("time_ago") private String mPublishedTime;
-    @SerializedName("comments_count") private int mNumComments;
-    @SerializedName("type") private String mType;
+    @JsonField(name = "id") public Long id;
+    @JsonField(name = "title") public String title;
+    @JsonField(name = "url") public String url;
+    @JsonField(name = "domain") public String domain;
+    @JsonField(name = "points") public int points;
+    @JsonField(name = "user") public String user;
+    @JsonField(name = "time_ago") public String timeAgo;
+    @JsonField(name = "comments_count") public int commentsCount;
+    @JsonField(name = "type") public String type;
 
-    public Long getStoryId() {
-        return mStoryId;
+    public NodeHNAPIStory() {
     }
 
-    public String getTitle() {
-        return mTitle;
+    private NodeHNAPIStory(Long id, String title, String url, String domain, int points, String user, String timeAgo, int commentsCount, String type) {
+        this.id = id;
+        this.title = title;
+        this.url = url;
+        this.domain = domain;
+        this.points = points;
+        this.user = user;
+        this.timeAgo = timeAgo;
+        this.commentsCount = commentsCount;
+        this.type = type;
     }
 
-    public String getUrl() {
-        return mUrl;
-    }
 
-    public String getDomain() {
-        return mDomain;
-    }
-
-    public int getPoints() {
-        return mPoints;
-    }
-
-    public String getSubmitter() {
-        return mSubmitter;
-    }
-
-    public String getPublishedTime() {
-        return mPublishedTime;
-    }
-
-    public int getNumComments() {
-        return mNumComments;
-    }
-
-    public String getType() {
-        return mType;
-    }
-
-    @Override
-    public String toString() {
-        return "Story{" +
-                "mStoryId='" + mStoryId + '\'' +
-                ", mTitle='" + mTitle + '\'' +
-                ", mUrl='" + mUrl + '\'' +
-                ", mDomain='" + mDomain + '\'' +
-                ", mPoints=" + mPoints +
-                ", mSubmitter='" + mSubmitter + '\'' +
-                ", mPublishedTime='" + mPublishedTime + '\'' +
-                ", mNumComments=" + mNumComments +
-                ", mType='" + mType + '\'' +
-                '}';
+    public static NodeHNAPIStory fromStory(Story story) {
+        return new NodeHNAPIStory(story.getStoryId(),
+                                  story.getTitle(),
+                                  story.getUrl(),
+                                  story.getDomain(),
+                                  story.getPoints(),
+                                  story.getSubmitter(),
+                                  story.getPublishedTime(),
+                                  story.getNumComments(),
+                                  story.getType());
     }
 }
 

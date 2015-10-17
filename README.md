@@ -14,12 +14,6 @@ Copy each of the `*.properties.example` to their respective properties files and
 
 Import into Android studio, should work out of the box.
 
-Roadmap
--------
-
-*  Offline Caching [#13](https://github.com/dinosaurwithakatana/holo_hacker_news/issues/13)
-
-
 
 Chat
 --
