@@ -92,7 +92,6 @@ dependencies {
     compile 'com.bugsnag:bugsnag-android:3.2.6'
 }
 
-
 android.applicationVariants.all { variant ->
     variant.mergeAssets.doFirst {
         File fonts = file("${buildDir}/intermediates/exploded-aar/com.github.johnkil.android-robototextview/robototextview/${rootProject.ext.robotoTextViewVersion}/assets/fonts")

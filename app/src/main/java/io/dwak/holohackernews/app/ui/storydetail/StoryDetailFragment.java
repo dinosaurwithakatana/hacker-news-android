@@ -48,6 +48,7 @@ import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.util.ToastUtils;
 import io.dwak.holohackernews.app.util.UIUtils;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
+import retrofit.http.HEAD;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -188,8 +189,8 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             mOldPanelState = (SlidingUpPanelLayout.PanelState) savedInstanceState.getSerializable(LINK_DRAWER_OPEN);
         }
         ButterKnife.inject(this, rootView);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mContainer = rootView.findViewById(R.id.container);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mFloatingActionButton.setOnClickListener(view -> readability());
         mSavedBanner.setVisibility(getViewModel().isSaved() ? View.VISIBLE : View.GONE);
         setupWebViewDrawer();
@@ -346,6 +347,9 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public void onDestroy() {
         if (mSubscription != null) mSubscription.unsubscribe();
+        if(mWebView != null) {
+            mWebView.destroy();
+        }
         super.onDestroy();
     }
 
@@ -529,7 +533,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             }
         }
 
-
         mWebProgressBar.setVisibility(View.VISIBLE);
         mWebProgressBar.setMax(100);
 
@@ -559,7 +562,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                     }
                     mWebProgressBar.setProgress(newProgress);
                 }
-
             }
         });
 
