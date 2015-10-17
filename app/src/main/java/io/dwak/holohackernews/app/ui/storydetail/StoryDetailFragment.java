@@ -393,9 +393,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                                     }
                                     break;
                                 case 1:
-                                    if(getViewModel().getStoryId() != null) {
-                                        browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
-                                    }
+                                    browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
                                     break;
                             }
                             if(browserIntent.getData() != null) {
