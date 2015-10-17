@@ -1,32 +1,33 @@
 package io.dwak.holohackernews.app.models;
 
-/**
- * Created by vishnu on 5/3/14.
- */
-public class Comment {
-    private Long mId;
+import com.orm.SugarRecord;
+
+public class Comment extends SugarRecord<Comment>{
+    private Long mCommentId;
     private int mLevel;
     private boolean mOriginalPoster;
     private String mUser;
     private String mTimeAgo;
     private String mContent;
+    private StoryDetail mStoryDetail;
 
     private boolean mHidden;
 
     public Comment() {
     }
 
-    public Comment(Long id, int level, boolean originalPoster, String user, String timeAgo, String content) {
-        mId = id;
+    public Comment(Long commentId, int level, boolean originalPoster, String user, String timeAgo, String content, StoryDetail storyDetail) {
+        mCommentId = commentId;
         mLevel = level;
         mOriginalPoster = originalPoster;
         mUser = user;
         mTimeAgo = timeAgo;
         mContent = content;
+        mStoryDetail = storyDetail;
     }
 
-    public long getId() {
-        return mId;
+    public long getCommentId() {
+        return mCommentId;
     }
 
     public int getLevel() {
@@ -45,8 +46,8 @@ public class Comment {
         return mContent;
     }
 
-    public void setId(Long id) {
-        mId = id;
+    public void setCommentId(Long commentId) {
+        mCommentId  = commentId;
     }
 
     public void setLevel(int level) {
@@ -63,17 +64,6 @@ public class Comment {
 
     public void setContent(String content) {
         mContent = content;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "mId=" + mId +
-                ", mLevel=" + mLevel +
-                ", mUser='" + mUser + '\'' +
-                ", mTimeAgo='" + mTimeAgo + '\'' +
-                ", mContent='" + mContent + '\'' +
-                '}';
     }
 
     public boolean isOriginalPoster() {

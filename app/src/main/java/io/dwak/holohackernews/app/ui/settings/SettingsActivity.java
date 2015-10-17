@@ -39,7 +39,7 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(UserPreferenceManager.isNightModeEnabled(this) ? R.style.AppTheme_Settings_Night : R.style.AppTheme_Settings);
+        setTheme(UserPreferenceManager.getInstance().isNightModeEnabled() ? R.style.AppTheme_Settings_Night : R.style.AppTheme_Settings);
         setContentView(R.layout.activity_settings);
 
         Toolbar toolbar = getToolbar();
@@ -64,13 +64,13 @@ public class SettingsActivity extends BaseActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setupSimplePreferencesScreen();
-            UserPreferenceManager.registerOnSharedPreferenceChangeListener(getActivity(), this);
+            UserPreferenceManager.getInstance().registerOnSharedPreferenceChangeListener(this);
         }
 
         @Override
         public void onDestroy() {
             super.onDestroy();
-            UserPreferenceManager.unregisterOnSharedPreferenceChangeListener(getActivity(), this);
+            UserPreferenceManager.getInstance().unregisterOnSharedPreferenceChangeListener(this);
         }
 
         private void setupSimplePreferencesScreen() {

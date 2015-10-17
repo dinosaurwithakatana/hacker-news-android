@@ -5,22 +5,23 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-/**
- * Created by vishnu on 10/24/14.
- */
+import javax.inject.Inject;
+
+import io.dwak.holohackernews.app.HackerNewsApplication;
+import io.dwak.holohackernews.app.dagger.component.DaggerSharedPreferencesComponent;
+
 public class LocalDataManager {
-    public static final String LOCAL_PREFS_NAME = "local_prefs";
     public static final String PREF_RETURNING_USER = "PREF_RETURNING_USER";
-    public static final String PREF_USER_LOGIN_COOKIE = "PREF_USER_LOGIN_COOKIE";
-    private static final String PREF_USERNAME = "PREF_USERNAME";
+    public static final String OPEN_COUNT = "OPEN_COUNT";
     private static LocalDataManager sInstance;
-    private final SharedPreferences mPreferences;
-    private Context mContext;
-    private String mUserName;
+    @Inject SharedPreferences mPreferences;
 
     private LocalDataManager(@NonNull Context context) {
-        mContext = context;
-        mPreferences = mContext.getSharedPreferences(LOCAL_PREFS_NAME, 0);
+        DaggerSharedPreferencesComponent.builder()
+                                        .appComponent(HackerNewsApplication.getAppComponent())
+                                        .appModule(HackerNewsApplication.getAppModule())
+                                        .build()
+                                        .inject(this);
         mPreferences.edit().commit();
     }
 
@@ -45,6 +46,24 @@ public class LocalDataManager {
         set(PREF_RETURNING_USER, isFirstRun);
     }
 
+    public int getOpenCount(){
+        return getInt(OPEN_COUNT);
+    }
+
+    public void addOpenCount(){
+        int openCount = getOpenCount();
+        set(OPEN_COUNT, ++openCount);
+    }
+
+    private void set(String key, int i) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(key, i);
+        editor.apply();
+    }
+
+    private int getInt(String key){
+        return mPreferences.getInt(key, 0);
+    }
     private boolean getBoolean(String key) {
         return mPreferences.getBoolean(key, false);
     }
@@ -66,20 +85,7 @@ public class LocalDataManager {
         editor.apply();
     }
 
-    public void setUserLoginCookie(String userLoginCookie) {
-        set(PREF_USER_LOGIN_COOKIE, userLoginCookie);
-    }
-
-    @Nullable
-    public String getUserLoginCookie(){
-        return getString(PREF_USER_LOGIN_COOKIE);
-    }
-
-    public void setUserName(String userName) {
-        set(PREF_USERNAME, userName);
-    }
-
-    public String getUserName(){
-        return getString(PREF_USERNAME);
+    private void remove(@NonNull String key) {
+        mPreferences.edit().remove(key).apply();
     }
 }

@@ -7,7 +7,7 @@
     <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@android:color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="commentHeader">@style/CommentHeaderLight</item>
@@ -17,12 +17,34 @@
         <item name="commentOverFlowIcon">@drawable/comment_overflow</item>
         <item name="commentProfileIcon">@drawable/ic_person</item>
         <item name="linkDrawerButtonBackground">@drawable/orange_button</item>
+        <item name="saveIcon">@drawable/ic_archive_black</item>
+        <item name="deleteIcon">@drawable/ic_delete_black</item>
+        <item name="upvoteIcon">@drawable/ic_thumbs_up_black</item>
+        <item name="actionSaveIcon">@drawable/ic_action_archive_white</item>
+        <item name="actionDeleteIcon">@drawable/ic_action_delete_white</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="headerBackground">@drawable/account_header_bg</item>
+
+
+
+
+        <!-- MaterialDrawer specific values -->
+        <item name="material_drawer_background">@color/background</item>
+        <item name="material_drawer_icons">@color/material_drawer_icons</item>
+        <item name="material_drawer_primary_text">@android:color/black</item>
+        <item name="material_drawer_primary_icon">@color/material_drawer_primary_icon</item>
+        <item name="material_drawer_secondary_text">@color/material_drawer_secondary_text</item>
+        <item name="material_drawer_hint_text">@color/material_drawer_hint_text</item>
+        <item name="material_drawer_divider">@color/material_drawer_divider</item>
+        <item name="material_drawer_selected">@color/material_drawer_selected</item>
+        <item name="material_drawer_selected_text">@color/colorPrimary</item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
     </style>
 
     <style name="AppTheme.Base.Night" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryNight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
-        <item name="colorAccent">@android:color/white</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/backgroundNight</item>
         <item name="commentHeader">@style/CommentHeaderDark</item>
@@ -32,6 +54,25 @@
         <item name="commentOverFlowIcon">@drawable/comment_overflow_dark</item>
         <item name="commentProfileIcon">@drawable/ic_person_white</item>
         <item name="linkDrawerButtonBackground">@color/colorPrimaryNight</item>
+        <item name="saveIcon">@drawable/ic_archive_white</item>
+        <item name="deleteIcon">@drawable/ic_delete_white</item>
+        <item name="upvoteIcon">@drawable/ic_thumbs_up_white</item>
+        <item name="actionSaveIcon">@drawable/ic_action_archive_white</item>
+        <item name="actionDeleteIcon">@drawable/ic_action_delete_white</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="headerBackground">@drawable/account_header_bg_dark</item>
+
+        <!-- MaterialDrawer specific values -->
+        <item name="material_drawer_background">@color/backgroundNight</item>
+        <item name="material_drawer_icons">@color/material_drawer_icons</item>
+        <item name="material_drawer_primary_text">@android:color/white</item>
+        <item name="material_drawer_primary_icon">@color/material_drawer_primary_icon</item>
+        <item name="material_drawer_secondary_text">@android:color/white</item>
+        <item name="material_drawer_hint_text">@color/material_drawer_hint_text</item>
+        <item name="material_drawer_divider">@color/material_drawer_dark_divider</item>
+        <item name="material_drawer_selected">@color/material_drawer_dark_selected</item>
+        <item name="material_drawer_selected_text">@color/colorPrimaryDark</item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
     </style>
 
     <style name="AppTheme.Settings" parent="Theme.AppCompat.Light.NoActionBar">

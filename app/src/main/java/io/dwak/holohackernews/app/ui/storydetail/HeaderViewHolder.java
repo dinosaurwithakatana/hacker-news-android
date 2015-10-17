@@ -18,9 +18,6 @@ import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 
-/**
-* Created by vishnu on 2/2/15.
-*/
 class HeaderViewHolder extends RecyclerView.ViewHolder{
     @InjectView(R.id.story_title) TextView mStoryTitle;
     @InjectView(R.id.story_domain) TextView mStoryDomain;
@@ -29,11 +26,9 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
     @InjectView(R.id.story_long_ago) TextView mStoryLongAgo;
     @InjectView(R.id.comment_count) TextView mCommentsCount;
     @InjectView(R.id.job_content) TextView mContent;
-    View mHeaderView;
 
     private HeaderViewHolder(View headerView) {
         super(headerView);
-        mHeaderView = headerView;
         ButterKnife.inject(this, headerView);
     }
 
@@ -61,13 +56,15 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
             else {
                 headerViewHolder.mStoryDomain.setVisibility(View.GONE);
 
-                headerViewHolder.mContent.setVisibility(View.VISIBLE);
-                Spanned jobContent = Html.fromHtml(storyDetail.getContent());
-                headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
-                headerViewHolder.mContent.setText(jobContent);
-                headerViewHolder.mContent.setTextColor(context.getResources().getColor(UserPreferenceManager.isNightModeEnabled(context)
-                        ? android.R.color.white
-                        : android.R.color.black));
+                if(!TextUtils.isEmpty(storyDetail.getContent())) {
+                    headerViewHolder.mContent.setVisibility(View.VISIBLE);
+                    Spanned jobContent = Html.fromHtml(storyDetail.getContent());
+                    headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+                    headerViewHolder.mContent.setText(jobContent);
+                    headerViewHolder.mContent.setTextColor(context.getResources().getColor(UserPreferenceManager.getInstance().isNightModeEnabled()
+                                                                                           ? android.R.color.white
+                                                                                           : android.R.color.black));
+                }
             }
 
             if(storyDetail.getPoints() != null) {
@@ -83,10 +80,11 @@ class HeaderViewHolder extends RecyclerView.ViewHolder{
         }
         else {
             headerViewHolder.mContent.setVisibility(View.VISIBLE);
-            Spanned jobContent = Html.fromHtml(storyDetail.getContent());
+            if (!TextUtils.isEmpty(storyDetail.getContent())) {
+                headerViewHolder.mContent.setText(Html.fromHtml(storyDetail.getContent()));
+            }
             headerViewHolder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
             headerViewHolder.mContent.setTextColor(context.getResources().getColor(android.R.color.black));
-            headerViewHolder.mContent.setText(jobContent);
             headerViewHolder.mStoryDomain.setVisibility(View.GONE);
             headerViewHolder.mCommentsCount.setVisibility(View.GONE);
             headerViewHolder.mStoryPoints.setVisibility(View.GONE);

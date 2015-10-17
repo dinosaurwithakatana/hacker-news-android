@@ -18,5 +18,11 @@
         <attr name="drawerIconSettings" format="reference" />
         <attr name="drawerIconAbout" format="reference" />
         <attr name="linkDrawerButtonBackground" format="reference"/>
+        <attr name="saveIcon" format="reference"/>
+        <attr name="deleteIcon" format="reference"/>
+        <attr name="upvoteIcon" format="reference"/>
+        <attr name="actionSaveIcon" format="reference"/>
+        <attr name="actionDeleteIcon" format="reference"/>
+        <attr name="headerBackground" format="reference"/>
     </declare-styleable>
 </resources>

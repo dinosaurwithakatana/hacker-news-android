@@ -2,28 +2,27 @@ package io.dwak.holohackernews.app.base;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 
-/**
- * Created by vishnu on 11/2/14.
- */
-public class BaseActivity extends ActionBarActivity{
-    private Toolbar mToolbar;
+public class BaseActivity extends RxAppCompatActivity{
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            getWindow().setStatusBarColor(getResources().getColor(UserPreferenceManager.isNightModeEnabled(this)
+            getWindow().setStatusBarColor(getResources().getColor(UserPreferenceManager.getInstance().isNightModeEnabled()
                     ? R.color.colorPrimaryDarkNight
                     : R.color.colorPrimaryDark));
         }
 
-        setTheme(UserPreferenceManager.isNightModeEnabled(this)
+        setTheme(UserPreferenceManager.getInstance().isNightModeEnabled()
                 ? R.style.AppThemeNight
                 : R.style.AppTheme);
     }
@@ -41,12 +40,13 @@ public class BaseActivity extends ActionBarActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        if (getToolbar() != null)
-            if (UserPreferenceManager.isNightModeEnabled(this)) {
+        if (getToolbar() != null) {
+            if (UserPreferenceManager.getInstance().isNightModeEnabled()) {
                 getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkNight));
             }
             else {
                 getToolbar().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
+        }
     }
 }
