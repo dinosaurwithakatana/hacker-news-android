@@ -1,8 +1,12 @@
 package io.dwak.holohackernews.app.util;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
+
+import io.dwak.holohackernews.app.R;
 
 public final class IntentUtils {
     /**
@@ -15,7 +19,12 @@ public final class IntentUtils {
         Intent browserIntent = new Intent();
         browserIntent.setAction(Intent.ACTION_VIEW);
         browserIntent.setData(Uri.parse(uri));
-        context.startActivity(browserIntent);
+        try{
+            context.startActivity(browserIntent);
+        }
+        catch (ActivityNotFoundException  e){
+            Toast.makeText(context, R.string.browser_not_found_error_toast, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
