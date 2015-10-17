@@ -45,6 +45,7 @@ import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.util.HNLog;
+import io.dwak.holohackernews.app.util.ToastUtils;
 import io.dwak.holohackernews.app.util.UIUtils;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
 import rx.Subscriber;
@@ -387,13 +388,22 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                             browserIntent.setAction(Intent.ACTION_VIEW);
                             switch (i){
                                 case 0:
-                                    browserIntent.setData(Uri.parse(getViewModel().getStoryDetail().getUrl()));
+                                    if(getViewModel().getStoryDetail().getUrl() != null) {
+                                        browserIntent.setData(Uri.parse(getViewModel().getStoryDetail().getUrl()));
+                                    }
                                     break;
                                 case 1:
-                                    browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
+                                    if(getViewModel().getStoryId() != null) {
+                                        browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
+                                    }
                                     break;
                             }
-                            startActivity(browserIntent);
+                            if(browserIntent.getData() != null) {
+                                startActivity(browserIntent);
+                            }
+                            else {
+                                ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
+                            }
                         })
                         .create()
                         .show();
