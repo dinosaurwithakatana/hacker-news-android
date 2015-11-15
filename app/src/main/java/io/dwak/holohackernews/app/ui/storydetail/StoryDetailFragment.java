@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -404,7 +405,11 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                                     break;
                             }
                             if(browserIntent.getData() != null) {
-                                startActivity(browserIntent);
+                                try {
+                                    startActivity(browserIntent);
+                                } catch(ActivityNotFoundException e){
+                                    ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
+                                }
                             }
                             else {
                                 ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
