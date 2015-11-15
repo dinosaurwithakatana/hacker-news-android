@@ -593,11 +593,13 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
     @Override
     public void onScroll(int l, int t, int oldL, int oldT) {
-        if (t >= oldT) {
-            mFloatingActionButton.hide();
-        }
-        else {
-            mFloatingActionButton.show();
+        if(mFloatingActionButton != null) {
+            if (t >= oldT) {
+                mFloatingActionButton.hide();
+            }
+            else {
+                mFloatingActionButton.show();
+            }
         }
     }
 }
