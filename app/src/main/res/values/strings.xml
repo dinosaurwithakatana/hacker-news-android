@@ -112,4 +112,5 @@
     <string name="pref_swipe_back_title">Swipe back to list</string>
     <string name="browser_not_found_error_toast">Browser not found!</string>
     <string name="open_in_browser_error">Unable to open in browser!</string>
+    <string name="open_in_browser_failure_toast">Unable to open!</string>
 </resources>
