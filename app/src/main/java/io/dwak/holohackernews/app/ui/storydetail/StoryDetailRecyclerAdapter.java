@@ -47,10 +47,10 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         notifyItemInserted(mList.size());
     }
 
-    public void addComment(int position, @NonNull Comment comment, boolean notify) {
+    public void addComment(int position, @NonNull Comment comment) {
         StoryDetailRecyclerItem<Comment> item = new StoryDetailRecyclerItem<Comment>(comment, StoryDetailRecyclerItem.VIEW_TYPE_COMMENT);
         mList.add(position, item);
-        if(notify) notifyItemInserted(position);
+        notifyItemInserted(position);
     }
 
     public void clear() {
@@ -163,7 +163,7 @@ public class StoryDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         List<Comment> hiddenCommentsForParent = mHiddenComments.get(parentComment.getCommentId());
         int insertIndex = mList.indexOf(parentCommentItem) + 1;
         for (Comment comment : hiddenCommentsForParent) {
-            addComment(insertIndex, comment, false);
+            addComment(insertIndex, comment);
             insertIndex++;
         }
 
