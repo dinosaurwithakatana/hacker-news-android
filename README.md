@@ -19,4 +19,12 @@ Chat
 --
 [![Gitter chat](https://badges.gitter.im/dinosaurwithakatana/holo_hacker_news.png)](https://gitter.im/dinosaurwithakatana/holo_hacker_news)
 
+Donation
+--
 
+Donations are far from necessary, but if you want they're available below.
+
+* <a class="coinbase-button" data-code="50a2b842cc2fe69fa50699271c322f48" data-button-style="custom_large" href="https://www.coinbase.com/checkouts/50a2b842cc2fe69fa50699271c322f48">Donate Bitcoins</a><script src="https://www.coinbase.com/assets/button.js" type="text/javascript"></script>
+
+
+* [Square Cash](https://cash.me/$vishnurajeevan)
