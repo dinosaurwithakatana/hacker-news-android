@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.storydetail;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -48,7 +49,6 @@ import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.util.ToastUtils;
 import io.dwak.holohackernews.app.util.UIUtils;
 import io.dwak.holohackernews.app.widget.ObservableWebView;
-import retrofit.http.HEAD;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -356,7 +356,6 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-//        menu.clear();
         inflater.inflate(R.menu.menu_story_detail, menu);
     }
 
@@ -371,7 +370,12 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                             sendIntent.setAction(Intent.ACTION_SEND);
                             switch (i) {
                                 case 0:
-                                    sendIntent.putExtra(Intent.EXTRA_TEXT, getViewModel().getStoryDetail().getUrl());
+                                    if(getViewModel().getStoryDetail().getUrl() != null) {
+                                        sendIntent.setData(Uri.parse(getViewModel().getStoryDetail().getUrl()));
+                                    }
+                                    else {
+                                        ToastUtils.showToast(getActivity(), R.string.open_in_browser_failure_toast);
+                                    }
                                     break;
                                 case 1:
                                     sendIntent.putExtra(Intent.EXTRA_TEXT, HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId());
@@ -401,7 +405,11 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                                     break;
                             }
                             if(browserIntent.getData() != null) {
-                                startActivity(browserIntent);
+                                try {
+                                    startActivity(browserIntent);
+                                } catch(ActivityNotFoundException e){
+                                    ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
+                                }
                             }
                             else {
                                 ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
@@ -590,11 +598,13 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
     @Override
     public void onScroll(int l, int t, int oldL, int oldT) {
-        if (t >= oldT) {
-            mFloatingActionButton.hide();
-        }
-        else {
-            mFloatingActionButton.show();
+        if(mFloatingActionButton != null) {
+            if (t >= oldT) {
+                mFloatingActionButton.hide();
+            }
+            else {
+                mFloatingActionButton.show();
+            }
         }
     }
 }
