@@ -10,6 +10,7 @@ import butterknife.bindView
 import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.base.mvp.MvpFragment
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
+import io.dwak.holohackernews.app.dagger.component.DaggerServiceComponent
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
@@ -21,6 +22,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     override fun inject() {
         DaggerPresenterComponent.builder()
                 .presenterModule(PresenterModule(this))
+                .serviceComponent(DaggerServiceComponent.create())
                 .build()
                 .inject(this);
     }
