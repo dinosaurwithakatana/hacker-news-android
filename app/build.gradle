@@ -1,7 +1,6 @@
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'kotlin-android'
+apply plugin: 'org.kotlinslack.chopstick'
 
 android {
     compileSdkVersion 23
@@ -53,6 +52,14 @@ android {
     dexOptions{
         preDexLibraries = !'true'.equals(System.getenv('CI'))
     }
+
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/kotlin', 'build/generated/source/chopstick']
+            }
+        }
+    }
 }
 
 dependencies {
@@ -61,7 +68,8 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
     compile "com.android.support:support-annotations:$rootProject.ext.supportVersion"
     compile "com.android.support:design:$rootProject.ext.supportVersion"
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile "com.squareup.retrofit:retrofit:$rootProject.ext.retrofitVersion"
+    compile "com.squareup.retrofit:converter-moshi:$rootProject.ext.retrofitVersion"
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.loopeer.android.thirdparty:swipe-back-layout:1.0'
     compile 'io.reactivex:rxandroid:1.0.1'
@@ -84,12 +92,19 @@ dependencies {
     compile 'com.github.satyan:sugar:1.3.1'
     compile 'com.github.Groxx:AndroidSwipeLayout:c8a42d8'
     compile "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
-    apt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     compile 'com.sothree.slidinguppanel:library:3.0.0'
-    apt "com.bluelinelabs:logansquare-compiler:$rootProject.ext.loganSquareVersion"
+//    apt "com.bluelinelabs:logansquare-compiler:$rootProject.ext.loganSquareVersion"
     compile "com.bluelinelabs:logansquare:$rootProject.ext.loganSquareVersion"
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.bugsnag:bugsnag-android:3.2.6'
+    compile 'com.squareup.moshi:moshi:1.0.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+}
+
+chopsticks {
+    github 'JakeWharton/kotterknife:/src/main/kotlin/butterknife/ButterKnife.kt:0c63489'
 }
 
 android.applicationVariants.all { variant ->
