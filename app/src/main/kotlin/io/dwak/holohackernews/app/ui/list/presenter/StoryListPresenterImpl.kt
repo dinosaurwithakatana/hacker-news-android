@@ -21,7 +21,7 @@ class StoryListPresenterImpl(view : StoryListView, serviceComponent : ServiceCom
 
     private fun getStoryObservable() {
         var storyListObservable : Observable<List<StoryJson>>? = null
-        feed.let {
+        feed?.let {
             with(hackerNewsService){
                 when(it) {
                     Feed.TOP -> storyListObservable = getTopStories()
