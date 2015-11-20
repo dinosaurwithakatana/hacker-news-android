@@ -108,9 +108,9 @@ dependencies {
 }
 
 chopsticks {
-    destinationDir('app/src/main/kotlin/chopstick'){
-        github 'JakeWharton/kotterknife:/src/main/kotlin/butterknife/ButterKnife.kt:0c63489'
-    }
+//    destinationDir('app/src/main/kotlin/chopstick'){
+//        github 'JakeWharton/kotterknife:/src/main/kotlin/butterknife/ButterKnife.kt:0c63489'
+//    }
 }
 
 kapt {

@@ -1,7 +1,7 @@
 package io.dwak.holohackernews.app.ui.list.presenter
 
 import io.dwak.holohackernews.app.base.base.mvp.AbstractPresenter
-import io.dwak.holohackernews.app.dagger.component.ServiceComponent
+import io.dwak.holohackernews.app.dagger.component.NetworkComponent
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.view.StoryListView
@@ -9,15 +9,15 @@ import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class StoryListPresenterImpl(view : StoryListView, serviceComponent : ServiceComponent)
-: AbstractPresenter<StoryListView>(view, serviceComponent), StoryListPresenter {
+class StoryListPresenterImpl(view : StoryListView, networkComponent: NetworkComponent)
+: AbstractPresenter<StoryListView>(view, networkComponent), StoryListPresenter {
     override var feed : Feed? = null
         set(value) {
             field = value
             getStoryObservable()
         }
 
-    override fun inject() = serviceComponent.inject(this)
+    override fun inject() = networkComponent.inject(this)
 
     private fun getStoryObservable() {
         var storyListObservable : Observable<List<StoryJson>>? = null
@@ -37,7 +37,7 @@ class StoryListPresenterImpl(view : StoryListView, serviceComponent : ServiceCom
 
         storyListObservable
                 ?.observeOn(Schedulers.io())
-                ?.subscribeOn(AndroidSchedulers.mainThread())
+                ?.subscribeOn(networkComponent.getMainThreadScheduler())
                 ?.subscribe { view.displayStories(it) }
     }
 
@@ -48,7 +48,7 @@ class StoryListPresenterImpl(view : StoryListView, serviceComponent : ServiceCom
             if(it == Feed.TOP){
                 hackerNewsService.getTopStoriesPageTwo()
                         .observeOn(Schedulers.io())
-                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(networkComponent.getMainThreadScheduler())
                         .subscribe { view.displayStories(it) }
             }
         }

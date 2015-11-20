@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.base.mvp.MvpViewHolder
+import io.dwak.holohackernews.app.dagger.component.DaggerNetworkComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
-import io.dwak.holohackernews.app.dagger.component.DaggerServiceComponent
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenter
 
@@ -19,7 +19,7 @@ class StoryViewHolder(itemView : View) : MvpViewHolder<StoryItemPresenter>(itemV
     override fun inject() {
         DaggerPresenterComponent.builder()
                 .presenterModule(PresenterModule(this))
-                .serviceComponent(DaggerServiceComponent.create())
+                .networkComponent(DaggerNetworkComponent.create())
                 .build()
                 .inject(this)
     }
