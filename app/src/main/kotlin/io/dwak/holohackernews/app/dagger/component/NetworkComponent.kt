@@ -1,6 +1,7 @@
 package io.dwak.holohackernews.app.dagger.component
 
 import dagger.Component
+import io.dwak.holohackernews.app.dagger.interactor.RxSchedulerInteractor
 import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.NetworkModule
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenterImpl
@@ -14,5 +15,5 @@ interface NetworkComponent {
     fun inject(storyListPresenterImpl : StoryListPresenterImpl)
     fun inject(storyItemPresenterImpl : StoryItemPresenterImpl)
 
-    fun getMainThreadScheduler() : Scheduler
+    val rxSchedulerInteractor : RxSchedulerInteractor
 }

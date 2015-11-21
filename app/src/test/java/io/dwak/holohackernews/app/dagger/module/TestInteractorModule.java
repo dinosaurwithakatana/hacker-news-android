@@ -3,18 +3,14 @@ package io.dwak.holohackernews.app.dagger.module;
 import org.jetbrains.annotations.NotNull;
 
 import dagger.Module;
-import rx.Scheduler;
-import rx.schedulers.Schedulers;
+import io.dwak.holohackernews.app.dagger.interactor.RxSchedulerInteractor;
+import io.dwak.holohackernews.app.dagger.interactor.TestRxSchedulerImpl;
 
 @Module
 public class TestInteractorModule extends InteractorModule {
-    public TestInteractorModule() {
-        System.out.println("TestInteractor");
-    }
-
     @NotNull
     @Override
-    public Scheduler getMainThreadScheduler() {
-        return Schedulers.immediate();
+    public RxSchedulerInteractor getSchedulerInteractor() {
+        return new TestRxSchedulerImpl();
     }
 }

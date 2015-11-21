@@ -20,7 +20,7 @@ class StoryListPresenterImpl(view : StoryListView, networkComponent: NetworkComp
     override fun inject() = networkComponent.inject(this)
 
     private fun getStoryObservable() {
-        var storyListObservable : Observable<List<StoryJson>>? = null
+        var storyListObservable : Observable<MutableList<StoryJson>>? = null
         feed?.let {
             with(hackerNewsService){
                 when(it) {
@@ -37,7 +37,7 @@ class StoryListPresenterImpl(view : StoryListView, networkComponent: NetworkComp
 
         storyListObservable
                 ?.observeOn(Schedulers.io())
-                ?.subscribeOn(networkComponent.getMainThreadScheduler())
+                ?.subscribeOn(networkComponent.rxSchedulerInteractor.mainThreadScheduler)
                 ?.subscribe { view.displayStories(it) }
     }
 
@@ -48,7 +48,7 @@ class StoryListPresenterImpl(view : StoryListView, networkComponent: NetworkComp
             if(it == Feed.TOP){
                 hackerNewsService.getTopStoriesPageTwo()
                         .observeOn(Schedulers.io())
-                        .subscribeOn(networkComponent.getMainThreadScheduler())
+                        .subscribeOn(networkComponent.rxSchedulerInteractor.mainThreadScheduler)
                         .subscribe { view.displayStories(it) }
             }
         }

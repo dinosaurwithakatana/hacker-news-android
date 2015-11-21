@@ -1,5 +1,6 @@
 package io.dwak.holohackernews.app.dagger.module
 
+import com.squareup.okhttp.OkHttpClient
 import dagger.Module
 import dagger.Provides
 import io.dwak.holohackernews.app.network.HackerNewsService2
@@ -16,7 +17,9 @@ public open class NetworkModule {
     open val converterFactory = MoshiConverterFactory.create()
 
     @Provides @Named(value = "baseUrl") fun providesBaseUrl() = baseUrl
+
     @Provides fun providesConverterFactory(): Converter.Factory = converterFactory
+
     @Singleton @Provides fun providesHackerNewsService(@Named(value = "baseUrl") baseUrl : String, converterFactory: Converter.Factory) = getHackerNewsService(baseUrl, converterFactory)
 
     open fun getHackerNewsService(baseUrl : String, converterFactory: Converter.Factory) = Retrofit.Builder()

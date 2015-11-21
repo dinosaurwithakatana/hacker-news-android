@@ -1,17 +1,18 @@
 package io.dwak.holohackernews.app.dagger.module
 
-import android.util.Log
 import dagger.Module
 import dagger.Provides
-import rx.Scheduler
-import rx.android.schedulers.AndroidSchedulers
+import io.dwak.holohackernews.app.dagger.interactor.RxSchedulerInteractor
+import io.dwak.holohackernews.app.dagger.interactor.RxSchedulerInteractorImpl
 
 @Module
-open class InteractorModule {
-    open val mainThreadScheduler: Scheduler = AndroidSchedulers.mainThread()
+open class InteractorModule() {
+    open fun getSchedulerInteractor(): RxSchedulerInteractor {
+        return RxSchedulerInteractorImpl
+    }
 
     @Provides
-    fun providesMainThreadScheduler(): Scheduler {
-        return mainThreadScheduler
+    fun providesMainThreadScheduler(): RxSchedulerInteractor {
+        return getSchedulerInteractor()
     }
 }
