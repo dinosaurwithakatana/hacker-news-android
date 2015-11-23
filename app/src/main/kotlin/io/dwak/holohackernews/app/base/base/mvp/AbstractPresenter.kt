@@ -8,7 +8,6 @@ import javax.inject.Inject
 public abstract class AbstractPresenter<T : PresenterView>(val view : T, val networkComponent: NetworkComponent)
 : DaggerPresenter {
     val viewSubscription = CompositeSubscription()
-    lateinit var hackerNewsService : HackerNewsService2 @Inject set
 
     abstract override fun inject()
 
