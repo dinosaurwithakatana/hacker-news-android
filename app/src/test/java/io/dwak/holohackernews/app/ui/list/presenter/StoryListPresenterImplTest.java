@@ -47,6 +47,6 @@ public class StoryListPresenterImplTest extends BasePresenterTest<StoryListPrese
         getComponent(view, new TestNetworkModule()).inject(this);
         getPresenter().onAttachToView();
         getPresenter().storyClicked(storyJson);
-        verify(view).navigateToStoryDetail(1l);
+        verify(view).navigateToStoryDetail(storyJson.getId());
     }
 }
