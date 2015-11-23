@@ -41,4 +41,12 @@ public class StoryListPresenterImplTest extends BasePresenterTest<StoryListPrese
         verify(view).displayStories(anyListOf(StoryJson.class));
     }
 
+    @Test
+    public void testOnStoryClicked() throws Exception {
+        StoryJson storyJson = new StoryJson(1l, "title", "url", "domain", 10, "user", "timeAgo", 3, "Job");
+        getComponent(view, new TestNetworkModule()).inject(this);
+        getPresenter().onAttachToView();
+        getPresenter().storyClicked(storyJson);
+        verify(view).navigateToStoryDetail(1l);
+    }
 }
