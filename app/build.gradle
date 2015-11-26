@@ -63,24 +63,29 @@ android {
             }
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
-    compile "com.android.support:support-v4:$rootProject.ext.supportVersion"
-    compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
-    compile "com.android.support:support-annotations:$rootProject.ext.supportVersion"
-    compile "com.android.support:design:$rootProject.ext.supportVersion"
-    compile "com.squareup.retrofit:retrofit:$rootProject.ext.retrofitVersion"
-    compile "com.squareup.retrofit:converter-moshi:$rootProject.ext.retrofitVersion"
+    compile "com.android.support:support-v4:$rootProject.supportVersion"
+    compile "com.android.support:appcompat-v7:$rootProject.supportVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportVersion"
+    compile "com.android.support:support-annotations:$rootProject.supportVersion"
+    compile "com.android.support:design:$rootProject.supportVersion"
+    compile "com.squareup.retrofit:retrofit:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit:converter-moshi:$rootProject.retrofitVersion"
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.loopeer.android.thirdparty:swipe-back-layout:1.0'
     compile 'io.reactivex:rxandroid:1.0.1'
-    compile "com.jakewharton.rxbinding:rxbinding:$rootProject.ext.rxBindingVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-support-v4:$rootProject.ext.rxBindingVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-design:$rootProject.ext.rxBindingVersion"
-    compile "com.trello:rxlifecycle:$rootProject.ext.rxLifecycleVersion"
-    compile "com.trello:rxlifecycle-components:$rootProject.ext.rxLifecycleVersion"
+    compile "com.jakewharton.rxbinding:rxbinding:$rootProject.rxBindingVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-kotlin:$rootProject.rxBindingVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-support-v4:$rootProject.rxBindingVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-design:$rootProject.rxBindingVersion"
+    compile "com.trello:rxlifecycle:$rootProject.rxLifecycleVersion"
+    compile "com.trello:rxlifecycle-components:$rootProject.rxLifecycleVersion"
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
@@ -88,17 +93,18 @@ dependencies {
         transitive = true
     }
     compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile "com.github.johnkil.android-robototextview:robototextview:$rootProject.ext.robotoTextViewVersion"
-    compile "com.facebook.stetho:stetho:$rootProject.ext.stethoVersion"
-    compile "com.facebook.stetho:stetho-okhttp:$rootProject.ext.stethoVersion"
+    compile "com.github.johnkil.android-robototextview:robototextview:$rootProject.robotoTextViewVersion"
+    compile "com.facebook.stetho:stetho:$rootProject.stethoVersion"
+    compile "com.facebook.stetho:stetho-okhttp:$rootProject.stethoVersion"
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.github.satyan:sugar:1.3.1'
     compile 'com.github.Groxx:AndroidSwipeLayout:c8a42d8'
-    compile "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+    compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    kapt "com.android.databinding:compiler:1.0"
     compile 'com.sothree.slidinguppanel:library:3.0.0'
-//    apt "com.bluelinelabs:logansquare-compiler:$rootProject.ext.loganSquareVersion"
-    compile "com.bluelinelabs:logansquare:$rootProject.ext.loganSquareVersion"
+//    apt "com.bluelinelabs:logansquare-compiler:$rootProject.loganSquareVersion"
+    compile "com.bluelinelabs:logansquare:$rootProject.loganSquareVersion"
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.bugsnag:bugsnag-android:3.2.6'
     compile 'com.squareup.moshi:moshi:1.0.0'
@@ -106,7 +112,7 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
-    testApt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+    testApt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 }
 
 chopsticks {
@@ -121,7 +127,7 @@ kapt {
 
 android.applicationVariants.all { variant ->
     variant.mergeAssets.doFirst {
-        File fonts = file("${buildDir}/intermediates/exploded-aar/com.github.johnkil.android-robototextview/robototextview/${rootProject.ext.robotoTextViewVersion}/assets/fonts")
+        File fonts = file("${buildDir}/intermediates/exploded-aar/com.github.johnkil.android-robototextview/robototextview/${rootProject.robotoTextViewVersion}/assets/fonts")
         if (fonts.exists()) {
             for (File file : fonts.listFiles()) {
                 if (file.getName().contains("RobotoSlab")) {

@@ -1,21 +1,18 @@
 package io.dwak.holohackernews.app.base.base.mvp
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import io.dwak.holohackernews.app.base.base.mvp.DaggerPresenterView
-import io.dwak.holohackernews.app.base.base.mvp.Presenter
+import android.os.PersistableBundle
+import android.support.v7.app.AppCompatActivity
 import javax.inject.Inject
 
-public abstract class MvpFragment<P : Presenter> : Fragment(), DaggerPresenterView {
-    protected lateinit var presenter : P
-        @Inject set
+public abstract class MvpActivity<P : Presenter> : AppCompatActivity(), DaggerPresenterView {
+    protected lateinit var presenter : P @Inject set
 
     abstract override fun inject()
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject()
-
         presenter.prepareToAttachToView()
     }
 
