@@ -3,7 +3,8 @@
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
 
-    <data class = "StoryListFragmentBinding"/>
+    <data class = "StoryDetailFragmentBinding"/>
+
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/link_panel"
         style="?containerBackground"

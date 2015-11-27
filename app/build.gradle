@@ -101,7 +101,7 @@ dependencies {
     compile 'com.github.Groxx:AndroidSwipeLayout:c8a42d8'
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    kapt "com.android.databinding:compiler:1.0"
+    kapt "com.android.databinding:compiler:1.0-rc5"
     compile 'com.sothree.slidinguppanel:library:3.0.0'
 //    apt "com.bluelinelabs:logansquare-compiler:$rootProject.loganSquareVersion"
     compile "com.bluelinelabs:logansquare:$rootProject.loganSquareVersion"

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <data class = "StoryListFragmentBinding"/>
+    <data class="StoryListFragmentBinding"/>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:context="io.dwak.holohackernews.app.ui.storylist.StoryListFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="io.dwak.holohackernews.app.ui.storylist.StoryListFragment">
 
         <ProgressBar
             android:id="@+id/progress_bar"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:visibility="invisible"/>
 
         <android.support.v4.widget.SwipeRefreshLayout
@@ -23,10 +24,10 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/story_list"
-                android:paddingTop="4dp"
-                android:clipToPadding="false"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="4dp"/>
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
