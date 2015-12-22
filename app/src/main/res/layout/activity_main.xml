@@ -1,38 +1,31 @@
-<!-- Main layout -->
-<layout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?containerBackground"
+    android:clipChildren="false">
 
-    <data class = "MainActivityBinding"/>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-    <io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout
-        android:id="@+id/main_content"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?containerBackground"
-        android:clipChildren="false"
-        app:shadowDrawable="@drawable/header_shadow">
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:visibility="visible" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
-
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/toolbar_height"
-            android:visibility="visible"/>
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"/>
-    </io.dwak.samples.apps.iosched.ui.widget.DrawShadowFrameLayout>
-</layout>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+</FrameLayout>

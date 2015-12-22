@@ -8,21 +8,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.dwak.holohackernews.app.R
-import io.dwak.holohackernews.app.base.base.mvp.MvpFragment
-import io.dwak.holohackernews.app.base.base.mvp.databinding.DataBindingMvpFragment
+import io.dwak.holohackernews.app.base.mvp.MvpFragment
+import io.dwak.holohackernews.app.butterknife.bindView
 import io.dwak.holohackernews.app.dagger.component.DaggerNetworkComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
-import io.dwak.holohackernews.app.databinding.StoryListFragmentBinding
+import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
 
-class StoryListFragment : DataBindingMvpFragment<StoryListPresenter, StoryListFragmentBinding>(), StoryListView {
+class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
+    val storyList : RecyclerView by bindView(R.id.story_list)
     var adapter : StoryListAdapter? = null
     var interactionListener : StoryListInteractionListener? = null
 
     companion object {
-        fun newInstance() = StoryListFragment()
+        val FEED_ARG = "FEED"
+        fun newInstance(feed : Feed) : StoryListFragment {
+            val args = Bundle()
+            args.putSerializable(FEED_ARG, feed)
+            val frag = StoryListFragment()
+            frag.arguments = args
+            return frag
+        }
     }
 
     override fun inject() {
@@ -40,17 +48,21 @@ class StoryListFragment : DataBindingMvpFragment<StoryListPresenter, StoryListFr
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.feed = arguments.getSerializable(FEED_ARG) as Feed
+    }
+
     override fun onCreateView(inflater : LayoutInflater?, container : ViewGroup?, savedInstanceState : Bundle?) : View? {
-        createViewBinding(inflater!!, R.layout.fragment_storylist_list, container!!)
-        return viewBinding.root
+        return inflater!!.inflate(R.layout.fragment_storylist_list, container, false)
     }
 
     override fun onViewCreated(view : View?, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = StoryListAdapter(activity)
         adapter?.itemClicks?.subscribe { presenter.storyClicked(it) }
-        viewBinding.storyList.adapter = adapter
-        viewBinding.storyList.layoutManager = LinearLayoutManager(activity)
+        storyList.adapter = adapter
+        storyList.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun displayStories(storyList : List<StoryJson>) {

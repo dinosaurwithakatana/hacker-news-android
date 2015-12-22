@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_container"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:paddingRight="16dp"
+    tools:ignore="RtlHardcoded,RtlSymmetry">
 
-<layout>
-    <data class = "StoryItemBottomLayerBinding"/>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/bottom_container"
-        android:paddingRight="16dp"
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/upvote"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        tools:ignore="RtlHardcoded,RtlSymmetry">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginLeft="16dp"
+        android:drawableTop="?upvoteIcon"
+        android:gravity="center_horizontal"
+        android:text="@string/story_action_upvote"
+        android:textColor="?textColor"
+        android:visibility="gone"
+        tools:ignore="RtlHardcoded" />
 
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/upvote"
-            android:drawableTop="?upvoteIcon"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="center_vertical|right"
-            android:text="@string/story_action_upvote"
-            android:textColor="?textColor"
-            android:gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:layout_height="wrap_content"
-            tools:ignore="RtlHardcoded"/>
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/save_story_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginLeft="16dp"
+        android:drawableTop="?saveIcon"
+        android:gravity="center_horizontal"
+        android:text="@string/story_action_save"
+        android:textColor="?textColor"
+        tools:ignore="RtlHardcoded" />
 
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/save_story_button"
-            android:drawableTop="?saveIcon"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="center_vertical|right"
-            android:text="@string/story_action_save"
-            android:textColor="?textColor"
-            android:gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="RtlHardcoded"/>
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

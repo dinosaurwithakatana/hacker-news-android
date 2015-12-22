@@ -2,7 +2,7 @@ package io.dwak.holohackernews.app.dagger.module
 
 import dagger.Module
 import dagger.Provides
-import io.dwak.holohackernews.app.base.base.mvp.PresenterView
+import io.dwak.holohackernews.app.base.mvp.PresenterView
 import io.dwak.holohackernews.app.dagger.component.NetworkComponent
 import io.dwak.holohackernews.app.dagger.scope.ViewScope
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenter

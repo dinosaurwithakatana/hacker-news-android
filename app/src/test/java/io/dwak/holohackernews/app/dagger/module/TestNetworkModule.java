@@ -1,22 +1,26 @@
 package io.dwak.holohackernews.app.dagger.module;
 
+import com.squareup.okhttp.OkHttpClient;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Singleton;
+import javax.inject.Named;
 
-import dagger.Module;
 import io.dwak.holohackernews.app.network.HackerNewsService2;
+import retrofit.CallAdapter;
 import retrofit.Converter;
 
 import static org.mockito.Mockito.mock;
 
-@Singleton
-@Module
 public class TestNetworkModule extends NetworkModule {
     public final HackerNewsService2 mockedService = mock(HackerNewsService2.class);
 
+    @NotNull
     @Override
-    public HackerNewsService2 getHackerNewsService(@NotNull final String baseUrl, @NotNull final Converter.Factory converterFactory) {
+    public HackerNewsService2 providesHackerNewsService(@Named("baseUrl") @NotNull String baseUrl,
+                                                        @NotNull CallAdapter.Factory callAdapterFactory,
+                                                        @NotNull Converter.Factory converterFactory,
+                                                        @NotNull OkHttpClient okHttpClient) {
         return mockedService;
     }
 }

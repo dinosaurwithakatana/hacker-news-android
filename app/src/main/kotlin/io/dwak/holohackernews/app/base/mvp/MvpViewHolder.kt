@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.base.base.mvp
+package io.dwak.holohackernews.app.base.mvp
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

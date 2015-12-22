@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.0.0-beta-2423'
+    ext.kotlin_version = '1.0.0-beta-3595'
     repositories {
         jcenter()
         mavenCentral()
@@ -12,9 +12,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.squareup.okhttp:okhttp:2.5.0' // Needed because we are not packaging plugin yet
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath files('chopstick-0.1-SNAPSHOT.jar')
     }
 }
 
@@ -28,18 +26,18 @@ allprojects {
     }
 }
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.7'
+    gradleVersion = '2.9'
 }
 
 ext {
-    supportVersion = '23.0.0'
-    stethoVersion = '1.1.1'
+    supportVersion = '23.1.1'
+    stethoVersion = '1.2.0'
     daggerVersion = '2.0.1'
     loganSquareVersion = '1.1.0'
     robotoTextViewVersion = '2.4.0'
     rxBindingVersion = '0.3.0'
     rxLifecycleVersion = '0.2.0'
-    kotlin_version = '1.0.0-beta-2423'
+    kotlin_version = '1.0.0-beta-3595'
     retrofitVersion = '2.0.0-beta2'
 }
 

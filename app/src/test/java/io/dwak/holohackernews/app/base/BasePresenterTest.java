@@ -2,7 +2,7 @@ package io.dwak.holohackernews.app.base;
 
 import javax.inject.Inject;
 
-import io.dwak.holohackernews.app.base.base.mvp.Presenter;
+import io.dwak.holohackernews.app.base.mvp.Presenter;
 import io.dwak.holohackernews.app.dagger.component.DaggerTestNetworkComponent;
 import io.dwak.holohackernews.app.dagger.component.DaggerTestPresenterComponent;
 import io.dwak.holohackernews.app.dagger.component.TestPresenterComponent;
@@ -22,8 +22,8 @@ public abstract class BasePresenterTest<T extends Presenter> {
         return DaggerTestPresenterComponent.builder()
                                     .presenterModule(new PresenterModule(view))
                                     .networkComponent(DaggerTestNetworkComponent.builder()
-                                                                                .testNetworkModule(testNetworkModule)
-                                                                                .testInteractorModule(new TestInteractorModule())
+                                                                                .networkModule(testNetworkModule)
+                                                                                .interactorModule(new TestInteractorModule())
                                                                                 .build())
                                     .build();
     }

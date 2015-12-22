@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.dwak.holohackernews.app.ui.storylist.StoryListFragment">
 
-    <data class="StoryListFragmentBinding"/>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="io.dwak.holohackernews.app.ui.storylist.StoryListFragment">
+        android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="invisible"/>
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_container"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/story_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="4dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/story_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingTop="4dp"/>
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-    </RelativeLayout>
-</layout>
+</RelativeLayout>

@@ -1,6 +1,6 @@
 package io.dwak.holohackernews.app.ui.list.presenter
 
-import io.dwak.holohackernews.app.base.base.mvp.AbstractPresenter
+import io.dwak.holohackernews.app.base.mvp.AbstractPresenter
 import io.dwak.holohackernews.app.dagger.component.NetworkComponent
 import io.dwak.holohackernews.app.ui.list.view.StoryItemView
 

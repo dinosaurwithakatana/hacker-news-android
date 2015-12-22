@@ -1,6 +1,6 @@
 package io.dwak.holohackernews.app.ui.list.presenter
 
-import io.dwak.holohackernews.app.base.base.mvp.AbstractPresenter
+import io.dwak.holohackernews.app.base.mvp.AbstractPresenter
 import io.dwak.holohackernews.app.dagger.component.NetworkComponent
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
@@ -33,16 +33,15 @@ class StoryListPresenterImpl(view: StoryListView, networkComponent: NetworkCompo
                     Feed.SHOW -> storyListObservable = getShowHnStories()
                     Feed.NEW_SHOW -> storyListObservable = getNewShowHnStories()
                     Feed.ASK -> storyListObservable = getAskHnStories()
-                    else -> {
-                    }
+                    else -> {}
                 }
             }
         }
 
         storyListObservable
-                ?.observeOn(Schedulers.io())
-                ?.subscribeOn(networkComponent.rxSchedulerInteractor.mainThreadScheduler)
-                ?.subscribe { view.displayStories(it) }
+                ?.observeOn(networkComponent.rxSchedulerInteractor.mainThreadScheduler)
+                ?.subscribeOn(Schedulers.io())
+                ?.subscribe({ view.displayStories(it) })
     }
 
     override fun storyClicked(story: StoryJson) = view.navigateToStoryDetail(story.id)
@@ -51,8 +50,8 @@ class StoryListPresenterImpl(view: StoryListView, networkComponent: NetworkCompo
         feed.let {
             if (it == Feed.TOP) {
                 hackerNewsService.getTopStoriesPageTwo()
-                        .observeOn(Schedulers.io())
-                        .subscribeOn(networkComponent.rxSchedulerInteractor.mainThreadScheduler)
+                        .observeOn(networkComponent.rxSchedulerInteractor.mainThreadScheduler)
+                        .subscribeOn(Schedulers.io())
                         .subscribe { view.displayStories(it) }
             }
         }

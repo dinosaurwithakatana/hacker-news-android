@@ -1,12 +1,12 @@
 package io.dwak.holohackernews.app.dagger.module
 
+import com.facebook.stetho.okhttp.StethoInterceptor
+import com.squareup.okhttp.Interceptor
 import com.squareup.okhttp.OkHttpClient
 import dagger.Module
 import dagger.Provides
 import io.dwak.holohackernews.app.network.HackerNewsService2
-import retrofit.Converter
-import retrofit.MoshiConverterFactory
-import retrofit.Retrofit
+import retrofit.*
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -20,12 +20,27 @@ public open class NetworkModule {
 
     @Provides fun providesConverterFactory(): Converter.Factory = converterFactory
 
-    @Singleton @Provides fun providesHackerNewsService(@Named(value = "baseUrl") baseUrl : String, converterFactory: Converter.Factory) = getHackerNewsService(baseUrl, converterFactory)
+    @Provides fun providesCallAdapter() : CallAdapter.Factory = RxJavaCallAdapterFactory.create()
 
-    open fun getHackerNewsService(baseUrl : String, converterFactory: Converter.Factory) = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(converterFactory)
-            .build()
-            .create(HackerNewsService2::class.java)
+    @Provides fun providesNetworkInterceptors(): MutableList<Interceptor> {
+        return arrayListOf(StethoInterceptor())
+    }
 
+    @Provides fun providesOkClient(interceptors : MutableList<Interceptor>) : OkHttpClient {
+        val client  = OkHttpClient()
+        client.networkInterceptors().addAll(interceptors)
+        return client
+    }
+
+    @Singleton @Provides open fun providesHackerNewsService(@Named(value = "baseUrl") baseUrl: String,
+                                                            callAdapterFactory: CallAdapter.Factory,
+                                                            converterFactory: Converter.Factory,
+                                                            okHttpClient : OkHttpClient): HackerNewsService2 {
+        return Retrofit.Builder().baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addCallAdapterFactory(callAdapterFactory)
+                .addConverterFactory(converterFactory)
+                .build()
+                .create(HackerNewsService2::class.java)
+    }
 }

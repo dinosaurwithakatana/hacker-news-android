@@ -1,82 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="?containerBackground"
+    android:clickable="true"
+    android:fitsSystemWindows="true"
+    tools:showIn="@layout/fragment_story_comments">
 
     <RelativeLayout
+        android:id="@+id/button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_bar_height"
+        android:background="?attr/colorPrimary"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <Button
+            android:id="@+id/action_1"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentLeft="true"
+            android:visibility="invisible"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/action_2"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/action_main"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_toLeftOf="@id/action_2"
+            android:layout_toRightOf="@id/action_1"
+            android:background="?linkDrawerButtonBackground"
+            android:visibility="visible"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/web_progress_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/button_bar"
+        android:layout_centerInParent="true"
+        android:background="?attr/colorAccent" />
+
+
+    <io.dwak.holohackernews.app.widget.ObservableWebView
+        android:id="@+id/story_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:background="?containerBackground"
-        android:clickable="true"
-        android:fitsSystemWindows="true"
-        tools:showIn="@layout/fragment_story_comments">
+        android:layout_below="@id/web_progress_bar">
 
-        <RelativeLayout
-            android:id="@+id/button_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_bar_height"
-            android:background="?attr/colorPrimary"
-            android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
+    </io.dwak.holohackernews.app.widget.ObservableWebView>
 
-            <Button
-                android:id="@+id/action_1"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_alignParentLeft="true"
-                android:visibility="invisible"
-                tools:ignore="RtlHardcoded"/>
-
-            <Button
-                android:id="@+id/action_2"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_alignParentRight="true"
-                android:visibility="invisible"
-                tools:ignore="RtlHardcoded"/>
-
-            <Button
-                android:id="@+id/action_main"
-                android:layout_width="wrap_content"
-                android:layout_height="42dp"
-                android:layout_toLeftOf="@id/action_2"
-                android:layout_toRightOf="@id/action_1"
-                android:background="?linkDrawerButtonBackground"
-                android:visibility="visible"
-                tools:ignore="RtlHardcoded"/>
-        </RelativeLayout>
-
-        <ProgressBar
-            android:id="@+id/web_progress_bar"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@id/button_bar"
-            android:layout_centerInParent="true"
-            android:background="?attr/colorAccent"/>
-
-
-        <io.dwak.holohackernews.app.widget.ObservableWebView
-            android:id="@+id/story_web_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/web_progress_bar">
-
-        </io.dwak.holohackernews.app.widget.ObservableWebView>
-
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fabbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_action_readability"
-            fab:fab_colorNormal="?attr/colorPrimary"
-            fab:fab_colorPressed="?attr/colorPrimaryDark"
-            tools:ignore="RtlHardcoded"/>
-    </RelativeLayout>
-</layout>
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fabbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_action_readability"
+        fab:fab_colorNormal="?attr/colorPrimary"
+        fab:fab_colorPressed="?attr/colorPrimaryDark"
+        tools:ignore="RtlHardcoded" />
+</RelativeLayout>
