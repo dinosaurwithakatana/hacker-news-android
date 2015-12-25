@@ -3,7 +3,7 @@ package io.dwak.holohackernews.app.dagger.module
 import dagger.Module
 import dagger.Provides
 import io.dwak.holohackernews.app.base.mvp.PresenterView
-import io.dwak.holohackernews.app.dagger.component.NetworkComponent
+import io.dwak.holohackernews.app.dagger.component.InteractorComponent
 import io.dwak.holohackernews.app.dagger.scope.ViewScope
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenter
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenterImpl
@@ -19,20 +19,20 @@ import io.dwak.holohackernews.app.ui.main.view.MainView
 @Module
 open class PresenterModule(val view : PresenterView) {
     @Provides
-    fun providesStoryListPresenter(networkComponent: NetworkComponent)
-            = getStoryListPresenter(networkComponent)
-    open fun getStoryListPresenter(networkComponent: NetworkComponent) : StoryListPresenter
-            = StoryListPresenterImpl(view as StoryListView, networkComponent)
+    fun providesStoryListPresenter(interactorComponent: InteractorComponent)
+            = getStoryListPresenter(interactorComponent)
+    open fun getStoryListPresenter(interactorComponent: InteractorComponent) : StoryListPresenter
+            = StoryListPresenterImpl(view as StoryListView, interactorComponent)
 
     @Provides
-    fun providesStoryItemPresenter(networkComponent: NetworkComponent)
-            = getStoryItemPresenter(networkComponent)
-    open fun getStoryItemPresenter(networkComponent: NetworkComponent) : StoryItemPresenter
-            = StoryItemPresenterImpl(view as StoryItemView, networkComponent)
+    fun providesStoryItemPresenter(interactorComponent: InteractorComponent)
+            = getStoryItemPresenter(interactorComponent)
+    open fun getStoryItemPresenter(interactorComponent: InteractorComponent) : StoryItemPresenter
+            = StoryItemPresenterImpl(view as StoryItemView, interactorComponent)
 
     @Provides
-    fun providesMainPresenter(networkComponent: NetworkComponent)
-            = getMainPresenter(networkComponent)
-    open fun getMainPresenter(networkComponent: NetworkComponent) : MainPresenter
-            = MainPresenterImpl(view as MainView, networkComponent)
+    fun providesMainPresenter(interactorComponent: InteractorComponent)
+            = getMainPresenter(interactorComponent)
+    open fun getMainPresenter(interactorComponent: InteractorComponent) : MainPresenter
+            = MainPresenterImpl(view as MainView, interactorComponent)
 }

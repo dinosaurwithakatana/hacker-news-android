@@ -1,12 +1,43 @@
 package io.dwak.holohackernews.app.ui.list.presenter
 
+import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.AbstractPresenter
-import io.dwak.holohackernews.app.dagger.component.NetworkComponent
+import io.dwak.holohackernews.app.dagger.component.InteractorComponent
+import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.view.StoryItemView
 
-class StoryItemPresenterImpl(view : StoryItemView, networkComponent: NetworkComponent)
-: AbstractPresenter<StoryItemView>(view, networkComponent), StoryItemPresenter{
+class StoryItemPresenterImpl(view : StoryItemView, interactorComponent: InteractorComponent)
+: AbstractPresenter<StoryItemView>(view, interactorComponent), StoryItemPresenter{
+    override var story: StoryJson? = null
+        set(value) {
+            field = value
+            parseStory()
+        }
+
     override fun inject() {
-        networkComponent.inject(this)
+        interactorComponent.inject(this)
+    }
+
+    fun parseStory(){
+        val title = story?.title
+        val points = story?.points?.toString()
+        val longAgo = story?.timeAgo
+        val formatString = interactorComponent.resources.getString(R.string.comment_header_comment_count)
+        val commentCount = formatString.format(story?.commentsCount.toString())
+        val submittedBy = story?.user
+        var domain : String? = null
+
+        when(story?.type){
+            "link" -> {
+                story?.domain?.let {
+                    domain = " | ${it.substring(0, if(it.length < 20) it.length else 20)} | "
+                }
+            }
+            else -> {
+                domain = " | ${story?.type} | "
+            }
+        }
+
+        view.displayStoryDetails(title, points, domain, longAgo, commentCount, submittedBy)
     }
 }

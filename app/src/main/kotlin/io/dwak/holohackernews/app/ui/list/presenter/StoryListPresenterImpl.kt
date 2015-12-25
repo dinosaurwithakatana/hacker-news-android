@@ -1,7 +1,7 @@
 package io.dwak.holohackernews.app.ui.list.presenter
 
 import io.dwak.holohackernews.app.base.mvp.AbstractPresenter
-import io.dwak.holohackernews.app.dagger.component.NetworkComponent
+import io.dwak.holohackernews.app.dagger.component.InteractorComponent
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.network.HackerNewsService2
@@ -10,8 +10,8 @@ import rx.Observable
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
-class StoryListPresenterImpl(view: StoryListView, networkComponent: NetworkComponent)
-: AbstractPresenter<StoryListView>(view, networkComponent), StoryListPresenter {
+class StoryListPresenterImpl(view: StoryListView, interactorComponent: InteractorComponent)
+: AbstractPresenter<StoryListView>(view, interactorComponent), StoryListPresenter {
     lateinit var hackerNewsService: HackerNewsService2 @Inject set
 
     override var feed: Feed? = null
@@ -20,7 +20,7 @@ class StoryListPresenterImpl(view: StoryListView, networkComponent: NetworkCompo
             getStoryObservable()
         }
 
-    override fun inject() = networkComponent.inject(this)
+    override fun inject() = interactorComponent.inject(this)
 
     private fun getStoryObservable() {
         var storyListObservable: Observable<MutableList<StoryJson>>? = null
@@ -39,7 +39,7 @@ class StoryListPresenterImpl(view: StoryListView, networkComponent: NetworkCompo
         }
 
         storyListObservable
-                ?.observeOn(networkComponent.rxSchedulerInteractor.mainThreadScheduler)
+                ?.observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
                 ?.subscribeOn(Schedulers.io())
                 ?.subscribe({ view.displayStories(it) })
     }
@@ -50,7 +50,7 @@ class StoryListPresenterImpl(view: StoryListView, networkComponent: NetworkCompo
         feed.let {
             if (it == Feed.TOP) {
                 hackerNewsService.getTopStoriesPageTwo()
-                        .observeOn(networkComponent.rxSchedulerInteractor.mainThreadScheduler)
+                        .observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
                         .subscribeOn(Schedulers.io())
                         .subscribe { view.displayStories(it) }
             }

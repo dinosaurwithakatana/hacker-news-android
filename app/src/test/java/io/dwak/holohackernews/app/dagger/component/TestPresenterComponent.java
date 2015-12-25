@@ -6,7 +6,7 @@ import io.dwak.holohackernews.app.dagger.scope.TestScope;
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenterImplTest;
 
 @TestScope
-@Component(modules = PresenterModule.class, dependencies = NetworkComponent.class)
+@Component(modules = PresenterModule.class, dependencies = InteractorComponent.class)
 public interface TestPresenterComponent extends PresenterComponent {
     void inject(StoryListPresenterImplTest presenterTest);
 }

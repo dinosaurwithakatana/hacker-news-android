@@ -8,7 +8,8 @@ import io.dwak.holohackernews.app.ui.list.view.StoryViewHolder
 import io.dwak.holohackernews.app.ui.main.view.MainActivity
 
 @ViewScope
-@Component(modules = arrayOf(PresenterModule::class), dependencies = arrayOf(NetworkComponent::class))
+@Component(modules = arrayOf(PresenterModule::class),
+        dependencies = arrayOf(InteractorComponent::class))
 interface PresenterComponent {
     fun inject(storyListFragment : StoryListFragment)
     fun inject(storyItemViewHolder : StoryViewHolder)

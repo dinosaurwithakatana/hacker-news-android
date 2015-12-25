@@ -10,8 +10,9 @@ import android.view.ViewGroup
 import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.MvpFragment
 import io.dwak.holohackernews.app.butterknife.bindView
-import io.dwak.holohackernews.app.dagger.component.DaggerNetworkComponent
+import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
+import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
@@ -36,7 +37,9 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     override fun inject() {
         DaggerPresenterComponent.builder()
                 .presenterModule(PresenterModule(this))
-                .networkComponent(DaggerNetworkComponent.create())
+                .interactorComponent(DaggerInteractorComponent.builder()
+                        .interactorModule(InteractorModule(activity))
+                        .build())
                 .build()
                 .inject(this);
     }

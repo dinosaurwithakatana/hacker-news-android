@@ -8,5 +8,5 @@ import io.dwak.holohackernews.app.dagger.module.NetworkModule;
 
 @Singleton
 @Component(modules = {NetworkModule.class, InteractorModule.class})
-public interface TestNetworkComponent extends NetworkComponent {
+public interface TestInteractorComponent extends InteractorComponent {
 }
