@@ -46,7 +46,7 @@ class StoryViewHolder(view : View)
     fun bind(model: StoryJson, adapterObservable: Observable<StoryJson>) {
         presenter.onAttachToView()
         presenter.story = model
-        adapterObservable.mergeWith(topContainer.clicks().map { model })
+        adapterObservable.ambWith(topContainer.clicks().map { model })
     }
 
     override fun displayStoryDetails(title: String?, points: String?, domain: String?, longAgo: String?, commentsCount: String?, submittedBy: String?) {

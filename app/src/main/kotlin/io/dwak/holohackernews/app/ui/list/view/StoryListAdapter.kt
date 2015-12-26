@@ -12,7 +12,7 @@ class StoryListAdapter(val context: Context)
 
     private val inflater: LayoutInflater
     private val list = arrayListOf<StoryJson>()
-    val itemClicks  = Observable.empty<StoryJson>()
+    val itemClicks  = Observable.never<StoryJson>()
 
     init {
         inflater = LayoutInflater.from(context)

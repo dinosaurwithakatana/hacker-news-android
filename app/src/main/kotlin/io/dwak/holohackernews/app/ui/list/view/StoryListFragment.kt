@@ -65,9 +65,9 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     override fun onViewCreated(view : View?, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = StoryListAdapter(activity)
-        adapter?.itemClicks?.observeOn(AndroidSchedulers.mainThread())?.subscribe { presenter.storyClicked(it) }
         storyList.adapter = adapter
         storyList.layoutManager = LinearLayoutManager(activity)
+        adapter?.itemClicks?.observeOn(AndroidSchedulers.mainThread())?.subscribe { presenter.storyClicked(it) }
     }
 
     override fun displayStories(@StringRes titleRes: Int,
