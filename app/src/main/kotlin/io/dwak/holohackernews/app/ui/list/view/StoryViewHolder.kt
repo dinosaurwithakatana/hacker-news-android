@@ -14,7 +14,6 @@ import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenter
-import rx.Observable
 
 class StoryViewHolder(view : View)
 : MvpViewHolder<StoryItemPresenter>(view), StoryItemView {
@@ -43,10 +42,10 @@ class StoryViewHolder(view : View)
                 .inject(this)
     }
 
-    fun bind(model: StoryJson, adapterObservable: Observable<StoryJson>) {
+    fun bind(model: StoryJson, onNext: ((StoryJson) -> Unit)?) {
         presenter.onAttachToView()
         presenter.story = model
-        adapterObservable.ambWith(topContainer.clicks().map { model })
+        topContainer.clicks().map{ model }.subscribe(onNext)
     }
 
     override fun displayStoryDetails(title: String?, points: String?, domain: String?, longAgo: String?, commentsCount: String?, submittedBy: String?) {

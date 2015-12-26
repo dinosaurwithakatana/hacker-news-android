@@ -13,6 +13,7 @@ class StoryListAdapter(val context: Context)
     private val inflater: LayoutInflater
     private val list = arrayListOf<StoryJson>()
     val itemClicks  = Observable.never<StoryJson>()
+    private var onNext: ((StoryJson) -> Unit)? = null
 
     init {
         inflater = LayoutInflater.from(context)
@@ -29,7 +30,11 @@ class StoryListAdapter(val context: Context)
             = StoryViewHolder.create(inflater, parent!!)
 
     override fun onBindViewHolder(holder: StoryViewHolder?, position: Int) {
-        holder?.bind(list[position], itemClicks)
+        holder?.bind(list[position], onNext)
+    }
+
+    fun subscribeToClicks(onNext : (StoryJson) -> Unit) {
+        this.onNext = onNext
     }
 
 }

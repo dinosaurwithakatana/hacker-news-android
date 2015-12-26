@@ -18,7 +18,6 @@ import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
-import rx.android.schedulers.AndroidSchedulers
 
 class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     val storyList : RecyclerView by bindView(R.id.story_list)
@@ -67,7 +66,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
         adapter = StoryListAdapter(activity)
         storyList.adapter = adapter
         storyList.layoutManager = LinearLayoutManager(activity)
-        adapter?.itemClicks?.observeOn(AndroidSchedulers.mainThread())?.subscribe { presenter.storyClicked(it) }
+        adapter?.subscribeToClicks({ presenter.storyClicked(it) })
     }
 
     override fun displayStories(@StringRes titleRes: Int,
