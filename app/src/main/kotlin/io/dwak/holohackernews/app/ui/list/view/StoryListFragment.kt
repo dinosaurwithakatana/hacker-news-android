@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.dwak.holohackernews.app.R
-import io.dwak.holohackernews.app.base.mvp.MvpFragment
+import io.dwak.holohackernews.app.base.mvp.fragment.MvpFragment
 import io.dwak.holohackernews.app.butterknife.bindView
 import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
@@ -18,6 +18,7 @@ import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
+import timber.log.Timber
 
 class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     val storyList : RecyclerView by bindView(R.id.story_list)
@@ -64,10 +65,12 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     override fun onViewCreated(view : View?, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = StoryListAdapter(activity)
+        adapter?.onItemClicked = {
+            Timber.d("${it.title}")
+            presenter.storyClicked(it)
+        }
         storyList.adapter = adapter
         storyList.layoutManager = LinearLayoutManager(activity)
-        adapter?.onItemClicked = { presenter.storyClicked(it) }
-
     }
 
     override fun displayStories(@StringRes titleRes: Int,
@@ -77,6 +80,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     }
 
     override fun navigateToStoryDetail(itemId : Long?) {
+        Timber.d(itemId.toString())
         interactionListener?.navigateToStoryDetail(itemId)
     }
 

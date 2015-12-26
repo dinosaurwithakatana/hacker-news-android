@@ -1,17 +1,18 @@
 package io.dwak.holohackernews.app.ui.list.view
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import io.dwak.holohackernews.app.base.mvp.recyclerview.MvpAdapter
 import io.dwak.holohackernews.app.model.json.StoryJson
 
-class StoryListAdapter(val context: Context)
-: RecyclerView.Adapter<StoryViewHolder>() {
+class StoryListAdapter(context: Context)
+: MvpAdapter<StoryViewHolder>() {
 
     private val inflater: LayoutInflater
     private val list = arrayListOf<StoryJson>()
-    var onItemClicked: ((StoryJson) -> Unit)? = null
+    var onItemClicked : ((StoryJson) -> Unit)? = null
+    var onSaveClicked : ((Boolean) -> Unit)? = null
 
     init {
         inflater = LayoutInflater.from(context)
@@ -28,7 +29,7 @@ class StoryListAdapter(val context: Context)
             = StoryViewHolder.create(inflater, parent!!)
 
     override fun onBindViewHolder(holder: StoryViewHolder?, position: Int) {
-        holder?.bind(list[position], onItemClicked)
+        holder?.bind(list[position], onItemClicked, onSaveClicked)
     }
 
 }

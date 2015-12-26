@@ -5,6 +5,8 @@ import io.dwak.holohackernews.app.base.mvp.AbstractPresenter
 import io.dwak.holohackernews.app.dagger.component.InteractorComponent
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.view.StoryItemView
+import rx.Single
+import timber.log.Timber
 
 class StoryItemPresenterImpl(view : StoryItemView, interactorComponent: InteractorComponent)
 : AbstractPresenter<StoryItemView>(view, interactorComponent), StoryItemPresenter{
@@ -16,6 +18,18 @@ class StoryItemPresenterImpl(view : StoryItemView, interactorComponent: Interact
 
     override fun inject() {
         interactorComponent.inject(this)
+    }
+
+    override fun onAttachToView() {
+        super.onAttachToView()
+        with(viewSubscription){
+            add(view.itemClicks
+                    ?.map { story!! }!!
+                    .subscribe({
+                        Timber.d(it.title)
+                        view.onItemClick?.invoke(it)
+                    }))
+        }
     }
 
     fun parseStory(){
@@ -40,4 +54,9 @@ class StoryItemPresenterImpl(view : StoryItemView, interactorComponent: Interact
 
         view.displayStoryDetails(title, points, domain, longAgo, commentCount, submittedBy)
     }
+
+    override fun save(): Single<Boolean> {
+        throw UnsupportedOperationException()
+    }
+
 }

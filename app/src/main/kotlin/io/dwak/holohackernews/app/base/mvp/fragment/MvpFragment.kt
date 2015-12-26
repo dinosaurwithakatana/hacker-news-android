@@ -1,9 +1,9 @@
-package io.dwak.holohackernews.app.base.mvp
+package io.dwak.holohackernews.app.base.mvp.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import io.dwak.holohackernews.app.base.mvp.DaggerPresenterView
 import io.dwak.holohackernews.app.base.mvp.Presenter
+import io.dwak.holohackernews.app.base.mvp.dagger.DaggerPresenterView
 import javax.inject.Inject
 
 public abstract class MvpFragment<P : Presenter> : Fragment(), DaggerPresenterView {

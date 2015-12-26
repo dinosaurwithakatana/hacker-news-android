@@ -3,7 +3,7 @@ package io.dwak.holohackernews.app.ui.main.view
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import io.dwak.holohackernews.app.R
-import io.dwak.holohackernews.app.base.mvp.MvpActivity
+import io.dwak.holohackernews.app.base.mvp.activity.MvpActivity
 import io.dwak.holohackernews.app.butterknife.bindView
 import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent

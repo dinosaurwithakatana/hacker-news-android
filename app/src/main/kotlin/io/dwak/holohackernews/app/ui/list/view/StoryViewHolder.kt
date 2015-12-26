@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.jakewharton.rxbinding.view.clicks
 import io.dwak.holohackernews.app.R
-import io.dwak.holohackernews.app.base.mvp.MvpViewHolder
+import io.dwak.holohackernews.app.base.mvp.recyclerview.MvpViewHolder
 import io.dwak.holohackernews.app.butterknife.bindView
 import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
@@ -14,9 +14,14 @@ import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenter
+import rx.Observable
 
 class StoryViewHolder(view : View)
 : MvpViewHolder<StoryItemPresenter>(view), StoryItemView {
+    override var itemClicks : Observable<Unit>? = null
+    override var saveClicks : Observable<Unit>? = null
+    override var onItemClick: ((StoryJson) -> Unit)? = null
+    override var onSaveClick: ((Boolean) -> Unit)? = null
 
     private val topContainer : View by bindView(R.id.top_container)
     private val points : TextView by bindView(R.id.story_points)
@@ -25,6 +30,7 @@ class StoryViewHolder(view : View)
     private val longAgo : TextView by bindView(R.id.story_long_ago)
     private val commentCount : TextView by bindView(R.id.comment_count)
     private val submittedBy : TextView by bindView(R.id.story_submitter)
+    private val saveStory : TextView by bindView(R.id.save_story_button)
 
     companion object {
         fun create(inflater : LayoutInflater, parent : ViewGroup) : StoryViewHolder {
@@ -42,10 +48,15 @@ class StoryViewHolder(view : View)
                 .inject(this)
     }
 
-    fun bind(model: StoryJson, onNext: ((StoryJson) -> Unit)?) {
+    fun bind(model: StoryJson,
+             onClick : ((StoryJson) -> Unit)?,
+             onSave : ((Boolean) -> Unit)?) {
+        itemClicks = topContainer.clicks()
+        saveClicks = saveStory.clicks()
+        onItemClick = onClick
+        onSaveClick = onSave
         presenter.onAttachToView()
         presenter.story = model
-        topContainer.clicks().map{ model }.subscribe(onNext)
     }
 
     override fun displayStoryDetails(title: String?, points: String?, domain: String?, longAgo: String?, commentsCount: String?, submittedBy: String?) {

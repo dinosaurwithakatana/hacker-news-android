@@ -4,6 +4,7 @@ import android.app.Application
 import com.facebook.stetho.Stetho
 import io.dwak.holohackernews.app.dagger.component.DaggerAppComponent
 import io.dwak.holohackernews.app.dagger.module.AppModule
+import timber.log.Timber
 
 class HackerNewsApplication : Application() {
     val appComponent by lazy {
@@ -15,6 +16,7 @@ class HackerNewsApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Stetho.initializeWithDefaults(this)
+        Timber.plant(appComponent.tree);
     }
 
 }

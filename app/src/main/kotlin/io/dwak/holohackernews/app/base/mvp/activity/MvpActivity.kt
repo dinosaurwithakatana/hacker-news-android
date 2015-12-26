@@ -1,8 +1,9 @@
-package io.dwak.holohackernews.app.base.mvp
+package io.dwak.holohackernews.app.base.mvp.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
+import io.dwak.holohackernews.app.base.mvp.Presenter
+import io.dwak.holohackernews.app.base.mvp.dagger.DaggerPresenterView
 import javax.inject.Inject
 
 public abstract class MvpActivity<P : Presenter> : AppCompatActivity(), DaggerPresenterView {

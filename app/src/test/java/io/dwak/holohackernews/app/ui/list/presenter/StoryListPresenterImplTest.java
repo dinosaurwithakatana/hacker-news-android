@@ -38,7 +38,7 @@ public class StoryListPresenterImplTest extends BasePresenterTest<StoryListPrese
         getComponent(view, testNetworkModule).inject(this);
         getPresenter().onAttachToView();
         getPresenter().setFeed(Feed.TOP);
-        verify(view).displayStories(anyListOf(StoryJson.class));
+        verify(view).displayStories(getPresenter().getFeed().getTitleRes(), anyListOf(StoryJson.class));
     }
 
     @Test
