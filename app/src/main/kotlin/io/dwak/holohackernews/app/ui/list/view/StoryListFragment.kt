@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.list.view
 
 import android.content.Context
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
+import rx.android.schedulers.AndroidSchedulers
 
 class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     val storyList : RecyclerView by bindView(R.id.story_list)
@@ -63,12 +65,14 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     override fun onViewCreated(view : View?, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = StoryListAdapter(activity)
-        adapter?.itemClicks?.subscribe { presenter.storyClicked(it) }
+        adapter?.itemClicks?.observeOn(AndroidSchedulers.mainThread())?.subscribe { presenter.storyClicked(it) }
         storyList.adapter = adapter
         storyList.layoutManager = LinearLayoutManager(activity)
     }
 
-    override fun displayStories(storyList : List<StoryJson>) {
+    override fun displayStories(@StringRes titleRes: Int,
+                                storyList: List<StoryJson>) {
+        activity.setTitle(titleRes)
         storyList.forEach { adapter?.addStory(it) }
     }
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.jakewharton.rxbinding.view.clicks
 import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.MvpViewHolder
 import io.dwak.holohackernews.app.butterknife.bindView
@@ -16,14 +17,15 @@ import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenter
 import rx.Observable
 
 class StoryViewHolder(view : View)
-: MvpViewHolder<StoryItemPresenter, StoryJson>(view), StoryItemView {
+: MvpViewHolder<StoryItemPresenter>(view), StoryItemView {
 
-    val points : TextView by bindView(R.id.story_points)
-    val title : TextView by bindView(R.id.story_title)
-    val domain : TextView by bindView(R.id.story_domain)
-    val longAgo : TextView by bindView(R.id.story_long_ago)
-    val commentCount : TextView by bindView(R.id.comment_count)
-    val submittedBy : TextView by bindView(R.id.story_submitter)
+    private val topContainer : View by bindView(R.id.top_container)
+    private val points : TextView by bindView(R.id.story_points)
+    private val title : TextView by bindView(R.id.story_title)
+    private val domain : TextView by bindView(R.id.story_domain)
+    private val longAgo : TextView by bindView(R.id.story_long_ago)
+    private val commentCount : TextView by bindView(R.id.comment_count)
+    private val submittedBy : TextView by bindView(R.id.story_submitter)
 
     companion object {
         fun create(inflater : LayoutInflater, parent : ViewGroup) : StoryViewHolder {
@@ -41,9 +43,10 @@ class StoryViewHolder(view : View)
                 .inject(this)
     }
 
-    override fun bind(model: StoryJson, adapterObservable: Observable<StoryJson>) {
-        super.bind(model, adapterObservable)
+    fun bind(model: StoryJson, adapterObservable: Observable<StoryJson>) {
+        presenter.onAttachToView()
         presenter.story = model
+        adapterObservable.mergeWith(topContainer.clicks().map { model })
     }
 
     override fun displayStoryDetails(title: String?, points: String?, domain: String?, longAgo: String?, commentsCount: String?, submittedBy: String?) {

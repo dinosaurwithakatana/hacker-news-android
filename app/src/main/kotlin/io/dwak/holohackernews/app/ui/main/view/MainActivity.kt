@@ -1,8 +1,10 @@
 package io.dwak.holohackernews.app.ui.main.view
 
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.MvpActivity
+import io.dwak.holohackernews.app.butterknife.bindView
 import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
 import io.dwak.holohackernews.app.dagger.module.InteractorModule
@@ -16,6 +18,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
         MainView,
         StoryListFragment.StoryListInteractionListener {
 
+    private val toolbar : Toolbar by bindView(R.id.toolbar)
     override fun inject() {
         DaggerPresenterComponent.builder()
                 .presenterModule(PresenterModule(this))
@@ -29,6 +32,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
     }
 
     override fun navigateToStoryList() {

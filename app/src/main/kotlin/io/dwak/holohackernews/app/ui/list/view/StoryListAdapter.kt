@@ -6,18 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import io.dwak.holohackernews.app.model.json.StoryJson
 import rx.Observable
-import rx.subjects.PublishSubject
 
 class StoryListAdapter(val context: Context)
 : RecyclerView.Adapter<StoryViewHolder>() {
 
-    val inflater: LayoutInflater
-    val list = arrayListOf<StoryJson>()
-    val itemClicks: Observable<StoryJson>
+    private val inflater: LayoutInflater
+    private val list = arrayListOf<StoryJson>()
+    val itemClicks  = Observable.empty<StoryJson>()
 
     init {
         inflater = LayoutInflater.from(context)
-        itemClicks = PublishSubject.create<StoryJson>().asObservable()
     }
 
     public fun addStory(story: StoryJson) {

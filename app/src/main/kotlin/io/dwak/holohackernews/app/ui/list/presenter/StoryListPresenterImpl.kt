@@ -25,8 +25,9 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
     private fun getStoryObservable() {
         var storyListObservable: Observable<MutableList<StoryJson>>? = null
         feed?.let {
+            val f = it
             with(hackerNewsService) {
-                when (it) {
+                when (f) {
                     Feed.TOP -> storyListObservable = getTopStories()
                     Feed.BEST -> storyListObservable = getBestStories()
                     Feed.NEW -> storyListObservable = getNewestStories()
@@ -36,23 +37,26 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
                     else -> {}
                 }
             }
+            storyListObservable
+                    ?.observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
+                    ?.subscribeOn(Schedulers.io())
+                    ?.subscribe({
+                        view.displayStories(f.titleRes, it)
+                    })
         }
 
-        storyListObservable
-                ?.observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
-                ?.subscribeOn(Schedulers.io())
-                ?.subscribe({ view.displayStories(it) })
     }
 
     override fun storyClicked(story: StoryJson) = view.navigateToStoryDetail(story.id)
 
     override fun loadPageTwo() {
         feed.let {
-            if (it == Feed.TOP) {
+            val f = it
+            if (f == Feed.TOP) {
                 hackerNewsService.getTopStoriesPageTwo()
                         .observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
                         .subscribeOn(Schedulers.io())
-                        .subscribe { view.displayStories(it) }
+                        .subscribe { view.displayStories(f.titleRes, it) }
             }
         }
     }
