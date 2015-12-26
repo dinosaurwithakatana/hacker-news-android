@@ -5,15 +5,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import io.dwak.holohackernews.app.model.json.StoryJson
-import rx.Observable
 
 class StoryListAdapter(val context: Context)
 : RecyclerView.Adapter<StoryViewHolder>() {
 
     private val inflater: LayoutInflater
     private val list = arrayListOf<StoryJson>()
-    val itemClicks  = Observable.never<StoryJson>()
-    private var onNext: ((StoryJson) -> Unit)? = null
+    var onItemClicked: ((StoryJson) -> Unit)? = null
 
     init {
         inflater = LayoutInflater.from(context)
@@ -30,11 +28,7 @@ class StoryListAdapter(val context: Context)
             = StoryViewHolder.create(inflater, parent!!)
 
     override fun onBindViewHolder(holder: StoryViewHolder?, position: Int) {
-        holder?.bind(list[position], onNext)
-    }
-
-    fun subscribeToClicks(onNext : (StoryJson) -> Unit) {
-        this.onNext = onNext
+        holder?.bind(list[position], onItemClicked)
     }
 
 }

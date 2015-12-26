@@ -66,7 +66,8 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
         adapter = StoryListAdapter(activity)
         storyList.adapter = adapter
         storyList.layoutManager = LinearLayoutManager(activity)
-        adapter?.subscribeToClicks({ presenter.storyClicked(it) })
+        adapter?.onItemClicked = { presenter.storyClicked(it) }
+
     }
 
     override fun displayStories(@StringRes titleRes: Int,
