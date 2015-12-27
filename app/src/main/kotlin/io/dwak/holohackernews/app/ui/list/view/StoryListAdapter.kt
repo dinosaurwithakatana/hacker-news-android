@@ -30,6 +30,7 @@ class StoryListAdapter(context: Context)
 
     override fun onBindViewHolder(holder: StoryViewHolder?, position: Int) {
         holder?.bind(list[position], onItemClicked, onSaveClicked)
+        super.onBindViewHolder(holder, position)
     }
 
 }

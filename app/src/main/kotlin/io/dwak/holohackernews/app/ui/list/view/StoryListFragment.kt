@@ -65,10 +65,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     override fun onViewCreated(view : View?, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = StoryListAdapter(activity)
-        adapter?.onItemClicked = {
-            Timber.d("${it.title}")
-            presenter.storyClicked(it)
-        }
+        adapter?.onItemClicked = { presenter.storyClicked(it) }
         storyList.adapter = adapter
         storyList.layoutManager = LinearLayoutManager(activity)
     }
@@ -80,7 +77,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     }
 
     override fun navigateToStoryDetail(itemId : Long?) {
-        Timber.d(itemId.toString())
+        Timber.d("navigateToStoryDetail : $itemId")
         interactionListener?.navigateToStoryDetail(itemId)
     }
 

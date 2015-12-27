@@ -55,7 +55,6 @@ class StoryViewHolder(view : View)
         saveClicks = saveStory.clicks()
         onItemClick = onClick
         onSaveClick = onSave
-        presenter.onAttachToView()
         presenter.story = model
     }
 

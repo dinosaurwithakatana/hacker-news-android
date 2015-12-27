@@ -17,6 +17,10 @@ abstract class MvpViewHolder<T : Presenter>(view: View)
         presenter.prepareToAttachToView()
     }
 
+    fun onBind() {
+        presenter.onAttachToView()
+    }
+
     fun onRecycle() {
         presenter.onDetachFromView()
     }
