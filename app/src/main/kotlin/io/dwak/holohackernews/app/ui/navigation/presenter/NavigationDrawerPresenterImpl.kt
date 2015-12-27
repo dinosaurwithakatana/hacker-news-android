@@ -1,5 +1,6 @@
 package io.dwak.holohackernews.app.ui.navigation.presenter
 
+import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.AbstractPresenter
 import io.dwak.holohackernews.app.dagger.component.InteractorComponent
 import io.dwak.holohackernews.app.model.Feed
@@ -27,6 +28,11 @@ class NavigationDrawerPresenterImpl(view : NavigationDrawerView,
                             iconRes = it.iconRes,
                             type = DrawerItemType.PRIMARY))
                 }
+
+                s.onNext(DrawerItem(id++, type = DrawerItemType.DIVIDER))
+                s.onNext(DrawerItem(id = id++,
+                        titleRes = R.string.title_section_settings,
+                        type = DrawerItemType.SECONDARY))
                 s.onCompleted()
             }
         }

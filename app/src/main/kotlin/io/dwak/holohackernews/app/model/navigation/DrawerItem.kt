@@ -4,10 +4,10 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 
 data class DrawerItem(val id : Int,
-                      @DrawableRes val iconRes : Int,
-                      @StringRes val titleRes : Int,
+                      @DrawableRes val iconRes : Int = -1,
+                      @StringRes val titleRes : Int = -1,
                       val type : DrawerItemType)
 
 enum class DrawerItemType {
-    PRIMARY, SECONDARY
+    PRIMARY, SECONDARY, DIVIDER
 }

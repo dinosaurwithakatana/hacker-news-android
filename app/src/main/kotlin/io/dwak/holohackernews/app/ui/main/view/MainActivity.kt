@@ -3,6 +3,7 @@ package io.dwak.holohackernews.app.ui.main.view
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
@@ -69,20 +70,20 @@ class MainActivity : MvpActivity<MainPresenter>(),
 
     override val drawerObserver: Observer<DrawerItem> = object: Observer<DrawerItem> {
         val drawerItems = ArrayList<IDrawerItem<*>>()
+
         override fun onCompleted() {
             DrawerBuilder().withToolbar(toolbar)
-            .withActivity(this@MainActivity)
-            .withDrawerItems(drawerItems)
-            .build()
+                    .withActivity(this@MainActivity)
+                    .withDrawerItems(drawerItems)
+                    .build()
         }
 
         override fun onNext(item: DrawerItem) {
-            when(item.type) {
-                DrawerItemType.PRIMARY -> {
-                    drawerItems.add(PrimaryDrawerItem().withName(item.titleRes))
-                }
-                DrawerItemType.SECONDARY -> {
-                    drawerItems.add(SecondaryDrawerItem().withName(item.titleRes))
+            with(drawerItems) {
+                when (item.type) {
+                    DrawerItemType.PRIMARY -> add(PrimaryDrawerItem().withName(item.titleRes).withIcon(item.iconRes))
+                    DrawerItemType.SECONDARY -> add(SecondaryDrawerItem().withName(item.titleRes).withIcon(item.iconRes))
+                    DrawerItemType.DIVIDER -> add(DividerDrawerItem())
                 }
             }
         }
