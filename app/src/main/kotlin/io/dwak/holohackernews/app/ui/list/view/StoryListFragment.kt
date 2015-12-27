@@ -64,6 +64,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
 
     override fun onViewCreated(view : View?, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         adapter = StoryListAdapter(activity)
         adapter?.onItemClicked = { presenter.storyClicked(it) }
         storyList.adapter = adapter

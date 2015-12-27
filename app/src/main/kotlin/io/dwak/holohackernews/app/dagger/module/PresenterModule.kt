@@ -14,25 +14,22 @@ import io.dwak.holohackernews.app.ui.list.view.StoryListView
 import io.dwak.holohackernews.app.ui.main.presenter.MainPresenter
 import io.dwak.holohackernews.app.ui.main.presenter.MainPresenterImpl
 import io.dwak.holohackernews.app.ui.main.view.MainView
+import io.dwak.holohackernews.app.ui.navigation.presenter.NavigationDrawerPresenter
+import io.dwak.holohackernews.app.ui.navigation.presenter.NavigationDrawerPresenterImpl
+import io.dwak.holohackernews.app.ui.navigation.view.NavigationDrawerView
 
 @ViewScope
 @Module
 open class PresenterModule(val view : PresenterView) {
-    @Provides
-    fun providesStoryListPresenter(interactorComponent: InteractorComponent)
-            = getStoryListPresenter(interactorComponent)
-    open fun getStoryListPresenter(interactorComponent: InteractorComponent) : StoryListPresenter
+    @Provides fun providesStoryListPresenter(interactorComponent: InteractorComponent) : StoryListPresenter
             = StoryListPresenterImpl(view as StoryListView, interactorComponent)
 
-    @Provides
-    fun providesStoryItemPresenter(interactorComponent: InteractorComponent)
-            = getStoryItemPresenter(interactorComponent)
-    open fun getStoryItemPresenter(interactorComponent: InteractorComponent) : StoryItemPresenter
+    @Provides fun providesStoryItemPresenter(interactorComponent: InteractorComponent) : StoryItemPresenter
             = StoryItemPresenterImpl(view as StoryItemView, interactorComponent)
 
-    @Provides
-    fun providesMainPresenter(interactorComponent: InteractorComponent)
-            = getMainPresenter(interactorComponent)
-    open fun getMainPresenter(interactorComponent: InteractorComponent) : MainPresenter
+    @Provides fun providesMainPresenter(interactorComponent: InteractorComponent) : MainPresenter
             = MainPresenterImpl(view as MainView, interactorComponent)
+
+    @Provides fun providesNavigationPresenter(interactorComponent: InteractorComponent) : NavigationDrawerPresenter
+            = NavigationDrawerPresenterImpl(view as NavigationDrawerView, interactorComponent)
 }

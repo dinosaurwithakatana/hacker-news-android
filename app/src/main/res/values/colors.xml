@@ -21,7 +21,6 @@
     <!-- MaterialDrawer DEFAULT colors -->
     <color name="material_drawer_background">#ffffff</color>
     <!-- Material DEFAULT text / items colors -->
-    <color name="material_drawer_icons">#FFF</color>
     <color name="material_drawer_primary_text">#DE000000</color>
     <color name="material_drawer_primary_icon">#8A000000</color>
     <color name="material_drawer_secondary_text">#8A000000</color>

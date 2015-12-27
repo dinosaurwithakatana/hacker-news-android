@@ -30,7 +30,6 @@
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/background</item>
-        <item name="material_drawer_icons">@color/material_drawer_icons</item>
         <item name="material_drawer_primary_text">@android:color/black</item>
         <item name="material_drawer_primary_icon">@color/material_drawer_primary_icon</item>
         <item name="material_drawer_secondary_text">@color/material_drawer_secondary_text</item>
@@ -64,7 +63,6 @@
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/backgroundNight</item>
-        <item name="material_drawer_icons">@color/material_drawer_icons</item>
         <item name="material_drawer_primary_text">@android:color/white</item>
         <item name="material_drawer_primary_icon">@color/material_drawer_primary_icon</item>
         <item name="material_drawer_secondary_text">@android:color/white</item>
