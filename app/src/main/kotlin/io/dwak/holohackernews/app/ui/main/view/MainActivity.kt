@@ -3,6 +3,9 @@ package io.dwak.holohackernews.app.ui.main.view
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.activity.MvpActivity
 import io.dwak.holohackernews.app.butterknife.bindView
@@ -13,10 +16,13 @@ import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.extension.navigateTo
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.navigation.DrawerItem
+import io.dwak.holohackernews.app.model.navigation.DrawerItemType
 import io.dwak.holohackernews.app.ui.list.view.StoryListFragment
 import io.dwak.holohackernews.app.ui.main.presenter.MainPresenter
 import io.dwak.holohackernews.app.ui.navigation.presenter.NavigationDrawerPresenter
 import io.dwak.holohackernews.app.ui.navigation.view.NavigationDrawerView
+import rx.Observer
+import java.util.*
 import javax.inject.Inject
 
 class MainActivity : MvpActivity<MainPresenter>(),
@@ -61,20 +67,28 @@ class MainActivity : MvpActivity<MainPresenter>(),
 
     }
 
-    override fun populateNavigationDrawer() {
-        throw UnsupportedOperationException()
-    }
+    override val drawerObserver: Observer<DrawerItem> = object: Observer<DrawerItem> {
+        val drawerItems = ArrayList<IDrawerItem<*>>()
+        override fun onCompleted() {
+            DrawerBuilder().withToolbar(toolbar)
+            .withActivity(this@MainActivity)
+            .withDrawerItems(drawerItems)
+            .build()
+        }
 
-    override fun openNavigationDrawer() {
-        throw UnsupportedOperationException()
-    }
+        override fun onNext(item: DrawerItem) {
+            when(item.type) {
+                DrawerItemType.PRIMARY -> {
+                    drawerItems.add(PrimaryDrawerItem().withName(item.titleRes))
+                }
+                DrawerItemType.SECONDARY -> {
+                    drawerItems.add(SecondaryDrawerItem().withName(item.titleRes))
+                }
+            }
+        }
 
-    override fun closeNavigationDrawer() {
-        throw UnsupportedOperationException()
+        override fun onError(e: Throwable?) {
+            throw UnsupportedOperationException()
+        }
     }
-
-    override fun populateDrawer(items: List<DrawerItem>) {
-        DrawerBuilder().withToolbar(toolbar).withActivity(this).build()
-    }
-
 }

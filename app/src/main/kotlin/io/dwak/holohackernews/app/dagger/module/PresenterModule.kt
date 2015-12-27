@@ -21,15 +21,15 @@ import io.dwak.holohackernews.app.ui.navigation.view.NavigationDrawerView
 @ViewScope
 @Module
 open class PresenterModule(val view : PresenterView) {
-    @Provides fun providesStoryListPresenter(interactorComponent: InteractorComponent) : StoryListPresenter
+    @Provides fun storyListPresenter(interactorComponent: InteractorComponent) : StoryListPresenter
             = StoryListPresenterImpl(view as StoryListView, interactorComponent)
 
-    @Provides fun providesStoryItemPresenter(interactorComponent: InteractorComponent) : StoryItemPresenter
+    @Provides fun storyItemPresenter(interactorComponent: InteractorComponent) : StoryItemPresenter
             = StoryItemPresenterImpl(view as StoryItemView, interactorComponent)
 
-    @Provides fun providesMainPresenter(interactorComponent: InteractorComponent) : MainPresenter
+    @Provides fun mainPresenter(interactorComponent: InteractorComponent) : MainPresenter
             = MainPresenterImpl(view as MainView, interactorComponent)
 
-    @Provides fun providesNavigationPresenter(interactorComponent: InteractorComponent) : NavigationDrawerPresenter
+    @Provides fun navigationPresenter(interactorComponent: InteractorComponent) : NavigationDrawerPresenter
             = NavigationDrawerPresenterImpl(view as NavigationDrawerView, interactorComponent)
 }

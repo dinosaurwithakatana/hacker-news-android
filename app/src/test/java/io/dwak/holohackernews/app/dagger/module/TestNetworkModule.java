@@ -17,10 +17,10 @@ public class TestNetworkModule extends NetworkModule {
 
     @NotNull
     @Override
-    public HackerNewsService2 providesHackerNewsService(@Named("baseUrl") @NotNull String baseUrl,
-                                                        @NotNull CallAdapter.Factory callAdapterFactory,
-                                                        @NotNull Converter.Factory converterFactory,
-                                                        @NotNull OkHttpClient okHttpClient) {
+    public HackerNewsService2 hackerNewsService(@Named("baseUrl") @NotNull String baseUrl,
+                                                @NotNull CallAdapter.Factory callAdapterFactory,
+                                                @NotNull Converter.Factory converterFactory,
+                                                @NotNull OkHttpClient okHttpClient) {
         return mockedService;
     }
 }
