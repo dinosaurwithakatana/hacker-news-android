@@ -78,8 +78,8 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     compile "com.jakewharton.rxbinding:rxbinding:$rootProject.rxBindingVersion"
     compile "com.jakewharton.rxbinding:rxbinding-kotlin:$rootProject.rxBindingVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-support-v4:$rootProject.rxBindingVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-design:$rootProject.rxBindingVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$rootProject.rxBindingVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-design-kotlin:$rootProject.rxBindingVersion"
     compile "com.trello:rxlifecycle:$rootProject.rxLifecycleVersion"
     compile "com.trello:rxlifecycle-components:$rootProject.rxLifecycleVersion"
     compile 'com.rengwuxian.materialedittext:library:2.1.4'

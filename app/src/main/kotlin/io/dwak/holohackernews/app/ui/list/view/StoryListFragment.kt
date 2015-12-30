@@ -3,11 +3,14 @@ package io.dwak.holohackernews.app.ui.list.view
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.StringRes
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding.support.v4.widget.refreshes
+import com.jakewharton.rxbinding.support.v4.widget.refreshing
 import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.fragment.MvpFragment
 import io.dwak.holohackernews.app.butterknife.bindView
@@ -18,10 +21,15 @@ import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
+import rx.Observable
+import rx.functions.Action1
 import timber.log.Timber
 
 class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     val storyList : RecyclerView by bindView(R.id.story_list)
+    val swipeRefresh : SwipeRefreshLayout by bindView(R.id.swipe_container)
+    override var refreshing : Action1<in Boolean>? = null
+    override var refreshes : Observable<Unit>? = null
     var adapter : StoryListAdapter? = null
     var interactionListener : StoryListInteractionListener? = null
 
@@ -65,6 +73,8 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     override fun onViewCreated(view : View?, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        refreshing = swipeRefresh.refreshing()
+        refreshes = swipeRefresh.refreshes()
         adapter = StoryListAdapter(activity)
         adapter?.onItemClicked = { presenter.storyClicked(it) }
         storyList.adapter = adapter
@@ -80,6 +90,11 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     override fun navigateToStoryDetail(itemId : Long?) {
         Timber.d("navigateToStoryDetail : $itemId")
         interactionListener?.navigateToStoryDetail(itemId)
+    }
+
+    override fun clearStories() {
+        activity.setTitle("")
+        adapter?.clear()
     }
 
     interface StoryListInteractionListener {

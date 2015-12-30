@@ -11,6 +11,5 @@ class MainPresenterImpl(view : MainView, interactorComponent: InteractorComponen
 
     override fun onAttachToView() {
         super.onAttachToView()
-        view.navigateToStoryList()
     }
 }

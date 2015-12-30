@@ -23,6 +23,12 @@ class StoryListAdapter(context: Context)
         notifyItemInserted(list.size)
     }
 
+    public fun clear(){
+        val size = list.size()
+        list.clear()
+        notifyItemRangeRemoved(0, size)
+    }
+
     override fun getItemCount() = list.size
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)

@@ -12,35 +12,52 @@ import rx.Observable
 class NavigationDrawerPresenterImpl(view : NavigationDrawerView,
                                     interactorComponent: InteractorComponent)
 : AbstractPresenter<NavigationDrawerView>(view, interactorComponent), NavigationDrawerPresenter{
+    override val drawerItems: Observable<DrawerItem>
+
     override fun inject() {
         interactorComponent.inject(this)
     }
 
-    override fun onAttachToView() {
-        super.onAttachToView()
-        var id = 0
-        Observable.create<DrawerItem> {
-            if(!it.isUnsubscribed) {
-                val s = it
-                Feed.values().forEach {
-                    s.onNext(DrawerItem(id = id++,
-                            titleRes = it.titleRes,
-                            iconRes = it.iconRes,
-                            type = DrawerItemType.PRIMARY))
-                }
-
-                s.onNext(DrawerItem(id++, type = DrawerItemType.DIVIDER))
-                s.onNext(DrawerItem(id = id++,
-                        titleRes = R.string.title_section_settings,
-                        type = DrawerItemType.SECONDARY))
-                s.onCompleted()
-            }
+    init {
+        drawerItems = Observable.defer<DrawerItem> {
+            Observable.from(Item.values())
+                    .map { it.drawerItem }
         }
-        .subscribe(view.drawerObserver)
     }
 
-    override fun onDrawerItemClicked() {
-        throw UnsupportedOperationException()
+    override fun onAttachToView() {
+        super.onAttachToView()
+
+        with(viewSubscription) {
+            add(view.drawerClicks
+                    ?.subscribe(onItemClick))
+        }
+
+        view.navigateToStoryList(Feed.TOP)
+    }
+
+    override val onItemClick: (Int) -> Unit = {
+        when (it) {
+            Item.TOP.drawerItem.id -> view.navigateToStoryList(Feed.TOP)
+            Item.BEST.drawerItem.id -> view.navigateToStoryList(Feed.BEST)
+            Item.NEW.drawerItem.id -> view.navigateToStoryList(Feed.NEW)
+            Item.SHOW.drawerItem.id -> view.navigateToStoryList(Feed.SHOW)
+            Item.SHOW_NEW.drawerItem.id -> view.navigateToStoryList(Feed.NEW_SHOW)
+            Item.ASK.drawerItem.id -> view.navigateToStoryList(Feed.ASK)
+        }
     }
 
 }
+
+enum class Item(val drawerItem : DrawerItem){
+    TOP(DrawerItem(0, R.string.title_section_top, R.drawable.ic_navigation_top, DrawerItemType.PRIMARY)),
+    BEST(DrawerItem(1, R.string.title_section_best, R.drawable.ic_navigation_best, DrawerItemType.PRIMARY)),
+    NEW(DrawerItem(2, R.string.title_section_newest, R.drawable.ic_navigation_new, DrawerItemType.PRIMARY)),
+    SHOW(DrawerItem(3, R.string.title_section_show, R.drawable.ic_navigation_show, DrawerItemType.PRIMARY)),
+    SHOW_NEW(DrawerItem(4, R.string.title_section_show_new, R.drawable.ic_navigation_new, DrawerItemType.PRIMARY)),
+    ASK(DrawerItem(5, R.string.title_section_ask, R.drawable.ic_navigation_ask, DrawerItemType.PRIMARY)),
+    DIVIDER0(DrawerItem(type = DrawerItemType.DIVIDER)),
+    SETTINGS(DrawerItem(6, titleRes = R.string.title_section_settings, type = DrawerItemType.SECONDARY)),
+    ABOUT(DrawerItem(7, titleRes = R.string.title_section_about, type = DrawerItemType.SECONDARY)),
+}
+

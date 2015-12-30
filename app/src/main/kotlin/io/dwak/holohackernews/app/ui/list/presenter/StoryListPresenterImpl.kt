@@ -22,7 +22,17 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
 
     override fun inject() = interactorComponent.inject(this)
 
+    override fun onAttachToView() {
+        super.onAttachToView()
+        with(viewSubscription){
+            add(view.refreshes?.subscribe {
+                getStoryObservable()
+            })
+        }
+    }
     private fun getStoryObservable() {
+        view.clearStories()
+        view.refreshing?.call(true)
         var storyListObservable: Observable<MutableList<StoryJson>>? = null
         feed?.let {
             val f = it
@@ -40,9 +50,11 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
             storyListObservable
                     ?.observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
                     ?.subscribeOn(Schedulers.io())
-                    ?.subscribe({
-                        view.displayStories(f.titleRes, it)
-                    })
+                    ?.subscribe(
+                            { view.displayStories(f.titleRes, it) },
+                            {},
+                            { view.refreshing?.call(false) }
+                    )
         }
 
     }
