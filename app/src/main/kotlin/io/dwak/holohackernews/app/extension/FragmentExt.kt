@@ -11,15 +11,6 @@ inline fun <T : Fragment> T.build(f : Bundle.() -> Unit) : T {
     return this
 }
 
-//inline fun <reified T> Fragment.getArg(key : String) : T {
-//    when (arguments.get(key)) {
-//        is Serializable -> return arguments.getSerializable(key) as T
-//        is Int -> return arguments.getInt(key) as T
-//    }
-//
-//    throw RuntimeException("Type is not supported")
-//}
-
 @Suppress("UNCHECKED_CAST")
 fun <T : Serializable> Fragment.getSerializable(key : String) = arguments.getSerializable(key) as T
 fun Fragment.getInt(key : String, defaultValue : Int = 0) = arguments.getInt(key, defaultValue)
