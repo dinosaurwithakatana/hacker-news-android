@@ -18,6 +18,8 @@ import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
 import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.extension.bindActivity
+import io.dwak.holohackernews.app.extension.build
+import io.dwak.holohackernews.app.extension.getSerializable
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
@@ -35,12 +37,8 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
 
     companion object {
         val FEED_ARG = "FEED"
-        fun newInstance(feed : Feed) : StoryListFragment {
-            val args = Bundle()
-            args.putSerializable(FEED_ARG, feed)
-            val frag = StoryListFragment()
-            frag.arguments = args
-            return frag
+        fun newInstance(feed : Feed) = StoryListFragment().build {
+            putSerializable(FEED_ARG, feed)
         }
     }
 
@@ -56,7 +54,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.feed = arguments.getSerializable(FEED_ARG) as Feed
+        presenter.feed = getSerializable(FEED_ARG)
     }
 
     override fun onCreateView(inflater : LayoutInflater?, container : ViewGroup?, savedInstanceState : Bundle?) : View? {

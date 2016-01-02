@@ -1,18 +1,14 @@
 package io.dwak.holohackernews.app.extension
 
-import com.trello.rxlifecycle.FragmentEvent
+import com.trello.rxlifecycle.FragmentEvent.DETACH
 import com.trello.rxlifecycle.components.support.RxFragment
-import rx.Observable
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 @Suppress("UNCHECKED_CAST")
 public fun <L> RxFragment.bindActivity() : ReadOnlyProperty<RxFragment, L> {
-    val l = Lazy<RxFragment, L> { t -> t.activity as L }
-    Observable.create<Unit> { }
-            .compose(bindUntilEvent(FragmentEvent.DETACH))
-            .subscribe({}, {}, { l.value = null })
-
+    val l = Lazy<RxFragment, L> { it.activity as L }
+    lifecycle().compose(bindUntilEvent(DETACH)).subscribe(onComplete = { l.value = null })
     return l
 }
 
@@ -24,7 +20,6 @@ private class Lazy<T, L>(private val initializer: (T) -> L) : ReadOnlyProperty<T
         if (value == null) {
             value = initializer(thisRef)
         }
-        @Suppress("UNCHECKED_CAST")
         return value!!
     }
 }
