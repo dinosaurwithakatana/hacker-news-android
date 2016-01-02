@@ -12,30 +12,25 @@ import javax.inject.Inject
 
 class StoryListPresenterImpl(view: StoryListView, interactorComponent: InteractorComponent)
 : AbstractPresenter<StoryListView>(view, interactorComponent), StoryListPresenter {
+    override var feed: Feed? = null
     lateinit var hackerNewsService: HackerNewsService2 @Inject set
 
-    override var feed: Feed? = null
-        set(value) {
-            field = value
-            getStoryObservable()
-        }
 
     override fun inject() = interactorComponent.inject(this)
 
     override fun onAttachToView() {
         super.onAttachToView()
         with(viewSubscription){
-            add(view.refreshes?.subscribe {
-                getStoryObservable()
-            })
+            add(view.refreshes?.subscribe { getStories() })
         }
     }
-    private fun getStoryObservable() {
+
+    override fun getStories() {
         view.clearStories()
         view.refreshing?.call(true)
         var storyListObservable: Observable<MutableList<StoryJson>>? = null
         feed?.let {
-            val f = it
+            f: Feed ->
             with(hackerNewsService) {
                 when (f) {
                     Feed.TOP -> storyListObservable = getTopStories()
@@ -51,7 +46,7 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
                     ?.observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
                     ?.subscribeOn(Schedulers.io())
                     ?.subscribe(
-                            { view.displayStories(f.titleRes, it) },
+                            { view.addStories(f.titleRes, it) },
                             {},
                             { view.refreshing?.call(false) }
                     )
@@ -62,13 +57,15 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
     override fun storyClicked(story: StoryJson) = view.navigateToStoryDetail(story.id)
 
     override fun loadPageTwo() {
-        feed.let {
-            val f = it
-            if (f == Feed.TOP) {
-                hackerNewsService.getTopStoriesPageTwo()
-                        .observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe { view.displayStories(f.titleRes, it) }
+        if(feed == Feed.TOP) {
+            feed?.let {
+                val f = it
+                if (f == Feed.TOP) {
+                    hackerNewsService.getTopStoriesPageTwo()
+                            .observeOn(interactorComponent.rxSchedulerInteractor.mainThreadScheduler)
+                            .subscribeOn(Schedulers.io())
+                            .subscribe { view.addStories(f.titleRes, it) }
+                }
             }
         }
     }

@@ -11,7 +11,9 @@ interface StoryListView : PresenterView {
     var refreshes : Observable<Unit>?
 
     fun clearStories()
-    fun displayStories(@StringRes titleRes : Int,
-                       storyList : List<StoryJson>)
+
+    fun addStories(@StringRes titleRes : Int,
+                   storyList : List<StoryJson>)
+
     fun navigateToStoryDetail(itemId : Long?)
 }

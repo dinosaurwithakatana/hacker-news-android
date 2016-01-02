@@ -8,8 +8,4 @@ class MainPresenterImpl(view : MainView, interactorComponent: InteractorComponen
 : AbstractPresenter<MainView>(view, interactorComponent), MainPresenter {
 
     override fun inject() = interactorComponent.inject(this)
-
-    override fun onAttachToView() {
-        super.onAttachToView()
-    }
 }

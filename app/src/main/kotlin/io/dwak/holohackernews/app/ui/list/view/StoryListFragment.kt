@@ -1,6 +1,5 @@
 package io.dwak.holohackernews.app.ui.list.view
 
-import android.content.Context
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v4.widget.SwipeRefreshLayout
@@ -18,6 +17,7 @@ import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
 import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
+import io.dwak.holohackernews.app.extension.bindActivity
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
@@ -28,10 +28,10 @@ import timber.log.Timber
 class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     val storyList : RecyclerView by bindView(R.id.story_list)
     val swipeRefresh : SwipeRefreshLayout by bindView(R.id.swipe_container)
+    val listener : StoryListInteractionListener by bindActivity()
     override var refreshing : Action1<in Boolean>? = null
     override var refreshes : Observable<Unit>? = null
     var adapter : StoryListAdapter? = null
-    var interactionListener : StoryListInteractionListener? = null
 
     companion object {
         val FEED_ARG = "FEED"
@@ -54,13 +54,6 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
                 .inject(this);
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if(activity is StoryListInteractionListener){
-            interactionListener = activity as StoryListInteractionListener
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.feed = arguments.getSerializable(FEED_ARG) as Feed
@@ -79,21 +72,22 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
         adapter?.onItemClicked = { presenter.storyClicked(it) }
         storyList.adapter = adapter
         storyList.layoutManager = LinearLayoutManager(activity)
+        presenter.getStories()
     }
 
-    override fun displayStories(@StringRes titleRes: Int,
-                                storyList: List<StoryJson>) {
+    override fun addStories(@StringRes titleRes: Int,
+                            storyList: List<StoryJson>) {
         activity.setTitle(titleRes)
         storyList.forEach { adapter?.addStory(it) }
     }
 
     override fun navigateToStoryDetail(itemId : Long?) {
         Timber.d("navigateToStoryDetail : $itemId")
-        interactionListener?.navigateToStoryDetail(itemId)
+        listener.navigateToStoryDetail(itemId)
     }
 
     override fun clearStories() {
-        activity.setTitle("")
+        activity.title = ""
         adapter?.clear()
     }
 

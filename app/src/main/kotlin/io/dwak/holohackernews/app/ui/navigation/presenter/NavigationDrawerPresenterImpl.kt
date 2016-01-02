@@ -44,6 +44,8 @@ class NavigationDrawerPresenterImpl(view : NavigationDrawerView,
             Item.SHOW.drawerItem.id -> view.navigateToStoryList(Feed.SHOW)
             Item.SHOW_NEW.drawerItem.id -> view.navigateToStoryList(Feed.NEW_SHOW)
             Item.ASK.drawerItem.id -> view.navigateToStoryList(Feed.ASK)
+            Item.SETTINGS.drawerItem.id -> view.navigateToSettings()
+            Item.ABOUT.drawerItem.id -> view.navigateToAbout()
         }
     }
 

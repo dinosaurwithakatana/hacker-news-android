@@ -7,7 +7,10 @@ import io.dwak.holohackernews.app.model.json.StoryJson
 interface StoryListPresenter : Presenter {
     var feed : Feed?
 
-    fun storyClicked(story : StoryJson)
+    fun getStories()
 
     fun loadPageTwo()
+
+    fun storyClicked(story : StoryJson)
+
 }

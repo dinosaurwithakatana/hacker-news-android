@@ -74,9 +74,13 @@ class MainActivity : MvpActivity<MainPresenter>(),
     }
 
     override fun navigateToStoryDetail(itemId: Long?) {
-
     }
 
+    override fun navigateToSettings() {
+    }
+
+    override fun navigateToAbout() {
+    }
     override val drawerObserver = object: Observer<DrawerItem> {
         val drawerItems = ArrayList<IDrawerItem<*>>()
 

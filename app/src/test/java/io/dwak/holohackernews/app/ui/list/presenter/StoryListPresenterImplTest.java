@@ -10,10 +10,10 @@ import io.dwak.holohackernews.app.dagger.module.TestNetworkModule;
 import io.dwak.holohackernews.app.model.Feed;
 import io.dwak.holohackernews.app.model.json.StoryJson;
 import io.dwak.holohackernews.app.ui.list.view.StoryListView;
+import kotlin.Unit;
 import rx.Observable;
 import rx.Subscriber;
 
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,15 +35,19 @@ public class StoryListPresenterImplTest extends BasePresenterTest<StoryListPrese
                 }
             }
         }));
+        when(view.getRefreshes()).thenReturn(Observable.<Unit>empty());
         getComponent(view, testNetworkModule).inject(this);
-        getPresenter().onAttachToView();
         getPresenter().setFeed(Feed.TOP);
-        verify(view).displayStories(getPresenter().getFeed().getTitleRes(), anyListOf(StoryJson.class));
+        getPresenter().onAttachToView();
+        getPresenter().getStories();
+        verify(view).addStories(Feed.TOP.getTitleRes(), storyJsons);
+        verify(view).clearStories();
     }
 
     @Test
     public void testOnStoryClicked() throws Exception {
         StoryJson storyJson = new StoryJson(1l, "title", "url", "domain", 10, "user", "timeAgo", 3, "Job");
+        when(view.getRefreshes()).thenReturn(Observable.<Unit>empty());
         getComponent(view, new TestNetworkModule()).inject(this);
         getPresenter().onAttachToView();
         getPresenter().storyClicked(storyJson);

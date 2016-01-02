@@ -10,4 +10,6 @@ interface NavigationDrawerView : PresenterView {
     val drawerObserver : Observer<DrawerItem>
     var drawerClicks : Observable<Int>?
     fun navigateToStoryList(feed : Feed)
+    fun navigateToSettings()
+    fun navigateToAbout()
 }

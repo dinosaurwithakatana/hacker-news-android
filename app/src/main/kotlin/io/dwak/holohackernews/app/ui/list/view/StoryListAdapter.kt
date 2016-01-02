@@ -24,7 +24,7 @@ class StoryListAdapter(context: Context)
     }
 
     public fun clear(){
-        val size = list.size()
+        val size = list.size
         list.clear()
         notifyItemRangeRemoved(0, size)
     }
