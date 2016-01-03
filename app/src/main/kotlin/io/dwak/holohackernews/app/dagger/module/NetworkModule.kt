@@ -3,10 +3,12 @@ package io.dwak.holohackernews.app.dagger.module
 import com.facebook.stetho.okhttp.StethoInterceptor
 import com.squareup.okhttp.Interceptor
 import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.logging.HttpLoggingInterceptor
 import dagger.Module
 import dagger.Provides
 import io.dwak.holohackernews.app.network.HackerNewsService
 import retrofit.*
+import timber.log.Timber
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -20,7 +22,11 @@ public open class NetworkModule {
 
     @Provides fun callAdapter() : CallAdapter.Factory = RxJavaCallAdapterFactory.create()
 
-    @Provides fun networkInterceptors(): MutableList<Interceptor> = arrayListOf(StethoInterceptor())
+    @Provides fun networkInterceptors(): MutableList<Interceptor> {
+        val loggingInterceptor = HttpLoggingInterceptor({ Timber.v(it) })
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
+        return arrayListOf(StethoInterceptor(), loggingInterceptor)
+    }
 
     @Provides fun okClient(interceptors : MutableList<Interceptor>) : OkHttpClient {
         val client  = OkHttpClient()

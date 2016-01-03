@@ -22,20 +22,16 @@ class EndlessRecyclerViewScrollListener(private val layoutManager : LinearLayout
         totalItemCount = layoutManager.itemCount
         firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
 
-        when(loading) {
-            true -> {
-                if(totalItemCount > previousTotal){
-                    loading = false
-                    previousTotal = totalItemCount
-                }
+        when {
+            loading -> if (totalItemCount > previousTotal) {
+                loading = false
+                previousTotal = totalItemCount
             }
-            false -> {
-                if ((totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                    currentPage++
+            else -> if (totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold) {
+                currentPage++
 
-                    onLoadMore(currentPage)
-                    loading = true
-                }
+                onLoadMore(currentPage)
+                loading = true
             }
         }
     }
