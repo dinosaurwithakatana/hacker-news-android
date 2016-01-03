@@ -22,9 +22,14 @@ public open class NetworkModule {
 
     @Provides fun callAdapter() : CallAdapter.Factory = RxJavaCallAdapterFactory.create()
 
-    @Provides fun networkInterceptors(): MutableList<Interceptor> {
-        val loggingInterceptor = HttpLoggingInterceptor({ Timber.v(it) })
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
+    @Provides fun httpLogLevel() : HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BASIC
+
+    @Provides fun httpLogger() = HttpLoggingInterceptor.Logger { Timber.tag("Retrofit").v(it) }
+
+    @Provides fun networkInterceptors(logger : HttpLoggingInterceptor.Logger,
+                                      logLevel : HttpLoggingInterceptor.Level) : MutableList<Interceptor> {
+        val loggingInterceptor = HttpLoggingInterceptor(logger)
+        loggingInterceptor.setLevel(logLevel)
         return arrayListOf(StethoInterceptor(), loggingInterceptor)
     }
 
