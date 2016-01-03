@@ -8,7 +8,7 @@ import io.dwak.holohackernews.app.dagger.interactor.RxSchedulerInteractor
 import io.dwak.holohackernews.app.dagger.interactor.RxSchedulerInteractorImpl
 
 @Module
-open class InteractorModule(val context : Context) {
+open class InteractorModule(private val context : Context) {
 
     @Provides open fun providesMainThreadScheduler(): RxSchedulerInteractor = RxSchedulerInteractorImpl
     @Provides open fun resources() : Resources = context.resources

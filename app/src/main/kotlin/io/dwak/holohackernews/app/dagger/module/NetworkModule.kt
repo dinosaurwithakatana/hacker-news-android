@@ -5,7 +5,7 @@ import com.squareup.okhttp.Interceptor
 import com.squareup.okhttp.OkHttpClient
 import dagger.Module
 import dagger.Provides
-import io.dwak.holohackernews.app.network.HackerNewsService2
+import io.dwak.holohackernews.app.network.HackerNewsService
 import retrofit.*
 import javax.inject.Named
 import javax.inject.Singleton
@@ -31,11 +31,11 @@ public open class NetworkModule {
     @Singleton @Provides open fun hackerNewsService(@Named(value = "baseUrl") baseUrl: String,
                                                     callAdapterFactory: CallAdapter.Factory,
                                                     converterFactory: Converter.Factory,
-                                                    okHttpClient: OkHttpClient): HackerNewsService2
+                                                    okHttpClient: OkHttpClient): HackerNewsService
             = Retrofit.Builder().baseUrl(baseUrl)
             .client(okHttpClient)
             .addCallAdapterFactory(callAdapterFactory)
             .addConverterFactory(converterFactory)
             .build()
-            .create(HackerNewsService2::class.java)
+            .create(HackerNewsService::class.java)
 }

@@ -6,12 +6,8 @@ import io.dwak.holohackernews.app.HackerNewsApplication
 import timber.log.Timber
 
 @Module
-class AppModule(val app : HackerNewsApplication) {
-    @Provides fun providesApplicationContext() : HackerNewsApplication{
-        return app
-    }
+class AppModule(private val app : HackerNewsApplication) {
+    @Provides fun providesApplicationContext() : HackerNewsApplication = app
 
-    @Provides fun providesTimberTree() : Timber.Tree {
-        return Timber.DebugTree()
-    }
+    @Provides fun providesTimberTree() : Timber.Tree = Timber.DebugTree()
 }

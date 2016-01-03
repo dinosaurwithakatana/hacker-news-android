@@ -1,3 +1,5 @@
+@file:JvmName("FragmentActivityUtils")
+
 package io.dwak.holohackernews.app.extension
 
 import android.support.v4.app.Fragment
@@ -17,3 +19,5 @@ fun FragmentActivity.navigateTo(fragment : Fragment,
     extraOperations?.invoke(this)
     transaction.commit()
 }
+
+

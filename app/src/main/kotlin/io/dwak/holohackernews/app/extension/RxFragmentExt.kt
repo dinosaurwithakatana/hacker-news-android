@@ -1,3 +1,5 @@
+@file:JvmName("RxFragmentUtils")
+
 package io.dwak.holohackernews.app.extension
 
 import com.trello.rxlifecycle.FragmentEvent.DETACH
@@ -20,6 +22,7 @@ private class Lazy<T, L>(private val initializer: (T) -> L) : ReadOnlyProperty<T
         if (value == null) {
             value = initializer(thisRef)
         }
+
         return value!!
     }
 }

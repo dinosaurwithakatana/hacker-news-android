@@ -19,8 +19,10 @@ class StoryListAdapter(context: Context)
     }
 
     public fun addStory(story: StoryJson) {
-        list.add(story)
-        notifyItemInserted(list.size)
+        if(list.filter { it.id == story.id }.isEmpty()){
+            list.add(story)
+            notifyItemInserted(list.size)
+        }
     }
 
     public fun clear(){

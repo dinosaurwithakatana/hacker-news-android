@@ -1,3 +1,5 @@
+@file:JvmName("MaterialDrawerUtils")
+
 package io.dwak.holohackernews.app.extension
 
 import android.support.annotation.DrawableRes

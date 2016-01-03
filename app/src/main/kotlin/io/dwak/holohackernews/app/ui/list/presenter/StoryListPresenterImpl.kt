@@ -4,7 +4,7 @@ import io.dwak.holohackernews.app.base.mvp.AbstractPresenter
 import io.dwak.holohackernews.app.dagger.component.InteractorComponent
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
-import io.dwak.holohackernews.app.network.HackerNewsService2
+import io.dwak.holohackernews.app.network.HackerNewsService
 import io.dwak.holohackernews.app.ui.list.view.StoryListView
 import rx.Observable
 import rx.schedulers.Schedulers
@@ -13,7 +13,8 @@ import javax.inject.Inject
 class StoryListPresenterImpl(view: StoryListView, interactorComponent: InteractorComponent)
 : AbstractPresenter<StoryListView>(view, interactorComponent), StoryListPresenter {
     override var feed: Feed? = null
-    lateinit var hackerNewsService: HackerNewsService2 @Inject set
+    lateinit var hackerNewsService: HackerNewsService @Inject set
+    private var pageTwoLoaded = false
 
 
     override fun inject() = interactorComponent.inject(this)
@@ -57,7 +58,7 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
     override fun storyClicked(story: StoryJson) = view.navigateToStoryDetail(story.id)
 
     override fun loadPageTwo() {
-        if(feed == Feed.TOP) {
+        if(feed == Feed.TOP && !pageTwoLoaded) {
             feed?.let {
                 val f = it
                 if (f == Feed.TOP) {
@@ -67,6 +68,9 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
                             .subscribe { view.addStories(f.titleRes, it) }
                 }
             }
+        }
+        else {
+            pageTwoLoaded = true
         }
     }
 

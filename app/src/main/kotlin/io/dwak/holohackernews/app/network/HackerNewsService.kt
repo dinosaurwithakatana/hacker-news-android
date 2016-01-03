@@ -6,7 +6,7 @@ import retrofit.http.GET
 import retrofit.http.Path
 import rx.Observable
 
-interface HackerNewsService2 {
+interface HackerNewsService {
     @GET("/news") fun getTopStories() : Observable<MutableList<StoryJson>>
     @GET("/news2") fun getTopStoriesPageTwo() : Observable<MutableList<StoryJson>>
     @GET("/newest") fun getNewestStories() : Observable<MutableList<StoryJson>>

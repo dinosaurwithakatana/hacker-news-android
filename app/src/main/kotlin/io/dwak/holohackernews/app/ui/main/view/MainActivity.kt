@@ -21,7 +21,7 @@ import io.dwak.holohackernews.app.extension.SecondaryDrawerItem
 import io.dwak.holohackernews.app.extension.itemClicks
 import io.dwak.holohackernews.app.extension.navigateTo
 import io.dwak.holohackernews.app.model.Feed
-import io.dwak.holohackernews.app.model.navigation.DrawerItem
+import io.dwak.holohackernews.app.model.navigation.DrawerItemModel
 import io.dwak.holohackernews.app.model.navigation.DrawerItemType
 import io.dwak.holohackernews.app.ui.list.view.StoryListFragment
 import io.dwak.holohackernews.app.ui.main.presenter.MainPresenter
@@ -56,7 +56,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         navigationPresenter.prepareToAttachToView()
-        navigationPresenter.drawerItems.subscribe(drawerObserver)
+        navigationPresenter.items.subscribe(observer)
     }
 
     override fun onResume() {
@@ -81,7 +81,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
 
     override fun navigateToAbout() {
     }
-    override val drawerObserver = object: Observer<DrawerItem> {
+    override val observer = object: Observer<DrawerItemModel> {
         val drawerItems = ArrayList<IDrawerItem<*>>()
 
         override fun onCompleted() {
@@ -97,7 +97,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
                     .itemClicks()
         }
 
-        override fun onNext(item: DrawerItem) {
+        override fun onNext(item: DrawerItemModel) {
             with(drawerItems) {
                 when (item.type) {
                     DrawerItemType.PRIMARY -> add(PrimaryDrawerItem(item.id, item.titleRes, item.iconRes))

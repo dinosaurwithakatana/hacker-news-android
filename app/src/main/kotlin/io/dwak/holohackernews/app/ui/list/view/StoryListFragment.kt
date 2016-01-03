@@ -18,11 +18,12 @@ import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
 import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.extension.bindActivity
-import io.dwak.holohackernews.app.extension.build
 import io.dwak.holohackernews.app.extension.getSerializable
+import io.dwak.holohackernews.app.extension.withArgs
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
+import io.dwak.holohackernews.app.util.EndlessRecyclerViewScrollListener
 import rx.Observable
 import rx.functions.Action1
 import timber.log.Timber
@@ -37,7 +38,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
 
     companion object {
         val FEED_ARG = "FEED"
-        fun newInstance(feed : Feed) = StoryListFragment().build {
+        fun newInstance(feed : Feed) = StoryListFragment().withArgs {
             putSerializable(FEED_ARG, feed)
         }
     }
@@ -69,7 +70,9 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
         adapter = StoryListAdapter(activity)
         adapter?.onItemClicked = { presenter.storyClicked(it) }
         storyList.adapter = adapter
-        storyList.layoutManager = LinearLayoutManager(activity)
+        val layoutManager = LinearLayoutManager(activity)
+        storyList.layoutManager = layoutManager
+        storyList.addOnScrollListener(EndlessRecyclerViewScrollListener(layoutManager, { presenter.loadPageTwo() }))
         presenter.getStories()
     }
 

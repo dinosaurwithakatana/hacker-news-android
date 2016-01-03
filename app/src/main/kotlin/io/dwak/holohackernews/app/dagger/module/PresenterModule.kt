@@ -5,6 +5,9 @@ import dagger.Provides
 import io.dwak.holohackernews.app.base.mvp.PresenterView
 import io.dwak.holohackernews.app.dagger.component.InteractorComponent
 import io.dwak.holohackernews.app.dagger.scope.ViewScope
+import io.dwak.holohackernews.app.ui.about.presenter.AboutPresenter
+import io.dwak.holohackernews.app.ui.about.presenter.AboutPresenterImpl
+import io.dwak.holohackernews.app.ui.about.view.AboutView
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenter
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenterImpl
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
@@ -20,7 +23,7 @@ import io.dwak.holohackernews.app.ui.navigation.view.NavigationDrawerView
 
 @ViewScope
 @Module
-open class PresenterModule(val view : PresenterView) {
+open class PresenterModule(private val view : PresenterView) {
     @Provides fun storyListPresenter(interactorComponent: InteractorComponent) : StoryListPresenter
             = StoryListPresenterImpl(view as StoryListView, interactorComponent)
 
@@ -32,4 +35,7 @@ open class PresenterModule(val view : PresenterView) {
 
     @Provides fun navigationPresenter(interactorComponent: InteractorComponent) : NavigationDrawerPresenter
             = NavigationDrawerPresenterImpl(view as NavigationDrawerView, interactorComponent)
+
+    @Provides fun aboutPresenter(interactorComponent: InteractorComponent) : AboutPresenter
+            = AboutPresenterImpl(view as AboutView, interactorComponent)
 }

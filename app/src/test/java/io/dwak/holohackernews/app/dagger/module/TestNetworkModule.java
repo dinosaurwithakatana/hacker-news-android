@@ -6,21 +6,21 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Named;
 
-import io.dwak.holohackernews.app.network.HackerNewsService2;
+import io.dwak.holohackernews.app.network.HackerNewsService;
 import retrofit.CallAdapter;
 import retrofit.Converter;
 
 import static org.mockito.Mockito.mock;
 
 public class TestNetworkModule extends NetworkModule {
-    public final HackerNewsService2 mockedService = mock(HackerNewsService2.class);
+    public final HackerNewsService mockedService = mock(HackerNewsService.class);
 
     @NotNull
     @Override
-    public HackerNewsService2 hackerNewsService(@Named("baseUrl") @NotNull String baseUrl,
-                                                @NotNull CallAdapter.Factory callAdapterFactory,
-                                                @NotNull Converter.Factory converterFactory,
-                                                @NotNull OkHttpClient okHttpClient) {
+    public HackerNewsService hackerNewsService(@Named("baseUrl") @NotNull String baseUrl,
+                                               @NotNull CallAdapter.Factory callAdapterFactory,
+                                               @NotNull Converter.Factory converterFactory,
+                                               @NotNull OkHttpClient okHttpClient) {
         return mockedService;
     }
 }
