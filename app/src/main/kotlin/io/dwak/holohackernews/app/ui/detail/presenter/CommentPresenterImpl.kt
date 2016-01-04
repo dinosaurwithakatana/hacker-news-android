@@ -6,7 +6,5 @@ import io.dwak.holohackernews.app.ui.detail.view.CommentView
 
 class CommentPresenterImpl(view : CommentView, interactorComponent: InteractorComponent)
 : AbstractPresenter<CommentView>(view, interactorComponent), CommentPresenter {
-    override fun inject() {
-        interactorComponent.inject(this)
-    }
+    override fun inject() = interactorComponent.inject(this)
 }

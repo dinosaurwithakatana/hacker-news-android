@@ -16,7 +16,6 @@ class StoryListPresenterImpl(view: StoryListView, interactorComponent: Interacto
     private lateinit var hackerNewsService: HackerNewsService @Inject set
     private var pageTwoLoaded = false
 
-
     override fun inject() = interactorComponent.inject(this)
 
     override fun onAttachToView() {

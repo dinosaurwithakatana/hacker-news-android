@@ -7,9 +7,7 @@ import io.dwak.holohackernews.app.ui.about.view.AboutView
 
 class AboutPresenterImpl(view : AboutView, interactorComponent: InteractorComponent)
 : AbstractPresenter<AboutView>(view, interactorComponent), AboutPresenter{
-    override fun inject() {
-        interactorComponent.inject(this)
-    }
+    override fun inject() = interactorComponent.inject(this)
 
     override fun onAttachToView() {
         super.onAttachToView()

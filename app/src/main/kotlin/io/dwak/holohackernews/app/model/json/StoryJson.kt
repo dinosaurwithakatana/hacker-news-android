@@ -2,7 +2,7 @@ package io.dwak.holohackernews.app.model.json
 
 import com.squareup.moshi.Json
 
-data class StoryJson(val id : Long?,
+data class StoryJson(val id : Long,
                      val title : String?,
                      val url : String?,
                      val domain : String?,

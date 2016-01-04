@@ -25,7 +25,7 @@ public class StoryListPresenterImplTest extends BasePresenterTest<StoryListPrese
     public void testSetFeed() throws Exception {
         TestNetworkModule testNetworkModule = new TestNetworkModule();
         final List<StoryJson> storyJsons = new ArrayList<>();
-        storyJsons.add(new StoryJson(1l, "title", "url", "domain", 10, "user", "timeAgo", 3, "Job"));
+        storyJsons.add(new StoryJson(1L, "title", "url", "domain", 10, "user", "timeAgo", 3, "Job"));
         when(testNetworkModule.mockedService.getTopStories()).thenReturn(Observable.create(new Observable.OnSubscribe<List<StoryJson>>() {
             @Override
             public void call(final Subscriber<? super List<StoryJson>> subscriber) {
@@ -46,7 +46,7 @@ public class StoryListPresenterImplTest extends BasePresenterTest<StoryListPrese
 
     @Test
     public void testOnStoryClicked() throws Exception {
-        StoryJson storyJson = new StoryJson(1l, "title", "url", "domain", 10, "user", "timeAgo", 3, "Job");
+        StoryJson storyJson = new StoryJson(1L, "title", "url", "domain", 10, "user", "timeAgo", 3, "Job");
         when(view.getRefreshes()).thenReturn(Observable.<Unit>empty());
         getComponent(view, new TestNetworkModule()).inject(this);
         getPresenter().onAttachToView();

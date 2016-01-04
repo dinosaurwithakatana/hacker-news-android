@@ -83,7 +83,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
         storyList.forEach { adapter?.addStory(it) }
     }
 
-    override fun navigateToStoryDetail(itemId : Long?) {
+    override fun navigateToStoryDetail(itemId : Long) {
         Timber.d("navigateToStoryDetail : $itemId")
         listener.navigateToStoryDetail(itemId)
     }
@@ -94,6 +94,6 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
     }
 
     interface StoryListInteractionListener {
-        fun navigateToStoryDetail(itemId: Long?)
+        fun navigateToStoryDetail(itemId: Long)
     }
 }

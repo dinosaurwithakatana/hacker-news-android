@@ -8,14 +8,11 @@ import io.dwak.holohackernews.app.model.navigation.DrawerItemModel
 import io.dwak.holohackernews.app.ui.navigation.view.NavigationDrawerView
 import rx.Observable
 
-class NavigationDrawerPresenterImpl(view : NavigationDrawerView,
-                                    interactorComponent: InteractorComponent)
+class NavigationDrawerPresenterImpl(view : NavigationDrawerView, interactorComponent: InteractorComponent)
 : AbstractPresenter<NavigationDrawerView>(view, interactorComponent), NavigationDrawerPresenter{
     override val items: Observable<DrawerItemModel>
 
-    override fun inject() {
-        interactorComponent.inject(this)
-    }
+    override fun inject() = interactorComponent.inject(this)
 
     init {
         items = Observable.defer<DrawerItemModel> {

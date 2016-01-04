@@ -13,9 +13,7 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent: Inte
     private lateinit var hackerNewsService : HackerNewsService @Inject set
     override var itemId: Long? = null
 
-    override fun inject() {
-        interactorComponent.inject(this)
-    }
+    override fun inject() = interactorComponent.inject(this)
 
     override fun onAttachToView() {
         super.onAttachToView()

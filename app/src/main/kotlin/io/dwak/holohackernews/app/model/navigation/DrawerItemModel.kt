@@ -11,5 +11,3 @@ data class DrawerItemModel(val id : Int = -1,
 enum class DrawerItemType {
     PRIMARY, SECONDARY, DIVIDER
 }
-
-

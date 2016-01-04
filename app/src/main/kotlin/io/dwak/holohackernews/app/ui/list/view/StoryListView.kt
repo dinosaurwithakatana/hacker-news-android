@@ -15,5 +15,5 @@ interface StoryListView : PresenterView {
     fun addStories(@StringRes titleRes : Int,
                    storyList : List<StoryJson>)
 
-    fun navigateToStoryDetail(itemId : Long?)
+    fun navigateToStoryDetail(itemId : Long)
 }

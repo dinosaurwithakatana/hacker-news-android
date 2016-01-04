@@ -16,6 +16,8 @@ import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
 import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
+import io.dwak.holohackernews.app.extension.getLong
+import io.dwak.holohackernews.app.extension.withArgs
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.ui.detail.presenter.StoryDetailPresenter
 import rx.Observable
@@ -31,6 +33,15 @@ class StoryDetailFragment : MvpFragment<StoryDetailPresenter>(), StoryDetailView
     private val swipeRefresh : SwipeRefreshLayout by bindView(R.id.swipe_container)
     private val recycler : RecyclerView by bindView(R.id.comments_recycler)
 
+    companion object {
+        val ITEM_ID = "ITEM_ID"
+        fun newInstance(itemId : Long) : StoryDetailFragment {
+            return StoryDetailFragment().withArgs {
+                putLong(ITEM_ID, itemId)
+            }
+        }
+    }
+
     override fun inject() {
         DaggerPresenterComponent.builder()
                 .presenterModule(PresenterModule(this))
@@ -39,6 +50,11 @@ class StoryDetailFragment : MvpFragment<StoryDetailPresenter>(), StoryDetailView
                         .build())
                 .build()
                 .inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.itemId = getLong(ITEM_ID)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

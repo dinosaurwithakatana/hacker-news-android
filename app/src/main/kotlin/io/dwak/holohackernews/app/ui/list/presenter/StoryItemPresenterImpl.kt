@@ -15,9 +15,7 @@ class StoryItemPresenterImpl(view : StoryItemView, interactorComponent: Interact
             parseStory()
         }
 
-    override fun inject() {
-        interactorComponent.inject(this)
-    }
+    override fun inject() = interactorComponent.inject(this)
 
     override fun onAttachToView() {
         super.onAttachToView()

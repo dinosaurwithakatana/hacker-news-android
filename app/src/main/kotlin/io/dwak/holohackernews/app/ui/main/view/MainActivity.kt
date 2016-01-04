@@ -23,6 +23,7 @@ import io.dwak.holohackernews.app.extension.navigateTo
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.navigation.DrawerItemModel
 import io.dwak.holohackernews.app.model.navigation.DrawerItemType
+import io.dwak.holohackernews.app.ui.detail.view.StoryDetailFragment
 import io.dwak.holohackernews.app.ui.list.view.StoryListFragment
 import io.dwak.holohackernews.app.ui.main.presenter.MainPresenter
 import io.dwak.holohackernews.app.ui.navigation.presenter.NavigationDrawerPresenter
@@ -41,6 +42,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
     private val toolbar : Toolbar by bindView(R.id.toolbar)
     private val detailsContainer : FrameLayout? by bindOptionalView(R.id.details_container)
     lateinit var navigationPresenter : NavigationDrawerPresenter @Inject set
+
     override fun inject() {
         DaggerPresenterComponent.builder()
                 .presenterModule(PresenterModule(this))
@@ -73,7 +75,14 @@ class MainActivity : MvpActivity<MainPresenter>(),
         navigateTo(StoryListFragment.newInstance(feed), addToBackStack = false)
     }
 
-    override fun navigateToStoryDetail(itemId: Long?) {
+    override fun navigateToStoryDetail(itemId: Long) {
+        if(detailsContainer == null){
+        }
+        else {
+            navigateTo(StoryDetailFragment.newInstance(itemId),
+                    container = R.id.details_container,
+                    addToBackStack = true)
+        }
     }
 
     override fun navigateToSettings() {
