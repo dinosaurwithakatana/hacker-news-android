@@ -6,6 +6,8 @@ import io.dwak.holohackernews.app.dagger.interactor.RxSchedulerInteractor
 import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.NetworkModule
 import io.dwak.holohackernews.app.ui.about.presenter.AboutPresenterImpl
+import io.dwak.holohackernews.app.ui.detail.presenter.CommentPresenterImpl
+import io.dwak.holohackernews.app.ui.detail.presenter.StoryDetailPresenterImpl
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenterImpl
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenterImpl
 import io.dwak.holohackernews.app.ui.main.presenter.MainPresenterImpl
@@ -20,6 +22,8 @@ interface InteractorComponent {
     fun inject(mainPresenter: MainPresenterImpl)
     fun inject(navigationDrawerPresenterImpl: NavigationDrawerPresenterImpl)
     fun inject(aboutPresenterImpl : AboutPresenterImpl)
+    fun inject(storyDetailPresenterImpl: StoryDetailPresenterImpl)
+    fun inject(commentPresenterImpl: CommentPresenterImpl)
 
     val rxSchedulerInteractor : RxSchedulerInteractor
     val resources : Resources

@@ -8,6 +8,12 @@ import io.dwak.holohackernews.app.dagger.scope.ViewScope
 import io.dwak.holohackernews.app.ui.about.presenter.AboutPresenter
 import io.dwak.holohackernews.app.ui.about.presenter.AboutPresenterImpl
 import io.dwak.holohackernews.app.ui.about.view.AboutView
+import io.dwak.holohackernews.app.ui.detail.presenter.CommentPresenter
+import io.dwak.holohackernews.app.ui.detail.presenter.CommentPresenterImpl
+import io.dwak.holohackernews.app.ui.detail.presenter.StoryDetailPresenter
+import io.dwak.holohackernews.app.ui.detail.presenter.StoryDetailPresenterImpl
+import io.dwak.holohackernews.app.ui.detail.view.CommentView
+import io.dwak.holohackernews.app.ui.detail.view.StoryDetailView
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenter
 import io.dwak.holohackernews.app.ui.list.presenter.StoryItemPresenterImpl
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
@@ -38,4 +44,10 @@ open class PresenterModule(private val view : PresenterView) {
 
     @Provides fun aboutPresenter(interactorComponent: InteractorComponent) : AboutPresenter
             = AboutPresenterImpl(view as AboutView, interactorComponent)
+
+    @Provides fun storyDetailPresenter(interactorComponent: InteractorComponent) : StoryDetailPresenter
+            = StoryDetailPresenterImpl(view as StoryDetailView, interactorComponent)
+
+    @Provides fun commentPresenter(interactorComponent: InteractorComponent) : CommentPresenter
+            = CommentPresenterImpl(view as CommentView, interactorComponent)
 }

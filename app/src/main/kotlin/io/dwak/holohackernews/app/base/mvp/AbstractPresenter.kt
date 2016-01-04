@@ -4,7 +4,7 @@ import io.dwak.holohackernews.app.base.mvp.dagger.DaggerPresenter
 import io.dwak.holohackernews.app.dagger.component.InteractorComponent
 import rx.subscriptions.CompositeSubscription
 
-public abstract class AbstractPresenter<T : PresenterView>(protected val view : T,
+public abstract class AbstractPresenter<V : PresenterView>(protected val view : V,
                                                            protected val interactorComponent: InteractorComponent)
 : DaggerPresenter {
     val viewSubscription = CompositeSubscription()

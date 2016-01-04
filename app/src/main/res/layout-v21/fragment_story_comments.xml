@@ -1,74 +1,68 @@
-<layout
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    android:id="@+id/link_panel"
+    style="?containerBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoPanelHeight="@dimen/button_bar_height"
+    sothree:umanoParalaxOffset="100dp"
+    sothree:umanoShadowHeight="4dp">
 
-    <data class = "StoryDetailFragmentBinding"/>
-
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        android:id="@+id/link_panel"
-        style="?containerBackground"
+    <RelativeLayout
+        android:id="@+id/comments_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
-        sothree:umanoPanelHeight="@dimen/button_bar_height"
-        sothree:umanoParalaxOffset="100dp"
-        sothree:umanoShadowHeight="4dp"
-        tools:context="io.dwak.holohackernews.app.ui.storydetail.StoryDetailFragment">
+        android:fitsSystemWindows="true">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"/>
 
         <RelativeLayout
-            android:id="@+id/comments_container"
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:visibility="gone">
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:id="@+id/saved_banner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="visible"/>
+                android:background="?attr/colorPrimary"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/story_detail_saved_banner"
+                android:visibility="gone"/>
 
-            <RelativeLayout
-                android:id="@+id/container"
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:layout_below="@id/saved_banner">
 
-                <com.devspark.robototextview.widget.RobotoTextView
-                    android:id="@+id/saved_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="@string/story_detail_saved_banner"
-                    android:visibility="gone"/>
-
-                <android.support.v4.widget.SwipeRefreshLayout
-                    android:id="@+id/swipe_container"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/comments_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/saved_banner">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/comments_recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/list_selector_orange"
-                        android:fastScrollEnabled="true"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:visibility="visible"/>
-                </android.support.v4.widget.SwipeRefreshLayout>
+                    android:background="@color/list_selector_orange"
+                    android:fastScrollEnabled="true"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:visibility="visible"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
 
 
-            </RelativeLayout>
         </RelativeLayout>
+    </RelativeLayout>
 
-        <include
-            android:id="@+id/link_layout"
-            layout="@layout/view_story_link"/>
+    <include
+        android:id="@+id/link_layout"
+        layout="@layout/view_story_link"/>
 
 
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-</layout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
