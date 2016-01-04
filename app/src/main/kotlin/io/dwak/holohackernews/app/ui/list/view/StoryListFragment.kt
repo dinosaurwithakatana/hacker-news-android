@@ -29,12 +29,12 @@ import rx.functions.Action1
 import timber.log.Timber
 
 class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
-    val storyList : RecyclerView by bindView(R.id.story_list)
-    val swipeRefresh : SwipeRefreshLayout by bindView(R.id.swipe_container)
-    val listener : StoryListInteractionListener by bindActivity()
     override var refreshing : Action1<in Boolean>? = null
     override var refreshes : Observable<Unit>? = null
-    var adapter : StoryListAdapter? = null
+    private val storyList : RecyclerView by bindView(R.id.story_list)
+    private val swipeRefresh : SwipeRefreshLayout by bindView(R.id.swipe_container)
+    private val listener : StoryListInteractionListener by bindActivity()
+    private var adapter : StoryListAdapter? = null
 
     companion object {
         val FEED_ARG = "FEED"
@@ -67,6 +67,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
 
         refreshing = swipeRefresh.refreshing()
         refreshes = swipeRefresh.refreshes()
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark)
         adapter = StoryListAdapter(activity)
         adapter?.onItemClicked = { presenter.storyClicked(it) }
         storyList.adapter = adapter

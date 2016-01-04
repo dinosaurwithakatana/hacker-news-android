@@ -81,6 +81,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
 
     override fun navigateToAbout() {
     }
+
     override val observer = object: Observer<DrawerItemModel> {
         val drawerItems = ArrayList<IDrawerItem<*>>()
 
