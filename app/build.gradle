@@ -13,16 +13,16 @@ android {
         versionName '5.0'
     }
     signingConfigs {
-//        release {
-//            def Properties localProps = new Properties()
-//            localProps.load(new FileInputStream(file('../local.properties')))
-//            def Properties keyProps = new Properties()
-//            keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
-//            storeFile file(keyProps["store"])
-//            keyAlias keyProps["alias"]
-//            storePassword keyProps["storePass"]
-//            keyPassword keyProps["pass"]
-//        }
+        release {
+            def Properties localProps = new Properties()
+            localProps.load(new FileInputStream(file('../local.properties')))
+            def Properties keyProps = new Properties()
+            keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
+            storeFile file(keyProps["store"])
+            keyAlias keyProps["alias"]
+            storePassword keyProps["storePass"]
+            keyPassword keyProps["pass"]
+        }
     }
     buildTypes {
         debug.initWith(buildTypes.debug)
@@ -31,14 +31,14 @@ android {
             versionNameSuffix '-dev'
             manifestPlaceholders = [bugsnagApiKey: "", ormLog: false]
         }
-//        release {
-//            minifyEnabled false
-//            signingConfig signingConfigs.release
-//
-//            def Properties bugsnagProps = new Properties()
-//            bugsnagProps.load(new FileInputStream(file('../bugsnag.properties')))
-//            manifestPlaceholders = [bugsnagApiKey: bugsnagProps["api-key"], ormLog: false]
-//        }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+
+            def Properties bugsnagProps = new Properties()
+            bugsnagProps.load(new FileInputStream(file('../bugsnag.properties')))
+            manifestPlaceholders = [bugsnagApiKey: bugsnagProps["api-key"], ormLog: false]
+        }
     }
     productFlavors {
     }
