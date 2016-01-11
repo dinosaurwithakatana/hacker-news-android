@@ -61,7 +61,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
 
     private static final String TAG = WebContentActivity.class.getSimpleName();
     public static final String MIME_TYPE = "text/html";
-    public static final String ENCODING = "UTF-8";
+    public static final String ENCODING = Constants.UTF_8_CHAR_SET;
 
     protected String url;
     protected String html;

@@ -15,7 +15,6 @@ public class Constants {
         String PAGE_TITLE = "PAGE_TITLE";
         String WEBSITE_URL = "WEBSITE_URL";
         String HTML_CONTENT = "HTML_CONTENT";
-        String STRING_ID = "STRING_ID";
 
     }
 
