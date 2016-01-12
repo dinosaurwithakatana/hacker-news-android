@@ -2,8 +2,8 @@ package io.dwak.holohackernews.app.network
 
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.model.json.StoryJson
-import retrofit.http.GET
-import retrofit.http.Path
+import retrofit2.http.GET
+import retrofit2.http.Path
 import rx.Observable
 
 interface HackerNewsService {

@@ -1,14 +1,13 @@
 package io.dwak.holohackernews.app.dagger.module;
 
-import com.squareup.okhttp.OkHttpClient;
-
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Named;
 
 import io.dwak.holohackernews.app.network.HackerNewsService;
-import retrofit.CallAdapter;
-import retrofit.Converter;
+import okhttp3.OkHttpClient;
+import retrofit2.CallAdapter;
+import retrofit2.Converter;
 
 import static org.mockito.Mockito.mock;
 

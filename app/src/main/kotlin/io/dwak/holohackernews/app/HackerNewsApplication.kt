@@ -7,6 +7,11 @@ import io.dwak.holohackernews.app.dagger.module.AppModule
 import timber.log.Timber
 
 class HackerNewsApplication : Application() {
+
+    companion object {
+        lateinit var instance : HackerNewsApplication
+    }
+
     val appComponent by lazy {
         DaggerAppComponent.builder()
                 .appModule(AppModule(this))
@@ -17,6 +22,7 @@ class HackerNewsApplication : Application() {
         super.onCreate()
         Stetho.initializeWithDefaults(this)
         Timber.plant(appComponent.tree);
+        instance = this
     }
 
 }

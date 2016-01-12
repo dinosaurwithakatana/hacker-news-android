@@ -38,6 +38,6 @@ ext {
     rxBindingVersion = '0.3.0'
     rxLifecycleVersion = '0.2.0'
     kotlin_version = '1.0.0-beta-4583'
-    retrofitVersion = '2.0.0-beta2'
+    retrofitVersion = '2.0.0-beta3'
 }
 

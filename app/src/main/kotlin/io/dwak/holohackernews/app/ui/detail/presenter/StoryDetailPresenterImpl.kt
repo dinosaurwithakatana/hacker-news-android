@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent: InteractorComponent)
 : AbstractPresenter<StoryDetailView>(view, interactorComponent), StoryDetailPresenter{
-    private lateinit var hackerNewsService : HackerNewsService @Inject set
+    lateinit var hackerNewsService : HackerNewsService @Inject set
     override var itemId: Long? = null
 
     override fun inject() = interactorComponent.inject(this)

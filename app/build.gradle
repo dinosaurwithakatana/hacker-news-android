@@ -24,10 +24,7 @@ android {
         }
     }
     buildTypes {
-        debug.initWith(buildTypes.debug)
         debug {
-            applicationIdSuffix '.dev'
-            versionNameSuffix '-dev'
             manifestPlaceholders = [bugsnagApiKey: "", ormLog: false]
         }
         release {
@@ -40,6 +37,12 @@ android {
         }
     }
     productFlavors {
+        mock {
+            applicationIdSuffix = ".mock"
+        }
+
+        dev {
+        }
     }
 
     compileOptions {
@@ -52,17 +55,7 @@ android {
         dexInProcess = true
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
-//    sourceSets {
-//        main {
-//            java {
-//                srcDirs = ['src/main/kotlin']
-//            }
-//        }
-//    }
+    sourceSets.all { it.java.srcDirs += "src/${it.name}/kotlin" }
 }
 
 dependencies {
@@ -71,9 +64,10 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.supportVersion"
     compile "com.android.support:support-annotations:$rootProject.supportVersion"
     compile "com.android.support:design:$rootProject.supportVersion"
-    compile "com.squareup.retrofit:retrofit:$rootProject.retrofitVersion"
-    compile "com.squareup.retrofit:converter-moshi:$rootProject.retrofitVersion"
-    compile "com.squareup.retrofit:adapter-rxjava:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-moshi:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
+    mockCompile "com.squareup.retrofit2:retrofit-mock:$rootProject.retrofitVersion"
     compile 'com.loopeer.android.thirdparty:swipe-back-layout:1.0'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile "com.jakewharton.rxbinding:rxbinding:$rootProject.rxBindingVersion"
@@ -86,6 +80,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.squareup.okhttp:logging-interceptor:2.7.0'
     compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.0-RC1'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
     compile('com.mikepenz:materialdrawer:4.6.1@aar') {
         transitive = true

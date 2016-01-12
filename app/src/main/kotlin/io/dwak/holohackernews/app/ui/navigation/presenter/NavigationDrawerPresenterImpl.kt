@@ -33,15 +33,18 @@ class NavigationDrawerPresenterImpl(view : NavigationDrawerView, interactorCompo
     }
 
     override val onItemClick: (Int) -> Unit = {
-        when (it) {
-            TOP.drawerItemModel.id -> view.navigateToStoryList(Feed.TOP)
-            BEST.drawerItemModel.id -> view.navigateToStoryList(Feed.BEST)
-            NEW.drawerItemModel.id -> view.navigateToStoryList(Feed.NEW)
-            SHOW.drawerItemModel.id -> view.navigateToStoryList(Feed.SHOW)
-            SHOW_NEW.drawerItemModel.id -> view.navigateToStoryList(Feed.NEW_SHOW)
-            ASK.drawerItemModel.id -> view.navigateToStoryList(Feed.ASK)
-            SETTINGS.drawerItemModel.id -> view.navigateToSettings()
-            ABOUT.drawerItemModel.id -> view.navigateToAbout()
+        id: Int ->
+        with(view) {
+            when (id) {
+                TOP.drawerItemModel.id -> navigateToStoryList(Feed.TOP)
+                BEST.drawerItemModel.id -> navigateToStoryList(Feed.BEST)
+                NEW.drawerItemModel.id -> navigateToStoryList(Feed.NEW)
+                SHOW.drawerItemModel.id -> navigateToStoryList(Feed.SHOW)
+                SHOW_NEW.drawerItemModel.id -> navigateToStoryList(Feed.NEW_SHOW)
+                ASK.drawerItemModel.id -> navigateToStoryList(Feed.ASK)
+                SETTINGS.drawerItemModel.id -> navigateToSettings()
+                ABOUT.drawerItemModel.id -> navigateToAbout()
+            }
         }
     }
 

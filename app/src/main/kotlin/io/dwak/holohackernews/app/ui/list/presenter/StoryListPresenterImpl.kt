@@ -13,7 +13,7 @@ import javax.inject.Inject
 class StoryListPresenterImpl(view: StoryListView, interactorComponent: InteractorComponent)
 : AbstractPresenter<StoryListView>(view, interactorComponent), StoryListPresenter {
     override var feed: Feed? = null
-    private lateinit var hackerNewsService: HackerNewsService @Inject set
+    lateinit var hackerNewsService: HackerNewsService @Inject set
     private var pageTwoLoaded = false
 
     override fun inject() = interactorComponent.inject(this)
