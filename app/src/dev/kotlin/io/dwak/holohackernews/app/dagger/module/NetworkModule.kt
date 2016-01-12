@@ -33,9 +33,9 @@ public open class NetworkModule {
     }
 
     @Provides fun okClient(interceptors : MutableList<Interceptor>) : OkHttpClient {
-        val client  = OkHttpClient()
-        client.networkInterceptors().addAll(interceptors)
-        return client
+        val clientBuilder = OkHttpClient().newBuilder()
+        interceptors.forEach { clientBuilder.addInterceptor(it) }
+        return clientBuilder.build()
     }
 
     @Singleton @Provides open fun hackerNewsService(@Named(value = "baseUrl") baseUrl: String,
