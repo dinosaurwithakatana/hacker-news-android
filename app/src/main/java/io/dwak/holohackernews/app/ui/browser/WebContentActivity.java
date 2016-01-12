@@ -22,6 +22,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseActivity;
 import io.dwak.holohackernews.app.util.Constants;
@@ -70,11 +72,10 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     protected CustomTabsClient customTabsClient;
     protected CustomTabsServiceConnection customTabsServiceConnection;
     protected String mPackageNameToBind = CustomTabsHelper.STABLE_PACKAGE; //what version of Chrome to connect to Beta, Dev, Stable etc
-    protected WebView webView;
-    protected Toolbar toolbar;
+    protected @InjectView (R.id.webContent_wv) WebView webView;
+    protected @InjectView(R.id.toolbar) Toolbar toolbar;
 
     protected boolean bUsingChromeCustomTab = false;
-    protected boolean isViewUpdateRequired = true;
 
     //In case we need to implement listeners for events we want to implement in the main xml file
     public interface ActivityResult {
@@ -99,11 +100,8 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
         setContentView(R.layout.web_content);
 
         setInitialValues();
-
-        if (isViewUpdateRequired) {
-            setupViews();
-        }
-
+        ButterKnife.inject(this);
+        setupViews();
     }
 
     @Override
@@ -126,7 +124,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
 
     protected void setupViews() {
 
-        getViewsById();
+        ButterKnife.inject(this);
 
         //set the page title
         if (getIntent().hasExtra(Constants.BundleExtraArgumentNames.PAGE_TITLE)) {
@@ -160,11 +158,6 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
         else
             //got a url so displaying in Chrome Custom Tab (or WebView)
             initialiseUrlContent();
-    }
-
-    protected void getViewsById() {
-        webView = (WebView) findViewById(R.id.webContent_wv);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     protected void initialiseHtmlContent() {
