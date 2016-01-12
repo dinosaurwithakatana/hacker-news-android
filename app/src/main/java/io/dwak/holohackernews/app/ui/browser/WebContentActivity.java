@@ -121,7 +121,6 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
 
         setContentView(R.layout.web_content);
 
-        setInitialValues();
         ButterKnife.inject(this);
         setupViews();
     }
@@ -139,9 +138,6 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
-    }
-
-    protected void setInitialValues() {
     }
 
     protected void setupViews() {
