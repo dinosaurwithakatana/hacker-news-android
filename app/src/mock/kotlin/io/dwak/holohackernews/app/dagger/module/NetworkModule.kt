@@ -3,6 +3,7 @@ package io.dwak.holohackernews.app.dagger.module
 import dagger.Module
 import dagger.Provides
 import io.dwak.holohackernews.app.network.HackerNewsService
+import io.dwak.holohackernews.app.network.MockService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

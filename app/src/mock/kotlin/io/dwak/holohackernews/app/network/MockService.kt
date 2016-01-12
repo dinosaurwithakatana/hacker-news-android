@@ -1,4 +1,4 @@
-package io.dwak.holohackernews.app.dagger.module
+package io.dwak.holohackernews.app.network
 
 import android.content.res.AssetManager
 import com.squareup.moshi.Moshi
@@ -6,7 +6,6 @@ import com.squareup.moshi.Types
 import io.dwak.holohackernews.app.HackerNewsApplication
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.model.json.StoryJson
-import io.dwak.holohackernews.app.network.HackerNewsService
 import retrofit2.mock.BehaviorDelegate
 import rx.Observable
 import javax.inject.Inject
