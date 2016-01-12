@@ -13,10 +13,42 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <WebView
-        android:id="@+id/webContent_wv"
+    <ScrollView
+        android:id="@+id/web_content_sv"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp">
+        <WebView
+            android:id="@+id/web_content_wv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <Button
+            android:layout_marginLeft="@dimen/button_padding"
+            android:layout_marginRight="@dimen/button_padding"
+            android:id="@+id/web_content_first_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orange_button"
+            android:text="first"
+            android:visibility="gone"
+            />
+
+        <Button
+            android:layout_margin="@dimen/button_padding"
+            android:id="@+id/web_content_second_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orange_button"
+            android:text="second"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
 </LinearLayout>

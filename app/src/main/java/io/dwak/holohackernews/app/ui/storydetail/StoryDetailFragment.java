@@ -63,6 +63,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public static final String TOP_VISIBLE_COMMENT = "TOP_VISIBLE_COMMENT";
     public static final String LOADING_FROM_SAVED = "LOADING_FROM_SAVED";
     private static final String STORY_ID = "story_id";
+    static final int WEB_CONTENT_ACTIVITY_REQUEST = 99;  // The request code
     private static final String TAG = StoryDetailFragment.class.getSimpleName();
     @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
     @InjectView(R.id.action_1) Button mButtonBarAction1;
@@ -391,7 +392,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                 break;
             case R.id.action_open_browser:
                 final CharSequence[] openInBrowserItems = {getString(R.string.action_open_in_browser_link),
-                        getString(R.string.action_open_in_browser_comments), getString(R.string.action_open_in_static_html)};
+                        getString(R.string.action_open_in_browser_comments), getString(R.string.action_open_in_static_html_buttons), getString(R.string.action_open_in_static_html)};
                 new AlertDialog.Builder(getActivity())
                         .setItems(openInBrowserItems, (dialogInterface, i) -> {
                             Intent chromeTabsIntent = new Intent(getActivity(), WebContentActivity.class);
@@ -407,6 +408,13 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                                     break;
                                 case 2:
                                     //Just to demo the static HTML text option. Will be removed
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.FIRST_BUTTON_TEXT, getString(R.string.vote_barca));
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.SECOND_BUTTON_TEXT,getString(R.string.thanks_vote_real));
+
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.PAGE_TITLE,getString(R.string.capre_diem));
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.HTML_CONTENT, getString(R.string.static_html_example));
+                                    break;
+                                case 3:
                                     chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.PAGE_TITLE,getString(R.string.capre_diem));
                                     chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.HTML_CONTENT, getString(R.string.static_html_example));
                                     break;
@@ -414,7 +422,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
 
                             if(chromeTabsIntent.getExtras() != null) {
                                 try {
-                                    startActivity(chromeTabsIntent);
+                                    startActivityForResult(chromeTabsIntent,WEB_CONTENT_ACTIVITY_REQUEST);
                                 } catch(ActivityNotFoundException e){
                                     ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
                                 }
@@ -428,6 +436,24 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == WEB_CONTENT_ACTIVITY_REQUEST && resultCode == WebContentActivity.ActivityResult.error)
+        {
+            ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
+        }
+        if(requestCode == WEB_CONTENT_ACTIVITY_REQUEST && resultCode == WebContentActivity.ActivityResult.firstButtonSelected)
+        {
+            ToastUtils.showToast(getActivity(), R.string.vote_to_barca);
+        }
+        if(requestCode == WEB_CONTENT_ACTIVITY_REQUEST && resultCode == WebContentActivity.ActivityResult.secondButtonSelected)
+        {
+            ToastUtils.showToast(getActivity(), R.string.thanks_vote_to_real);
+        }
+
     }
 
     @Override

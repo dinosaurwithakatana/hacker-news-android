@@ -7,6 +7,7 @@ package io.dwak.holohackernews.app.ui.browser;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
@@ -18,12 +19,16 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.ScrollView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import io.dwak.holohackernews.app.R;
 import io.dwak.holohackernews.app.base.BaseActivity;
 import io.dwak.holohackernews.app.util.Constants;
@@ -72,16 +77,33 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     protected CustomTabsClient customTabsClient;
     protected CustomTabsServiceConnection customTabsServiceConnection;
     protected String mPackageNameToBind = CustomTabsHelper.STABLE_PACKAGE; //what version of Chrome to connect to Beta, Dev, Stable etc
-    protected @InjectView (R.id.webContent_wv) WebView webView;
+
+    protected @InjectView (R.id.web_content_wv) WebView webView;
+    protected @InjectView(R.id.web_content_sv) ScrollView scrollview;
     protected @InjectView(R.id.toolbar) Toolbar toolbar;
+    protected @InjectView(R.id.web_content_first_button) Button firstBtn;
+    protected @InjectView(R.id.web_content_second_button) Button secondBtn;
 
     protected boolean bUsingChromeCustomTab = false;
 
-    //In case we need to implement listeners for events we want to implement in the main xml file
+    //In case we need to implement listeners for events, e.g. to return button click in the case of a static HTML
     public interface ActivityResult {
-        int error = 0;
+        int error = 1000;
+        int firstButtonSelected = 1001;
+        int secondButtonSelected = 1002;
     }
 
+    @OnClick(R.id.web_content_first_button)
+    public void firstButtonClick(Button button) {
+        setResult(ActivityResult.firstButtonSelected);
+        finish();
+    }
+
+    @OnClick(R.id.web_content_second_button)
+    public void secondButtonClick(Button button) {
+        setResult(ActivityResult.secondButtonSelected);
+        finish();
+    }
 
     //Callback method that indicates what is happening in the Chrome Custome Tab
     //Look in CustomTabsCallback class to find what some of the navigationEvent values mean
@@ -108,7 +130,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                onBackPressAction();
                 return true;
         }
 
@@ -158,6 +180,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
         else
             //got a url so displaying in Chrome Custom Tab (or WebView)
             initialiseUrlContent();
+
     }
 
     protected void initialiseHtmlContent() {
@@ -169,7 +192,26 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
             //loading twice will help prevent display issues encountered when loading a series of documents
             webView.loadData(html, MIME_TYPE, ENCODING);
             webView.loadData(html, MIME_TYPE, ENCODING);
+            scrollview.setSmoothScrollingEnabled(false);
+            scrollview.fullScroll(ScrollView.FOCUS_UP);
         }
+
+        webView.setWebViewClient(new WebViewClient() {
+
+            public void onPageFinished(WebView view, String url) {
+
+                //Not sure what calling activity might want to display so check all these values before using them
+                if (getIntent().hasExtra(Constants.BundleExtraArgumentNames.FIRST_BUTTON_TEXT)) {
+                    firstBtn.setText(getIntent().getStringExtra(Constants.BundleExtraArgumentNames.FIRST_BUTTON_TEXT));
+                    firstBtn.setVisibility(View.VISIBLE);
+                }
+
+                if (getIntent().hasExtra(Constants.BundleExtraArgumentNames.SECOND_BUTTON_TEXT)) {
+                    secondBtn.setText(getIntent().getStringExtra(Constants.BundleExtraArgumentNames.SECOND_BUTTON_TEXT));
+                    secondBtn.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     protected void initialiseUrlContent() {
@@ -230,7 +272,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
         //The only time this could happen is if you press back when on the tab so that there is nothing previous in the tab history
         //If this occurs and the WebView is visible assume the user has finished viewing web content and finish() activity.
         if (bUsingChromeCustomTab) {
-            WebView webView = (WebView) findViewById(R.id.webContent_wv);
+            WebView webView = (WebView) findViewById(R.id.web_content_wv);
             Rect scrollBounds = new Rect();
 
             //checks is WebView is visible on screen at this point.
@@ -267,7 +309,13 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     }
 
     protected void onBackPressAction() {
-        finish();
+        super.onBackPressed();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        }
+        else {
+            overridePendingTransition(R.anim.fadein, R.anim.view_right_to_offscreen);
+        }
     }
 
     @Override
