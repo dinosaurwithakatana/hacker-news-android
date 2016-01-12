@@ -53,7 +53,10 @@ class MockService(private val delegate : BehaviorDelegate<HackerNewsService>)
     }
 
     override fun getTopStoriesPageTwo() : Observable<MutableList<StoryJson>> {
-        throw UnsupportedOperationException()
+        val topStories = loadJsonFromAsset("top2.json")
+        val response = moshi.adapter<List<StoryJson>>(Types.newParameterizedType(List::class.java, StoryJson::class.java))
+                .fromJson(topStories)
+        return delegate.returningResponse(response).getTopStories()
     }
 
     private fun loadJsonFromAsset(filename : String) : String {
