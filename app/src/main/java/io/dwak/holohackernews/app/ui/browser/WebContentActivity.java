@@ -121,7 +121,6 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
 
         setContentView(R.layout.web_content);
 
-        ButterKnife.inject(this);
         setupViews();
     }
 
@@ -185,8 +184,6 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
         webSettings.setJavaScriptEnabled(true);
 
         if (!TextUtils.isEmpty(html)) {
-            //loading twice will help prevent display issues encountered when loading a series of documents
-            webView.loadData(html, MIME_TYPE, ENCODING);
             webView.loadData(html, MIME_TYPE, ENCODING);
             scrollview.setSmoothScrollingEnabled(false);
             scrollview.fullScroll(ScrollView.FOCUS_UP);
@@ -374,7 +371,8 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     }
 
     @Override
-    public void onServiceDisconnected() {
+    public void onServiceDisconnected()
+    {
         customTabsClient = null;
     }
 
