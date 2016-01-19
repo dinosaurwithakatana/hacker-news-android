@@ -45,6 +45,8 @@ import io.dwak.holohackernews.app.dagger.component.DaggerViewModelComponent;
 import io.dwak.holohackernews.app.models.Comment;
 import io.dwak.holohackernews.app.models.StoryDetail;
 import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
+import io.dwak.holohackernews.app.ui.browser.WebContentActivity;
+import io.dwak.holohackernews.app.util.Constants;
 import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.util.ToastUtils;
 import io.dwak.holohackernews.app.util.UIUtils;
@@ -61,6 +63,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public static final String TOP_VISIBLE_COMMENT = "TOP_VISIBLE_COMMENT";
     public static final String LOADING_FROM_SAVED = "LOADING_FROM_SAVED";
     private static final String STORY_ID = "story_id";
+    static final int WEB_CONTENT_ACTIVITY_REQUEST = 99;  // The request code
     private static final String TAG = StoryDetailFragment.class.getSimpleName();
     @InjectView(R.id.button_bar) RelativeLayout mButtonBar;
     @InjectView(R.id.action_1) Button mButtonBarAction1;
@@ -100,31 +103,31 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     private void refresh() {
         showProgress(true);
         mSubscription = getViewModel().getStoryDetailObservable()
-                                         .subscribeOn(Schedulers.io())
-                                         .observeOn(AndroidSchedulers.mainThread())
-                                         .subscribe(new Subscriber<StoryDetail>() {
-                                             @Override
-                                             public void onCompleted() {
-                                                 showProgress(false);
-                                                 mSwipeRefreshLayout.setRefreshing(false);
-                                             }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<StoryDetail>() {
+                    @Override
+                    public void onCompleted() {
+                        showProgress(false);
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
 
-                                             @Override
-                                             public void onError(Throwable e) {
-                                                 Toast.makeText(getActivity(), R.string.story_details_error_toast_message, Toast.LENGTH_SHORT).show();
-                                                 if (HackerNewsApplication.isDebug()) {
-                                                     e.printStackTrace();
-                                                 }
-                                             }
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), R.string.story_details_error_toast_message, Toast.LENGTH_SHORT).show();
+                        if (HackerNewsApplication.isDebug()) {
+                            e.printStackTrace();
+                        }
+                    }
 
-                                             @Override
-                                             public void onNext(StoryDetail storyDetail) {
-                                                 updateHeader(storyDetail);
-                                                 updateSlidingPanel(getViewModel().startDrawerExpanded());
-                                                 updateRecyclerView(storyDetail);
-                                                 openLink(storyDetail);
-                                             }
-                                         });
+                    @Override
+                    public void onNext(StoryDetail storyDetail) {
+                        updateHeader(storyDetail);
+                        updateSlidingPanel(getViewModel().startDrawerExpanded());
+                        updateRecyclerView(storyDetail);
+                        openLink(storyDetail);
+                    }
+                });
     }
 
     private void updateRecyclerView(StoryDetail storyDetail) {
@@ -163,9 +166,9 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerViewModelComponent.builder()
-                                .appComponent(HackerNewsApplication.getAppComponent())
-                                .build()
-                                .inject(this);
+                .appComponent(HackerNewsApplication.getAppComponent())
+                .build()
+                .inject(this);
 
         if (getArguments() != null) {
             if (getArguments().containsKey(STORY_ID)) {
@@ -223,67 +226,67 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                     switch (j) {
                         case 0:
                             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                                String.format("https://news.ycombinator.com/item?id=%d", comment.getCommentId()));
+                                    String.format("https://news.ycombinator.com/item?id=%d", comment.getCommentId()));
                             break;
                         case 1:
                             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                                String.format("%s: %s", comment.getUser(), Html.fromHtml(comment.getContent())));
+                                    String.format("%s: %s", comment.getUser(), Html.fromHtml(comment.getContent())));
                             break;
                         case 2:
                             AlertDialog.Builder replyDialog = new AlertDialog.Builder(getActivity())
                                     .setTitle(getString(R.string.action_reply));
                             AppCompatEditText editText = new AppCompatEditText(getActivity());
                             replyDialog.setView(editText)
-                                       .setPositiveButton(getString(R.string.action_submit), (dialog, which) -> {
-                                           ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                                           progressDialog.setMessage(getString(R.string.submitting_progress));
-                                           progressDialog.setCancelable(false);
-                                           progressDialog.show();
-                                           getViewModel().reply(comment, editText.getText().toString())
-                                                         .subscribeOn(Schedulers.io())
-                                                         .observeOn(AndroidSchedulers.mainThread())
-                                                         .subscribe(new Subscriber<Object>() {
-                                                             @Override
-                                                             public void onCompleted() {
-                                                                 progressDialog.dismiss();
-                                                             }
+                                    .setPositiveButton(getString(R.string.action_submit), (dialog, which) -> {
+                                        ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                                        progressDialog.setMessage(getString(R.string.submitting_progress));
+                                        progressDialog.setCancelable(false);
+                                        progressDialog.show();
+                                        getViewModel().reply(comment, editText.getText().toString())
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new Subscriber<Object>() {
+                                                    @Override
+                                                    public void onCompleted() {
+                                                        progressDialog.dismiss();
+                                                    }
 
-                                                             @Override
-                                                             public void onError(Throwable e) {
-                                                                 progressDialog.dismiss();
-                                                             }
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        progressDialog.dismiss();
+                                                    }
 
-                                                             @Override
-                                                             public void onNext(Object o) {
+                                                    @Override
+                                                    public void onNext(Object o) {
 
-                                                             }
-                                                         });
-                                           dialog.dismiss();
-                                       })
-                                       .setNegativeButton(android.R.string.cancel, null)
-                                       .show();
+                                                    }
+                                                });
+                                        dialog.dismiss();
+                                    })
+                                    .setNegativeButton(android.R.string.cancel, null)
+                                    .show();
                             dialogInterface.dismiss();
                             return;
                         case 3:
                             getViewModel().upvote(comment)
-                                          .subscribeOn(Schedulers.io())
-                                          .observeOn(AndroidSchedulers.mainThread())
-                                          .subscribe(new Subscriber<Object>() {
-                                              @Override
-                                              public void onCompleted() {
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<Object>() {
+                                        @Override
+                                        public void onCompleted() {
 
-                                              }
+                                        }
 
-                                              @Override
-                                              public void onError(Throwable e) {
+                                        @Override
+                                        public void onError(Throwable e) {
 
-                                              }
+                                        }
 
-                                              @Override
-                                              public void onNext(Object o) {
+                                        @Override
+                                        public void onNext(Object o) {
 
-                                              }
-                                          });
+                                        }
+                                    });
                             return;
                     }
                     sendIntent.setType("text/plain");
@@ -305,9 +308,9 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
         });
 
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_orange_dark,
-                                                    android.R.color.holo_orange_light,
-                                                    android.R.color.holo_orange_dark,
-                                                    android.R.color.holo_orange_light);
+                android.R.color.holo_orange_light,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_orange_light);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(true);
             refresh();
@@ -389,24 +392,37 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                 break;
             case R.id.action_open_browser:
                 final CharSequence[] openInBrowserItems = {getString(R.string.action_open_in_browser_link),
-                        getString(R.string.action_open_in_browser_comments)};
+                        getString(R.string.action_open_in_browser_comments), getString(R.string.action_open_in_static_html_buttons), getString(R.string.action_open_in_static_html)};
                 new AlertDialog.Builder(getActivity())
                         .setItems(openInBrowserItems, (dialogInterface, i) -> {
-                            Intent browserIntent = new Intent();
-                            browserIntent.setAction(Intent.ACTION_VIEW);
+                            Intent chromeTabsIntent = new Intent(getActivity(), WebContentActivity.class);
+                            chromeTabsIntent.setAction(Intent.ACTION_VIEW);
+
                             switch (i){
                                 case 0:
-                                    if(getViewModel().getStoryDetail().getUrl() != null) {
-                                        browserIntent.setData(Uri.parse(getViewModel().getStoryDetail().getUrl()));
-                                    }
+                                    if(getViewModel().getStoryDetail().getUrl() != null)
+                                        chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.WEBSITE_URL,getViewModel().getStoryDetail().getUrl());
                                     break;
                                 case 1:
-                                    browserIntent.setData(Uri.parse(HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId()));
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.WEBSITE_URL,HACKER_NEWS_ITEM_BASE_URL + getViewModel().getStoryId());
+                                    break;
+                                case 2:
+                                    //Just to demo the static HTML text option. Will be removed
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.FIRST_BUTTON_TEXT, getString(R.string.vote_barca));
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.SECOND_BUTTON_TEXT,getString(R.string.thanks_vote_real));
+
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.PAGE_TITLE,getString(R.string.capre_diem));
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.HTML_CONTENT, getString(R.string.static_html_example));
+                                    break;
+                                case 3:
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.PAGE_TITLE,getString(R.string.capre_diem));
+                                    chromeTabsIntent.putExtra(Constants.BundleExtraArgumentNames.HTML_CONTENT, getString(R.string.static_html_example));
                                     break;
                             }
-                            if(browserIntent.getData() != null) {
+
+                            if(chromeTabsIntent.getExtras() != null) {
                                 try {
-                                    startActivity(browserIntent);
+                                    startActivityForResult(chromeTabsIntent,WEB_CONTENT_ACTIVITY_REQUEST);
                                 } catch(ActivityNotFoundException e){
                                     ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
                                 }
@@ -420,6 +436,24 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == WEB_CONTENT_ACTIVITY_REQUEST && resultCode == WebContentActivity.ActivityResult.error)
+        {
+            ToastUtils.showToast(getActivity(), R.string.open_in_browser_error);
+        }
+        if(requestCode == WEB_CONTENT_ACTIVITY_REQUEST && resultCode == WebContentActivity.ActivityResult.firstButtonSelected)
+        {
+            ToastUtils.showToast(getActivity(), R.string.vote_to_barca);
+        }
+        if(requestCode == WEB_CONTENT_ACTIVITY_REQUEST && resultCode == WebContentActivity.ActivityResult.secondButtonSelected)
+        {
+            ToastUtils.showToast(getActivity(), R.string.thanks_vote_to_real);
+        }
+
     }
 
     @Override
@@ -444,8 +478,8 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
             }
             else {
                 mSlidingUpPanelLayout.setPanelState(mSlidingUpPanelLayout.getPanelState()
-                                                                         .equals(SlidingUpPanelLayout.PanelState.COLLAPSED) ? SlidingUpPanelLayout.PanelState.EXPANDED
-                                                                                                                            : SlidingUpPanelLayout.PanelState.COLLAPSED);
+                        .equals(SlidingUpPanelLayout.PanelState.COLLAPSED) ? SlidingUpPanelLayout.PanelState.EXPANDED
+                        : SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
         mSlidingUpPanelLayout.post(() -> {

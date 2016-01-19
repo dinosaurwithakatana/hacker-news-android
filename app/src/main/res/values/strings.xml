@@ -113,4 +113,57 @@
     <string name="browser_not_found_error_toast">Browser not found!</string>
     <string name="open_in_browser_error">Unable to open in browser!</string>
     <string name="open_in_browser_failure_toast">Unable to open!</string>
+
+
+    //****************************example for static html***********************
+    <string name="vote_barca">Vote Barcelona</string>
+    <string name="vote_to_barca">Thank you for voting Barcelona</string>
+    <string name="thanks_vote_real">Vote Real Madrid</string>
+    <string name="thanks_vote_to_real">Thank you for voting Real Madrid</string>
+    <string name="action_open_in_static_html">Open in static HTML</string>
+    <string name="action_open_in_static_html_buttons">Open in static HTML + Buttons</string>
+    <string name="capre_diem">Capre diem</string>
+
+
+   <string name="static_html_example"><![CDATA[<!DOCTYPE html>
+<html>
+<body>
+
+<p>Tu ne quaesieris, scire nefas, quem mihi, quem tibi
+finem di dederint, Leuconoe, nec Babylonios
+temptaris numeros. ut melius, quidquid erit, pati.
+seu pluris hiemes seu tribuit Iuppiter ultimam,
+quae nunc oppositis debilitat pumicibus mare
+Tyrrhenum. Sapias, vina liques et spatio brevi
+spem longam reseces. dum loquimur, fugerit invida
+
+aetas: carpe diem, quam minimum credula postero</p>
+</br>
+
+<p>Tu ne quaesieris, scire nefas, quem mihi, quem tibi
+finem di dederint, Leuconoe, nec Babylonios
+temptaris numeros. ut melius, quidquid erit, pati.
+seu pluris hiemes seu tribuit Iuppiter ultimam,
+quae nunc oppositis debilitat pumicibus mare
+Tyrrhenum. Sapias, vina liques et spatio brevi
+spem longam reseces. dum loquimur, fugerit invida
+
+aetas: carpe diem, quam minimum credula postero</p>
+
+</br>
+
+<p>Tu ne quaesieris, scire nefas, quem mihi, quem tibi
+finem di dederint, Leuconoe, nec Babylonios
+temptaris numeros. ut melius, quidquid erit, pati.
+seu pluris hiemes seu tribuit Iuppiter ultimam,
+quae nunc oppositis debilitat pumicibus mare
+Tyrrhenum. Sapias, vina liques et spatio brevi
+spem longam reseces. dum loquimur, fugerit invida
+
+aetas: carpe diem, quam minimum credula postero</p>
+</body>
+</html>]]>
+
+
+</string>
 </resources>
