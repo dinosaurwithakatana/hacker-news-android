@@ -70,21 +70,21 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     public static final String MIME_TYPE = "text/html";
     public static final String ENCODING = Constants.UTF_8_CHAR_SET;
 
-    protected String url;
-    protected String html;
+    private String url;
+    private String html;
 
-    protected CustomTabsSession customTabsSession;
-    protected CustomTabsClient customTabsClient;
-    protected CustomTabsServiceConnection customTabsServiceConnection;
-    protected String mPackageNameToBind = CustomTabsHelper.STABLE_PACKAGE; //what version of Chrome to connect to Beta, Dev, Stable etc
+    private CustomTabsSession customTabsSession;
+    private CustomTabsClient customTabsClient;
+    private CustomTabsServiceConnection customTabsServiceConnection;
+    private String mPackageNameToBind = CustomTabsHelper.STABLE_PACKAGE; //what version of Chrome to connect to Beta, Dev, Stable etc
 
-    protected @InjectView (R.id.web_content_wv) WebView webView;
-    protected @InjectView(R.id.web_content_sv) ScrollView scrollview;
-    protected @InjectView(R.id.toolbar) Toolbar toolbar;
-    protected @InjectView(R.id.web_content_first_button) Button firstBtn;
-    protected @InjectView(R.id.web_content_second_button) Button secondBtn;
+    public @InjectView (R.id.web_content_wv) WebView webView;
+    public @InjectView(R.id.web_content_sv) ScrollView scrollview;
+    public @InjectView(R.id.toolbar) Toolbar toolbar;
+    public @InjectView(R.id.web_content_first_button) Button firstBtn;
+    public @InjectView(R.id.web_content_second_button) Button secondBtn;
 
-    protected boolean bUsingChromeCustomTab = false;
+    private boolean bUsingChromeCustomTab = false;
 
     //In case we need to implement listeners for events, e.g. to return button click in the case of a static HTML
     public interface ActivityResult {
@@ -108,7 +108,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     //Callback method that indicates what is happening in the Chrome Custome Tab
     //Look in CustomTabsCallback class to find what some of the navigationEvent values mean
     //Note: the list is not complete...eg 6 means back. Check Google site.
-    protected static class NavigationCallback extends CustomTabsCallback {
+    public static class NavigationCallback extends CustomTabsCallback {
         @Override
         public void onNavigationEvent(int navigationEvent, Bundle extras) {
             HNLog.d(TAG, String.valueOf("onNavigationEvent: Code = " + navigationEvent));
@@ -116,7 +116,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.web_content);
@@ -139,7 +139,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
         return true;
     }
 
-    protected void setupViews() {
+    public void setupViews() {
 
         ButterKnife.inject(this);
 
@@ -178,7 +178,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
 
     }
 
-    protected void initialiseHtmlContent() {
+    private void initialiseHtmlContent() {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -207,7 +207,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
         });
     }
 
-    protected void initialiseUrlContent() {
+    private void initialiseUrlContent() {
         //Decide what we will be using on this activity - tabs or webview.
         //Set bUsingChromeCustomTab so can be tested elsewhere in class
         bUsingChromeCustomTab = isChromeInstalledAndHaveCustomTabsFunctionality();
@@ -230,7 +230,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     }
 
     //Does the phone have Chrome installed and a version of Chrome that supports custom tabs?
-    protected boolean isChromeInstalledAndHaveCustomTabsFunctionality() {
+    private boolean isChromeInstalledAndHaveCustomTabsFunctionality() {
 
         if (PhoneUtils.isAppInstalledOnDevice(this, Constants.GOOGLE_CHROME_PACKAGE_NAME)) {
 
@@ -301,7 +301,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
         return super.onKeyDown(keyCode, event);
     }
 
-    protected void onBackPressAction() {
+    private void onBackPressAction() {
         super.onBackPressed();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
@@ -312,12 +312,12 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         unbindCustomTabsService();
         super.onDestroy();
     }
 
-    protected CustomTabsSession getSession() {
+    private CustomTabsSession getSession() {
         if (customTabsClient == null) {
             customTabsSession = null;
         } else if (customTabsSession == null) {
@@ -327,7 +327,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
     }
 
 
-    protected void bindCustomTabsService() {
+    private void bindCustomTabsService() {
         //client already connected so no point trying again
         if (customTabsClient != null)
             return;
@@ -339,7 +339,7 @@ public class WebContentActivity extends BaseActivity implements ServiceConnectio
             customTabsServiceConnection = null;
     }
 
-    protected void unbindCustomTabsService() {
+    private void unbindCustomTabsService() {
 
         if (customTabsServiceConnection == null)
             return;
