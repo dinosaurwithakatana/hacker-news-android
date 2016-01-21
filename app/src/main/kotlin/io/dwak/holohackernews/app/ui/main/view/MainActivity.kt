@@ -23,6 +23,7 @@ import io.dwak.holohackernews.app.extension.navigateTo
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.navigation.DrawerItemModel
 import io.dwak.holohackernews.app.model.navigation.DrawerItemType
+import io.dwak.holohackernews.app.ui.detail.view.StoryDetailActivity
 import io.dwak.holohackernews.app.ui.detail.view.StoryDetailFragment
 import io.dwak.holohackernews.app.ui.list.view.StoryListFragment
 import io.dwak.holohackernews.app.ui.main.presenter.MainPresenter
@@ -77,6 +78,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
 
     override fun navigateToStoryDetail(itemId: Long) {
         if(detailsContainer == null){
+            startActivity(StoryDetailActivity.newIntent(this, itemId))
         }
         else {
             navigateTo(StoryDetailFragment.newInstance(itemId),

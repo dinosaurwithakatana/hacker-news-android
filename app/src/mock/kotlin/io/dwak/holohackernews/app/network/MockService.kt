@@ -30,7 +30,16 @@ class MockService(private val delegate : BehaviorDelegate<HackerNewsService>)
     }
 
     override fun getItemDetails(itemId : Long) : Observable<StoryDetailJson> {
-        throw UnsupportedOperationException()
+        when(itemId){
+            10939306L -> {
+                val detail = loadJsonFromAsset("$itemId.json")
+                val response = moshi.adapter<StoryDetailJson>(StoryDetailJson::class.java).fromJson(detail)
+                return delegate.returningResponse(response).getItemDetails(itemId)
+            }
+            else -> {
+                return delegate.returningResponse(null).getItemDetails(itemId)
+            }
+        }
     }
 
     override fun getNewestStories() : Observable<MutableList<StoryJson>> {

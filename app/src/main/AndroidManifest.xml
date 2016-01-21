@@ -26,27 +26,27 @@
             <!--android:label="@string/title_activity_about"-->
             <!--android:parentActivityName=".ui.storylist.MainActivity">-->
         <!--</activity>-->
-        <!--<activity-->
-            <!--android:name=".ui.storydetail.StoryDetailActivity"-->
-            <!--android:configChanges="orientation|screenSize"-->
-            <!--android:label="@string/title_activity_story_detail"-->
-            <!--android:theme="@style/AppTheme.Detail">-->
-            <!--<intent-filter>-->
-                <!--<data-->
-                    <!--android:host="news.ycombinator.com"-->
-                    <!--android:pathPrefix="/item"-->
-                    <!--android:scheme="http"/>-->
-                <!--<data-->
-                    <!--android:host="news.ycombinator.com"-->
-                    <!--android:pathPrefix="/item"-->
-                    <!--android:scheme="https"/>-->
+        <activity
+            android:name=".ui.detail.view.StoryDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_story_detail"
+            android:theme="@style/AppTheme.Detail">
+            <intent-filter>
+                <data
+                    android:host="news.ycombinator.com"
+                    android:pathPrefix="/item"
+                    android:scheme="http"/>
+                <data
+                    android:host="news.ycombinator.com"
+                    android:pathPrefix="/ervab"
+                    android:scheme="https"/>
 
-                <!--<action android:name="android.intent.action.VIEW"/>-->
+                <action android:name="android.intent.action.VIEW"/>
 
-                <!--<category android:name="android.intent.category.BROWSABLE"/>-->
-                <!--<category android:name="android.intent.category.DEFAULT"/>-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <!--<activity-->
             <!--android:name=".ui.settings.SettingsActivity"-->
             <!--android:label="@string/title_activity_settings"-->

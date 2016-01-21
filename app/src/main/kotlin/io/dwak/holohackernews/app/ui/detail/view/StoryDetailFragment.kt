@@ -65,6 +65,7 @@ class StoryDetailFragment : MvpFragment<StoryDetailPresenter>(), StoryDetailView
         super.onViewCreated(view, savedInstanceState)
         refreshing = swipeRefresh.refreshing()
         refreshes = swipeRefresh.refreshes()
+        presenter.getStoryDetails()
     }
 
     override fun displayStory(storyDetail: StoryDetailJson) {

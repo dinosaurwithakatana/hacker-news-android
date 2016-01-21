@@ -20,4 +20,8 @@ fun FragmentActivity.navigateTo(fragment : Fragment,
     transaction.commit()
 }
 
+fun FragmentActivity.getInt(key : String, defaultValue : Int = 0) = intent.getIntExtra(key, defaultValue)
+fun FragmentActivity.getLong(key : String, defaultValue : Long = 0) = intent.getLongExtra(key, defaultValue)
+fun FragmentActivity.getBoolean(key : String, defaultValue : Boolean = false) = intent.getBooleanExtra(key, defaultValue)
+fun FragmentActivity.getString(key : String, defaultValue : String? = null) : String? = intent.getStringExtra(key)
 
