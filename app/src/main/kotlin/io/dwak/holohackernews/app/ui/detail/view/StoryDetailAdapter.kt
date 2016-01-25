@@ -1,0 +1,45 @@
+package io.dwak.holohackernews.app.ui.detail.view
+
+import android.content.Context
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import io.dwak.holohackernews.app.model.json.CommentJson
+import io.dwak.holohackernews.app.model.json.StoryDetailJson
+import io.dwak.holohackernews.app.ui.list.view.StoryViewHolder
+
+class StoryDetailAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    enum class ViewType { HEADER, COMMENT }
+    data class StoryDetailItem<T>(val viewType : ViewType, val value : T)
+
+    val layoutInflater : LayoutInflater
+    val itemList = arrayListOf<StoryDetailItem<*>>()
+
+    init {
+        layoutInflater = LayoutInflater.from(context)
+    }
+
+    fun addHeader(storyDetail : StoryDetailJson) {
+        itemList.add(StoryDetailItem(ViewType.HEADER, storyDetail))
+    }
+
+    fun addComments(comments : List<CommentJson>) {
+        comments.forEach { itemList.add(StoryDetailItem(ViewType.COMMENT, it)) }
+    }
+
+    override fun getItemCount() : Int = itemList.size
+    override fun getItemViewType(position : Int) : Int = itemList[position].viewType.ordinal
+
+    override fun onBindViewHolder(holder : RecyclerView.ViewHolder?, position : Int) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder? {
+        when (viewType) {
+            ViewType.HEADER.ordinal  -> return StoryViewHolder.create(layoutInflater, parent)
+            ViewType.COMMENT.ordinal -> return CommentViewHolder.create(layoutInflater, parent)
+            else                     -> return null
+        }
+    }
+
+}

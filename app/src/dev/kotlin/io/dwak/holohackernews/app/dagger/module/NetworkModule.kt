@@ -1,5 +1,6 @@
 package io.dwak.holohackernews.app.dagger.module
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
 import io.dwak.holohackernews.app.network.HackerNewsService
@@ -29,7 +30,7 @@ public open class NetworkModule {
                                       logLevel : HttpLoggingInterceptor.Level) : MutableList<Interceptor> {
         val loggingInterceptor = HttpLoggingInterceptor(logger)
         loggingInterceptor.setLevel(logLevel)
-        return arrayListOf(loggingInterceptor)
+        return arrayListOf(StethoInterceptor(), loggingInterceptor)
     }
 
     @Provides fun okClient(interceptors : MutableList<Interceptor>) : OkHttpClient {

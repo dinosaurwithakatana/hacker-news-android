@@ -1,0 +1,1104 @@
+{
+  "id": 10939306,
+  "title": "Caltech Researchers Find Evidence of a Planet Beyond Pluto",
+  "points": 609,
+  "user": "cyanbane",
+  "time": 1453308139,
+  "time_ago": "8 hours ago",
+  "type": "link",
+  "url": "http://www.caltech.edu/news/caltech-researchers-find-evidence-real-ninth-planet-49523",
+  "domain": "caltech.edu",
+  "comments": [
+    {
+      "id": 10940265,
+      "level": 0,
+      "user": "hackuser",
+      "time": 1453314971,
+      "time_ago": "6 hours ago",
+      "content": "<p>The NY Times covers the story well:<p><a href=\"http:&#x2F;&#x2F;www.nytimes.com&#x2F;2016&#x2F;01&#x2F;21&#x2F;science&#x2F;space&#x2F;ninth-planet-solar-system-beyond-pluto.html\" rel=\"nofollow\">http:&#x2F;&#x2F;www.nytimes.com&#x2F;2016&#x2F;01&#x2F;21&#x2F;science&#x2F;space&#x2F;ninth-planet...</a><p>EDIT: After reading the comments in this discussion, many of which are addressed in the NYT article, I&#x27;d say the NYT article is almost certainly worth reading.",
+      "comments": [
+        {
+          "id": 10941252,
+          "level": 1,
+          "user": "SadismoNoise",
+          "time": 1453323270,
+          "time_ago": "4 hours ago",
+          "content": "<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=TkBMAHUkibY\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=TkBMAHUkibY</a>",
+          "dead": true,
+          "comments": [
+            {
+              "id": 10941701,
+              "level": 2,
+              "user": "elbigbad",
+              "time": 1453327109,
+              "time_ago": "3 hours ago",
+              "content": "<p>I really like the people and format of HN. Unfortunately these kinds of posts (random gifs, memes, video links) really detract from it. Luckily they only come up sporadically and when they do they&#x27;re quickly gone.",
+              "comments": []
+            },
+            {
+              "id": 10941725,
+              "level": 2,
+              "user": "davesque",
+              "time": 1453327371,
+              "time_ago": "2 hours ago",
+              "content": "<p>It was just a joke, people.  Lighten up.",
+              "dead": true,
+              "comments": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10941707,
+      "level": 0,
+      "user": "xenophonf",
+      "time": 1453327184,
+      "time_ago": "3 hours ago",
+      "content": "<p>No one&#x27;s mentioned Tyche yet?<p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Tyche_%28hypothetical_planet%29\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Tyche_%28hypothetical_planet%2...</a><p>In searching for Tyche, the WISE missions ruled out the possibility of anything larger than Saturn (95x the mass of Earth) out to about 10000 AU and anything larger than Jupiter (317x the mass of Earth) out to about 26000 AU.  WISE was able to detect objects the size of Neptune (17x the mass of Earth) out to about 700 AU, so it should be possible to find the object proposed by the Caltech astronomers here (10x the mass of Earth at around 600 AU).  I don&#x27;t know if WISE&#x27;s current condition would allow it to perform such a search, as it&#x27;s completely out of coolant.",
+      "comments": [
+        {
+          "id": 10942289,
+          "level": 1,
+          "user": "avz",
+          "time": 1453332974,
+          "time_ago": "an hour ago",
+          "content": "<p>For comparison:<p>* the aphelion of Sedna, the most distant dwarf planet of our Solar system is at 937 AU from the Sun [1],<p>* distance between Proxima Centauri and the binary Alpha Centauri is 15,000 ± 700 AU [2],<p>* one light year is 63,241.1 AU,<p>* distance to the nearest star (Proxima Centauri [2]) is 4.2421 ly = 268,274.973 AU,<p>[1] <a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;90377_Sedna\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;90377_Sedna</a><p>[2] <a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Proxima_Centauri\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Proxima_Centauri</a><p>EDIT: formatting and added Proxima-Alpha Centauri distance.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10939744,
+      "level": 0,
+      "user": "dexwiz",
+      "time": 1453311135,
+      "time_ago": "7 hours ago",
+      "content": "<p>We have been looking for a &quot;missing&quot; objects for a while. The nemesis star theory says the sun has a brown dwarf companion. This object would interact with the Oort Cloud instead of the Kuiper belt. But this theory has been pretty much refuted.<p>This theory definitely looks more promising. Finding eccentric Kuiper belt objects, and aligning them with a missing object seems to be a good bet. Giving the object an orbit should make the search easier, and we will probably have a conclusion one way or another within a few years.<p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Nemesis_(hypothetical_star)\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Nemesis_(hypothetical_star)</a>",
+      "comments": []
+    },
+    {
+      "id": 10940035,
+      "level": 0,
+      "user": "tdaltonc",
+      "time": 1453313214,
+      "time_ago": "6 hours ago",
+      "content": "<p>&gt; Batygin and Brown inferred its presence from the peculiar clustering of six previously known objects that orbit beyond Neptune.<p>This raised a big red flag in my mind. This must produce a literally astronomical multiple comparisons problem. Yes they reported sigma = 3.8, but if they didn&#x27;t do their multiple comparisons correction right (which I am in no position to determine), they&#x27;re basically reading tea leaves.<p>If you&#x27;re not familiar with multiple comparisons, it&#x27;s kind of like [this](<a href=\"https:&#x2F;&#x2F;www.goodreads.com&#x2F;quotes&#x2F;649893-you-know-the-most-amazing-thing-happened-to-me-tonight\" rel=\"nofollow\">https:&#x2F;&#x2F;www.goodreads.com&#x2F;quotes&#x2F;649893-you-know-the-most-am...</a>) or [this](<a href=\"https:&#x2F;&#x2F;xkcd.com&#x2F;882&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;xkcd.com&#x2F;882&#x2F;</a>). If you look at enough extra-neptunian bodies, some of them are going to be in an odd looking cluster.",
+      "comments": [
+        {
+          "id": 10941491,
+          "level": 1,
+          "user": "gaur",
+          "time": 1453325209,
+          "time_ago": "3 hours ago",
+          "content": "<p>&gt; but if they didn&#x27;t do their multiple comparisons correction right (which I am in no position to determine), they&#x27;re basically reading tea leaves.<p>Please don&#x27;t spread FUD about other people&#x27;s research and then try to soften it with a disclaimer about how you&#x27;re &quot;in no position to determine&quot; anything about the research.<p>If you want to offer criticism of the research, you should do the legwork to find out what the researchers did and did not do.",
+          "comments": []
+        },
+        {
+          "id": 10941767,
+          "level": 1,
+          "user": "Balgair",
+          "time": 1453327861,
+          "time_ago": "2 hours ago",
+          "content": "<p>I knew Chaz personally in undergrad and a bit since then. Though I have not read the article yet (I&#x27;m in a state of shock really) I can attest to the man. He is so kind, funny, personable, and one a heck of a guitar player. Based on his stellar work in undergrad in modeling the orbital path futures of our solar system on the Gyr timescale, I am sure he is sure of the work. (Only non humanities major to ever win the Dean&#x27;s Award at UCSC, it was great work)<p>The man would not ever publish this unless he was sure of it. Science and time may tell him wrong, but I&#x27;m one to believe him as a friend. Both he and Olga must be on cloud nine right now! (oh wow, nine, wow!)<p>I mean WOW! Like, a PLANET! A frickin PLANET! None of this dwarf stuff, a full PLANET! (Not to malign all those folk&#x27;s hard work in finding the dwarves either).<p>Jesus tapdancing christ gravy! What a day!<p>EDIT: Upon further reading, it may still be a dwarf planet as it has not &#x27;cleared&#x27; it&#x27;s orbit. Still, my lord, so happy for them both right now!",
+          "comments": []
+        },
+        {
+          "id": 10940143,
+          "level": 1,
+          "user": "jessriedel",
+          "time": 1453314116,
+          "time_ago": "6 hours ago",
+          "content": "<p>I think you&#x27;re right that that&#x27;s one of the chief concerns, but I think you paint it incorrectly as a technical problem.  (&quot;Multiple comparisons&quot; as you call it.  Particle physicists call it the &quot;look-elsewhere effect&quot;: <a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Look-elsewhere_effect\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Look-elsewhere_effect</a> )<p>The easy, though tedious, part of the look-elsewhere effect is to calculate a probabilisitic correction for all the various combinatorics of X objects in Y orbits over a time period of length Z that one <i>might</i> have seen.   The hard, and borderline philosophical, part is to identify the proper reference class, i.e., what <i>qualitatively</i> different sorts of observations might have also considered evidence for planet nine, and how many other astrophysical searches are we running that might have given us weird results?  This is really where frequentist approaches strain to be useful, and it&#x27;s hard to avoid resorting to a Bayesian prior.<p>Analogously for particle physics, it&#x27;s easy to compute the chance of getting a 4-sigma deviation for two different experiments in any gamma-gamma energy bins, so the after-the-fact corrections to the significant of a fluctuation in a <i>particular</i> bin are easy to compute.  Much more difficult is to consider all the hundreds of parallel searches going on, of greatly varying levels of motivation, and correcting based on that.",
+          "comments": [
+            {
+              "id": 10940986,
+              "level": 2,
+              "user": "jerf",
+              "time": 1453320868,
+              "time_ago": "4 hours ago",
+              "content": "<p>I&#x27;d also observe that in terms of prior probability, &quot;There is a ninth planet in the solar system that we have not yet detected&quot; is probably hovering at least in the low-integer percentages, and I imagine some scientists would place it higher than that. The general idea is not a wild, far-out one by any stretch of the imagination.",
+              "comments": [
+                {
+                  "id": 10941796,
+                  "level": 3,
+                  "user": "XorNot",
+                  "time": 1453328103,
+                  "time_ago": "2 hours ago",
+                  "content": "<p>That isn&#x27;t how probability works though. You have a Bayesian priors problem - you can&#x27;t establish what the initial probabilities are.",
+                  "comments": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 10940759,
+          "level": 1,
+          "user": "scott_s",
+          "time": 1453318928,
+          "time_ago": "5 hours ago",
+          "content": "<p>The authors are not relying just on the improbability of that arrangement, but also on its stability. From one of the authors, on <a href=\"http:&#x2F;&#x2F;www.findplanetnine.com&#x2F;\" rel=\"nofollow\">http:&#x2F;&#x2F;www.findplanetnine.com&#x2F;</a>:<p>&quot;Mike and I were genuinely perplexed. Could the confinement of the orbits be due to an observational bias or a mere coincidence (after all, we are talking about six objects here - not exactly “big data”)? Thankfully, the probability of the observed alignment being fortuitous can be assessed in a statistically rigorous manner, and clocks in at right around 0.007%. Not a great gamble. Moreover, application of simple perturbation theory (or direct numerical integration) demonstrates that if allowed to evolve under the gravitational influence of Jupiter, Saturn, Uranus and Neptune, the orbits would become randomly oriented on timescales much shorter than than the multi-billion year lifetime of the solar system. So the dynamical origin of the peculiar structure of the Kuiper belt cannot be outsourced to the distant past - something is holding the orbits together <i>right now</i>.&quot;",
+          "comments": []
+        },
+        {
+          "id": 10940217,
+          "level": 1,
+          "user": "stdbrouw",
+          "time": 1453314624,
+          "time_ago": "6 hours ago",
+          "content": "<p>The anomaly itself does not seem to be disputed. It&#x27;s true that when looking for arbitrary clusters and unusual patterns you can pretty much always find something -- though it&#x27;s more of a Texas Sharpshooter fallacy [1] than the kind of multiple comparisons you see in e.g. medical research -- but the paper in question [2] mentions a whole bunch of alternative theories for why the particular clustering of a bunch of rocks in the Kuiper belt is what it is, and it doesn&#x27;t seem very likely to me that none of those researchers ever thought &quot;well, gee, maybe this is all just a fluke.&quot; In fact the competing hypotheses would be my main source of skepticism – maybe it&#x27;s a planet, maybe it&#x27;s an entirely different phenomenon.<p>[1] <a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Texas_sharpshooter_fallacy\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Texas_sharpshooter_fallacy</a><p>[2] <a href=\"http:&#x2F;&#x2F;iopscience.iop.org&#x2F;article&#x2F;10.3847&#x2F;0004-6256&#x2F;151&#x2F;2&#x2F;22;jsessionid=9DAB98EED9CB30448604A2F4CA0F8752.c5.iopscience.cld.iop.org\" rel=\"nofollow\">http:&#x2F;&#x2F;iopscience.iop.org&#x2F;article&#x2F;10.3847&#x2F;0004-6256&#x2F;151&#x2F;2&#x2F;22...</a>",
+          "comments": []
+        },
+        {
+          "id": 10940147,
+          "level": 1,
+          "user": "politician",
+          "time": 1453314147,
+          "time_ago": "6 hours ago",
+          "content": "<p>Keep reading, their simulation explains several additional previously unrelated trajectories.",
+          "comments": []
+        },
+        {
+          "id": 10940369,
+          "level": 1,
+          "user": "Steuard",
+          "time": 1453315825,
+          "time_ago": "6 hours ago",
+          "content": "<p>I haven&#x27;t seen the original research myself to judge, but it <i>sounds</i> like they&#x27;re being careful about these effects. Looking at their discussion on the main page of <a href=\"http:&#x2F;&#x2F;www.findplanetnine.com&#x2F;\" rel=\"nofollow\">http:&#x2F;&#x2F;www.findplanetnine.com&#x2F;</a>, the claim seems to be that this isn&#x27;t &quot;we spotted six out of the solar system&#x27;s zillions of objects that formed a cluster&quot; but rather &quot;the unique six known objects within a certain range of orbital parameters all form a cluster in a different parameter&quot;.<p>More specifically, quoting from that page, &quot;all Kuiper belt objects with orbits that do not veer into inter-planetary space and spend longer than approximately 2000 years to complete a single revolution around the Sun... trace out elliptical paths that point into approximately the same direction in physical space, and lie in approximately the same plane.&quot;<p>That could be just an observational coincidence, and that&#x27;s where they claim the statistical figure that you&#x27;ve cited. I have no idea to what extent those figures account for the multiple comparisons issue, but the range of orbital parameters that I&#x27;ve quoted here doesn&#x27;t look very fine-tuned to me. (The upper bound certainly isn&#x27;t, anyway!) So it&#x27;s just a question of how the lower bound was chosen. And on some level, I&#x27;m not even sure that that&#x27;s an issue: an observation that&#x27;s based on &quot;the longest <i>N</i> bound orbits all show this pattern&quot; feels meaningful to me even if I&#x27;m not sure in advance how big <i>N</i> is going to be.",
+          "comments": []
+        },
+        {
+          "id": 10940368,
+          "level": 1,
+          "user": "logicallee",
+          "time": 1453315820,
+          "time_ago": "6 hours ago",
+          "content": "<p>So I might not have a great enough understanding but isn&#x27;t 3.8 sigma not high for this kind of announcement (with the current title)? if someone wants to report finding a planet in the solar system ten times the size of Earth wouldn&#x27;t they do so at more than @3.8 sigma.  In particular, the prior is quite low because it would affect a bunch of other astronomical calculations, wouldn&#x27;t it?  So you would want the confidence that much higher....<p><a href=\"http:&#x2F;&#x2F;www.dummies.com&#x2F;how-to&#x2F;content&#x2F;how-to-calculate-six-sigma-quality.html\" rel=\"nofollow\">http:&#x2F;&#x2F;www.dummies.com&#x2F;how-to&#x2F;content&#x2F;how-to-calculate-six-s...</a><p>What I mean is that in human terms, Google says the average man is 5&#x27;9&quot; with standard deviation 2.9 inches, then 3.8 sigma (the chances of this happening by chance) are the same as the chances of finding someone 6&#x27;8&quot;.  It doesn&#x27;t seem unbelievable - <a href=\"https:&#x2F;&#x2F;answers.yahoo.com&#x2F;question&#x2F;index?qid=20101208183308AA4LYym\" rel=\"nofollow\">https:&#x2F;&#x2F;answers.yahoo.com&#x2F;question&#x2F;index?qid=20101208183308A...</a><p>If a woman is set up on a blind date and told the guy is 6&#x27;8&quot; would she find it like not credible?<p>My understnading of statistics then is that the idea that there just so happens to be a planet ten times the size of Earth in our solar system is pretty unbelievable.  So I&#x27;d want the chances of it being an experimental fluke to be lower than seeing a 6&#x27;8&quot; guy, anywhere, at any time, in any context.  Because I would think that&#x27;s what happens when you look at enough data.<p>- Aren&#x27;t the chances of this being completely spurious literally exactly the same as a researcher saying &quot;I saw a 6&#x27;8&quot; guy somewhere&quot;, meaning anywhere, in any context?<p>Wouldn&#x27;t you want higher evidence before stating &quot;evidence found for ninth planet in our solar system, ten times the mass of Earth&quot;?",
+          "comments": [
+            {
+              "id": 10942210,
+              "level": 2,
+              "user": "gbhn",
+              "time": 1453332037,
+              "time_ago": "an hour ago",
+              "content": "<p>No, this is just about right. The evidence they have points sharply to there being a ninth planet. Now they&#x27;re saying &quot;here&#x27;s where it might be, we need help finding it!&quot;<p>Once someone has a photo and an orbit, that&#x27;ll be the &gt;&gt;3.8sigma you want, but I don&#x27;t think anyone is saying anything like that yet. What they&#x27;re saying is &quot;dedicating 5 years of the pinnacle of your planetary astronomy career to looking for this thing is probably not a waste.&quot; They directly compare this to the theoretical prediction of Neptune, so I think the authors have this same interpretation of what they are doing.",
+              "comments": []
+            },
+            {
+              "id": 10940681,
+              "level": 2,
+              "user": "umanwizard",
+              "time": 1453318328,
+              "time_ago": "5 hours ago",
+              "content": "<p>I wish people wouldn&#x27;t downvote you without explaining why you&#x27;re wrong.<p>I have zero education in statistics and your comment makes intuitive sense to me so I&#x27;d like to learn more.",
+              "comments": [
+                {
+                  "id": 10940694,
+                  "level": 3,
+                  "user": "logicallee",
+                  "time": 1453318420,
+                  "time_ago": "5 hours ago",
+                  "content": "<p>Before your comment, I edited it to be much more civil and less presumptuous, my original phrasing had included &quot;3.8 sigma is fuck-all&quot;, I was briefer, more resolute, and had just included my first link.  (You can see evidence of my original phrasing if you remove the hedging I added.)<p>But the downvotes meant I&#x27;m probably wrong - rather than delete I edited it to be much nicer so I could find out why I&#x27;m wrong.",
+                  "comments": [
+                    {
+                      "id": 10940827,
+                      "level": 4,
+                      "user": "daveguy",
+                      "time": 1453319487,
+                      "time_ago": "5 hours ago",
+                      "content": "<p>Upvoted for tempering the aggression and because I agree with you.  As far as I can tell your interpretations of the statistics are correct.  I don&#x27;t see how an argument can include information stronger than the statistics of indirect detection of the object (without direct detection).",
+                      "comments": []
+                    },
+                    {
+                      "id": 10940748,
+                      "level": 4,
+                      "user": "scott_s",
+                      "time": 1453318823,
+                      "time_ago": "5 hours ago",
+                      "content": "<p>Perhaps the downvotes are coming because their arguments do not rely <i>just</i> on the improbability of that outcome.",
+                      "comments": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 10941164,
+              "level": 2,
+              "time": 1453322449,
+              "time_ago": "4 hours ago",
+              "content": "[deleted]",
+              "deleted": true,
+              "comments": []
+            },
+            {
+              "id": 10941165,
+              "level": 2,
+              "user": "peeters",
+              "time": 1453322450,
+              "time_ago": "4 hours ago",
+              "content": "<p>I&#x27;m having trouble following your height example because &quot;finding&quot; is not well defined, and it&#x27;s conflating rate of occurrence with certainty.<p>Being on a blind date with someone who is 6&#x27;8&quot; is like knowing someone that won the lottery.  The chance of winning the lottery is very low, but lots of people play it and chances are the winner has friends.  You&#x27;re unique, but have no reason to be incredulous.<p>This data being a coincidence is more on par with one person getting one chance to correctly predict (some of) tomorrow&#x27;s lottery numbers.  It&#x27;s 1 in 13822.",
+              "comments": [
+                {
+                  "id": 10941334,
+                  "level": 3,
+                  "user": "logicallee",
+                  "time": 1453323914,
+                  "time_ago": "3 hours ago",
+                  "content": "<p>rate of occurrence is the same as certainty when it comes to p values, isn&#x27;t it?  At least 6.9 million hits use both phrases - <a href=\"https:&#x2F;&#x2F;www.google.com&#x2F;search?q=p+values+certainty+%22rate+of+occcurrence%22\" rel=\"nofollow\">https:&#x2F;&#x2F;www.google.com&#x2F;search?q=p+values+certainty+%22rate+o...</a><p>The top one might be interesting here.",
+                  "comments": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10939778,
+      "level": 0,
+      "user": "gregwtmtno",
+      "time": 1453311333,
+      "time_ago": "7 hours ago",
+      "content": "<p>Skepticism is warranted, but keep in mind that Mike &quot;pluto killer&quot; Brown, one of the authors, has an impressive track record. He discovered Eris and Sedna.",
+      "comments": []
+    },
+    {
+      "id": 10939912,
+      "level": 0,
+      "user": "nkoren",
+      "time": 1453312346,
+      "time_ago": "7 hours ago",
+      "content": "<p>If it holds up, this is fantastic. Given how interesting the Pluto system has turned out to be, I can only fantasise about a potential super-earth system relatively nearby.<p>However, to be completely pedantic: would this actually be a <i>planet</i>? Or still a <i>dwarf planet</i>, despite its massive size? Keep in mind that the definition of planethood is not only that it&#x27;s large enough to be rounded by its own gravity, but that it has also &quot;cleared its orbit&quot;. I get the impression that this would cut through broad swathes of the still-cluttered Kuiper belt, and thus would only qualify as a &quot;dwarf&quot; despite its massive size.<p>I checked the original papers for references to whether it had cleared its orbit, and couldn&#x27;t find any. Correct me if I&#x27;m wrong?",
+      "comments": [
+        {
+          "id": 10940018,
+          "level": 1,
+          "user": "Symmetry",
+          "time": 1453313093,
+          "time_ago": "6 hours ago",
+          "content": "<p>The criteria for clearing an orbit are apparently somewhat involved[1].  It can&#x27;t just be a matter of no other bodies having the same distance from the sun or Pluto would disqualify Neptune and Jupiter would be disqualified by its trojans.  Because the planets in these cases mass so much more than other other nearby bodies those other bodies dance to the planet&#x27;s tune and aren&#x27;t counted against the planet in terms of clearing it&#x27;s neighborhood.  But if you look at the large bodies in the asteroid belt or the TNOs then their influence is very much mutual.<p>It&#x27;s not entirely obvious if the new body would be a planet under the listed criteria since I don&#x27;t think we have a good handle on the total trans-Neptunian population.  In fact by Soter&#x27;s µ criteria we might just need a single Pluto-sized object to cross this planet&#x27;s path to disqualify it.<p>[1]<a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Clearing_the_neighbourhood\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Clearing_the_neighbourhood</a>",
+          "comments": [
+            {
+              "id": 10941531,
+              "level": 2,
+              "user": "Symmetry",
+              "time": 1453325548,
+              "time_ago": "3 hours ago",
+              "content": "<p>I was misremembering Pluto&#x27;s mass as being 1&#x2F;10 of Earth&#x27;s when it&#x27;s really 1&#x2F;500th.  It would take a large number of TNOs to push this hypothetical object from being a planet to being a dwarf planet.",
+              "comments": []
+            }
+          ]
+        },
+        {
+          "id": 10940071,
+          "level": 1,
+          "user": "gregwtmtno",
+          "time": 1453313553,
+          "time_ago": "6 hours ago",
+          "content": "<p>&gt; However, to be completely pedantic: would this actually be a planet?<p>This is one of the paper&#x27;s author&#x27;s answer to that question.<p><a href=\"http:&#x2F;&#x2F;www.findplanetnine.com&#x2F;2016&#x2F;01&#x2F;is-planet-nine-planet.html\" rel=\"nofollow\">http:&#x2F;&#x2F;www.findplanetnine.com&#x2F;2016&#x2F;01&#x2F;is-planet-nine-planet....</a>",
+          "comments": [
+            {
+              "id": 10940820,
+              "level": 2,
+              "user": "scott_s",
+              "time": 1453319454,
+              "time_ago": "5 hours ago",
+              "content": "<p>For those that won&#x27;t click through, a very short explanation given by the author: &quot;Is Planet Nine gravitationally dominant? I think it is safe to say that any planet whose existence is inferred by its gravitational effects on a huge area of the solar system is gravitationally dominant.&quot;<p>He then goes on to give a more technical argument.",
+              "comments": []
+            }
+          ]
+        },
+        {
+          "id": 10940280,
+          "level": 1,
+          "user": "hackuser",
+          "time": 1453315121,
+          "time_ago": "6 hours ago",
+          "content": "<p>&gt; would this actually be a <i>planet</i>? Or still a <i>dwarf planet</i><p>The NY Times article covers this question in some detail, and says the experts are certain this would be a ninth planet:<p><a href=\"http:&#x2F;&#x2F;www.nytimes.com&#x2F;2016&#x2F;01&#x2F;21&#x2F;science&#x2F;space&#x2F;ninth-planet-solar-system-beyond-pluto.html\" rel=\"nofollow\">http:&#x2F;&#x2F;www.nytimes.com&#x2F;2016&#x2F;01&#x2F;21&#x2F;science&#x2F;space&#x2F;ninth-planet...</a>",
+          "comments": []
+        },
+        {
+          "id": 10940027,
+          "level": 1,
+          "user": "clord",
+          "time": 1453313158,
+          "time_ago": "6 hours ago",
+          "content": "<p>From what I understand, it has cleared the space but there are still harmonic crossings that can&#x27;t be cleared. Interesting challenge to the new definition - must the orbit be clear, or only clear sailing through the orbit.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10939942,
+      "level": 0,
+      "user": "logingone",
+      "time": 1453312519,
+      "time_ago": "7 hours ago",
+      "content": "<p>I don&#x27;t seem to have a grasp of our visibility of our solar system.  We can see a number of the planets with the naked eye, a number of the moons with binoculars and a few hundred $&#x2F;£&#x2F;€&#x2F;.. telescope.  Yet even with these great big radio telescopes, antenna arrays, Hubble, etc, we seem to be quite unaware of what&#x27;s in our neighbourhood.  Anyone have figures of how much we&#x27;ve surveyed?",
+      "comments": [
+        {
+          "id": 10940801,
+          "level": 1,
+          "user": "bzbarsky",
+          "time": 1453319271,
+          "time_ago": "5 hours ago",
+          "content": "<p>It&#x27;s all about distances.  The planets we can see with the naked eye are at most 11AU from us (Saturn is at 10AU at aphelion).<p>For comparison, Neptune is never closer than about 29AU to us.  Brightness goes down as the square of the distance.  But it gets worse, because that&#x27;s brightness at given source brightness.  Planets don&#x27;t radiate intrinsically; they reflect sunlight.  And sunlight brightness drops off as the square of distance from the sun.  Which is to say that even if they were the same size and albedo (they&#x27;re not), Neptune would appear about 81 times dimmer than Saturn to us.  Oh, also (linear) angular size goes down linearly with distance.  So if you want to see the two planets as disks of the same size, you need to have a field of view three times narrower, which means you need 9 times as many of them to cover the sky.  And if you want the same amount of light gathered, you have to spend 81 times longer gathering it, per the above brightness calculation.<p>All of which is to say that the time needed to do an &quot;equivalent&quot; sky survey N times further away (within the solar system, where all the illumination is coming from the sun) scales as N^6.  And planets do move, so you might still miss one if you survey a place where it&#x27;s not yet, then take a while to get to where it used to be, such that it has moved.  This is why Neptune was found via its gravitational interactions followed by a survey of a small part of the sky, not brute-force observation.<p>Anyway, back to the topic at hand, the proposed Planet Nine orbits 20 times farther out than Neptune.  20^6 is 64 million.  So if we assume we&#x27;ve pretty much surveyed everything out to the radius of Neptune&#x27;s orbit at some resolution, and then spent about 64000 times as much time surveying stuff out to the distance Planet Nine is proposed to be at, at the same resolution (I doubt we have), then we&#x27;ve probably surveyed about 0.1% of the stuff out there.<p>I can&#x27;t tell you what the actual number is, unfortunately, but I suspect the answer is we haven&#x27;t really done very good systematic surveys out at that distance.",
+          "comments": [
+            {
+              "id": 10941011,
+              "level": 2,
+              "user": "jessriedel",
+              "time": 1453321049,
+              "time_ago": "4 hours ago",
+              "content": "<p>Shouldn&#x27;t it be fourth power of distance (N^4) not sixth? For objects beyond the diffraction limit (i.e., objects whose radius cant be resolved), visibility is determined by total light reaching the observer. Angular size isn&#x27;t important. (And, if anything, diffusing a fixed amount of light over a larger solid angle makes it <i>harder</i> to see.)",
+              "comments": [
+                {
+                  "id": 10941235,
+                  "level": 3,
+                  "user": "bzbarsky",
+                  "time": 1453323041,
+                  "time_ago": "4 hours ago",
+                  "content": "<p>If you&#x27;re just trying to see all the objects, then yes, N^4.  But if you&#x27;re trying to figure out whether they&#x27;re planets, you need to either resolve disks or take multiple observations to observe motion.  I don&#x27;t have a good feel for how the latter scales with N in practice...",
+                  "comments": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 10940405,
+          "level": 1,
+          "user": "tomr_stargazer",
+          "time": 1453316178,
+          "time_ago": "6 hours ago",
+          "content": "<p>When it comes to small (-er than, say, Jupiter) bodies in the distant outer Solar system, here&#x27;s one relevant piece of information:\nBecause these bodies&#x27; light is purely reflected solar light, whose brightness drops as the sun-object distance squared (d^2), their brightness as seen from Earth drops as the sun-object distance to the fourth power (d^4), making them incredibly faint.",
+          "comments": []
+        },
+        {
+          "id": 10941116,
+          "level": 1,
+          "user": "nkrisc",
+          "time": 1453321966,
+          "time_ago": "4 hours ago",
+          "content": "<p>Just to offer some context in layman&#x27;s terms:<p>1. These objects are very, very far from the sun (and Earth).<p>2. These objects are planet(oids), not stars, so don&#x27;t produce their own light.<p>3. They are probably very cold and don&#x27;t emit much in the IR spectrum.<p>4. They may have low albedo, coupled with their distance from the sun, means they reflect very little visible light.<p>5. Space is huge. Trying to spot a tiny, dark, object many AU from Earth is no easy task if you don&#x27;t know exactly where to look.",
+          "comments": [
+            {
+              "id": 10942464,
+              "level": 2,
+              "user": "workitout",
+              "time": 1453335245,
+              "time_ago": "18 minutes ago",
+              "content": "<p>Like the parent, this seems odd that just now in 2016 we find there might be another planet in our own solar system when planets are being discovered in other solar systems and galaxies all the time.<p>There&#x27;s this from the article:<p>&quot;For the first time in over 150 years, there is solid evidence that the solar system&#x27;s planetary census is incomplete.&quot;<p>It&#x27;s our _own_ solar system and we just now found this massive thing?",
+              "comments": []
+            }
+          ]
+        },
+        {
+          "id": 10941808,
+          "level": 1,
+          "user": "InclinedPlane",
+          "time": 1453328286,
+          "time_ago": "2 hours ago",
+          "content": "<p>Planets are small. A planet 4x the diameter of Earth but 300+ AU away is a factor of about 1 to 1 million. That&#x27;s equivalent to a single grain of sand nearly a kilometer away.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10940523,
+      "level": 0,
+      "user": "ilyagr",
+      "time": 1453317129,
+      "time_ago": "5 hours ago",
+      "content": "<p>There is an awesome summary by Emili Lakdawala at the Planetary Society (as is often the case with such news).<p><a href=\"http:&#x2F;&#x2F;www.planetary.org&#x2F;blogs&#x2F;emily-lakdawalla&#x2F;2016&#x2F;01200955-theoretical-evidence-for-planet-9.html\" rel=\"nofollow\">http:&#x2F;&#x2F;www.planetary.org&#x2F;blogs&#x2F;emily-lakdawalla&#x2F;2016&#x2F;0120095...</a>",
+      "comments": []
+    },
+    {
+      "id": 10941408,
+      "level": 0,
+      "user": "runewell",
+      "time": 1453324438,
+      "time_ago": "3 hours ago",
+      "content": "<p>The biggest casualty of Science this decade has been elementary school dioramas.",
+      "comments": [
+        {
+          "id": 10941617,
+          "level": 1,
+          "user": "wnoise",
+          "time": 1453326356,
+          "time_ago": "3 hours ago",
+          "content": "<p>*dioramas",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10940020,
+      "level": 0,
+      "user": "sandworm101",
+      "time": 1453313111,
+      "time_ago": "6 hours ago",
+      "content": "<p>Giant, weird orbit, debate ... there can be only one name.  This is Planet X.<p>Also because X would be 10th discovered planet, a reference that pluto, while not a planet today, was indeed the ninth _discovered_ planet.",
+      "comments": [
+        {
+          "id": 10940290,
+          "level": 1,
+          "user": "slg",
+          "time": 1453315223,
+          "time_ago": "6 hours ago",
+          "content": "<p>If you are going by that logic, Pluto was at least the 10th planet discovered and this is at least the 11th.  Ceres was discovered before either Neptune or Pluto and spent 50 years as a &quot;planet&quot;.  It eventually went through a similar reclassification process as Pluto as other similar objects were discovered.  The only reason you don&#x27;t see the same controversy around its classification is because it was recategorized a century before any of us were born.",
+          "comments": [
+            {
+              "id": 10940462,
+              "level": 2,
+              "user": "sandworm101",
+              "time": 1453316659,
+              "time_ago": "5 hours ago",
+              "content": "<p>If naming was all about logic then 1&#x2F;2 the places on earth would need to be renamed.  Naming is about emotion, style, history, and personal preference.  Even total mistakes (the Giant Squid) are grandfathered through.  Galileo named the moons of Jupiter after his sponsors.  I just hope this thing doesn&#x27;t become &quot;X, brought to you by iPhone8&quot;.",
+              "comments": [
+                {
+                  "id": 10940584,
+                  "level": 3,
+                  "user": "asavadatti",
+                  "time": 1453317559,
+                  "time_ago": "5 hours ago",
+                  "content": "<p>I think you are confusing naming and classification.",
+                  "comments": [
+                    {
+                      "id": 10940927,
+                      "level": 4,
+                      "user": "sandworm101",
+                      "time": 1453320219,
+                      "time_ago": "4 hours ago",
+                      "content": "<p>Something can be called &quot;Planet X&quot; without being classified as a planet.  Take &quot;Planet Hollywood&quot;.  Incorporating planet into the name should at least protect against future reclassification.",
+                      "comments": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 10940447,
+          "level": 1,
+          "user": "gus_massa",
+          "time": 1453316523,
+          "time_ago": "5 hours ago",
+          "content": "<p>From <a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Ceres_(dwarf_planet)\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Ceres_(dwarf_planet)</a><p>&gt; <i>Ceres was the first asteroid discovered, by Giuseppe Piazzi at Palermo on 1 January 1801. It was originally considered a planet, but was reclassified as an asteroid in the 1850s when many other objects in similar orbits were discovered.</i><p>&gt; [...]<p>&gt; <i>Ceres was assigned a planetary symbol, and remained listed as a planet in astronomy books and tables (along with 2 Pallas, 3 Juno, and 4 Vesta) for half a century.</i>",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10939697,
+      "level": 0,
+      "user": "japaget",
+      "time": 1453310869,
+      "time_ago": "7 hours ago",
+      "content": "<p>Link to paper by Batygin and Brown: <a href=\"http:&#x2F;&#x2F;iopscience.iop.org&#x2F;article&#x2F;10.3847&#x2F;0004-6256&#x2F;151&#x2F;2&#x2F;22&#x2F;pdf\" rel=\"nofollow\">http:&#x2F;&#x2F;iopscience.iop.org&#x2F;article&#x2F;10.3847&#x2F;0004-6256&#x2F;151&#x2F;2&#x2F;22...</a>",
+      "comments": []
+    },
+    {
+      "id": 10940237,
+      "level": 0,
+      "user": "rbanffy",
+      "time": 1453314787,
+      "time_ago": "6 hours ago",
+      "content": "<p>The scales involved are astonishing. If the orbit is correct, less than one year has passed on it since the invention of writing here on Earth.",
+      "comments": []
+    },
+    {
+      "id": 10940107,
+      "level": 0,
+      "user": "onetwotree",
+      "time": 1453313843,
+      "time_ago": "6 hours ago",
+      "content": "<p>This is pretty solid science, even if, as others have pointed out, there&#x27;s a bit of academic drama-rama and green jellybean stuff going on.  In particular, their model made a prediction that they didn&#x27;t set out looking for, which corresponded to existing observations. And of course, the whole hypothesis is easily testable.  While they don&#x27;t know where the hypothetical planet might be on it&#x27;s orbit, it sounds like there&#x27;s a good shot that small telescopes should be able to spot it.<p>Exciting stuff.",
+      "comments": []
+    },
+    {
+      "id": 10939943,
+      "level": 0,
+      "user": "ChuckMcM",
+      "time": 1453312519,
+      "time_ago": "7 hours ago",
+      "content": "<p>Ah Planet X which is now planet IX with Pluto&#x27;s demotion :-). I am guessing that you can confirm it by looking for star occulusions. Presumably the planet would blank out stars as it passed between earth and those stars. So would it be possible to find it using existing plates?",
+      "comments": [
+        {
+          "id": 10940059,
+          "level": 1,
+          "user": "dzdt",
+          "time": 1453313465,
+          "time_ago": "6 hours ago",
+          "content": "<p>It is pretty well impossible to discover a planet by occultations.  For one thing, in most parts of the sky the density of stars is pretty low.  People do study occultations by known distant objects -- that provides some of the best available info on physical size and presence of atmosphere for KBO&#x27;s.  But in most parts of the sky, it is years in between occultations, which last just minutes.  You have to be looking in the right place at the right time.  And the sky is full of variable stars, so just looking for changes is hard.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10939667,
+      "level": 0,
+      "user": "beamatronic",
+      "time": 1453310669,
+      "time_ago": "7 hours ago",
+      "content": "<p>Why wouldn&#x27;t their calculations be able to suggest possible locations for the planet?",
+      "comments": [
+        {
+          "id": 10939854,
+          "level": 1,
+          "user": "antognini",
+          "time": 1453311777,
+          "time_ago": "7 hours ago",
+          "content": "<p>They do, and at the end of the press release it says that Brown has begun an observing campaign to find the planet.  Unfortunately detecting these very distant objects is very difficult.  The light we see from them is reflected light from the Sun, so their apparent brightness goes as 1&#x2F;r^4, not 1&#x2F;r^2 like most objects.  And because they are so close, there is a strong parallax from the motion of the Earth.  THe consequence from this is that the object will actually drift across the image as you are taking it, smearing it out.  In order to detect it you either have to take very short images so that it doesn&#x27;t move too much (in which case you don&#x27;t get very much light), or have some idea as to the direction of the smear so that you can correct for it.  Either way it&#x27;s a very hard observation to make!  Fortunately if this planet is as big as they claim it to be it should be relatively easy to detect compared to Sedna and the other Kuiper Belt objects.",
+          "comments": [
+            {
+              "id": 10942138,
+              "level": 2,
+              "user": "martinpw",
+              "time": 1453331329,
+              "time_ago": "an hour ago",
+              "content": "<p>In a previous life, back in the pre-CCD days I worked at an observatory searching for new asteroids. Used to be the way it was done you would point a telescope at the part of the sky directly opposite the sun (min r^4 so best chance of detection), expose a photographic plate, and repeat a few hours later. Develop the plates, mount them in a blink comparator [1] and scan manually, flipping back and forth between the plates for ~3 hours to look for anything that moved. Exclude false positives like plate blemishes (aka Eastman-Kodak Objects) or dust grains. If you see something, and it is smeared indicating motion during the exposure, mark it as a possible candidate. Revisit the same patch of sky the next night, search again. Use the datapoints to extrapolate forward, check again a couple of weeks later. If you haven&#x27;t lost it (which frequently happened if it was at the limit of visibility), extrapolate back to the previous opposition (~4 years for a main belt asteroid) and search the archives for a match. If you get one, then extrapolate further back and check all previous oppositions. If you get a match on three separate oppositions, congratulations, you have a discovery.<p>Vastly different now - a single observation can net large numbers of asteroids and sensitivity is so much better. Still the search for this potential new planet is definitely going to be daunting given the distance.<p>[1] <a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Blink_comparator\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Blink_comparator</a>",
+              "comments": []
+            },
+            {
+              "id": 10939889,
+              "level": 2,
+              "user": "hmahncke",
+              "time": 1453312113,
+              "time_ago": "7 hours ago",
+              "content": "<p>Also, we don&#x27;t know where in its orbit the planet happens to be right now. If we&#x27;re lucky, it&#x27;s relatively close to the sun, and it will be detectable. If we&#x27;re unlucky, it&#x27;s relatively far away from the sun, and it could easily be undetectable by current observatories because the orbit is so eccentric.<p>[Source: I saw Mike Brown give a talk on this topic at the Cal Academy of Sciences, where he hoped he was lucky...]",
+              "comments": [
+                {
+                  "id": 10941570,
+                  "level": 3,
+                  "user": "abecedarius",
+                  "time": 1453325900,
+                  "time_ago": "3 hours ago",
+                  "content": "<p>Note that an eccentric orbit spends most of its time out in the far reaches, since it moves much slower out there. The odds are against the happy case.",
+                  "comments": []
+                }
+              ]
+            },
+            {
+              "id": 10940377,
+              "level": 2,
+              "user": "gene-h",
+              "time": 1453315948,
+              "time_ago": "6 hours ago",
+              "content": "<p>Perhaps one of the &quot;stubby hubble&quot; telescopes the NRO donated to NASA would be useful for this task[0]. They are essentially the hubble telescope with a much shorter focal length(hence the nickname), so one of the uses suggested for them is observing faint objects in the solar system like asteroids.<p>[0]<a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;2012_National_Reconnaissance_Office_space_telescope_donation_to_NASA\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;2012_National_Reconnaissance_O...</a>",
+              "comments": []
+            },
+            {
+              "id": 10939931,
+              "level": 2,
+              "user": "daveguy",
+              "time": 1453312457,
+              "time_ago": "7 hours ago",
+              "content": "<p>I would expect a smear with characteristics of the planet would be as effective to identify it as a single snapshot. Wouldn&#x27;t the direction be well identified from indirect detection? Is the blur also less effective because of increased background exposure?",
+              "comments": [
+                {
+                  "id": 10940203,
+                  "level": 3,
+                  "user": "jschwartzi",
+                  "time": 1453314556,
+                  "time_ago": "6 hours ago",
+                  "content": "<p>Well, if the smear takes the light level below the noise floor of the sensor then you can&#x27;t even say that there&#x27;s a smear.",
+                  "comments": [
+                    {
+                      "id": 10940842,
+                      "level": 4,
+                      "user": "mkrfox",
+                      "time": 1453319549,
+                      "time_ago": "5 hours ago",
+                      "content": "<p>That&#x27;s why you don&#x27;t see any cars in long exposures of highways.",
+                      "comments": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 10942230,
+              "level": 2,
+              "user": "angst_ridden",
+              "time": 1453332226,
+              "time_ago": "an hour ago",
+              "content": "<p>That&#x27;s why you use Goldstone and Arecibo, and bounce your signal!",
+              "comments": []
+            },
+            {
+              "id": 10940211,
+              "level": 2,
+              "user": "qb45",
+              "time": 1453314609,
+              "time_ago": "6 hours ago",
+              "content": "<p>Are you sure it&#x27;s <i>r^4</i>, not <i>4r^2</i>?",
+              "comments": [
+                {
+                  "id": 10940826,
+                  "level": 3,
+                  "user": "bzbarsky",
+                  "time": 1453319480,
+                  "time_ago": "5 hours ago",
+                  "content": "<p>Yes, it&#x27;s definitely r^4.  If we assume that the planet is far from the sun compared to the earth, such that the earth-planet distance and the sun-planet distance are both approximately r, then the amount of light the planet gets from the sun is proportional to 1&#x2F;r^2.  Then the planet reflects that light in all directions, and the fraction  of it that comes back to us on earth is also proportional to 1&#x2F;r^2.  1&#x2F;r^2 * 1&#x2F;r^2 = 1&#x2F;r^4.",
+                  "comments": []
+                },
+                {
+                  "id": 10940260,
+                  "level": 3,
+                  "user": "antognini",
+                  "time": 1453314944,
+                  "time_ago": "6 hours ago",
+                  "content": "<p>Yes.  The solid angle subtended by the planet (and hence the amount of reflected light) goes as 1&#x2F;r^2, and then the apparent brightness of the reflected light to us goes as an additional 1&#x2F;r^2.  The total dependence is then 1&#x2F;r^2 * 1&#x2F;r^2 = 1&#x2F;r^4.",
+                  "comments": [
+                    {
+                      "id": 10940503,
+                      "level": 4,
+                      "user": "gohrt",
+                      "time": 1453316974,
+                      "time_ago": "5 hours ago",
+                      "content": "<p>This is a really good physics puzzler.<p>The key point is that Pluto does not <i>reflect</i> light like a mirror, it <i>scatters</i> light relatively uniformly, causing more light loss to an observer than, say, a mirror that points the reflection directly at an Earth observer.",
+                      "comments": []
+                    }
+                  ]
+                },
+                {
+                  "id": 10940508,
+                  "level": 3,
+                  "user": "jcrites",
+                  "time": 1453316993,
+                  "time_ago": "5 hours ago",
+                  "content": "<p>The light reaching the object from the sun drops off by 1&#x2F;r^2, and then the light reaching Earth from the object drops again by 1&#x2F;r^2. Since the latter light is a portion of the former, you multiply them for 1&#x2F;r^4.",
+                  "comments": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 10939965,
+          "level": 1,
+          "user": "umeshunni",
+          "time": 1453312678,
+          "time_ago": "7 hours ago",
+          "content": "<p>They have a possible location - about 20 times farther from the sun than Pluto.",
+          "comments": []
+        },
+        {
+          "id": 10940160,
+          "level": 1,
+          "user": "SolarNet",
+          "time": 1453314260,
+          "time_ago": "6 hours ago",
+          "content": "<p>Because they have only been able to find the orbit. Not the current location in the orbit.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10940105,
+      "level": 0,
+      "user": "givan",
+      "time": 1453313829,
+      "time_ago": "6 hours ago",
+      "content": "<p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Zecharia_Sitchin\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Zecharia_Sitchin</a><p>He believed this hypothetical planet of Nibiru to be in an elongated, elliptical orbit in the Earth&#x27;s own Solar System, asserting that Sumerian mythology reflects this.",
+      "comments": [
+        {
+          "id": 10940175,
+          "level": 1,
+          "user": "ceejayoz",
+          "time": 1453314402,
+          "time_ago": "6 hours ago",
+          "content": "<p>A broken clock is right twice a day.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10940515,
+      "level": 0,
+      "user": "mast",
+      "time": 1453317031,
+      "time_ago": "5 hours ago",
+      "content": "<p>Very cool.<p>It reminds me about a book I read called &quot;In Search of Planet Vulcan&quot; (<a href=\"http:&#x2F;&#x2F;www.amazon.com&#x2F;In-Search-Planet-Vulcan-Clockwork&#x2F;dp&#x2F;0738208892\" rel=\"nofollow\">http:&#x2F;&#x2F;www.amazon.com&#x2F;In-Search-Planet-Vulcan-Clockwork&#x2F;dp&#x2F;0...</a>).  Before Einstein, astronomers tried to explain the motion of Mercury by suggesting there might be another planet inside Mercury&#x27;s orbit.",
+      "comments": []
+    },
+    {
+      "id": 10941344,
+      "level": 0,
+      "user": "c3534l",
+      "time": 1453323952,
+      "time_ago": "3 hours ago",
+      "content": "<p>I&#x27;ve been seeing news stories about Planet X for far too long to take any of this seriously, no matter how seemingly trustworthy the news source is.",
+      "comments": []
+    },
+    {
+      "id": 10940989,
+      "level": 0,
+      "user": "pavpanchekha",
+      "time": 1453320887,
+      "time_ago": "4 hours ago",
+      "content": "<p>They should call it Pluto.",
+      "comments": []
+    },
+    {
+      "id": 10939938,
+      "level": 0,
+      "user": "FreedomToCreate",
+      "time": 1453312502,
+      "time_ago": "7 hours ago",
+      "content": "<p>If Planet Nine exists I wonder how the astrologers will tweak there models.",
+      "comments": [
+        {
+          "id": 10941168,
+          "level": 1,
+          "user": "nkrisc",
+          "time": 1453322463,
+          "time_ago": "4 hours ago",
+          "content": "<p>This is the most important question here.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10939773,
+      "level": 0,
+      "user": "pavel_lishin",
+      "time": 1453311314,
+      "time_ago": "7 hours ago",
+      "content": "<p>&gt; * the putative ninth planet—at 5,000 times the mass of Pluto—is sufficiently large that there should be no debate about whether it is a true planet*<p>That&#x27;s 10x the mass of the Earth, right, or about 3x the size of Neptune?",
+      "comments": [
+        {
+          "id": 10939855,
+          "level": 1,
+          "user": "zeroonetwothree",
+          "time": 1453311783,
+          "time_ago": "7 hours ago",
+          "content": "<p>This is the second sentence of the article: &quot;The object, which the researchers have nicknamed Planet Nine, has a mass about 10 times that of Earth&quot;",
+          "comments": []
+        },
+        {
+          "id": 10940021,
+          "level": 1,
+          "user": "lotharbot",
+          "time": 1453313120,
+          "time_ago": "6 hours ago",
+          "content": "<p>10x the mass of earth is about 60% of the mass of Neptune or 80% of the mass of Uranus.  So it&#x27;s smaller than all of the gas giants in the system, but considerably larger than the rocky planets.<p><a href=\"http:&#x2F;&#x2F;nssdc.gsfc.nasa.gov&#x2F;planetary&#x2F;factsheet&#x2F;\" rel=\"nofollow\">http:&#x2F;&#x2F;nssdc.gsfc.nasa.gov&#x2F;planetary&#x2F;factsheet&#x2F;</a>",
+          "comments": []
+        },
+        {
+          "id": 10939849,
+          "level": 1,
+          "user": "vidarh",
+          "time": 1453311738,
+          "time_ago": "7 hours ago",
+          "content": "<p>&gt; That&#x27;s 10x the mass of the Earth<p>It even says so in the first paragraph of the article.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10941218,
+      "level": 0,
+      "user": "johngossman",
+      "time": 1453322900,
+      "time_ago": "4 hours ago",
+      "content": "<p>This is very cool. Along with a visible supernova and a super bright comet, this is one of those things I dreamed about as an astronomy nerd kid.<p>Though part of me wants to say &quot;Pictures or it didn&#x27;t happen!&quot;",
+      "comments": []
+    },
+    {
+      "id": 10940026,
+      "level": 0,
+      "user": "dluan",
+      "time": 1453313145,
+      "time_ago": "6 hours ago",
+      "content": "<p>More from the folks behind the paper: <a href=\"http:&#x2F;&#x2F;www.findplanetnine.com&#x2F;\" rel=\"nofollow\">http:&#x2F;&#x2F;www.findplanetnine.com&#x2F;</a>",
+      "comments": [
+        {
+          "id": 10942105,
+          "level": 1,
+          "user": "Faint",
+          "time": 1453331083,
+          "time_ago": "an hour ago",
+          "content": "<p>Have to recommend this, especially Konstantin Batygins piece has great narrative.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10942261,
+      "level": 0,
+      "user": "mgav",
+      "time": 1453332650,
+      "time_ago": "an hour ago",
+      "content": "<p>Maybe it&#x27;s a Death Star?",
+      "comments": []
+    },
+    {
+      "id": 10940083,
+      "level": 0,
+      "user": "theptip",
+      "time": 1453313607,
+      "time_ago": "6 hours ago",
+      "content": "<p>Did anyone else notice that the rendering of the orbits in the article looks strikingly similar to Kerbal Space Program&#x27;s orbit UI?",
+      "comments": [
+        {
+          "id": 10940126,
+          "level": 1,
+          "user": "onetwotree",
+          "time": 1453313952,
+          "time_ago": "6 hours ago",
+          "content": "<p>I did :-)<p>Maybe they use Kerbal to render the results of &quot;real&quot; simulation software?",
+          "comments": [
+            {
+              "id": 10940327,
+              "level": 2,
+              "user": "rspeer",
+              "time": 1453315470,
+              "time_ago": "6 hours ago",
+              "content": "<p>Not that improbable. I recall that the discoverers of exoplanet Wolf 1061c, when journalists asked for a picture of the planet, gave them a screenshot from a simulation called Universe Sandbox 2.",
+              "comments": []
+            }
+          ]
+        },
+        {
+          "id": 10940141,
+          "level": 1,
+          "user": "SolarNet",
+          "time": 1453314091,
+          "time_ago": "6 hours ago",
+          "content": "<p>Or is it perhaps the other way around. Did Kerbel use the same UI as a popular rendering program used by astronomers.",
+          "comments": [
+            {
+              "id": 10942362,
+              "level": 2,
+              "user": "david-given",
+              "time": 1453333913,
+              "time_ago": "40 minutes ago",
+              "content": "<p>I want, by the way, an interactive map of the solar system, complete with known spacecraft, with the same UI as the KSP map. I&#x27;ve never met anything quite as good at visualising planetary systems.<p>I haven&#x27;t found one.",
+              "comments": []
+            },
+            {
+              "id": 10941912,
+              "level": 2,
+              "user": "noselasd",
+              "time": 1453329300,
+              "time_ago": "2 hours ago",
+              "content": "<p>I always reconed Kerbal was inspired by <a href=\"http:&#x2F;&#x2F;www.agi.com&#x2F;products&#x2F;stk&#x2F;\" rel=\"nofollow\">http:&#x2F;&#x2F;www.agi.com&#x2F;products&#x2F;stk&#x2F;</a> , heavily used in the space industry",
+              "comments": []
+            },
+            {
+              "id": 10940188,
+              "level": 2,
+              "user": "ceejayoz",
+              "time": 1453314482,
+              "time_ago": "6 hours ago",
+              "content": "<p>Or, third option, &quot;there&#x27;s only a few decent ways to represent orbits on a graphic&quot;.",
+              "comments": []
+            },
+            {
+              "id": 10940921,
+              "level": 2,
+              "user": "speeder",
+              "time": 1453320181,
+              "time_ago": "4 hours ago",
+              "content": "<p>I know that the main author of KSP was a big fan of Orbiter before making KSP, and I think he was aware of other astronomy software.",
+              "comments": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10940407,
+      "level": 0,
+      "user": "JamesUtah07",
+      "time": 1453316184,
+      "time_ago": "6 hours ago",
+      "content": "<p>At first I thought this was another one of those planet x articles that talks about some hypothetical planet way out but then I saw that Mike Brown was involved and immediately got really excited. I hope they find something out there and we can send a probe to it in my lifetime.",
+      "comments": []
+    },
+    {
+      "id": 10940932,
+      "level": 0,
+      "user": "photonwins",
+      "time": 1453320284,
+      "time_ago": "4 hours ago",
+      "content": "<p>Does it mean Voyager hasn&#x27;t really escaped Sun&#x27;s influence yet?",
+      "comments": [
+        {
+          "id": 10941519,
+          "level": 1,
+          "user": "skykooler",
+          "time": 1453325473,
+          "time_ago": "3 hours ago",
+          "content": "<p>Voyager won&#x27;t escape the Sun&#x27;s influence for hundreds of years. The &quot;boundary of the solar system&quot; is not the same as the Sun&#x27;s influence (and, indeed, is somewhat poorly defined, given how many times Voyager has crossed it.)",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10941075,
+      "level": 0,
+      "user": "based2",
+      "time": 1453321635,
+      "time_ago": "4 hours ago",
+      "content": "<p><a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=9872387\" rel=\"nofollow\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=9872387</a>",
+      "comments": []
+    },
+    {
+      "id": 10941628,
+      "level": 0,
+      "user": "ck2",
+      "time": 1453326454,
+      "time_ago": "3 hours ago",
+      "content": "<p>If true, voyager hasn&#x27;t left the solar system yet.",
+      "comments": []
+    },
+    {
+      "id": 10939963,
+      "level": 0,
+      "user": "danieldrehmer",
+      "time": 1453312659,
+      "time_ago": "7 hours ago",
+      "content": "<p>I&#x27;m puzzled by how a planet this big could form in an orbit so distant.<p>The fact that the material in that region is so spread out and the orbital period of such object is so long matters.<p>I would love to read some thoughts on that.",
+      "comments": [
+        {
+          "id": 10940054,
+          "level": 1,
+          "user": "losteric",
+          "time": 1453313401,
+          "time_ago": "6 hours ago",
+          "content": "<p>As mentioned in the article, this planet could have formed closer to the sun before getting thrown out by Jupiter&#x2F;Saturn.",
+          "comments": []
+        },
+        {
+          "id": 10939989,
+          "level": 1,
+          "user": "pavel_lishin",
+          "time": 1453312857,
+          "time_ago": "7 hours ago",
+          "content": "<p>It could have formed closer to the sun in the early stages of our solar system, and been flung out into a more irregular orbit after that.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10940095,
+      "level": 0,
+      "user": "bpg_92",
+      "time": 1453313716,
+      "time_ago": "6 hours ago",
+      "content": "<p>For a moment there, I thought of Nibiru :D",
+      "comments": []
+    },
+    {
+      "id": 10940365,
+      "level": 0,
+      "user": "luckystarr",
+      "time": 1453315792,
+      "time_ago": "6 hours ago",
+      "content": "<p>If this turns out true, that planet needs to be called &quot;Tartarus&quot;. :D",
+      "comments": [
+        {
+          "id": 10940736,
+          "level": 1,
+          "user": "david-given",
+          "time": 1453318728,
+          "time_ago": "5 hours ago",
+          "content": "<p>Yuggoth, surely?",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10940533,
+      "level": 0,
+      "user": "mud_dauber",
+      "time": 1453317182,
+      "time_ago": "5 hours ago",
+      "content": "<p>LV-426. Just sayin&#x27;.",
+      "comments": []
+    },
+    {
+      "id": 10939789,
+      "level": 0,
+      "user": "mturmon",
+      "time": 1453311379,
+      "time_ago": "7 hours ago",
+      "content": "<p>Provocative title for this Caltech press release.<p>Mike Brown, the co-author of the paper reported here, discovered Eris, a KBO like Pluto, in 2005.  This discovery prompted the IAU in 2006 to demote Pluto out of the realm of &quot;planet&quot; into a &quot;dwarf planet&quot;.<p>At the time, Alan Stern&#x27;s New Horizons mission to Pluto had just been launched, it finally arrived last year.  Stern was incensed that NH started out as a visitor to the 9th planet and was going to end up as a visitor to one of many KBOs, and not even the largest one (Eris is more massive).<p>The quotes given at the time (<a href=\"http:&#x2F;&#x2F;www.space.com&#x2F;2791-pluto-demoted-longer-planet-highly-controversial-definition.html\" rel=\"nofollow\">http:&#x2F;&#x2F;www.space.com&#x2F;2791-pluto-demoted-longer-planet-highly...</a>) are revealing:<p>&quot;Pluto is dead.&quot; -- Mike Brown<p>&quot;This definition stinks, for technical reasons...It&#x27;s a farce.&quot; -- Alan Stern<p>For more: <a href=\"http:&#x2F;&#x2F;www.space.com&#x2F;12709-pluto-dwarf-planet-decision-5-years-anniversary-iau.html\" rel=\"nofollow\">http:&#x2F;&#x2F;www.space.com&#x2F;12709-pluto-dwarf-planet-decision-5-yea...</a><p>Stern is visiting Pasadena on a New Horizons victory lap next week.  Should be interesting.",
+      "comments": [
+        {
+          "id": 10940111,
+          "level": 1,
+          "user": "lhorie",
+          "time": 1453313848,
+          "time_ago": "6 hours ago",
+          "content": "<p>Small nitpick: &quot;largest&quot; refers to mean radius, &quot;massive&quot; refers to mass (aka weight). Pluto is the second most massive, but it is the largest. (To be fair, it is a very close call: its diameter is only ~25km larger than Eris)<p>I&#x27;m excited to see this story unfold, if nothing else because it&#x27;s fun looking up the mythological[1][2][3] origins of the names given to new celestial bodies :)<p>[1](<a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Makemake\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Makemake</a>)<p>[2](<a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;90377_Sedna\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;90377_Sedna</a>)<p>[3](<a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Haumea\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Haumea</a>)",
+          "comments": [
+            {
+              "id": 10940178,
+              "level": 2,
+              "user": "overcast",
+              "time": 1453314447,
+              "time_ago": "6 hours ago",
+              "content": "<p>Mass isn&#x27;t weight, it&#x27;s the amount of matter. Weight is the measure of the pull of gravity on mass.",
+              "comments": [
+                {
+                  "id": 10940254,
+                  "level": 3,
+                  "user": "lhorie",
+                  "time": 1453314882,
+                  "time_ago": "6 hours ago",
+                  "content": "<p>Sorry, you&#x27;re right. I should&#x27;ve qualified that I meant the colloquial usage of the word &quot;weight&quot;.",
+                  "comments": []
+                },
+                {
+                  "id": 10940486,
+                  "level": 3,
+                  "user": "ahmedfromtunis",
+                  "time": 1453316847,
+                  "time_ago": "5 hours ago",
+                  "content": "<p>You&#x27;re right, but sorry, it does NOT matter: <a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;QSIuTxnBuJk\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;QSIuTxnBuJk</a>",
+                  "comments": []
+                }
+              ]
+            },
+            {
+              "id": 10940472,
+              "level": 2,
+              "time": 1453316771,
+              "time_ago": "5 hours ago",
+              "content": "[deleted]",
+              "deleted": true,
+              "comments": []
+            }
+          ]
+        },
+        {
+          "id": 10940439,
+          "level": 1,
+          "user": "gohrt",
+          "time": 1453316428,
+          "time_ago": "6 hours ago",
+          "content": "<p>Yet another case of ego clashes dominating science.",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "id": 10941431,
+      "level": 0,
+      "user": "atorralb",
+      "time": 1453324680,
+      "time_ago": "3 hours ago",
+      "content": "<p>they can photograph distant galaxies, but they can&#x27;t be sure how many planets there actually are on our solar system. weird.",
+      "dead": true,
+      "comments": []
+    }
+  ],
+  "comments_count": 116
+}

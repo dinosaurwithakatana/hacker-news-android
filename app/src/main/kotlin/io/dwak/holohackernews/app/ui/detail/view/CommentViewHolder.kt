@@ -1,6 +1,9 @@
 package io.dwak.holohackernews.app.ui.detail.view
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.recyclerview.MvpViewHolder
 import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
 import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
@@ -10,6 +13,11 @@ import io.dwak.holohackernews.app.ui.detail.presenter.CommentPresenter
 
 class CommentViewHolder(view : View)
 : MvpViewHolder<CommentPresenter>(view), CommentView {
+    companion object {
+        fun create(inflater: LayoutInflater, parent : ViewGroup) : CommentViewHolder {
+            return CommentViewHolder(inflater.inflate(R.layout.comments_list_item, parent, false))
+        }
+    }
     override fun inject() {
         DaggerPresenterComponent.builder()
                 .interactorComponent(DaggerInteractorComponent.builder()
@@ -23,4 +31,5 @@ class CommentViewHolder(view : View)
     override fun displayComment(content: CharSequence) {
         throw UnsupportedOperationException()
     }
+
 }

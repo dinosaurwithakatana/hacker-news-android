@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.ui.detail.view
 
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.extension.getLong
 import io.dwak.holohackernews.app.extension.withArgs
+import io.dwak.holohackernews.app.model.json.CommentJson
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.ui.detail.presenter.StoryDetailPresenter
 import rx.Observable
@@ -32,6 +34,7 @@ class StoryDetailFragment : MvpFragment<StoryDetailPresenter>(), StoryDetailView
     private val linkPanel : SlidingUpPanelLayout by bindView(R.id.link_panel)
     private val swipeRefresh : SwipeRefreshLayout by bindView(R.id.swipe_container)
     private val recycler : RecyclerView by bindView(R.id.comments_recycler)
+    private var adapter : StoryDetailAdapter? = null
 
     companion object {
         val ITEM_ID = "ITEM_ID"
@@ -65,11 +68,10 @@ class StoryDetailFragment : MvpFragment<StoryDetailPresenter>(), StoryDetailView
         super.onViewCreated(view, savedInstanceState)
         refreshing = swipeRefresh.refreshing()
         refreshes = swipeRefresh.refreshes()
+        adapter = StoryDetailAdapter(activity)
+        recycler.adapter = adapter
+        recycler.layoutManager = LinearLayoutManager(activity)
         presenter.getStoryDetails()
-    }
-
-    override fun displayStory(storyDetail: StoryDetailJson) {
-        throw UnsupportedOperationException()
     }
 
     override fun openLinkDrawer() {
@@ -83,4 +85,12 @@ class StoryDetailFragment : MvpFragment<StoryDetailPresenter>(), StoryDetailView
     override fun navigateDown() {
         throw UnsupportedOperationException()
     }
+
+    override fun displayComments(comments : List<CommentJson>) {
+    }
+
+    override fun displayStoryHeader(storyDetail : StoryDetailJson) {
+        adapter?.addHeader(storyDetail)
+    }
+
 }
