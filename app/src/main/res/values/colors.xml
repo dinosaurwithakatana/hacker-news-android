@@ -14,4 +14,6 @@
     <color name="backgroundNight">#ff101010</color>
     <color name="background">#fff3f3f3</color>
     <color name="cardRippleNight">#ff919191</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
 </resources>

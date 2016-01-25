@@ -68,6 +68,7 @@
                 android:layout_below="@id/comment_details"
                 android:text="bwdawdhadljalksaoiwdjwa"
                 android:textColor="?textColor"
+                android:textColorLink="@color/colorPrimary"
                 android:layout_marginLeft="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"

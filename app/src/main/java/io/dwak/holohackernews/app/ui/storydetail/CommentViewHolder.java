@@ -100,8 +100,8 @@ class CommentViewHolder extends RecyclerView.ViewHolder {
         }
         else {
             viewHolder.commentSubmitter.setTextColor(UserPreferenceManager.isNightModeEnabled(context)
-                    ? context.getResources().getColor(android.R.color.white)
-                    : context.getResources().getColor(android.R.color.black));
+                    ? context.getResources().getColor(R.color.white)
+                    : context.getResources().getColor(R.color.black));
         }
 
         int colorCodeLeftMargin = (int) (context.getResources().getDimension(R.dimen.color_code_left_margin) * comment.getLevel());
