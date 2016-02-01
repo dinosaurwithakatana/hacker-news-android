@@ -69,6 +69,7 @@ class StoryDetailFragment : MvpFragment<StoryDetailPresenter>(), StoryDetailView
         refreshing = swipeRefresh.refreshing()
         refreshes = swipeRefresh.refreshes()
         adapter = StoryDetailAdapter(activity)
+        recycler.addItemDecoration(CommentItemDecoration())
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(activity)
         presenter.getStoryDetails()
@@ -87,6 +88,7 @@ class StoryDetailFragment : MvpFragment<StoryDetailPresenter>(), StoryDetailView
     }
 
     override fun displayComments(comments : List<CommentJson>) {
+        adapter?.addComments(comments)
     }
 
     override fun displayStoryHeader(storyDetail : StoryDetailJson) {

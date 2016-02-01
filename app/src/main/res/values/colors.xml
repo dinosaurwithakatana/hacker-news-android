@@ -16,6 +16,14 @@
     <color name="background">#fff3f3f3</color>
     <color name="cardRippleNight">#ff919191</color>
     <color name="readTextColor">#808080</color>
+    <color name="comment_level_0">#42A5F5</color>
+    <color name="comment_level_1">#66BB6A</color>
+    <color name="comment_level_2">#EF5350</color>
+    <color name="comment_level_3">#FFA726</color>
+    <color name="comment_level_4">#AB47BC</color>
+    <color name="comment_level_5">#EC407A</color>
+    <color name="comment_level_6">#26A69A</color>
+    <color name="comment_level_7">#FFEE58</color>
 
     <!-- OVERWRITE THESE COLORS FOR A LIGHT THEME -->
     <!-- MaterialDrawer DEFAULT colors -->

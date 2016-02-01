@@ -12,7 +12,7 @@ class StoryDetailAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.
     enum class ViewType { HEADER, COMMENT }
     data class StoryDetailItem<T>(val viewType : ViewType, val value : T)
 
-    val layoutInflater : LayoutInflater
+    private val layoutInflater : LayoutInflater
     val itemList = arrayListOf<StoryDetailItem<*>>()
 
     init {
@@ -31,7 +31,14 @@ class StoryDetailAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.
     override fun getItemViewType(position : Int) : Int = itemList[position].viewType.ordinal
 
     override fun onBindViewHolder(holder : RecyclerView.ViewHolder?, position : Int) {
-        throw UnsupportedOperationException()
+        when(getItemViewType(position)) {
+            ViewType.HEADER.ordinal -> (holder as StoryViewHolder?)?.bind(itemList[position].value as StoryDetailJson)
+            ViewType.COMMENT.ordinal -> {
+                val commentJson = itemList[position].value as CommentJson
+                val isOriginalPoster = commentJson.user?.equals((itemList[0].value as StoryDetailJson?)?.user)
+                (holder as CommentViewHolder?)?.bind(commentJson, isOriginalPoster)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder? {

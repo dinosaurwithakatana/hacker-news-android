@@ -2,6 +2,7 @@ package io.dwak.holohackernews.app.dagger.component
 
 import android.content.res.Resources
 import dagger.Component
+import io.dwak.holohackernews.app.dagger.interactor.HtmlInteractor
 import io.dwak.holohackernews.app.dagger.interactor.RxSchedulerInteractor
 import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.NetworkModule
@@ -27,4 +28,5 @@ interface InteractorComponent {
 
     val rxSchedulerInteractor : RxSchedulerInteractor
     val resources : Resources
+    val htmlParser : HtmlInteractor.HtmlParser
 }
