@@ -89,10 +89,12 @@
 
     <style name="AppTheme.Detail" parent="AppTheme.Base">
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="AppTheme.Detail.Night" parent="AppTheme.Base.Night">
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="HnTextAppearanceLarge" parent="@android:style/TextAppearance.Large">

@@ -6,4 +6,6 @@ interface StoryDetailPresenter : Presenter {
     var itemId : Long?
 
     fun getStoryDetails()
+
+    fun listScrolled(headerVisible : Boolean)
 }

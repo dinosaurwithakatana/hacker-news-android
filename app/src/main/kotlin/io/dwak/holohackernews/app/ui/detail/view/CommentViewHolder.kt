@@ -43,9 +43,10 @@ class CommentViewHolder(view : View)
         presenter.comment = model
     }
 
-    override fun displayComment(content : CharSequence?, submitter : String?, level : Int?, isOriginalPoster : Boolean?) {
+    override fun displayComment(content : CharSequence?, submitter : String?, submissionTime : String?, level : Int?, isOriginalPoster : Boolean?) {
         this.content.text = content
         this.commentSubmitter.text = submitter
+        this.submissionTime.text = submissionTime
         when(isOriginalPoster) {
             true ->  this.commentSubmitter.setTextColor(ContextCompat.getColor(itemView.context, R.color.colorPrimary))
             false ->  this.commentSubmitter.setTextColor(ContextCompat.getColor(itemView.context, android.R.color.black))

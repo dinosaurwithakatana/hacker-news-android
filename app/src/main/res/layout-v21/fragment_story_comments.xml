@@ -13,6 +13,7 @@
 
     <RelativeLayout
         android:id="@+id/comments_container"
+        android:background="?containerBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -50,7 +51,6 @@
                     android:id="@+id/comments_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/list_selector_orange"
                     android:fastScrollEnabled="true"
                     android:scrollbarStyle="outsideOverlay"
                     android:visibility="visible"/>

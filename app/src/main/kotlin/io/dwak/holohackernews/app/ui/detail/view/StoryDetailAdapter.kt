@@ -21,31 +21,40 @@ class StoryDetailAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.
 
     fun addHeader(storyDetail : StoryDetailJson) {
         itemList.add(StoryDetailItem(ViewType.HEADER, storyDetail))
+        notifyItemInserted(0)
     }
 
     fun addComments(comments : List<CommentJson>) {
-        comments.forEach { itemList.add(StoryDetailItem(ViewType.COMMENT, it)) }
+        comments.forEach {
+            itemList.add(StoryDetailItem(ViewType.COMMENT, it))
+        }
+        notifyDataSetChanged()
+    }
+
+    fun clear() {
+        itemList.clear()
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() : Int = itemList.size
     override fun getItemViewType(position : Int) : Int = itemList[position].viewType.ordinal
-
-    override fun onBindViewHolder(holder : RecyclerView.ViewHolder?, position : Int) {
-        when(getItemViewType(position)) {
-            ViewType.HEADER.ordinal -> (holder as StoryViewHolder?)?.bind(itemList[position].value as StoryDetailJson)
-            ViewType.COMMENT.ordinal -> {
-                val commentJson = itemList[position].value as CommentJson
-                val isOriginalPoster = commentJson.user?.equals((itemList[0].value as StoryDetailJson?)?.user)
-                (holder as CommentViewHolder?)?.bind(commentJson, isOriginalPoster)
-            }
-        }
-    }
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder? {
         when (viewType) {
             ViewType.HEADER.ordinal  -> return StoryViewHolder.create(layoutInflater, parent)
             ViewType.COMMENT.ordinal -> return CommentViewHolder.create(layoutInflater, parent)
             else                     -> return null
+        }
+    }
+
+    override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position : Int) {
+        when (getItemViewType(position)) {
+            ViewType.HEADER.ordinal  -> (holder as StoryViewHolder).bind(itemList[position].value as StoryDetailJson)
+            ViewType.COMMENT.ordinal -> {
+                val commentJson = itemList[position].value as CommentJson
+                val isOriginalPoster = commentJson.user?.equals((itemList[0].value as StoryDetailJson?)?.user)
+                (holder as CommentViewHolder).bind(commentJson, isOriginalPoster)
+            }
         }
     }
 

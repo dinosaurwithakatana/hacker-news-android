@@ -32,7 +32,7 @@ class StoryDetailPresenterImplTest : BasePresenterTest<StoryDetailPresenter>() {
         val storyDetail = StoryDetailJson(id = 0, title = "title", url = "url",
                 domain = "domain", points = 1, user = "user",
                 timeAgo = "1d", commentsCount = 3, content = "content",
-                link = "link", comments = arrayListOf(parentComment), moreCommentsId = null,
+                comments = arrayListOf(parentComment), moreCommentsId = null,
                 poll = null, type = "link")
 
         `when`(networkModule.mockedService.getItemDetails(0))

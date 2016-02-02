@@ -72,9 +72,7 @@ class MainActivity : MvpActivity<MainPresenter>(),
         navigationPresenter.onDetachFromView()
     }
 
-    override fun navigateToStoryList(feed : Feed) {
-        navigateTo(StoryListFragment.newInstance(feed), addToBackStack = false)
-    }
+    override fun navigateToStoryList(feed : Feed) = navigateTo(StoryListFragment.newInstance(feed), addToBackStack = false)
 
     override fun navigateToStoryDetail(itemId: Long) {
         if(detailsContainer == null){

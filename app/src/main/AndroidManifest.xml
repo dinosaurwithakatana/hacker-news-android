@@ -59,9 +59,9 @@
             <!--android:theme="@style/Theme.Transparent">-->
         <!--</activity>-->
 
-        <!--<meta-data-->
-            <!--android:name="com.bugsnag.android.API_KEY"-->
-            <!--android:value="${bugsnagApiKey}"/>-->
+        <meta-data
+            android:name="com.bugsnag.android.API_KEY"
+            android:value="${bugsnagApiKey}"/>
     </application>
 
 </manifest>

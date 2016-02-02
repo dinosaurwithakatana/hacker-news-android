@@ -12,7 +12,6 @@ data class StoryDetailJson(val id : Long?,
                            @Json(name = "comments_count") val commentsCount : Int?,
                            val content : String?,
                            val poll : Any?,
-                           val link : String?,
                            val comments : List<CommentJson>?,
                            @Json(name = "more_comments_id") val moreCommentsId : Long?,
                            val type : String?)

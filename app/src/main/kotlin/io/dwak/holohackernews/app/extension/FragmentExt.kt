@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import java.io.Serializable
 
-inline fun <T : Fragment> T.withArgs(f : Bundle.() -> Unit) : T {
+inline fun <T : Fragment> T.with(f : Bundle.() -> Unit) : T {
     val args = Bundle()
     f.invoke(args)
     arguments = args

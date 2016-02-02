@@ -19,7 +19,7 @@ import io.dwak.holohackernews.app.dagger.module.InteractorModule
 import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.extension.bindActivity
 import io.dwak.holohackernews.app.extension.getSerializable
-import io.dwak.holohackernews.app.extension.withArgs
+import io.dwak.holohackernews.app.extension.with
 import io.dwak.holohackernews.app.model.Feed
 import io.dwak.holohackernews.app.model.json.StoryJson
 import io.dwak.holohackernews.app.ui.list.presenter.StoryListPresenter
@@ -38,7 +38,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
 
     companion object {
         val FEED_ARG = "FEED"
-        fun newInstance(feed : Feed) = StoryListFragment().withArgs {
+        fun newInstance(feed : Feed) = StoryListFragment().with {
             putSerializable(FEED_ARG, feed)
         }
     }

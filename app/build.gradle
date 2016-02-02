@@ -68,16 +68,16 @@ dependencies {
     compile "com.squareup.retrofit2:converter-moshi:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
     mockCompile "com.squareup.retrofit2:retrofit-mock:$rootProject.retrofitVersion"
-    compile 'com.loopeer.android.thirdparty:swipe-back-layout:1.0'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile "com.jakewharton.rxbinding:rxbinding:$rootProject.rxBindingVersion"
     compile "com.jakewharton.rxbinding:rxbinding-kotlin:$rootProject.rxBindingVersion"
     compile "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$rootProject.rxBindingVersion"
     compile "com.jakewharton.rxbinding:rxbinding-design-kotlin:$rootProject.rxBindingVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7-kotlin:$rootProject.rxBindingVersion"
     compile "com.trello:rxlifecycle:$rootProject.rxLifecycleVersion"
     compile "com.trello:rxlifecycle-components:$rootProject.rxLifecycleVersion"
+    compile 'com.jakewharton.rxrelay:rxrelay:1.0.0'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.squareup.okhttp:logging-interceptor:2.7.0'
     compile "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
     compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
@@ -99,6 +99,7 @@ dependencies {
     compile 'com.bugsnag:bugsnag-android:3.2.6'
     compile 'com.squareup.moshi:moshi:1.0.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'com.r0adkll:slidableactivity:2.0.5'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     testCompile 'junit:junit:4.12'
     testCompile 'com.google.truth:truth:0.28'

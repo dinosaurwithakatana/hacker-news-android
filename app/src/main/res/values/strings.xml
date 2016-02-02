@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hacker News</string>
     <string name="title_section_top">Top</string>
+
     <string name="title_section_best">Best</string>
     <string name="title_section_newest">Newest</string>
     <string name="title_section_show">ShowHN</string>

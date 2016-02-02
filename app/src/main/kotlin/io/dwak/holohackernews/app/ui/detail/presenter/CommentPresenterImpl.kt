@@ -20,6 +20,7 @@ class CommentPresenterImpl(view : CommentView, interactorComponent: InteractorCo
         if(comment?.content != null){
             view.displayComment(content = interactorComponent.htmlParser.fromHtml(comment?.content),
                     submitter = comment?.user,
+                    submissionTime = comment?.timeAgo,
                     isOriginalPoster = isOriginalPoster,
                     level = comment?.level)
         }
