@@ -2,10 +2,19 @@
 
 package io.dwak.holohackernews.app.extension
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import io.dwak.holohackernews.app.R
 
+fun Activity.viewInExternalBrowser(url : String){
+    startActivity(Intent().with {
+        setAction(Intent.ACTION_VIEW)
+        setData(Uri.parse(url))
+    })
+}
 
 @JvmOverloads
 fun FragmentActivity.navigateTo(fragment : Fragment,

@@ -7,13 +7,17 @@ import android.view.ViewGroup
 import io.dwak.holohackernews.app.model.json.CommentJson
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.ui.list.view.StoryViewHolder
+import rx.Observable
+import timber.log.Timber
 
-class StoryDetailAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StoryDetailAdapter(context : Context)
+: RecyclerView.Adapter<RecyclerView.ViewHolder>(), CommentViewHolder.CommentActionCallbacks {
     enum class ViewType { HEADER, COMMENT }
     data class StoryDetailItem<T>(val viewType : ViewType, val value : T)
 
     private val layoutInflater : LayoutInflater
     val itemList = arrayListOf<StoryDetailItem<*>>()
+    val topLevelCommentIndexes = arrayListOf<Int>()
 
     init {
         layoutInflater = LayoutInflater.from(context)
@@ -24,10 +28,11 @@ class StoryDetailAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.
         notifyItemInserted(0)
     }
 
-    fun addComments(comments : List<CommentJson>) {
-        comments.forEach {
-            itemList.add(StoryDetailItem(ViewType.COMMENT, it))
-        }
+    fun addComments(comments : Observable<CommentJson>) {
+        comments.map { StoryDetailItem(ViewType.COMMENT, it) }
+                .subscribe { itemList.add(it) }
+
+        Timber.d(topLevelCommentIndexes.toString())
         notifyDataSetChanged()
     }
 
@@ -53,9 +58,17 @@ class StoryDetailAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.
             ViewType.COMMENT.ordinal -> {
                 val commentJson = itemList[position].value as CommentJson
                 val isOriginalPoster = commentJson.user?.equals((itemList[0].value as StoryDetailJson?)?.user)
-                (holder as CommentViewHolder).bind(commentJson, isOriginalPoster)
+                (holder as CommentViewHolder).bind(commentJson, isOriginalPoster, this)
             }
         }
+    }
+
+    override fun onActionMenuClicked() {
+        throw UnsupportedOperationException()
+    }
+
+    override fun onCommentClicked(holder : CommentViewHolder) {
+        throw UnsupportedOperationException()
     }
 
 }

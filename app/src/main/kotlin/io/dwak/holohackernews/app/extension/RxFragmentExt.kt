@@ -8,7 +8,7 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 @Suppress("UNCHECKED_CAST")
-public fun <L> RxFragment.bindActivity() : ReadOnlyProperty<RxFragment, L> {
+fun <L> RxFragment.bindActivity() : ReadOnlyProperty<RxFragment, L> {
     val l = Lazy<RxFragment, L> { it.activity as L }
     lifecycle().compose(bindUntilEvent(DETACH)).subscribe(onComplete = { l.value = null })
     return l

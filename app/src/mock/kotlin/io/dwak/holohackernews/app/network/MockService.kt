@@ -74,6 +74,6 @@ class MockService(private val delegate : BehaviorDelegate<HackerNewsService>)
         val buffer = ByteArray(size)
         jsonFile.read(buffer)
         jsonFile.close()
-        return String(buffer, "UTF-8")
+        return String(buffer, charset("UTF-8"))
     }
 }

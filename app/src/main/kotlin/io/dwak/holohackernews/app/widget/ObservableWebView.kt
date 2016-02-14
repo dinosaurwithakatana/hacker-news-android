@@ -3,9 +3,10 @@ package io.dwak.holohackernews.app.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.webkit.WebView
+import rx.Observable
 
 class ObservableWebView : WebView {
-    var onScrollChangedCallback : OnScrollChangedCallback? = null
+    var onScroll : ((Int, Int, Int, Int) -> (Unit))? = null
 
     constructor(context : Context) : super(context) {
     }
@@ -18,13 +19,15 @@ class ObservableWebView : WebView {
 
     override fun onScrollChanged(l : Int, t : Int, oldl : Int, oldt : Int) {
         super.onScrollChanged(l, t, oldl, oldt)
-        if (onScrollChangedCallback != null) onScrollChangedCallback!!.onScroll(l, t, oldl, oldt)
+        onScroll?.invoke(l, t, oldl, oldt)
     }
 
-    /**
-     * Implement in the activity/fragment/view that you want to listen to the webview
-     */
-    interface OnScrollChangedCallback {
-        fun onScroll(l : Int, t : Int, oldL : Int, oldT : Int)
+    data class WebviewScrollEvent(val l : Int, val t : Int, val oldL : Int, val oldT : Int)
+    fun scrolls() = Observable.create<WebviewScrollEvent> {
+        if (!it.isUnsubscribed) {
+            onScroll = { l, t, oldL, oldT ->
+                it.onNext(WebviewScrollEvent(l, t, oldL, oldT))
+            }
+        }
     }
 }

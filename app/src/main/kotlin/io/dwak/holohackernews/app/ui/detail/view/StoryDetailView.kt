@@ -13,16 +13,18 @@ interface StoryDetailView : PresenterView {
     var refreshes : Observable<Unit>?
     var buttonBarText : Action1<in CharSequence>?
     var buttonBarMainActionClicks : Observable<Unit>?
+    var buttonBarLeftActionClicks : Observable<Unit>?
+    var buttonBarRightActionClicks : Observable<Unit>?
     var panelEvents : Observable<PanelEvent>?
-    var headerScrolled : Observable<Boolean>?
+    var topItem : Observable<Int>?
 
     fun displayStoryHeader(storyDetail : StoryDetailJson)
-    fun displayComments(comments : List<CommentJson>)
+    fun displayComments(comments : Observable<CommentJson>)
     fun setLinkDrawerState(open : Boolean)
     fun loadLink(url : String, useExternalBrowser: Boolean)
     fun disableLinkDrawer()
-    fun navigateUp()
-    fun navigateDown()
+    fun navigateUp(index : Int)
+    fun navigateDown(index : Int)
     fun clear()
     fun setTitle(title : String?)
 }

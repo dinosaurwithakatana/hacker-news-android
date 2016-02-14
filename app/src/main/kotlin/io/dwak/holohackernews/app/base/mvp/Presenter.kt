@@ -2,17 +2,17 @@ package io.dwak.holohackernews.app.base.mvp
 
 import rx.subscriptions.CompositeSubscription
 
-public interface Presenter {
+interface Presenter {
     val viewSubscription : CompositeSubscription
 
-    public open fun prepareToAttachToView() {
+    open fun prepareToAttachToView() {
 
     }
 
-    public open fun onAttachToView() {
+    open fun onAttachToView() {
     }
 
-    public open fun onDetachFromView() {
+    open fun onDetachFromView() {
         viewSubscription.clear()
     }
 }

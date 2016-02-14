@@ -10,6 +10,7 @@ import io.dwak.holohackernews.app.model.json.CommentJson
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.network.HackerNewsService
 import io.dwak.holohackernews.app.ui.detail.view.StoryDetailView
+import rx.Observable
 import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,32 +24,58 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
     override fun inject() = interactorComponent.inject(this)
 
     var storyDetail : StoryDetailJson? = null
-    var linkDrawerOpen = false
+    private var linkDrawerOpen = false
+    private val commentsList = arrayListOf<CommentJson>()
+    private val topLevelCommentIndexes = arrayListOf<Int>()
+    private var topItem : Int = 0
 
     override fun onAttachToView() {
         super.onAttachToView()
         with(viewSubscription) {
-            add(view.refreshes?.subscribe { getStoryDetails() })
+            add(view.refreshes
+                    ?.subscribe { getStoryDetails() })
+
             add(view.buttonBarMainActionClicks
-                    ?.doOnNext{linkDrawerOpen = !linkDrawerOpen}
-                    ?.map{ linkDrawerOpen }
+                    ?.doOnNext { linkDrawerOpen = !linkDrawerOpen }
+                    ?.map { linkDrawerOpen }
                     ?.subscribe { setLinkDrawer(it) })
-            add(view.panelEvents?.subscribe {
-                when(it){
-                    PanelEvent.COLLAPSED -> setLinkDrawerText(interactorComponent.resources.getString(R.string.show_link))
-                    PanelEvent.EXPANDED -> setLinkDrawerText(interactorComponent.resources.getString(R.string.show_comments))
-                    else -> {}
-                }
-            })
-            add(view.headerScrolled?.subscribe { listScrolled(it) })
+
+            add(view.panelEvents
+                    ?.map { it == PanelEvent.EXPANDED }
+                    ?.doOnNext { linkDrawerOpen = it }
+                    ?.subscribe { setLinkDrawer(it) })
+
+            add(view.topItem
+                    ?.doOnNext { topItem = it }
+                    ?.map { it == 0 }
+                    ?.subscribe { headerScrolled(it) })
+
+            add(view.buttonBarLeftActionClicks
+                    ?.subscribe { navigateUp() })
+
+            add(view.buttonBarRightActionClicks
+                    ?.subscribe { navigateDown() })
+
         }
 
-        if(userPreferences.shouldUseExternalBrowser()){
+        if (userPreferences.shouldUseExternalBrowser()) {
             view.buttonBarText?.call(interactorComponent.resources.getString(R.string.open_in_browser))
         }
         else {
             view.buttonBarText?.call(interactorComponent.resources.getString(R.string.show_link))
         }
+    }
+
+    private fun navigateUp() {
+        topLevelCommentIndexes.filter { it < topItem }
+                .takeLast(1)
+                .forEach { view.navigateUp(it) }
+    }
+
+    private fun navigateDown() {
+        topLevelCommentIndexes.filter { it > topItem }
+                .take(1)
+                .forEach { view.navigateDown(it) }
     }
 
     override fun getStoryDetails() {
@@ -62,14 +89,12 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
                     .publish()
 
             response.subscribe {
-                        storyDetail = it
-                        view.displayStoryHeader(it)
-                    }
+                storyDetail = it
+                view.displayStoryHeader(it)
+            }
 
             response.filter { StoryType.LINK.type == it.type }
-                    .map {
-                        it.url
-                    }
+                    .map { it.url }
                     .subscribe {
                         if (it != null) {
                             view.loadLink(it, userPreferences.shouldUseExternalBrowser())
@@ -80,26 +105,38 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
                         }
                     }
 
-            response.map { it.comments }
+            val comments = response.map { it.comments }
                     .map {
                         val expandedComments = arrayListOf<CommentJson>()
-                        it?.forEach {
-                            expandComments(it, expandedComments)
-                        }
+                        it?.forEach { expandComments(it, expandedComments) }
                         expandedComments
                     }
-                    .subscribe(
-                            { view.displayComments(it) },
+                    .map { Observable.from(it) }
+
+            comments.doOnNext { it.forEach { commentsList.add(it) } }
+                    .subscribe({ view.displayComments(it) },
                             { Timber.e(it, "Detail request failed for item $itemId") },
                             { view.refreshing?.call(false) })
+
+            comments.subscribe(
+                    {
+                        it.filter { it.level == 0 }
+                                .map { commentsList.indexOf(it) }
+                                .map { it + 1 } // make sure we handle the header index at 0!
+                                .subscribe {
+                                    topLevelCommentIndexes.add(it)
+                                }
+                    },
+                    {},
+                    { Timber.d(topLevelCommentIndexes.toString()) })
 
             response.connect()
         }
     }
 
 
-    override fun listScrolled(headerVisible : Boolean) {
-        if(headerVisible){
+    override fun headerScrolled(headerVisible : Boolean) {
+        if (headerVisible) {
             view.setTitle(interactorComponent.resources.getString(R.string.app_name))
         }
         else {
@@ -107,10 +144,10 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
         }
     }
 
-    private fun expandComments(comment : CommentJson, expandedComments : MutableList<CommentJson>){
+    private fun expandComments(comment : CommentJson, expandedComments : MutableList<CommentJson>) {
         expandedComments.add(comment)
 
-        if(comment.comments?.size == 0){
+        if (comment.comments?.size == 0) {
             return
         }
 
@@ -118,8 +155,8 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
 
     }
 
-    private fun setLinkDrawer(open : Boolean){
-        if(open){
+    private fun setLinkDrawer(open : Boolean) {
+        if (open) {
             setLinkDrawerText(interactorComponent.resources.getString(R.string.show_comments))
         }
         else {
@@ -129,7 +166,7 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
         view.setLinkDrawerState(open)
     }
 
-    private fun setLinkDrawerText(text : String){
+    private fun setLinkDrawerText(text : String) {
         view.buttonBarText?.call(text)
     }
 }

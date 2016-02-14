@@ -10,6 +10,7 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import io.dwak.holohackernews.app.R
+import io.dwak.holohackernews.app.extension.consume
 import io.dwak.holohackernews.app.extension.getLong
 import io.dwak.holohackernews.app.extension.navigateTo
 import io.dwak.holohackernews.app.extension.with
@@ -30,18 +31,16 @@ class StoryDetailActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_story_detail)
         setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
-        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         Slidr.attach(this, SlidrConfig.Builder().edge(true)
                 .position(SlidrPosition.LEFT)
                 .build())
         navigateTo(StoryDetailFragment.newInstance(getLong(ITEM_ID)), addToBackStack = false)
     }
 
-    override fun onOptionsItemSelected(item : MenuItem?) : Boolean {
+    override fun onOptionsItemSelected(item : MenuItem?)  =
         when(item?.itemId){
-            android.R.id.home -> onBackPressed()
-            else -> {}
+            android.R.id.home -> consume { onBackPressed() }
+            else              -> false
         }
-        return super.onOptionsItemSelected(item)
-    }
 }

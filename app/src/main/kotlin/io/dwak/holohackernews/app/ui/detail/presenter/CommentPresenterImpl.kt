@@ -7,6 +7,7 @@ import io.dwak.holohackernews.app.ui.detail.view.CommentView
 
 class CommentPresenterImpl(view : CommentView, interactorComponent: InteractorComponent)
 : AbstractPresenter<CommentView>(view, interactorComponent), CommentPresenter {
+    override var isCollapsed : Boolean = false
     override var isOriginalPoster : Boolean? = null
     override var comment : CommentJson? = null
         set(value) {
@@ -22,8 +23,13 @@ class CommentPresenterImpl(view : CommentView, interactorComponent: InteractorCo
                     submitter = comment?.user,
                     submissionTime = comment?.timeAgo,
                     isOriginalPoster = isOriginalPoster,
-                    level = comment?.level)
+                    level = comment?.level,
+                    isCollapsed = isCollapsed)
         }
+    }
+
+    override fun commentClicked() {
+        throw UnsupportedOperationException()
     }
 
 }

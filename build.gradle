@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.0.0-beta-4589'
+    ext.kotlin_version = '1.0.0-rc-1036'
     repositories {
         jcenter()
         mavenCentral()
@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0-alpha7'
+        classpath 'com.android.tools.build:gradle:2.0.0-beta4'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -36,8 +36,9 @@ ext {
     loganSquareVersion = '1.1.0'
     robotoTextViewVersion = '2.4.0'
     rxBindingVersion = '0.3.0'
+    rxBindingVersionJitpack = 'master'
     rxLifecycleVersion = '0.2.0'
-    kotlin_version = '1.0.0-beta-4589'
+    kotlin_version = '1.0.0-rc-1036'
     retrofitVersion = '2.0.0-beta3'
     okhttpVersion = '3.0.0-RC1'
 }

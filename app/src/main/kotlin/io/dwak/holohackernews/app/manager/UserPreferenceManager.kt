@@ -19,23 +19,13 @@ object UserPreferenceManager : UserPreferenceInteractor {
         HackerNewsApplication.instance.appComponent.inject(this)
     }
 
-    override fun allowSwipeBackFromDetails() : Boolean {
-        return sharedPrefs.getBoolean(PREF_SWIPE_BACK, true)
-    }
+    override fun allowSwipeBackFromDetails() = sharedPrefs.getBoolean(PREF_SWIPE_BACK, true)
 
-    override fun preferredTextSize() : TextSize{
-        return TextSize.valueOf(sharedPrefs.getString(PREF_TEXT_SIZE, "medium"))
-    }
+    override fun preferredTextSize() = TextSize.valueOf(sharedPrefs.getString(PREF_TEXT_SIZE, "medium"))
 
-    override fun shouldShowLinkFirst() : Boolean {
-        return sharedPrefs.getBoolean(PREF_LINK_FIRST, false)
-    }
+    override fun shouldShowLinkFirst() : Boolean = sharedPrefs.getBoolean(PREF_LINK_FIRST, false)
 
-    override fun shouldUseExternalBrowser() : Boolean {
-        return sharedPrefs.getBoolean(SHOULD_USE_EXTERNAL_BROWSER, false)
-    }
+    override fun shouldUseExternalBrowser() = sharedPrefs.getBoolean(SHOULD_USE_EXTERNAL_BROWSER, false)
 
-    override fun shouldUseNightMode() : Boolean {
-        return sharedPrefs.getBoolean(PREF_NIGHT_MODE, false)
-    }
+    override fun shouldUseNightMode() = sharedPrefs.getBoolean(PREF_NIGHT_MODE, false)
 }

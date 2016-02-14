@@ -6,4 +6,7 @@ import io.dwak.holohackernews.app.model.json.CommentJson
 interface CommentPresenter : Presenter {
     var isOriginalPoster : Boolean?
     var comment : CommentJson?
+    var isCollapsed : Boolean
+
+    fun commentClicked()
 }

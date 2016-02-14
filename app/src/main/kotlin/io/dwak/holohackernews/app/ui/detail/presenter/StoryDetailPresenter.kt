@@ -7,5 +7,5 @@ interface StoryDetailPresenter : Presenter {
 
     fun getStoryDetails()
 
-    fun listScrolled(headerVisible : Boolean)
+    fun headerScrolled(headerVisible : Boolean)
 }

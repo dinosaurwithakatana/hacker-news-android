@@ -7,5 +7,8 @@ interface CommentView : PresenterView {
                        submitter : String?,
                        submissionTime : String?,
                        level : Int?,
-                       isOriginalPoster : Boolean?)
+                       isOriginalPoster : Boolean?,
+                       isCollapsed : Boolean)
+
+    fun collapseChildren()
 }

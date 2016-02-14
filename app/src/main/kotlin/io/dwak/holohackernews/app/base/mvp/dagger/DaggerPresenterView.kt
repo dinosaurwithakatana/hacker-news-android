@@ -1,5 +1,5 @@
 package io.dwak.holohackernews.app.base.mvp.dagger
 
-public interface DaggerPresenterView {
+interface DaggerPresenterView {
     fun inject()
 }

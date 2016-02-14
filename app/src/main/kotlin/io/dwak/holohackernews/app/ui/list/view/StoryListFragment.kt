@@ -13,10 +13,6 @@ import com.jakewharton.rxbinding.support.v4.widget.refreshing
 import io.dwak.holohackernews.app.R
 import io.dwak.holohackernews.app.base.mvp.fragment.MvpFragment
 import io.dwak.holohackernews.app.butterknife.bindView
-import io.dwak.holohackernews.app.dagger.component.DaggerInteractorComponent
-import io.dwak.holohackernews.app.dagger.component.DaggerPresenterComponent
-import io.dwak.holohackernews.app.dagger.module.InteractorModule
-import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import io.dwak.holohackernews.app.extension.bindActivity
 import io.dwak.holohackernews.app.extension.getSerializable
 import io.dwak.holohackernews.app.extension.with
@@ -43,15 +39,7 @@ class StoryListFragment : MvpFragment<StoryListPresenter>(), StoryListView {
         }
     }
 
-    override fun inject() {
-        DaggerPresenterComponent.builder()
-                .presenterModule(PresenterModule(this))
-                .interactorComponent(DaggerInteractorComponent.builder()
-                        .interactorModule(InteractorModule(activity))
-                        .build())
-                .build()
-                .inject(this);
-    }
+    override fun inject() = objectGraph(this).inject(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
