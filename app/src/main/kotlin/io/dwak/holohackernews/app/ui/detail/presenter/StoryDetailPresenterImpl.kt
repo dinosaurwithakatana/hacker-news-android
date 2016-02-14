@@ -47,6 +47,7 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
 
             add(view.topItem
                     ?.doOnNext { topItem = it }
+                    ?.doOnNext { Timber.d("top item: $topItem") }
                     ?.map { it == 0 }
                     ?.subscribe { headerScrolled(it) })
 
@@ -67,13 +68,16 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
     }
 
     private fun navigateUp() {
-        topLevelCommentIndexes.filter { it < topItem }
+        topLevelCommentIndexes
+                .filter { it < topItem }
                 .takeLast(1)
                 .forEach { view.navigateUp(it) }
     }
 
     private fun navigateDown() {
-        topLevelCommentIndexes.filter { it > topItem }
+        topLevelCommentIndexes
+                .filter { it != topItem }
+                .filter { it > topItem }
                 .take(1)
                 .forEach { view.navigateDown(it) }
     }
@@ -147,7 +151,7 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
     private fun expandComments(comment : CommentJson, expandedComments : MutableList<CommentJson>) {
         expandedComments.add(comment)
 
-        if (comment.comments?.size == 0) {
+        if (comment.comments?.isEmpty()!!) {
             return
         }
 

@@ -145,7 +145,7 @@ class StoryDetailFragment
     override fun navigateDown(index : Int) {
         Timber.d(index.toString())
         (recycler.layoutManager as LinearLayoutManager)
-                .scrollToPositionWithOffset(index, 0)
+                .scrollToPositionWithOffset(index, -2)
     }
 
     override fun displayComments(comments : Observable<CommentJson>) {
