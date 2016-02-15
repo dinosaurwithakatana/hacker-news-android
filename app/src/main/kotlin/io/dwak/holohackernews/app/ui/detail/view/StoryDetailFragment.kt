@@ -97,7 +97,8 @@ class StoryDetailFragment
         val layoutManager = LinearLayoutManager(activity)
         recycler.layoutManager = layoutManager
         topItem = recycler.scrollEvents()
-                .map { layoutManager.findFirstVisibleItemPosition()}
+                .map { layoutManager.findFirstVisibleItemPosition() }
+                .filter { it > 0 } // custom smooth scroller seems to return -1 in some places for some reason
 
         presenter.getStoryDetails()
     }
@@ -121,16 +122,23 @@ class StoryDetailFragment
     }
 
     override fun setLinkDrawerState(open : Boolean) {
-        linkPanel.panelState =
-                if (open) SlidingUpPanelLayout.PanelState.EXPANDED
-                else SlidingUpPanelLayout.PanelState.COLLAPSED
+        if (open) {
+            linkPanel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+            buttonBarLeftAction.setBackgroundResource(R.drawable.ic_arrow_back_24dp)
+            buttonBarRightAction.setBackgroundResource(R.drawable.ic_arrow_forward_24dp)
+        }
+        else {
+            linkPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+            buttonBarLeftAction.setBackgroundResource(R.drawable.ic_action_navigate_up_24dp)
+            buttonBarRightAction.setBackgroundResource(R.drawable.ic_action_navigate_down_24dp)
+        }
     }
 
     override fun loadLink(url : String, useExternalBrowser : Boolean) {
-        when (useExternalBrowser) {
-            false -> storyWebView.loadUrl(url)
-            true  -> activity.viewInExternalBrowser(url)
-        }
+//        when (useExternalBrowser) {
+//            false -> storyWebView.loadUrl(url)
+//            true  -> activity.viewInExternalBrowser(url)
+//        }
     }
 
     override fun disableLinkDrawer() {
@@ -139,13 +147,13 @@ class StoryDetailFragment
 
     override fun navigateUp(index : Int) {
         (recycler.layoutManager as LinearLayoutManager)
-                .smoothScrollToPosition(recycler, recyclerState, index)
+                .smoothScrollToPositionToTop(recycler, recyclerState, index)
     }
 
     override fun navigateDown(index : Int) {
         Timber.d(index.toString())
         (recycler.layoutManager as LinearLayoutManager)
-                .scrollToPositionWithOffset(index, 0)
+                .smoothScrollToPositionToTop(recycler, recyclerState, index)
     }
 
     override fun displayComments(comments : Observable<CommentJson>) {

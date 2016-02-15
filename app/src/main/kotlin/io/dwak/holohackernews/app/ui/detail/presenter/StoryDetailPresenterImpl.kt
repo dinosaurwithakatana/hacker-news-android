@@ -76,7 +76,6 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
 
     private fun navigateDown() {
         topLevelCommentIndexes
-                .filter { it != topItem }
                 .filter { it > topItem }
                 .take(1)
                 .forEach { view.navigateDown(it) }
@@ -127,9 +126,7 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
                         it.filter { it.level == 0 }
                                 .map { commentsList.indexOf(it) }
                                 .map { it + 1 } // make sure we handle the header index at 0!
-                                .subscribe {
-                                    topLevelCommentIndexes.add(it)
-                                }
+                                .subscribe { topLevelCommentIndexes.add(it) }
                     },
                     {},
                     { Timber.d(topLevelCommentIndexes.toString()) })

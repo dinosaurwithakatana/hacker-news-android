@@ -8,7 +8,6 @@ import io.dwak.holohackernews.app.model.json.CommentJson
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.ui.list.view.StoryViewHolder
 import rx.Observable
-import timber.log.Timber
 
 class StoryDetailAdapter(context : Context)
 : RecyclerView.Adapter<RecyclerView.ViewHolder>(), CommentViewHolder.CommentActionCallbacks {
@@ -17,10 +16,10 @@ class StoryDetailAdapter(context : Context)
 
     private val layoutInflater : LayoutInflater
     val itemList = arrayListOf<StoryDetailItem<*>>()
-    val topLevelCommentIndexes = arrayListOf<Int>()
 
     init {
         layoutInflater = LayoutInflater.from(context)
+        setHasStableIds(true)
     }
 
     fun addHeader(storyDetail : StoryDetailJson) {
@@ -31,8 +30,6 @@ class StoryDetailAdapter(context : Context)
     fun addComments(comments : Observable<CommentJson>) {
         comments.map { StoryDetailItem(ViewType.COMMENT, it) }
                 .subscribe { itemList.add(it) }
-
-        Timber.d(topLevelCommentIndexes.toString())
         notifyDataSetChanged()
     }
 
@@ -43,6 +40,15 @@ class StoryDetailAdapter(context : Context)
 
     override fun getItemCount() : Int = itemList.size
     override fun getItemViewType(position : Int) : Int = itemList[position].viewType.ordinal
+
+    override fun getItemId(position : Int) : Long {
+        itemList[position].let {
+            when(it.viewType){
+                ViewType.HEADER -> return (it.value as StoryDetailJson).id!!
+                ViewType.COMMENT -> return (it.value as CommentJson).id!!
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder? {
         when (viewType) {

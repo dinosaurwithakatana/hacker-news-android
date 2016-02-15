@@ -46,7 +46,7 @@ class StoryDetailPresenterImplTest : BasePresenterTest<StoryDetailPresenter>() {
             getStoryDetails()
         }
         verify(view).displayStoryHeader(storyDetail)
-        verify(view).displayComments(arrayListOf(parentComment, level1Comment1,
+        verify(view).displayComments(Observable.just<CommentJson>(parentComment, level1Comment1,
                 level2Comment3, level1Comment2))
     }
 }

@@ -11,8 +11,8 @@ import io.dwak.holohackernews.app.R
 
 fun Activity.viewInExternalBrowser(url : String){
     startActivity(Intent().with {
-        setAction(Intent.ACTION_VIEW)
-        setData(Uri.parse(url))
+        action = Intent.ACTION_VIEW
+        data = Uri.parse(url)
     })
 }
 
