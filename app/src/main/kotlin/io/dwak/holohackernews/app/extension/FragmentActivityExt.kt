@@ -9,11 +9,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import io.dwak.holohackernews.app.R
 
-fun Activity.viewInExternalBrowser(url : String){
-    startActivity(Intent().with {
-        action = Intent.ACTION_VIEW
-        data = Uri.parse(url)
-    })
+fun Activity.viewInExternalBrowser(url : String) {
+  startActivity(Intent().with {
+    action = Intent.ACTION_VIEW
+    data = Uri.parse(url)
+  })
 }
 
 @JvmOverloads
@@ -22,15 +22,23 @@ fun FragmentActivity.navigateTo(fragment : Fragment,
                                 addToBackStack : Boolean = true,
                                 backStackTag : String = fragment.toString(),
                                 extraOperations : (FragmentActivity.() -> (Unit))? = null) {
-    val transaction = supportFragmentManager.beginTransaction()
-    transaction.replace(container, fragment)
-    if(addToBackStack) transaction.addToBackStack(backStackTag)
-    extraOperations?.invoke(this)
-    transaction.commit()
+  val transaction = supportFragmentManager.beginTransaction()
+  transaction.replace(container, fragment)
+  if (addToBackStack) transaction.addToBackStack(backStackTag)
+  extraOperations?.invoke(this)
+  transaction.commit()
 }
 
-fun FragmentActivity.getInt(key : String, defaultValue : Int = 0) = intent.getIntExtra(key, defaultValue)
-fun FragmentActivity.getLong(key : String, defaultValue : Long = 0) = intent.getLongExtra(key, defaultValue)
-fun FragmentActivity.getBoolean(key : String, defaultValue : Boolean = false) = intent.getBooleanExtra(key, defaultValue)
-fun FragmentActivity.getString(key : String, defaultValue : String? = null) : String? = intent.getStringExtra(key)
+fun FragmentActivity.getInt(key : String, defaultValue : Int = 0) = intent.getIntExtra(key,
+                                                                                       defaultValue)
+
+fun FragmentActivity.getLong(key : String, defaultValue : Long = 0) = intent.getLongExtra(key,
+                                                                                          defaultValue)
+
+fun FragmentActivity.getBoolean(key : String,
+                                defaultValue : Boolean = false) = intent.getBooleanExtra(key,
+                                                                                         defaultValue)
+
+fun FragmentActivity.getString(key : String,
+                               defaultValue : String? = null) : String? = intent.getStringExtra(key)
 

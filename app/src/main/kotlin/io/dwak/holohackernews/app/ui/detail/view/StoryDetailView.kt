@@ -8,23 +8,25 @@ import rx.Observable
 import rx.functions.Action1
 
 interface StoryDetailView : PresenterView {
-    var listClicks : Observable<Unit>?
-    var refreshing : Action1<in Boolean>?
-    var refreshes : Observable<Unit>?
-    var buttonBarText : Action1<in CharSequence>?
-    var buttonBarMainActionClicks : Observable<Unit>?
-    var buttonBarLeftActionClicks : Observable<Unit>?
-    var buttonBarRightActionClicks : Observable<Unit>?
-    var panelEvents : Observable<PanelEvent>?
-    var topItem : Observable<Int>?
+  var listClicks : Observable<Unit>?
+  var refreshing : Action1<in Boolean>?
+  var refreshes : Observable<Unit>?
+  var buttonBarText : Action1<in CharSequence>?
+  var buttonBarMainActionClicks : Observable<Unit>?
+  var buttonBarLeftActionClicks : Observable<Unit>?
+  var buttonBarRightActionClicks : Observable<Unit>?
+  var panelEvents : Observable<PanelEvent>?
+  var topItem : Observable<Int>?
 
-    fun displayStoryHeader(storyDetail : StoryDetailJson)
-    fun displayComments(comments : Observable<CommentJson>)
-    fun setLinkDrawerState(open : Boolean)
-    fun loadLink(url : String, useExternalBrowser: Boolean)
-    fun disableLinkDrawer()
-    fun navigateUp(index : Int)
-    fun navigateDown(index : Int)
-    fun clear()
-    fun setTitle(title : String?)
+  fun displayStoryHeader(storyDetail : StoryDetailJson)
+  fun displayComments(comments : Observable<CommentJson>)
+  fun setLinkDrawerState(open : Boolean)
+  fun loadLink(url : String, useExternalBrowser : Boolean)
+  fun disableLinkDrawer()
+  fun navigateUp(index : Int)
+  fun navigateDown(index : Int)
+  fun webViewBack();
+  fun webViewForward();
+  fun clear()
+  fun setTitle(title : String?)
 }

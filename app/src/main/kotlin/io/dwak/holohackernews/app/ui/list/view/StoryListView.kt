@@ -7,13 +7,13 @@ import rx.Observable
 import rx.functions.Action1
 
 interface StoryListView : PresenterView {
-    var refreshing : Action1<in Boolean>?
-    var refreshes : Observable<Unit>?
+  var refreshing : Action1<in Boolean>?
+  var refreshes : Observable<Unit>?
 
-    fun clearStories()
+  fun clearStories()
 
-    fun addStories(@StringRes titleRes : Int,
-                   storyList : List<StoryJson>)
+  fun addStories(@StringRes titleRes : Int,
+                 storyList : List<StoryJson>)
 
-    fun navigateToStoryDetail(itemId : Long)
+  fun navigateToStoryDetail(itemId : Long)
 }

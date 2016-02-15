@@ -11,70 +11,70 @@ import rx.Observable
 
 class StoryDetailAdapter(context : Context)
 : RecyclerView.Adapter<RecyclerView.ViewHolder>(), CommentViewHolder.CommentActionCallbacks {
-    enum class ViewType { HEADER, COMMENT }
-    data class StoryDetailItem<T>(val viewType : ViewType, val value : T)
+  enum class ViewType { HEADER, COMMENT }
+  data class StoryDetailItem<T>(val viewType : ViewType, val value : T)
 
-    private val layoutInflater : LayoutInflater
-    val itemList = arrayListOf<StoryDetailItem<*>>()
+  private val layoutInflater : LayoutInflater
+  val itemList = arrayListOf<StoryDetailItem<*>>()
 
-    init {
-        layoutInflater = LayoutInflater.from(context)
-        setHasStableIds(true)
+  init {
+    layoutInflater = LayoutInflater.from(context)
+    setHasStableIds(true)
+  }
+
+  fun addHeader(storyDetail : StoryDetailJson) {
+    itemList.add(StoryDetailItem(ViewType.HEADER, storyDetail))
+    notifyItemInserted(0)
+  }
+
+  fun addComments(comments : Observable<CommentJson>) {
+    comments.map { StoryDetailItem(ViewType.COMMENT, it) }
+            .subscribe { itemList.add(it) }
+    notifyDataSetChanged()
+  }
+
+  fun clear() {
+    itemList.clear()
+    notifyDataSetChanged()
+  }
+
+  override fun getItemCount() : Int = itemList.size
+  override fun getItemViewType(position : Int) : Int = itemList[position].viewType.ordinal
+
+  override fun getItemId(position : Int) : Long {
+    itemList[position].let {
+      when (it.viewType) {
+        ViewType.HEADER  -> return (it.value as StoryDetailJson).id!!
+        ViewType.COMMENT -> return (it.value as CommentJson).id!!
+      }
     }
+  }
 
-    fun addHeader(storyDetail : StoryDetailJson) {
-        itemList.add(StoryDetailItem(ViewType.HEADER, storyDetail))
-        notifyItemInserted(0)
+  override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder? {
+    when (viewType) {
+      ViewType.HEADER.ordinal  -> return StoryViewHolder.create(layoutInflater, parent)
+      ViewType.COMMENT.ordinal -> return CommentViewHolder.create(layoutInflater, parent)
+      else                     -> return null
     }
+  }
 
-    fun addComments(comments : Observable<CommentJson>) {
-        comments.map { StoryDetailItem(ViewType.COMMENT, it) }
-                .subscribe { itemList.add(it) }
-        notifyDataSetChanged()
+  override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position : Int) {
+    when (getItemViewType(position)) {
+      ViewType.HEADER.ordinal  -> (holder as StoryViewHolder).bind(itemList[position].value as StoryDetailJson)
+      ViewType.COMMENT.ordinal -> {
+        val commentJson = itemList[position].value as CommentJson
+        val isOriginalPoster = commentJson.user?.equals((itemList[0].value as StoryDetailJson?)?.user)
+        (holder as CommentViewHolder).bind(commentJson, isOriginalPoster, this)
+      }
     }
+  }
 
-    fun clear() {
-        itemList.clear()
-        notifyDataSetChanged()
-    }
+  override fun onActionMenuClicked() {
+    throw UnsupportedOperationException()
+  }
 
-    override fun getItemCount() : Int = itemList.size
-    override fun getItemViewType(position : Int) : Int = itemList[position].viewType.ordinal
-
-    override fun getItemId(position : Int) : Long {
-        itemList[position].let {
-            when(it.viewType){
-                ViewType.HEADER -> return (it.value as StoryDetailJson).id!!
-                ViewType.COMMENT -> return (it.value as CommentJson).id!!
-            }
-        }
-    }
-
-    override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder? {
-        when (viewType) {
-            ViewType.HEADER.ordinal  -> return StoryViewHolder.create(layoutInflater, parent)
-            ViewType.COMMENT.ordinal -> return CommentViewHolder.create(layoutInflater, parent)
-            else                     -> return null
-        }
-    }
-
-    override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position : Int) {
-        when (getItemViewType(position)) {
-            ViewType.HEADER.ordinal  -> (holder as StoryViewHolder).bind(itemList[position].value as StoryDetailJson)
-            ViewType.COMMENT.ordinal -> {
-                val commentJson = itemList[position].value as CommentJson
-                val isOriginalPoster = commentJson.user?.equals((itemList[0].value as StoryDetailJson?)?.user)
-                (holder as CommentViewHolder).bind(commentJson, isOriginalPoster, this)
-            }
-        }
-    }
-
-    override fun onActionMenuClicked() {
-        throw UnsupportedOperationException()
-    }
-
-    override fun onCommentClicked(holder : CommentViewHolder) {
-        throw UnsupportedOperationException()
-    }
+  override fun onCommentClicked(holder : CommentViewHolder) {
+    throw UnsupportedOperationException()
+  }
 
 }

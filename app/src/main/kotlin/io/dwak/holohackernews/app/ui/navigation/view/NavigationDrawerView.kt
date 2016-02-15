@@ -7,9 +7,9 @@ import rx.Observable
 import rx.Observer
 
 interface NavigationDrawerView : PresenterView {
-    val observer: Observer<DrawerItemModel>
-    var drawerClicks : Observable<Int>?
-    fun navigateToStoryList(feed : Feed)
-    fun navigateToSettings()
-    fun navigateToAbout()
+  val observer : Observer<DrawerItemModel>
+  var drawerClicks : Observable<Int>?
+  fun navigateToStoryList(feed : Feed)
+  fun navigateToSettings()
+  fun navigateToAbout()
 }

@@ -5,6 +5,6 @@ import io.dwak.holohackernews.app.model.navigation.DrawerItemModel
 import rx.Observable
 
 interface NavigationDrawerPresenter : Presenter {
-    val onItemClick : (Int) -> Unit
-    val items: Observable<DrawerItemModel>
+  val onItemClick : (Int) -> Unit
+  val items : Observable<DrawerItemModel>
 }

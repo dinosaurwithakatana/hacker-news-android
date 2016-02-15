@@ -18,15 +18,15 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(NetworkModule::class, InteractorModule::class))
 interface InteractorComponent {
-    fun inject(storyListPresenterImpl : StoryListPresenterImpl)
-    fun inject(storyItemPresenterImpl : StoryItemPresenterImpl)
-    fun inject(mainPresenter: MainPresenterImpl)
-    fun inject(navigationDrawerPresenterImpl: NavigationDrawerPresenterImpl)
-    fun inject(aboutPresenterImpl : AboutPresenterImpl)
-    fun inject(storyDetailPresenterImpl: StoryDetailPresenterImpl)
-    fun inject(commentPresenterImpl: CommentPresenterImpl)
+  fun inject(storyListPresenterImpl : StoryListPresenterImpl)
+  fun inject(storyItemPresenterImpl : StoryItemPresenterImpl)
+  fun inject(mainPresenter : MainPresenterImpl)
+  fun inject(navigationDrawerPresenterImpl : NavigationDrawerPresenterImpl)
+  fun inject(aboutPresenterImpl : AboutPresenterImpl)
+  fun inject(storyDetailPresenterImpl : StoryDetailPresenterImpl)
+  fun inject(commentPresenterImpl : CommentPresenterImpl)
 
-    val rxSchedulerInteractor : RxSchedulerInteractor
-    val resources : Resources
-    val htmlParser : HtmlInteractor.HtmlParser
+  val rxSchedulerInteractor : RxSchedulerInteractor
+  val resources : Resources
+  val htmlParser : HtmlInteractor.HtmlParser
 }

@@ -30,31 +30,31 @@ import io.dwak.holohackernews.app.ui.navigation.view.NavigationDrawerView
 @ViewScope
 @Module
 open class PresenterModule(private val view : PresenterView) {
-    @Provides
-    fun storyListPresenter(interactorComponent : InteractorComponent) : StoryListPresenter
-            = StoryListPresenterImpl(view as StoryListView, interactorComponent)
+  @Provides
+  fun storyListPresenter(interactorComponent : InteractorComponent) : StoryListPresenter
+          = StoryListPresenterImpl(view as StoryListView, interactorComponent)
 
-    @Provides
-    fun storyItemPresenter(interactorComponent : InteractorComponent) : StoryItemPresenter
-            = StoryItemPresenterImpl(view as StoryItemView, interactorComponent)
+  @Provides
+  fun storyItemPresenter(interactorComponent : InteractorComponent) : StoryItemPresenter
+          = StoryItemPresenterImpl(view as StoryItemView, interactorComponent)
 
-    @Provides
-    fun mainPresenter(interactorComponent : InteractorComponent) : MainPresenter
-            = MainPresenterImpl(view as MainView, interactorComponent)
+  @Provides
+  fun mainPresenter(interactorComponent : InteractorComponent) : MainPresenter
+          = MainPresenterImpl(view as MainView, interactorComponent)
 
-    @Provides
-    fun navigationPresenter(interactorComponent : InteractorComponent) : NavigationDrawerPresenter
-            = NavigationDrawerPresenterImpl(view as NavigationDrawerView, interactorComponent)
+  @Provides
+  fun navigationPresenter(interactorComponent : InteractorComponent) : NavigationDrawerPresenter
+          = NavigationDrawerPresenterImpl(view as NavigationDrawerView, interactorComponent)
 
-    @Provides
-    fun aboutPresenter(interactorComponent : InteractorComponent) : AboutPresenter
-            = AboutPresenterImpl(view as AboutView, interactorComponent)
+  @Provides
+  fun aboutPresenter(interactorComponent : InteractorComponent) : AboutPresenter
+          = AboutPresenterImpl(view as AboutView, interactorComponent)
 
-    @Provides
-    fun storyDetailPresenter(interactorComponent : InteractorComponent) : StoryDetailPresenter
-            = StoryDetailPresenterImpl(view as StoryDetailView, interactorComponent)
+  @Provides
+  fun storyDetailPresenter(interactorComponent : InteractorComponent) : StoryDetailPresenter
+          = StoryDetailPresenterImpl(view as StoryDetailView, interactorComponent)
 
-    @Provides
-    fun commentPresenter(interactorComponent : InteractorComponent) : CommentPresenter
-            = CommentPresenterImpl(view as CommentView, interactorComponent)
+  @Provides
+  fun commentPresenter(interactorComponent : InteractorComponent) : CommentPresenter
+          = CommentPresenterImpl(view as CommentView, interactorComponent)
 }

@@ -13,32 +13,32 @@ import io.dwak.holohackernews.app.dagger.module.PresenterModule
 import javax.inject.Inject
 
 abstract class MvpActivity<P : Presenter> : AppCompatActivity(), DaggerPresenterView {
-    protected lateinit var presenter : P @Inject set
+  protected lateinit var presenter : P @Inject set
 
-    abstract override fun inject()
+  abstract override fun inject()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        inject()
-        presenter.prepareToAttachToView()
-    }
+  override fun onCreate(savedInstanceState : Bundle?) {
+    super.onCreate(savedInstanceState)
+    inject()
+    presenter.prepareToAttachToView()
+  }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.onAttachToView()
-    }
+  override fun onResume() {
+    super.onResume()
+    presenter.onAttachToView()
+  }
 
-    override fun onPause() {
-        super.onPause()
-        presenter.onDetachFromView()
-    }
+  override fun onPause() {
+    super.onPause()
+    presenter.onDetachFromView()
+  }
 
-    fun objectGraph(t : PresenterView) : PresenterComponent {
-        return DaggerPresenterComponent.builder()
-                .presenterModule(PresenterModule(t))
-                .interactorComponent(DaggerInteractorComponent.builder()
-                        .interactorModule(InteractorModule(this))
-                        .build())
-                .build()
-    }
+  fun objectGraph(t : PresenterView) : PresenterComponent {
+    return DaggerPresenterComponent.builder()
+            .presenterModule(PresenterModule(t))
+            .interactorComponent(DaggerInteractorComponent.builder()
+                                         .interactorModule(InteractorModule(this))
+                                         .build())
+            .build()
+  }
 }

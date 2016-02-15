@@ -6,7 +6,7 @@ import io.dwak.holohackernews.app.model.json.StoryJson
 import rx.Single
 
 interface StoryItemPresenter : Presenter {
-    var story : StoryJson?
-    var storyDetail : StoryDetailJson?
-    fun save() : Single<Boolean>
+  var story : StoryJson?
+  var storyDetail : StoryDetailJson?
+  fun save() : Single<Boolean>
 }

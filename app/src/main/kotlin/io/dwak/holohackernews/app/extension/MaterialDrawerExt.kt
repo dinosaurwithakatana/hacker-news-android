@@ -10,25 +10,29 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import rx.Observable
 import rx.android.MainThreadSubscription
 
-fun PrimaryDrawerItem(id : Int, @StringRes titleRes : Int, @DrawableRes iconRes : Int)  : PrimaryDrawerItem
+fun PrimaryDrawerItem(id : Int,
+                      @StringRes titleRes : Int,
+                      @DrawableRes iconRes : Int) : PrimaryDrawerItem
         = PrimaryDrawerItem().withName(titleRes).withIcon(iconRes).withIdentifier(id)
 
-fun SecondaryDrawerItem(id : Int, @StringRes titleRes : Int, @DrawableRes iconRes : Int) : SecondaryDrawerItem
+fun SecondaryDrawerItem(id : Int,
+                        @StringRes titleRes : Int,
+                        @DrawableRes iconRes : Int) : SecondaryDrawerItem
         = SecondaryDrawerItem().withName(titleRes).withIcon(iconRes).withIdentifier(id)
 
 fun Drawer.itemClicks() : Observable<Int> {
-    return Observable.create<Int> {
-       if(!it.isUnsubscribed){
-           setOnDrawerItemClickListener { view, i, iDrawerItem ->
-               it.onNext(iDrawerItem.identifier)
-               false
-           }
+  return Observable.create<Int> {
+    if (!it.isUnsubscribed) {
+      setOnDrawerItemClickListener { view, i, iDrawerItem ->
+        it.onNext(iDrawerItem.identifier)
+        false
+      }
 
-           it.add(object: MainThreadSubscription() {
-               override fun onUnsubscribe() {
-                   onDrawerItemClickListener = null
-               }
-           })
-       }
+      it.add(object : MainThreadSubscription() {
+        override fun onUnsubscribe() {
+          onDrawerItemClickListener = null
+        }
+      })
     }
+  }
 }

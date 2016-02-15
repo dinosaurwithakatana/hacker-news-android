@@ -31,82 +31,84 @@ import java.util.*
 import javax.inject.Inject
 
 class MainActivity : MvpActivity<MainPresenter>(),
-        MainView,
-        NavigationDrawerView,
-        StoryListFragment.StoryListInteractionListener {
+                     MainView,
+                     NavigationDrawerView,
+                     StoryListFragment.StoryListInteractionListener {
 
-    override var drawerClicks: Observable<Int>? = null
-    private val toolbar : Toolbar by bindView(R.id.toolbar)
-    private val detailsContainer : FrameLayout? by bindOptionalView(R.id.details_container)
-    lateinit var navigationPresenter : NavigationDrawerPresenter @Inject set
+  override var drawerClicks : Observable<Int>? = null
+  private val toolbar : Toolbar by bindView(R.id.toolbar)
+  private val detailsContainer : FrameLayout? by bindOptionalView(R.id.details_container)
+  lateinit var navigationPresenter : NavigationDrawerPresenter @Inject set
 
-    override fun inject() = objectGraph(this).inject(this)
+  override fun inject() = objectGraph(this).inject(this)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
-        navigationPresenter.prepareToAttachToView()
-        navigationPresenter.items.subscribe(observer)
+  override fun onCreate(savedInstanceState : Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    setSupportActionBar(toolbar)
+    navigationPresenter.prepareToAttachToView()
+    navigationPresenter.items.subscribe(observer)
+  }
+
+  override fun onResume() {
+    super.onResume()
+    navigationPresenter.onAttachToView()
+  }
+
+  override fun onPause() {
+    super.onPause()
+    navigationPresenter.onDetachFromView()
+  }
+
+  override fun navigateToStoryList(feed : Feed) = navigateTo(StoryListFragment.newInstance(feed),
+                                                             addToBackStack = false)
+
+  override fun navigateToStoryDetail(itemId : Long) {
+    if (detailsContainer == null) {
+      startActivity(StoryDetailActivity.newIntent(this, itemId))
+    }
+    else {
+      navigateTo(StoryDetailFragment.newInstance(itemId),
+                 container = R.id.details_container,
+                 addToBackStack = true)
+    }
+  }
+
+  override fun navigateToSettings() {
+  }
+
+  override fun navigateToAbout() {
+  }
+
+  override val observer = object : Observer<DrawerItemModel> {
+    val drawerItems = ArrayList<IDrawerItem<*>>()
+
+    override fun onCompleted() {
+      val accountHeader = AccountHeaderBuilder().withActivity(this@MainActivity)
+              .withProfileImagesVisible(true)
+              .withHeaderBackground(ContextCompat.getDrawable(this@MainActivity,
+                                                              R.drawable.orange_button))
+              .build()
+      drawerClicks = DrawerBuilder().withToolbar(toolbar)
+              .withActivity(this@MainActivity)
+              .withAccountHeader(accountHeader)
+              .withDrawerItems(drawerItems)
+              .build()
+              .itemClicks()
     }
 
-    override fun onResume() {
-        super.onResume()
-        navigationPresenter.onAttachToView()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        navigationPresenter.onDetachFromView()
-    }
-
-    override fun navigateToStoryList(feed : Feed) = navigateTo(StoryListFragment.newInstance(feed), addToBackStack = false)
-
-    override fun navigateToStoryDetail(itemId: Long) {
-        if(detailsContainer == null){
-            startActivity(StoryDetailActivity.newIntent(this, itemId))
+    override fun onNext(item : DrawerItemModel) {
+      with(drawerItems) {
+        when (item.type) {
+          DrawerItemType.PRIMARY   -> add(PrimaryDrawerItem(item.id, item.titleRes, item.iconRes))
+          DrawerItemType.SECONDARY -> add(SecondaryDrawerItem(item.id, item.titleRes, item.iconRes))
+          DrawerItemType.DIVIDER   -> add(DividerDrawerItem())
         }
-        else {
-            navigateTo(StoryDetailFragment.newInstance(itemId),
-                    container = R.id.details_container,
-                    addToBackStack = true)
-        }
+      }
     }
 
-    override fun navigateToSettings() {
+    override fun onError(e : Throwable?) {
+      throw UnsupportedOperationException()
     }
-
-    override fun navigateToAbout() {
-    }
-
-    override val observer = object: Observer<DrawerItemModel> {
-        val drawerItems = ArrayList<IDrawerItem<*>>()
-
-        override fun onCompleted() {
-            val accountHeader = AccountHeaderBuilder().withActivity(this@MainActivity)
-                    .withProfileImagesVisible(true)
-                    .withHeaderBackground(ContextCompat.getDrawable(this@MainActivity, R.drawable.orange_button))
-                    .build()
-            drawerClicks = DrawerBuilder().withToolbar(toolbar)
-                    .withActivity(this@MainActivity)
-                    .withAccountHeader(accountHeader)
-                    .withDrawerItems(drawerItems)
-                    .build()
-                    .itemClicks()
-        }
-
-        override fun onNext(item: DrawerItemModel) {
-            with(drawerItems) {
-                when (item.type) {
-                    DrawerItemType.PRIMARY -> add(PrimaryDrawerItem(item.id, item.titleRes, item.iconRes))
-                    DrawerItemType.SECONDARY -> add(SecondaryDrawerItem(item.id, item.titleRes, item.iconRes))
-                    DrawerItemType.DIVIDER -> add(DividerDrawerItem())
-                }
-            }
-        }
-
-        override fun onError(e: Throwable?) {
-            throw UnsupportedOperationException()
-        }
-    }
+  }
 }

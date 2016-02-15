@@ -8,11 +8,11 @@ abstract class AbstractPresenter<V : PresenterView>(
         protected val view : V,
         protected val interactorComponent : InteractorComponent)
 : DaggerPresenter {
-    val viewSubscription = CompositeSubscription()
+  val viewSubscription = CompositeSubscription()
 
-    abstract override fun inject()
+  abstract override fun inject()
 
-    init {
-        inject()
-    }
+  init {
+    inject()
+  }
 }

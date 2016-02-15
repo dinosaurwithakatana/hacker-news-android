@@ -11,11 +11,11 @@ import io.dwak.holohackernews.app.ui.main.view.MainActivity
 
 @ViewScope
 @Component(modules = arrayOf(PresenterModule::class),
-        dependencies = arrayOf(InteractorComponent::class))
+           dependencies = arrayOf(InteractorComponent::class))
 interface PresenterComponent {
-    fun inject(storyListFragment : StoryListFragment)
-    fun inject(storyItemViewHolder : StoryViewHolder)
-    fun inject(mainView : MainActivity)
-    fun inject(storyDetailView : StoryDetailFragment)
-    fun inject(commentView : CommentViewHolder)
+  fun inject(storyListFragment : StoryListFragment)
+  fun inject(storyItemViewHolder : StoryViewHolder)
+  fun inject(mainView : MainActivity)
+  fun inject(storyDetailView : StoryDetailFragment)
+  fun inject(commentView : CommentViewHolder)
 }

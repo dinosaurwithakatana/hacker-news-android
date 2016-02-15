@@ -4,7 +4,7 @@ import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 
 class RxSchedulerInteractorImpl {
-    companion object : RxSchedulerInteractor {
-        override val mainThreadScheduler: Scheduler = AndroidSchedulers.mainThread()
-    }
+  companion object : RxSchedulerInteractor {
+    override val mainThreadScheduler : Scheduler = AndroidSchedulers.mainThread()
+  }
 }

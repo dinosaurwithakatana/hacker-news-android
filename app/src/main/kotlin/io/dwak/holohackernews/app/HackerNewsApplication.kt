@@ -9,24 +9,24 @@ import timber.log.Timber
 
 class HackerNewsApplication : Application() {
 
-    companion object {
-        lateinit var instance : HackerNewsApplication
-    }
+  companion object {
+    lateinit var instance : HackerNewsApplication
+  }
 
-    val appComponent by lazy {
-        DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
-    }
+  val appComponent by lazy {
+    DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
+  }
 
-    override fun onCreate() {
-        super.onCreate()
-        Stetho.initializeWithDefaults(this)
-        Timber.plant(appComponent.tree);
-        if("release".equals(BuildConfig.BUILD_TYPE)){
-            Bugsnag.init(this);
-        }
-        instance = this
+  override fun onCreate() {
+    super.onCreate()
+    Stetho.initializeWithDefaults(this)
+    Timber.plant(appComponent.tree);
+    if ("release".equals(BuildConfig.BUILD_TYPE)) {
+      Bugsnag.init(this);
     }
+    instance = this
+  }
 
 }

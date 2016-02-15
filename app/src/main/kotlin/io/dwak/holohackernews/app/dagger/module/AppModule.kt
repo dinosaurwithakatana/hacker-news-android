@@ -12,9 +12,9 @@ import javax.inject.Singleton
 @Singleton
 @Module
 class AppModule(private val app : HackerNewsApplication) {
-    @Provides fun providesApplicationContext() : HackerNewsApplication = app
-    @Provides fun providesTimberTree() : Timber.Tree = Timber.DebugTree()
-    @Provides fun assetManager() : AssetManager = app.assets
-    @Singleton @Provides fun sharedPreferences() : SharedPreferences
-            = PreferenceManager.getDefaultSharedPreferences(app)
+  @Provides fun providesApplicationContext() : HackerNewsApplication = app
+  @Provides fun providesTimberTree() : Timber.Tree = Timber.DebugTree()
+  @Provides fun assetManager() : AssetManager = app.assets
+  @Singleton @Provides fun sharedPreferences() : SharedPreferences
+          = PreferenceManager.getDefaultSharedPreferences(app)
 }

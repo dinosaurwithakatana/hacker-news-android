@@ -15,32 +15,32 @@ import io.dwak.holohackernews.app.extension.getLong
 import io.dwak.holohackernews.app.extension.navigateTo
 import io.dwak.holohackernews.app.extension.with
 
-class StoryDetailActivity : AppCompatActivity(){
+class StoryDetailActivity : AppCompatActivity() {
 
-    companion object {
-        val ITEM_ID = "ITEM_ID"
+  companion object {
+    val ITEM_ID = "ITEM_ID"
 
-        fun newIntent(context : Context, itemId : Long) : Intent {
-            return Intent(context, StoryDetailActivity::class.java).with {
-                putExtra(ITEM_ID, itemId)
-            }
-        }
+    fun newIntent(context : Context, itemId : Long) : Intent {
+      return Intent(context, StoryDetailActivity::class.java).with {
+        putExtra(ITEM_ID, itemId)
+      }
     }
+  }
 
-    override fun onCreate(savedInstanceState : Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_story_detail)
-        setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        Slidr.attach(this, SlidrConfig.Builder().edge(true)
-                .position(SlidrPosition.LEFT)
-                .build())
-        navigateTo(StoryDetailFragment.newInstance(getLong(ITEM_ID)), addToBackStack = false)
-    }
+  override fun onCreate(savedInstanceState : Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_story_detail)
+    setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    Slidr.attach(this, SlidrConfig.Builder().edge(true)
+            .position(SlidrPosition.LEFT)
+            .build())
+    navigateTo(StoryDetailFragment.newInstance(getLong(ITEM_ID)), addToBackStack = false)
+  }
 
-    override fun onOptionsItemSelected(item : MenuItem?)  =
-        when(item?.itemId){
+  override fun onOptionsItemSelected(item : MenuItem?) =
+          when (item?.itemId) {
             android.R.id.home -> consume { onBackPressed() }
             else              -> false
-        }
+          }
 }

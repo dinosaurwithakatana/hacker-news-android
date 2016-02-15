@@ -10,18 +10,18 @@ fun LinearLayoutManager.smoothScrollToPositionToTop(recyclerView : RecyclerView,
                                                     index : Int) {
 
 
-    val self = this
-    val linearSmoothScroller = object : LinearSmoothScroller(recyclerView.context) {
-        override fun getVerticalSnapPreference() : Int {
-            return SNAP_TO_START;
-        }
-
-        override fun computeScrollVectorForPosition(targetPosition : Int) : PointF? {
-            return self.computeScrollVectorForPosition(targetPosition);
-        }
+  val self = this
+  val linearSmoothScroller = object : LinearSmoothScroller(recyclerView.context) {
+    override fun getVerticalSnapPreference() : Int {
+      return SNAP_TO_START;
     }
 
-    linearSmoothScroller.targetPosition = index;
-    startSmoothScroll(linearSmoothScroller);
+    override fun computeScrollVectorForPosition(targetPosition : Int) : PointF? {
+      return self.computeScrollVectorForPosition(targetPosition);
+    }
+  }
+
+  linearSmoothScroller.targetPosition = index;
+  startSmoothScroll(linearSmoothScroller);
 }
 
