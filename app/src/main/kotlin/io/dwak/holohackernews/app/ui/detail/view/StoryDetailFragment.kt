@@ -7,8 +7,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import android.widget.TextView
 import com.jakewharton.rxbinding.support.v4.widget.refreshes
 import com.jakewharton.rxbinding.support.v4.widget.refreshing
 import com.jakewharton.rxbinding.support.v7.widget.scrollEvents
@@ -47,9 +49,9 @@ class StoryDetailFragment
     private val linkPanel : SlidingUpPanelLayout by bindView(R.id.link_panel)
     private val readabilityButton : FloatingActionButton by bindView(R.id.fabbutton)
     private val buttonBar : View by bindView(R.id.button_bar)
-    private val buttonBarMainAction : Button by bindView(R.id.action_main)
-    private val buttonBarLeftAction : Button by bindView(R.id.action_1)
-    private val buttonBarRightAction : Button by bindView(R.id.action_2)
+    private val buttonBarMainAction : TextView by bindView(R.id.action_main)
+    private val buttonBarLeftAction : TextView by bindView(R.id.action_1)
+    private val buttonBarRightAction : TextView by bindView(R.id.action_2)
     private val storyWebView : ObservableWebView by bindView(R.id.story_web_view)
     private val swipeRefresh : SwipeRefreshLayout by bindView(R.id.swipe_container)
     private val recycler : RecyclerView by bindView(R.id.comments_recycler)
@@ -98,7 +100,6 @@ class StoryDetailFragment
         recycler.layoutManager = layoutManager
         topItem = recycler.scrollEvents()
                 .map { layoutManager.findFirstVisibleItemPosition() }
-                .filter { it > 0 } // custom smooth scroller seems to return -1 in some places for some reason
 
         presenter.getStoryDetails()
     }
@@ -117,7 +118,11 @@ class StoryDetailFragment
         }
         val chromeClient = RxWebChromeClient()
         chromeClient.progress().subscribe(webProgressBar.progress())
+        val webViewClient = object: WebViewClient(){
+            override fun shouldOverrideUrlLoading(view : WebView?, url : String?) = true
+        }
         storyWebView.setWebChromeClient(chromeClient)
+        storyWebView.setWebViewClient(webViewClient)
         storyWebView.scrolls().map { it.t <= it.oldT }.subscribe(readabilityButton.visibility())
     }
 
@@ -135,10 +140,11 @@ class StoryDetailFragment
     }
 
     override fun loadLink(url : String, useExternalBrowser : Boolean) {
-//        when (useExternalBrowser) {
-//            false -> storyWebView.loadUrl(url)
-//            true  -> activity.viewInExternalBrowser(url)
-//        }
+        Timber.d("woidhaodhw")
+        when (useExternalBrowser) {
+            false -> storyWebView.loadUrl(url)
+            true  -> activity.viewInExternalBrowser(url)
+        }
     }
 
     override fun disableLinkDrawer() {

@@ -19,14 +19,14 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
 
-        <Button
+        <TextView
             android:id="@+id/action_1"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_alignParentLeft="true"
             tools:ignore="RtlHardcoded" />
 
-        <Button
+        <TextView
             android:id="@+id/action_2"
             android:layout_width="42dp"
             android:layout_height="42dp"
