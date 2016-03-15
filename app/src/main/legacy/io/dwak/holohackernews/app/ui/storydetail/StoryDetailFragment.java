@@ -48,7 +48,7 @@ import io.dwak.holohackernews.app.preferences.UserPreferenceManager;
 import io.dwak.holohackernews.app.util.HNLog;
 import io.dwak.holohackernews.app.util.ToastUtils;
 import io.dwak.holohackernews.app.util.UIUtils;
-import io.dwak.holohackernews.app.widget.ObservableWebView;
+import io.dwak.holohackernews.app.widget.RxWebView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

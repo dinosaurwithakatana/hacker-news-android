@@ -32,8 +32,7 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
   override fun onAttachToView() {
     super.onAttachToView()
     with(viewSubscription) {
-      add(view.refreshes
-                  ?.subscribe { getStoryDetails() })
+      add(view.refreshes?.subscribe { getStoryDetails() })
 
       add(view.buttonBarMainActionClicks
                   ?.doOnNext { linkDrawerOpen = !linkDrawerOpen }
@@ -47,7 +46,6 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
 
       add(view.topItem
                   ?.doOnNext { topItem = it }
-                  ?.doOnNext { Timber.d("top item: $topItem") }
                   ?.map { it == 0 }
                   ?.subscribe { headerScrolled(it) })
 
@@ -110,7 +108,7 @@ class StoryDetailPresenterImpl(view : StoryDetailView, interactorComponent : Int
                   view.setLinkDrawerState(userPreferences.shouldShowLinkFirst())
                 }
                 else {
-                  view.disableLinkDrawer()
+                  view.enableLinkDrawer(false)
                 }
               }
 

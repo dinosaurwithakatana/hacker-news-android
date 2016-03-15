@@ -54,13 +54,13 @@
         android:background="?attr/colorAccent" />
 
 
-    <io.dwak.holohackernews.app.widget.ObservableWebView
+    <io.dwak.holohackernews.app.widget.RxWebView
         android:id="@+id/story_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/web_progress_bar">
 
-    </io.dwak.holohackernews.app.widget.ObservableWebView>
+    </io.dwak.holohackernews.app.widget.RxWebView>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fabbutton"

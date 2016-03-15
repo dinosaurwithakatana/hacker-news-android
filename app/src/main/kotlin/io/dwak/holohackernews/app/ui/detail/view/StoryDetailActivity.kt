@@ -38,9 +38,8 @@ class StoryDetailActivity : AppCompatActivity() {
     navigateTo(StoryDetailFragment.newInstance(getLong(ITEM_ID)), addToBackStack = false)
   }
 
-  override fun onOptionsItemSelected(item : MenuItem?) =
-          when (item?.itemId) {
-            android.R.id.home -> consume { onBackPressed() }
-            else              -> false
-          }
+  override fun onOptionsItemSelected(item : MenuItem?) = when (item?.itemId) {
+    android.R.id.home -> consume { onBackPressed() }
+    else              -> false
+  }
 }

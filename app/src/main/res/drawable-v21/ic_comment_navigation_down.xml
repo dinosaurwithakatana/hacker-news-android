@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/defaultRippleColor">
+    <item android:drawable="@drawable/ic_action_navigate_down_24dp"/>
+</ripple>

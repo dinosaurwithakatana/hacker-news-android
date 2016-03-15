@@ -8,6 +8,7 @@ import io.dwak.holohackernews.app.model.json.CommentJson
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.ui.list.view.StoryViewHolder
 import rx.Observable
+import rx.Subscriber
 
 class StoryDetailAdapter(context : Context)
 : RecyclerView.Adapter<RecyclerView.ViewHolder>(), CommentViewHolder.CommentActionCallbacks {
@@ -16,6 +17,7 @@ class StoryDetailAdapter(context : Context)
 
   private val layoutInflater : LayoutInflater
   val itemList = arrayListOf<StoryDetailItem<*>>()
+  private val events = Observable.defer<ClickEvent>{ Observable.create{ } }
 
   init {
     layoutInflater = LayoutInflater.from(context)
@@ -77,4 +79,8 @@ class StoryDetailAdapter(context : Context)
     throw UnsupportedOperationException()
   }
 
+  fun subscribe(subscriber : Subscriber<ClickEvent>){
+  }
+  enum class Event { COMMENT, ACTION }
+  data class ClickEvent(val event : Event, val viewHolder : RecyclerView.ViewHolder, val comment: CommentJson)
 }

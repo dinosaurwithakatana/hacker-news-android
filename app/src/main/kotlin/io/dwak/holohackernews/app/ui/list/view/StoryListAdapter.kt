@@ -18,14 +18,14 @@ class StoryListAdapter(context : Context)
     inflater = LayoutInflater.from(context)
   }
 
-  public fun addStory(story : StoryJson) {
+  fun addStory(story : StoryJson) {
     if (list.filter { it.id == story.id }.isEmpty()) {
       list.add(story)
       notifyItemInserted(list.size)
     }
   }
 
-  public fun clear() {
+  fun clear() {
     val size = list.size
     list.clear()
     notifyItemRangeRemoved(0, size)

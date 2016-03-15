@@ -22,7 +22,7 @@ interface StoryDetailView : PresenterView {
   fun displayComments(comments : Observable<CommentJson>)
   fun setLinkDrawerState(open : Boolean)
   fun loadLink(url : String, useExternalBrowser : Boolean)
-  fun disableLinkDrawer()
+  fun enableLinkDrawer(enable : Boolean)
   fun navigateUp(index : Int)
   fun navigateDown(index : Int)
   fun webViewBack();

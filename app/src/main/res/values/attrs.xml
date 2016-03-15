@@ -24,5 +24,6 @@
         <attr name="actionSaveIcon" format="reference"/>
         <attr name="actionDeleteIcon" format="reference"/>
         <attr name="headerBackground" format="reference"/>
+        <attr name="defaultRippleColor" format="reference"/>
     </declare-styleable>
 </resources>

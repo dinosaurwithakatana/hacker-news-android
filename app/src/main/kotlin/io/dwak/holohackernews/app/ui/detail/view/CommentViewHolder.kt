@@ -11,26 +11,29 @@ import io.dwak.holohackernews.app.butterknife.bindView
 import io.dwak.holohackernews.app.extension.getColorCompat
 import io.dwak.holohackernews.app.model.json.CommentJson
 import io.dwak.holohackernews.app.ui.detail.presenter.CommentPresenter
+import rx.Observable
 
 class CommentViewHolder(view : View)
 : MvpViewHolder<CommentPresenter>(view), CommentView {
-  val content : TextView by bindView(R.id.comment_content)
-  val commentSubmitter : TextView by bindView(R.id.comment_submitter)
-  val submissionTime : TextView by bindView(R.id.comment_submission_time)
-  val colorCode : FrameLayout by bindView(R.id.color_code)
-  val commentContainer : View by bindView(R.id.comments_container)
-  val hiddenCommentCount : TextView by bindView(R.id.hidden_comment_count)
+  override var commentClicks : Observable<StoryDetailAdapter.ClickEvent>? = null
+  private val content : TextView by bindView(R.id.comment_content)
+  private val commentSubmitter : TextView by bindView(R.id.comment_submitter)
+  private val submissionTime : TextView by bindView(R.id.comment_submission_time)
+  private val colorCode : FrameLayout by bindView(R.id.color_code)
+  private val commentContainer : View by bindView(R.id.comments_container)
+  private val hiddenCommentCount : TextView by bindView(R.id.hidden_comment_count)
   private var callback : CommentActionCallbacks? = null
 
   companion object {
-    fun create(inflater : LayoutInflater, parent : ViewGroup) : CommentViewHolder {
-      return CommentViewHolder(inflater.inflate(R.layout.comments_list_item, parent, false))
-    }
+    fun create(inflater : LayoutInflater, parent : ViewGroup)
+            = CommentViewHolder(inflater.inflate(R.layout.comments_list_item, parent, false))
   }
 
   override fun inject() = objectGraph(this).inject(this)
 
-  fun bind(model : CommentJson, isOriginalPoster : Boolean?, callback : CommentActionCallbacks) {
+  fun bind(model : CommentJson,
+           isOriginalPoster : Boolean?,
+           callback : CommentActionCallbacks) {
     presenter.isOriginalPoster = isOriginalPoster
     presenter.comment = model
     this.callback = callback

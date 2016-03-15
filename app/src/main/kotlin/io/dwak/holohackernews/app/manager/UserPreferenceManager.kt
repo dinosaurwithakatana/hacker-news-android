@@ -10,7 +10,6 @@ object UserPreferenceManager : UserPreferenceInteractor {
   lateinit var sharedPrefs : SharedPreferences @Inject set
   val SHOULD_USE_EXTERNAL_BROWSER = "pref_system_browser";
   val PREF_LINK_FIRST = "pref_link_first";
-  val PREF_LIST_ANIMATIONS = "pref_list_animations";
   val PREF_NIGHT_MODE = "pref_night_mode";
   val PREF_TEXT_SIZE = "pref_text_size";
   val PREF_SWIPE_BACK = "pref_swipe_back";

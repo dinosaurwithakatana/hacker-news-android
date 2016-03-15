@@ -25,11 +25,11 @@ import io.dwak.holohackernews.app.extension.*
 import io.dwak.holohackernews.app.model.json.CommentJson
 import io.dwak.holohackernews.app.model.json.StoryDetailJson
 import io.dwak.holohackernews.app.ui.detail.presenter.StoryDetailPresenter
-import io.dwak.holohackernews.app.widget.ObservableWebView
 import io.dwak.holohackernews.app.widget.RxWebChromeClient
+import io.dwak.holohackernews.app.widget.RxWebView
 import rx.Observable
 import rx.functions.Action1
-import timber.log.Timber
+import kotlin.properties.Delegates
 
 class StoryDetailFragment
 : MvpFragment<StoryDetailPresenter>(),
@@ -51,10 +51,10 @@ class StoryDetailFragment
   private val buttonBarMainAction : TextView by bindView(R.id.action_main)
   private val buttonBarLeftAction : TextView by bindView(R.id.action_1)
   private val buttonBarRightAction : TextView by bindView(R.id.action_2)
-  private val storyWebView : ObservableWebView by bindView(R.id.story_web_view)
+  private val storyWebView : RxWebView by bindView(R.id.story_web_view)
   private val swipeRefresh : SwipeRefreshLayout by bindView(R.id.swipe_container)
   private val recycler : RecyclerView by bindView(R.id.comments_recycler)
-  private var adapter : StoryDetailAdapter? = null
+  private var adapter : StoryDetailAdapter by Delegates.notNull()
   private val recyclerState = RecyclerView.State()
 
   companion object {
@@ -73,10 +73,10 @@ class StoryDetailFragment
     presenter.itemId = getLong(ITEM_ID)
   }
 
-  override fun onCreateView(inflater : LayoutInflater?,
+  override fun onCreateView(inflater : LayoutInflater,
                             container : ViewGroup?,
                             savedInstanceState : Bundle?) : View? {
-    return inflater!!.inflate(R.layout.fragment_story_comments, container, false)
+    return inflater.inflate(R.layout.fragment_story_comments, container, false)
   }
 
   override fun onViewCreated(view : View?, savedInstanceState : Bundle?) {
@@ -95,9 +95,9 @@ class StoryDetailFragment
     adapter = StoryDetailAdapter(activity)
     recycler.addItemDecoration(CommentItemDecoration())
     recycler.adapter = adapter
-    val layoutManager = LinearLayoutManager(activity)
-    recycler.layoutManager = layoutManager
-    topItem = recycler.scrollEvents().map { layoutManager.findFirstVisibleItemPosition() }
+    recycler.layoutManager = LinearLayoutManager(activity)
+    topItem = recycler.scrollEvents()
+            .map { (recycler.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() }
 
     presenter.getStoryDetails()
   }
@@ -129,52 +129,35 @@ class StoryDetailFragment
     }
     else {
       linkPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
-      buttonBarLeftAction.setBackgroundResource(R.drawable.ic_action_navigate_up_24dp)
-      buttonBarRightAction.setBackgroundResource(R.drawable.ic_action_navigate_down_24dp)
+      buttonBarLeftAction.setBackgroundResource(R.drawable.ic_comment_navigation_up)
+      buttonBarRightAction.setBackgroundResource(R.drawable.ic_comment_navigation_down)
     }
   }
 
-  override fun loadLink(url : String, useExternalBrowser : Boolean) = when {
-    !useExternalBrowser -> storyWebView.loadUrl(url)
-    useExternalBrowser  -> activity.viewInExternalBrowser(url)
-    else                -> {
-    }
+  override fun loadLink(url : String, useExternalBrowser : Boolean) = when (useExternalBrowser) {
+    false -> storyWebView.loadUrl(url)
+    true  -> activity.viewInExternalBrowser(url)
   }
 
-  override fun disableLinkDrawer() {
-    linkPanel.isTouchEnabled = false
+  override fun enableLinkDrawer(enable : Boolean) {
+    linkPanel.isTouchEnabled = enable
   }
 
-  override fun navigateUp(index : Int) {
-    (recycler.layoutManager as LinearLayoutManager)
-            .smoothScrollToPositionToTop(recycler, recyclerState, index)
-  }
+  override fun navigateUp(index : Int) = (recycler.layoutManager as LinearLayoutManager)
+          .smoothScrollToPositionToTop(recycler, recyclerState, index)
 
-  override fun navigateDown(index : Int) {
-    Timber.d(index.toString())
-    (recycler.layoutManager as LinearLayoutManager)
-            .smoothScrollToPositionToTop(recycler, recyclerState, index)
-  }
+  override fun navigateDown(index : Int) = (recycler.layoutManager as LinearLayoutManager)
+          .smoothScrollToPositionToTop(recycler, recyclerState, index)
 
-  override fun webViewBack() {
-    if (storyWebView.canGoBack()) storyWebView.goBack()
-  }
+  override fun webViewBack() = storyWebView.safeBack()
 
-  override fun webViewForward() {
-    if (storyWebView.canGoForward()) storyWebView.goForward()
-  }
+  override fun webViewForward() = storyWebView.safeForward()
 
-  override fun displayComments(comments : Observable<CommentJson>) {
-    adapter?.addComments(comments)
-  }
+  override fun displayComments(comments : Observable<CommentJson>) = adapter.addComments(comments)
 
-  override fun displayStoryHeader(storyDetail : StoryDetailJson) {
-    adapter?.addHeader(storyDetail)
-  }
+  override fun displayStoryHeader(storyDetail : StoryDetailJson) = adapter.addHeader(storyDetail)
 
-  override fun clear() {
-    adapter?.clear()
-  }
+  override fun clear() = adapter.clear()
 
   override fun setTitle(title : String?) {
     activity.title = title
