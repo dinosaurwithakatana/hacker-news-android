@@ -371,7 +371,7 @@ public class StoryDetailFragment extends BaseViewModelFragment<StoryDetailViewMo
                             switch (i) {
                                 case 0:
                                     if(getViewModel().getStoryDetail().getUrl() != null) {
-                                        sendIntent.setData(Uri.parse(getViewModel().getStoryDetail().getUrl()));
+                                        sendIntent.putExtra(Intent.EXTRA_TEXT, getViewModel().getStoryDetail().getTitle() + " " + getViewModel().getStoryDetail().getUrl());
                                     }
                                     else {
                                         ToastUtils.showToast(getActivity(), R.string.open_in_browser_failure_toast);
