@@ -1,7 +1,7 @@
 END OF LIFE
 ===
 
-Unfortunately, I have not been able to allocated the time needed to continue development and maintenance of this application. I believe the release currently in the play store is _stable enough_ and will not be pushing updates. 
+Unfortunately, I have not been able to allocate the time needed to continue development and maintenance of this application. I believe the release currently in the play store is _stable enough_ and will not be pushing updates. 
 
 
 Hacker News
